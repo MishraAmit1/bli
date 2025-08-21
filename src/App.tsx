@@ -28,6 +28,7 @@ import LocalRegionalDispatch from "./pages/LocalRegionalDispatch";
 import RailFreightSolutions from "./pages/RailFreightSolutions";
 import AirCargoServices from "./pages/AirCargoServices";
 import RealTimeSupport from "./pages/RealTimeSupport";
+import Services from "./pages/Services";
 
 const App = () => {
   const [queryClient] = useState(() => new QueryClient());
@@ -40,6 +41,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/services" element={<Services />} />
             <Route path="/services/full-truckload" element={<FullTruckload />} />
             <Route path="/services/part-load" element={<PartLoad />} />
             <Route path="/services/3pl" element={<ThirdPartyLogistics />} />

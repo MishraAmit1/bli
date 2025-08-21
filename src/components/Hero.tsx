@@ -42,7 +42,6 @@ const Hero = () => {
     >
       {/* HERO BANNER */}
       <div className="relative overflow-hidden h-[55vh] sm:h-[60vh] md:h-[500px] lg:h-[550px] xl:h-[600px] w-full bg-[#113C6A]">
-
         {!introDone ? (
           <div className="relative w-full h-full">
             <video
@@ -84,7 +83,6 @@ const Hero = () => {
                 className="w-full h-full object-cover opacity-80"
               />
             </video>
-
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-b from-[#113C6A]/90 via-[#0c366e]/65 to-[#113C6A]/5" />
 

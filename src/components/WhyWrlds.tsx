@@ -200,7 +200,7 @@ const WhyWrlds = () => {
 
         <motion.div variants={itemVariants} className="text-center mt-10">
           <Link
-            to="/development-process"
+            to="/about"
             onClick={() => window.scrollTo(0, 0)}
             className="inline-flex items-center px-6 py-3 bg-[#113C6A] text-[#FFFDF7] rounded-lg hover:bg-[#185EAA] hover:shadow-lg hover:shadow-[#185EAA]/20 transition-all group"
           >

@@ -88,7 +88,6 @@ const Navbar = () => {
       description: "24/7 coordination with proactive updates and live tracking"
     }
   ];
-
   // Industries data for both desktop and mobile
   const industriesData = [
     {
