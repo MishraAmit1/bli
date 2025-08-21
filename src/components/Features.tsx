@@ -447,7 +447,7 @@ const Features = () => {
                       <HoverCardContent
                         side="top"
                         align="center"
-                        className="z-[9999] w-64 shadow-xl border border-[#185EAA]/10 relative bg-white"
+                        className="z-[8999] w-64 shadow-xl border border-[#185EAA]/10 relative bg-white"
                       >
                         <motion.div
                           initial={{ opacity: 0, y: 10 }}

@@ -115,13 +115,14 @@ const Navbar = () => {
   return (
     <motion.nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 w-full",
+        "fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 w-full",
         isScrolled
           ? "bg-[#FFFDF7]/80 border-b border-[#F8FFFF] shadow-sm backdrop-blur-md"
           : "bg-[#113C6A]/95 backdrop-blur"
       )}
       initial={{ opacity: 1, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
+      style={{ position: 'fixed' }} // Add this to force fixed positioning
     >
       <div className="w-full px-4 sm:px-6 lg:px-8 mx-auto">
         <div className="flex items-center justify-between h-16">
@@ -181,60 +182,64 @@ const Navbar = () => {
                         : "text-[#FFFDF7] hover:text-[#F8FFFF] after:bg-[#FF7729]"
                     )}
                   >
-                    Services
+                    <Link to="/services">
+                      Services
+                    </Link>
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="grid grid-cols-2 gap-4 p-6 w-[700px] bg-[#FFFDF7] 
-                  relative left-1/2 -translate-x-1/2 shadow-lg rounded-md">
-                      {/* Services columns */}
-                      <div className="space-y-3">
-                        {servicesData.slice(0, 4).map((service, index) => (
-                          <li key={index} className="list-none">
-                            <Link to={service.to} className="block p-3 rounded-md hover:bg-[#F8FFFF]">
-                              <div className="font-medium text-[#21221C]">{service.title}</div>
-                              <p className="text-sm text-[#113C6A]/80">{service.description}</p>
-                            </Link>
-                          </li>
-                        ))}
-                      </div>
+                    <div className="w-[700px] bg-[#FFFDF7] relative left-1/2 -translate-x-1/2 shadow-lg rounded-md">
+                      {/* View All Services Link - Top mein add kiya */}
+                      <Link
+                        to="/services"
+                        className="block md:w-56 p-3 rounded-md text-[#185EAA] text-center font-medium transition-colors"
+                      >
+                        View All Services →
+                      </Link>
+                      {/* Divider */}
+                      <div className="border-b border-[#185EAA]/20"></div>
 
-                      <div className="space-y-3">
-                        {servicesData.slice(4).map((service, index) => (
-                          <li key={index} className="list-none">
-                            <Link to={service.to} className="block p-3 rounded-md hover:bg-[#F8FFFF]">
-                              <div className="font-medium text-[#21221C]">{service.title}</div>
-                              <p className="text-sm text-[#113C6A]/80">{service.description}</p>
-                            </Link>
-                          </li>
-                        ))}
+                      {/* Services columns */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-3">
+                          {servicesData.slice(0, 4).map((service, index) => (
+                            <li key={index} className="list-none">
+                              <Link to={service.to} className="block p-3 rounded-md hover:bg-[#F8FFFF]">
+                                <div className="font-medium text-[#21221C]">{service.title}</div>
+                                <p className="text-sm text-[#113C6A]/80">{service.description}</p>
+                              </Link>
+                            </li>
+                          ))}
+                        </div>
+
+                        <div className="space-y-3">
+                          {servicesData.slice(4).map((service, index) => (
+                            <li key={index} className="list-none">
+                              <Link to={service.to} className="block p-3 rounded-md hover:bg-[#F8FFFF]">
+                                <div className="font-medium text-[#21221C]">{service.title}</div>
+                                <p className="text-sm text-[#113C6A]/80">{service.description}</p>
+                              </Link>
+                            </li>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger
-                    className={cn(
-                      linkUnderline,
-                      isScrolled
-                        ? "text-[#21221C] hover:text-[#185EAA] after:bg-[#185EAA]"
-                        : "text-[#FFFDF7] hover:text-[#F8FFFF] after:bg-[#FF7729]"
-                    )}
-                  >
-                    Industries
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid gap-3 p-4 w-[420px] bg-[#FFFDF7]">
-                      {industriesData.map((industry, index) => (
-                        <li key={index}>
-                          <Link to={industry.to} className="block p-3 space-y-1 rounded-md hover:bg-[#F8FFFF]">
-                            <div className="font-medium text-[#21221C]">{industry.title}</div>
-                            <p className="text-sm text-[#113C6A]/80">{industry.description}</p>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </NavigationMenuContent>
+                  <Link to="/industries">
+                    <NavigationMenuLink
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        linkUnderline,
+                        isScrolled
+                          ? "text-[#21221C] hover:text-[#185EAA] after:bg-[#185EAA]"
+                          : "text-[#FFFDF7] hover:text-[#F8FFFF] after:bg-[#FF7729]"
+                      )}
+                    >
+                      Industries
+                    </NavigationMenuLink>
+                  </Link>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
@@ -322,6 +327,7 @@ const Navbar = () => {
           </Link>
 
           {/* Services Dropdown */}
+          {/* Services Dropdown - Mobile */}
           <div className="relative">
             <button
               onClick={() => toggleMobileDropdown('services')}
@@ -335,8 +341,29 @@ const Navbar = () => {
             </button>
             <div className={cn(
               "transition-all duration-300 overflow-hidden pl-4",
-              openMobileDropdown === 'services' ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+              openMobileDropdown === 'services' ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
             )}>
+              {/* View All Services Link - Mobile mein bhi add kiya */}
+              <Link
+                to="/services"
+                className={cn(
+                  "block px-3 py-2 my-1 rounded-md text-sm font-medium",
+                  isScrolled
+                    ? "bg-[#113C6A] text-[#FFFDF7] hover:bg-[#185EAA]"
+                    : "bg-[#FF7729] text-[#FFFDF7] hover:bg-[#FF7729]/90"
+                )}
+                onClick={() => { setIsMenuOpen(false); window.scrollTo(0, 0); }}
+              >
+                View All Services →
+              </Link>
+
+              {/* Divider */}
+              <div className={cn(
+                "border-b my-2 mx-3",
+                isScrolled ? "border-[#185EAA]/20" : "border-[#FF7729]/30"
+              )}></div>
+
+              {/* Individual Services */}
               {servicesData.map((service, index) => (
                 <Link
                   key={index}
@@ -362,46 +389,18 @@ const Navbar = () => {
           </div>
 
           {/* Industries Dropdown */}
-          <div className="relative">
-            <button
-              onClick={() => toggleMobileDropdown('industries')}
-              className={cn(
-                "flex items-center justify-between w-full px-3 py-2.5 rounded-md text-sm font-medium",
-                isScrolled ? "text-[#21221C] hover:bg-[#F8FFFF]" : "text-[#F8FFFF] hover:bg-[#185EAA]/30"
-              )}
-            >
-              <span>Industries</span>
-              {openMobileDropdown === 'industries' ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-            </button>
-            <div className={cn(
-              "transition-all duration-300 overflow-hidden pl-4",
-              openMobileDropdown === 'industries' ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"
-            )}>
-              {industriesData.map((industry, index) => (
-                <Link
-                  key={index}
-                  to={industry.to}
-                  className={cn(
-                    "block px-3 py-2 my-1 rounded-md text-sm border-l-2",
-                    isScrolled
-                      ? "text-[#21221C] hover:bg-[#F8FFFF] border-[#185EAA]/30"
-                      : "text-[#F8FFFF] hover:bg-[#185EAA]/30 border-[#FF7729]/50"
-                  )}
-                  onClick={() => { setIsMenuOpen(false); window.scrollTo(0, 0); }}
-                >
-                  <div className="font-medium">{industry.title}</div>
-                  <p className={cn(
-                    "text-xs mt-1",
-                    isScrolled ? "text-[#113C6A]/70" : "text-[#F8FFFF]/70"
-                  )}>
-                    {industry.description}
-                  </p>
-                </Link>
-              ))}
-            </div>
-          </div>
+          <Link
+            to="/industries"
+            className={cn(
+              "block px-3 py-2.5 rounded-md text-sm font-medium",
+              isScrolled ? "text-[#21221C] hover:bg-[#F8FFFF]" : "text-[#F8FFFF] hover:bg-[#185EAA]/30"
+            )}
+            onClick={() => { setIsMenuOpen(false); window.scrollTo(0, 0); }}
+          >
+            Industries
+          </Link>
 
-          {/* Track Shipment */}
+          {/* Track Shipment
           <Link
             to="/track-shipment"
             className={cn(
@@ -411,7 +410,7 @@ const Navbar = () => {
             onClick={() => { setIsMenuOpen(false); window.scrollTo(0, 0); }}
           >
             Track Shipment
-          </Link>
+          </Link> */}
 
           {/* Resources */}
           <Link

@@ -41,7 +41,7 @@ const Hero = () => {
       variants={containerVariants}
     >
       {/* HERO BANNER */}
-      <div className="relative overflow-hidden h-[55vh] sm:h-[60vh] md:h-[500px] lg:h-[550px] xl:h-[600px] w-full bg-[#113C6A]">
+      <div className="relative overflow-hidden h-[55vh] sm:h-[60vh] md:h-[500px] lg:h-[550px] xl:h-[600px] w-full bg-[#113C6A] pt-16">
         {!introDone ? (
           <div className="relative w-full h-full">
             <video
@@ -87,7 +87,7 @@ const Hero = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-[#113C6A]/90 via-[#0c366e]/65 to-[#113C6A]/5" />
 
             {/* Content */}
-            <div className="absolute inset-0 flex items-center pt-16 sm:pt-24 md:pt-32">
+            <div className="absolute inset-0 flex items-center pt-8 sm:pt-12 md:pt-16">
               <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
                 <motion.div
                   className="max-w-[69rem] text-center px-2 sm:px-4"

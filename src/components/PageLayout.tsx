@@ -18,11 +18,12 @@ const PageLayout = ({ children, showContact = true }: PageLayoutProps) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
-
   return (
-    <div className="min-h-screen bg-white w-full max-w-[100vw] overflow-x-hidden">
+    <div className="min-h-screen bg-white w-full">
       <Navbar />
-      {children}
+      <div className="relative">
+        {children}
+      </div>
       {/* {showContact && <ContactInfo />} */}
       <Footer />
       {showContact && <FloatingContactButton />}

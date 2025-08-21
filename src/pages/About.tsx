@@ -131,7 +131,88 @@ const About = () => {
             </motion.div>
           </motion.div>
 
-          {/* Our Journey Timeline */}
+          {/* Mission, Vision & Values - MOVED UP */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
+            className="mb-20"
+          >
+            {/* Mission & Vision */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+              <motion.div variants={itemVariants} className="text-center">
+                <div className="flex items-center justify-center mb-4">
+                  <Target className="w-10 h-10 text-[#FF7729] mr-3" />
+                  <h2 className="text-3xl font-bold text-[#113C6A]">Our Mission</h2>
+                </div>
+                <p className="text-[#21221C]/80 leading-relaxed">
+                  To simplify the movement of goods and empower business growth through reliable,
+                  scalable, and customer-first logistics solutions.
+                </p>
+              </motion.div>
+
+              <motion.div variants={itemVariants} className="text-center">
+                <div className="flex items-center justify-center mb-4">
+                  <Globe className="w-10 h-10 text-[#185EAA] mr-3" />
+                  <h2 className="text-3xl font-bold text-[#113C6A]">Our Vision</h2>
+                </div>
+                <p className="text-[#21221C]/80 leading-relaxed">
+                  To be recognized as India's most trusted logistics partner, delivering seamless,
+                  dependable supply chain solutions nationwide.
+                </p>
+              </motion.div>
+            </div>
+
+            {/* Values */}
+            <motion.div variants={itemVariants}>
+              <div className="text-center mb-8">
+                <h2 className="text-3xl font-bold mb-4 text-[#113C6A]">Our Values</h2>
+                <p className="text-[#21221C]/70 max-w-2xl mx-auto">
+                  The principles that guide everything we do, built on decades of industry experience.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                  {
+                    icon: Shield,
+                    title: "Reliability",
+                    description: "Delivering on every promise, every time.",
+                    color: "text-[#FF7729]"
+                  },
+                  {
+                    icon: Zap,
+                    title: "Agility",
+                    description: "Quick responses and adaptive solutions.",
+                    color: "text-[#185EAA]"
+                  },
+                  {
+                    icon: Heart,
+                    title: "Trust",
+                    description: "Decades of consistent, transparent service.",
+                    color: "text-[#FF7729]"
+                  },
+                  {
+                    icon: Users,
+                    title: "Service First",
+                    description: "Client success at the heart of all we do.",
+                    color: "text-[#185EAA]"
+                  }
+                ].map((value, i) => (
+                  <div key={i} className="text-center p-6 bg-[#F8FFFF] rounded-lg border border-[#185EAA]/10 hover:shadow-md transition-all">
+                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
+                      <value.icon className={`w-8 h-8 ${value.color}`} />
+                    </div>
+                    <h3 className={`font-bold text-lg mb-2 ${value.color}`}>{value.title}</h3>
+                    <p className="text-[#21221C]/70 text-sm">{value.description}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Our Journey Timeline - NOW AFTER MISSION/VISION/VALUES */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -348,87 +429,6 @@ const About = () => {
                 </motion.div>
               ))}
             </div>
-          </motion.div>
-
-          {/* Mission, Vision & Values */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={containerVariants}
-            className="mb-20"
-          >
-            {/* Mission & Vision */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-              <motion.div variants={itemVariants} className="text-center">
-                <div className="flex items-center justify-center mb-4">
-                  <Target className="w-10 h-10 text-[#FF7729] mr-3" />
-                  <h2 className="text-3xl font-bold text-[#113C6A]">Our Mission</h2>
-                </div>
-                <p className="text-[#21221C]/80 leading-relaxed">
-                  To simplify the movement of goods and empower business growth through reliable,
-                  scalable, and customer-first logistics solutions.
-                </p>
-              </motion.div>
-
-              <motion.div variants={itemVariants} className="text-center">
-                <div className="flex items-center justify-center mb-4">
-                  <Globe className="w-10 h-10 text-[#185EAA] mr-3" />
-                  <h2 className="text-3xl font-bold text-[#113C6A]">Our Vision</h2>
-                </div>
-                <p className="text-[#21221C]/80 leading-relaxed">
-                  To be recognized as India's most trusted logistics partner, delivering seamless,
-                  dependable supply chain solutions nationwide.
-                </p>
-              </motion.div>
-            </div>
-
-            {/* Values */}
-            <motion.div variants={itemVariants}>
-              <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold mb-4 text-[#113C6A]">Our Values</h2>
-                <p className="text-[#21221C]/70 max-w-2xl mx-auto">
-                  The principles that guide everything we do, built on decades of industry experience.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {[
-                  {
-                    icon: Shield,
-                    title: "Reliability",
-                    description: "Delivering on every promise, every time.",
-                    color: "text-[#FF7729]"
-                  },
-                  {
-                    icon: Zap,
-                    title: "Agility",
-                    description: "Quick responses and adaptive solutions.",
-                    color: "text-[#185EAA]"
-                  },
-                  {
-                    icon: Heart,
-                    title: "Trust",
-                    description: "Decades of consistent, transparent service.",
-                    color: "text-[#FF7729]"
-                  },
-                  {
-                    icon: Users,
-                    title: "Service First",
-                    description: "Client success at the heart of all we do.",
-                    color: "text-[#185EAA]"
-                  }
-                ].map((value, i) => (
-                  <div key={i} className="text-center p-6 bg-[#F8FFFF] rounded-lg border border-[#185EAA]/10 hover:shadow-md transition-all">
-                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
-                      <value.icon className={`w-8 h-8 ${value.color}`} />
-                    </div>
-                    <h3 className={`font-bold text-lg mb-2 ${value.color}`}>{value.title}</h3>
-                    <p className="text-[#21221C]/70 text-sm">{value.description}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
           </motion.div>
 
           {/* Scale & Capabilities - Stats Style */}

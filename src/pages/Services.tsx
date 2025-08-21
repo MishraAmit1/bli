@@ -1,6 +1,4 @@
-// Create a new file: src/pages/Services.tsx
-
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { motion } from "framer-motion";
 import {
     Cpu, Monitor, Home, Gift, UtensilsCrossed, Factory, ShoppingBag, Briefcase,
@@ -128,7 +126,6 @@ const Services = () => {
             ]
         }
     ];
-
     return (
         <PageLayout>
             {/* Hero Section */}

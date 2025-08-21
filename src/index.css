@@ -44,14 +44,7 @@
   }
 
   html,
-  body {
-    @apply m-0 p-0 overflow-x-hidden;
-    /* font-size: 90%; */
-    /* transform: scale(0.9); */
-    /* 0.9 means 90% size */
-    /* transform-origin: 0 0; */
-    /* top-left se zoom kare */
-  }
+  body {}
 
   body {
     @apply bg-white text-foreground font-space;
