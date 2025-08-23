@@ -285,7 +285,7 @@ const RealTimeSupport = () => {
                 {/* Background image with overlay */}
                 <div
                     className="absolute inset-0 bg-cover bg-center z-0"
-                    style={{ backgroundImage: 'url("/lovable-uploads/support-hero.jpg")' }}
+                    style={{ backgroundImage: 'url("/lovable-uploads/support-hero.webp")' }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#113C6A]/80 to-[#113C6A]/90 z-0" />
 
@@ -505,7 +505,7 @@ const RealTimeSupport = () => {
 
                         <motion.div variants={itemVariants} className="relative">
                             <img
-                                src="/lovable-uploads/6b0637e9-4a7b-40d0-b219-c8b7f879f93e.png"
+                                src="/lovable-uploads/6b0637e9-4a7b-40d0-b219-c8b7f879f93e.webp"
                                 alt="BLI real-time tracking dashboard and GPS monitoring system"
                                 className="rounded-xl shadow-lg"
                                 loading="lazy"

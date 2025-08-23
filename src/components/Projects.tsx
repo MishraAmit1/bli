@@ -14,7 +14,7 @@ const projects = [
     brand: "Fragile • High-Value",
     description: "From bulbs and tube lights to cables and small appliances—handled with zero-breakage SOPs.",
     tags: ["Shock-Safe Packing", "Scan-Based Handover", "ePOD"],
-    imageUrl: "/lovable-uploads/6739bd63-bf19-4abd-bb23-0b613bbf7ac8.png",
+    imageUrl: "/lovable-uploads/5262afdb-dd24-4d5e-be66-7c6717adbca9.webp",
     link: "/projects/electronics"
   },
   {
@@ -23,7 +23,7 @@ const projects = [
     brand: "Careful • Festive-Ready",
     description: "Corporate gifts and seasonal ranges delivered intact and on time for campaigns.",
     tags: ["Protective Packing", "Segregation", "Deadline Routing"],
-    imageUrl: "/lovable-uploads/af5ee2ce-3942-48bb-a2ad-3b49b419daf9.png",
+    imageUrl: "/lovable-uploads/5262afdb-dd24-4d5e-be66-7c6717adbca9.webp",
     link: "/projects/toys"
   },
   {
@@ -32,7 +32,7 @@ const projects = [
     brand: "Fresh • Ambient/Controlled",
     description: "Compliant handling for packaged foods & beverages with batch/lot visibility.",
     tags: ["Ambient/Temp Controlled", "FIFO", "Seal-Intact SOPs"],
-    imageUrl: "/lovable-uploads/6b0637e9-4a7b-40d0-b219-c8b7f879f93e.png",
+    imageUrl: "/lovable-uploads/7.png",
     link: "/projects/fmcg"
   },
   {
@@ -41,7 +41,7 @@ const projects = [
     brand: "Lightweight • High-Cube",
     description: "Princeware/Cello-type SKUs moved in volume with low-damage stacking.",
     tags: ["High-Cube Vehicles", "Space Optimization", "Stretch-Wrap"],
-    imageUrl: "/lovable-uploads/5262afdb-dd24-4d5e-be66-7c6717adbca9.png",
+    imageUrl: "/lovable-uploads/5262afdb-dd24-4d5e-be66-7c6717adbca9.webp",
     link: "/projects/plastics"
   },
   {
@@ -50,7 +50,7 @@ const projects = [
     brand: "Clean • Store-Ready",
     description: "Carton-perfect moves for fashion, accessories, and footwear—B2B & marketplace ready.",
     tags: ["Garment-Safe Handling", "No Crush", "Store Labeling"],
-    imageUrl: "/lovable-uploads/d5ce901e-2ce0-4f2a-bce1-f0ca5d6192df.png",
+    imageUrl: "/lovable-uploads/d5ce901e-2ce0-4f2a-bce1-f0ca5d6192df.webp",
     link: "/projects/apparel"
   },
   {
@@ -59,7 +59,7 @@ const projects = [
     brand: "Heavy-Duty • Reliable",
     description: "Machines, tools, and spares delivered safely to plants and distributors.",
     tags: ["Bracing", "Lashing", "Time-Critical Runs"],
-    imageUrl: "/lovable-uploads/services1.jpg",
+    imageUrl: "/lovable-uploads/services1.webp",
     link: "/projects/machinery"
   },
   {
@@ -68,7 +68,7 @@ const projects = [
     brand: "SKU-Dense • Dealer-Ready",
     description: "Fast replenishment to workshops and retailers with part-level accuracy.",
     tags: ["Milk-Run Routing", "Dealer Network", "Scan In/Out"],
-    imageUrl: "/lovable-uploads/services3.png",
+    imageUrl: "/lovable-uploads/services3.webp",
     link: "/projects/automotive"
   },
   {
@@ -77,7 +77,7 @@ const projects = [
     brand: "Flexible • Reverse-Ready",
     description: "First-mile to hub with seamless handoff to last-mile partners and easy returns.",
     tags: ["COD Workflows", "Prepaid Flow", "Reverse Pickups"],
-    imageUrl: "/lovable-uploads/services2.jpg",
+    imageUrl: "/lovable-uploads/services2.webp",
     link: "/projects/marketplace"
   }
 ];

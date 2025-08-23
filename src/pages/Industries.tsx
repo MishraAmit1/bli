@@ -41,7 +41,7 @@ const Industries = () => {
             title: "Electronics & Electrical Goods",
             subtitle: "Fragile • High-Value",
             description: "From bulbs and tube lights to cables and small appliances—handled with zero-breakage SOPs.",
-            image: "/lovable-uploads/industries1.jpg",
+            image: "/lovable-uploads/industries1.webp",
             link: "/projects/electronics",
             tags: ["Shock-Safe Packing", "Scan-Based Handover", "ePOD"],
             highlights: [
@@ -57,7 +57,7 @@ const Industries = () => {
             title: "Toys, Gifts & Seasonal Items",
             subtitle: "Careful • Festive-Ready",
             description: "Corporate gifts and seasonal ranges delivered intact and on time for campaigns.",
-            image: "/lovable-uploads/industries2.jpg",
+            image: "/lovable-uploads/industries2.webp",
             link: "/projects/toys",
             tags: ["Protective Packing", "Segregation", "Deadline Routing"],
             highlights: [
@@ -73,7 +73,7 @@ const Industries = () => {
             title: "Food, Beverages & FMCG",
             subtitle: "Fresh • Ambient/Controlled",
             description: "Compliant handling for packaged foods & beverages with batch/lot visibility.",
-            image: "/lovable-uploads/industries3.jpg",
+            image: "/lovable-uploads/industries3.webp",
             link: "/projects/fmcg",
             tags: ["Ambient/Temp Controlled", "FIFO", "Seal-Intact SOPs"],
             highlights: [
@@ -89,7 +89,7 @@ const Industries = () => {
             title: "Home & Kitchen Plastics",
             subtitle: "Lightweight • High-Cube",
             description: "Princeware/Cello-type SKUs moved in volume with low-damage stacking.",
-            image: "/lovable-uploads/industries4.jpg",
+            image: "/lovable-uploads/industries4.webp",
             link: "/projects/plastics",
             tags: ["High-Cube Vehicles", "Space Optimization", "Stretch-Wrap"],
             highlights: [
@@ -105,7 +105,7 @@ const Industries = () => {
             title: "Apparel & Footwear",
             subtitle: "Clean • Store-Ready",
             description: "Carton-perfect moves for fashion, accessories, and footwear—B2B & marketplace ready.",
-            image: "/lovable-uploads/industries5.jpg",
+            image: "/lovable-uploads/industries5.webp",
             link: "/projects/apparel",
             tags: ["Garment-Safe Handling", "No Crush", "Store Labeling"],
             highlights: [
@@ -121,7 +121,7 @@ const Industries = () => {
             title: "Industrial Supplies & Light Machinery",
             subtitle: "Heavy-Duty • Reliable",
             description: "Machines, tools, and spares delivered safely to plants and distributors.",
-            image: "/lovable-uploads/industries6.jpg",
+            image: "/lovable-uploads/industries6.webp",
             link: "/projects/machinery",
             tags: ["Bracing", "Lashing", "Time-Critical Runs"],
             highlights: [
@@ -137,7 +137,7 @@ const Industries = () => {
             title: "Automotive Spares & Accessories",
             subtitle: "SKU-Dense • Dealer-Ready",
             description: "Fast replenishment to workshops and retailers with part-level accuracy.",
-            image: "/lovable-uploads/industries7.jpg",
+            image: "/lovable-uploads/industries7.webp",
             link: "/projects/automotive",
             tags: ["Milk-Run Routing", "Dealer Network", "Scan In/Out"],
             highlights: [
@@ -153,7 +153,7 @@ const Industries = () => {
             title: "Marketplace & D2C Sellers",
             subtitle: "Flexible • Reverse-Ready",
             description: "First-mile to hub with seamless handoff to last-mile partners and easy returns.",
-            image: "/lovable-uploads/industries8.jpg",
+            image: "/lovable-uploads/industries8.webp",
             link: "/projects/marketplace",
             tags: ["COD Workflows", "Prepaid Flow", "Reverse Pickups"],
             highlights: [
@@ -251,7 +251,7 @@ const Industries = () => {
                 <meta property="og:description" content="Tailored logistics for Electronics, FMCG, Automotive, Apparel & more. Specialized handling, SOPs, and industry expertise." />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content="https://blirapid.com/industries" />
-                <meta property="og:image" content="https://blirapid.com/industries-logistics.jpg" />
+                <meta property="og:image" content="https://blirapid.com/lovable-uploads/industries7.webp" />
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />

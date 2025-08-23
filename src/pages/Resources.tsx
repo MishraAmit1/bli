@@ -66,21 +66,21 @@ const Resources = () => {
         {
             title: "Digital Transformation in Supply Chain Analytics",
             excerpt: "How data-driven insights are revolutionizing logistics operations across industries.",
-            image: "/lovable-uploads/services1.jpg",
+            image: "/lovable-uploads/services1.webp",
             readTime: "5 min read",
             slug: "digital-transformation-supply-chain-analytics"
         },
         {
             title: "AI-Powered Warehouse Automation Trends",
             excerpt: "Exploring the latest developments in artificial intelligence for warehouse management.",
-            image: "/lovable-uploads/services2.jpg",
+            image: "/lovable-uploads/services2.webp",
             readTime: "7 min read",
             slug: "ai-powered-warehouse-automation"
         },
         {
             title: "Sustainable Logistics: Green Transportation Solutions",
             excerpt: "Environmental initiatives driving the future of eco-friendly logistics operations.",
-            image: "/lovable-uploads/services3.png",
+            image: "/lovable-uploads/services3.webp",
             readTime: "6 min read",
             slug: "sustainable-logistics-green-transportation"
         }

@@ -211,7 +211,7 @@ const ThirdPartyLogistics = () => {
                 {/* Background image with overlay */}
                 <div
                     className="absolute inset-0 bg-cover bg-center z-0"
-                    style={{ backgroundImage: 'url("/lovable-uploads/3pl-hero.jpg")' }}
+                    style={{ backgroundImage: 'url("/lovable-uploads/3pl-hero.webp")' }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#113C6A]/80 to-[#113C6A]/90 z-0" />
 
@@ -548,7 +548,7 @@ const ThirdPartyLogistics = () => {
                                 </div>
                                 <div className="relative order-1 lg:order-2">
                                     <img
-                                        src="/lovable-uploads/b0622048-17b4-4c75-a3f0-6c9e17de1d09.png"
+                                        src="/lovable-uploads/b0622048-17b4-4c75-a3f0-6c9e17de1d09.webp"
                                         alt="BLI 3PL warehouse operations and order fulfillment"
                                         className="rounded-lg shadow-xl w-full"
                                         loading="lazy"

@@ -293,7 +293,7 @@ const AirCargoServices = () => {
                 {/* Background image with overlay */}
                 <div
                     className="absolute inset-0 bg-cover bg-center z-0"
-                    style={{ backgroundImage: 'url("/lovable-uploads/air-cargo-hero.jpg")' }}
+                    style={{ backgroundImage: 'url("/lovable-uploads/air-cargo-hero.webp")' }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#113C6A]/80 to-[#113C6A]/90 z-0" />
 
@@ -769,7 +769,7 @@ const AirCargoServices = () => {
                                 </div>
                                 <div className="relative">
                                     <img
-                                        src="/lovable-uploads/93ab0638-8190-4ccf-897f-21fda7f4f5ad.png"
+                                        src="/lovable-uploads/6b0637e9-4a7b-40d0-b219-c8b7f879f93e.webp"
                                         alt="BLI emergency air cargo operations and urgent freight handling"
                                         className="rounded-lg shadow-xl"
                                         loading="lazy"

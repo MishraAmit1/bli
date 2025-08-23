@@ -238,7 +238,7 @@ const WarehousingDistribution = () => {
                 {/* Background image with overlay */}
                 <div
                     className="absolute inset-0 bg-cover bg-center z-0"
-                    style={{ backgroundImage: 'url("/lovable-uploads/warehousing-hero.jpg")' }}
+                    style={{ backgroundImage: 'url("/lovable-uploads/warehousing-hero.webp")' }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#113C6A]/80 to-[#113C6A]/90 z-0" />
 

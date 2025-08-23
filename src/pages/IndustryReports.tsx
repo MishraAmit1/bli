@@ -35,7 +35,7 @@ const IndustryReports = () => {
         {
             title: "Indian Logistics Market Outlook 2025",
             description: "Comprehensive analysis of the Indian logistics sector, market size, growth projections, and key players.",
-            image: "/lovable-uploads/services1.jpg",
+            image: "/lovable-uploads/services1.webp",
             category: "Market Analysis",
             date: "August 2024",
             dateISO: "2024-08-01",
@@ -50,7 +50,7 @@ const IndustryReports = () => {
         {
             title: "E-commerce Logistics Trends & Innovations",
             description: "In-depth look at how e-commerce is reshaping logistics operations, last-mile delivery innovations, and fulfillment strategies.",
-            image: "/lovable-uploads/services2.jpg",
+            image: "/lovable-uploads/services2.webp",
             category: "Industry Trends",
             date: "July 2024",
             dateISO: "2024-07-01",
@@ -65,7 +65,7 @@ const IndustryReports = () => {
         {
             title: "Supply Chain Resilience: Post-Pandemic Strategies",
             description: "Analysis of how companies are rebuilding supply chain resilience after global disruptions, with actionable strategies.",
-            image: "/lovable-uploads/services3.png",
+            image: "/lovable-uploads/services3.webp",
             category: "Supply Chain",
             date: "June 2024",
             dateISO: "2024-06-01",
@@ -80,7 +80,7 @@ const IndustryReports = () => {
         {
             title: "AI & Machine Learning in Logistics Operations",
             description: "Exploring how artificial intelligence and machine learning are transforming route optimization, demand forecasting, and warehouse automation.",
-            image: "/lovable-uploads/services4.png",
+            image: "/lovable-uploads/services4.webp",
             category: "Technology",
             date: "May 2024",
             dateISO: "2024-05-01",
@@ -95,7 +95,7 @@ const IndustryReports = () => {
         {
             title: "Cold Chain Logistics: Market Growth & Challenges",
             description: "Analysis of India's cold chain logistics sector, infrastructure gaps, investment opportunities, and regulatory landscape.",
-            image: "/lovable-uploads/services5.jpg",
+            image: "/lovable-uploads/services5.webp",
             category: "Market Analysis",
             date: "April 2024",
             dateISO: "2024-04-01",
@@ -110,7 +110,7 @@ const IndustryReports = () => {
         {
             title: "Sustainable Logistics: Environmental Impact Report",
             description: "Comprehensive study on carbon footprint reduction, green transportation alternatives, and sustainability metrics in logistics.",
-            image: "/lovable-uploads/services6.jpg",
+            image: "/lovable-uploads/services6.webp",
             category: "Industry Trends",
             date: "March 2024",
             dateISO: "2024-03-01",
@@ -125,7 +125,7 @@ const IndustryReports = () => {
         {
             title: "Last-Mile Delivery Economics: Cost Analysis",
             description: "Detailed breakdown of last-mile delivery costs, optimization strategies, and profitability models for urban logistics.",
-            image: "/lovable-uploads/services7.jpg",
+            image: "/lovable-uploads/services7.webp",
             category: "Logistics Insights",
             date: "February 2024",
             dateISO: "2024-02-01",
@@ -140,7 +140,7 @@ const IndustryReports = () => {
         {
             title: "Warehouse Automation: ROI & Implementation Guide",
             description: "Practical guide to warehouse automation technologies, implementation roadmap, and return on investment calculations.",
-            image: "/lovable-uploads/services8.png",
+            image: "/lovable-uploads/services8.webp",
             category: "Technology",
             date: "January 2024",
             dateISO: "2024-01-01",
@@ -155,7 +155,7 @@ const IndustryReports = () => {
         {
             title: "Multi-Modal Transportation: Efficiency Analysis",
             description: "Research on combining road, rail, air, and sea transportation for optimal logistics efficiency and cost reduction.",
-            image: "/lovable-uploads/services1.jpg",
+            image: "/lovable-uploads/services1.webp",
             category: "Logistics Insights",
             date: "December 2023",
             dateISO: "2023-12-01",
@@ -170,7 +170,7 @@ const IndustryReports = () => {
         {
             title: "Supply Chain Visibility: Technology Solutions",
             description: "Overview of technologies enabling end-to-end supply chain visibility, from IoT sensors to blockchain implementations.",
-            image: "/lovable-uploads/services2.jpg",
+            image: "/lovable-uploads/services2.webp",
             category: "Supply Chain",
             date: "November 2023",
             dateISO: "2023-11-01",

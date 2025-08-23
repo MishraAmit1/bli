@@ -262,7 +262,7 @@ const RailFreightSolutions = () => {
                 {/* Background image with overlay */}
                 <div
                     className="absolute inset-0 bg-cover bg-center z-0"
-                    style={{ backgroundImage: 'url("/lovable-uploads/rail-freight-hero.jpg")' }}
+                    style={{ backgroundImage: 'url("/lovable-uploads/rail-freight-hero.webp")' }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#113C6A]/80 to-[#113C6A]/90 z-0" />
 
@@ -683,7 +683,7 @@ const RailFreightSolutions = () => {
                                 </div>
                                 <div className="relative order-1 lg:order-2">
                                     <img
-                                        src="/lovable-uploads/d5ce901e-2ce0-4f2a-bce1-f0ca5d6192df.png"
+                                        src="/lovable-uploads/d5ce901e-2ce0-4f2a-bce1-f0ca5d6192df.webp"
                                         alt="BLI rail freight operations and steel cargo transport"
                                         className="rounded-lg shadow-xl w-full"
                                         loading="lazy"

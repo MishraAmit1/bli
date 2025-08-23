@@ -222,7 +222,7 @@ const Features = () => {
       icon: <Cpu className="w-4 h-4 text-[#FFFDF7]" />,
       title: "Full Truck Load (FTL)",
       description: "Complete trucks for large-volume cargo and plant-to-plant transfers.",
-      image: "/lovable-uploads/services1.jpg",
+      image: "/lovable-uploads/services1.webp",
       overlayText: "Bulk • Dedicated",
       link: "/services/full-truckload",
       subFeatures: [
@@ -234,7 +234,7 @@ const Features = () => {
       icon: <Monitor className="w-4 h-4 text-[#FFFDF7]" />,
       title: "Part Load (PTL)",
       description: "Pay only for the space you use—ideal for small or medium shipments.",
-      image: "/lovable-uploads/services2.jpg",
+      image: "/lovable-uploads/services2.webp",
       overlayText: "Shared • Affordable",
       link: "/services/part-load",
       subFeatures: [
@@ -246,7 +246,7 @@ const Features = () => {
       icon: <Home className="w-4 h-4 text-[#FFFDF7]" />,
       title: "3PL & Distribution",
       description: "From warehousing to last-mile, we manage the supply chain so you can focus on sales.",
-      image: "/lovable-uploads/services3.png",
+      image: "/lovable-uploads/services3.webp",
       overlayText: "End-to-End • Hassle-Free",
       link: "/services/3pl",
       subFeatures: [
@@ -258,7 +258,7 @@ const Features = () => {
       icon: <Gift className="w-4 h-4 text-[#FFFDF7]" />,
       title: "Warehousing Support",
       description: "Strategic hubs for both short- and long-term storage anywhere in India.",
-      image: "/lovable-uploads/services4.png",
+      image: "/lovable-uploads/services4.webp",
       overlayText: "Secure • Flexible",
       link: "/services/warehousing",
       subFeatures: [
@@ -270,7 +270,7 @@ const Features = () => {
       icon: <UtensilsCrossed className="w-4 h-4 text-[#FFFDF7]" />,
       title: "Local & Regional Dispatch",
       description: "Quick, reliable deliveries within cities and regional zones.",
-      image: "/lovable-uploads/services5.jpg",
+      image: "/lovable-uploads/services5.webp",
       link: "/services/local-dispatch",
       overlayText: "Fast • Nearby",
       subFeatures: [
@@ -282,7 +282,7 @@ const Features = () => {
       icon: <Factory className="w-4 h-4 text-[#FFFDF7]" />,
       title: "Rail Freight Solutions",
       description: "Cost-efficient bulk shipping via India's rail network.",
-      image: "/lovable-uploads/services6.jpg",
+      image: "/lovable-uploads/services6.webp",
       overlayText: "Heavy • Long-Distance",
       link: "/services/rail-freight",
       subFeatures: [
@@ -294,7 +294,7 @@ const Features = () => {
       icon: <ShoppingBag className="w-4 h-4 text-[#FFFDF7]" />,
       title: "Air Cargo Services",
       description: "Same-day or next-day air freight for urgent, high-value shipments.",
-      image: "/lovable-uploads/services7.jpg",
+      image: "/lovable-uploads/services7.webp",
       overlayText: "Express • Secure",
       link: "/services/air-cargo",
       subFeatures: [
@@ -306,7 +306,7 @@ const Features = () => {
       icon: <Briefcase className="w-4 h-4 text-[#FFFDF7]" />,
       title: "Real-Time Support",
       description: "Stay informed with proactive updates and live tracking.",
-      image: "/lovable-uploads/services8.png",
+      image: "/lovable-uploads/services8.webp",
       overlayText: "Always-On • Transparent",
       link: "/services/real-time-support",
       subFeatures: [
