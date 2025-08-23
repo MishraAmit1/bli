@@ -10,15 +10,17 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import emailjs from 'emailjs-com';
 
-// ==================== CONSTANTS ====================
-const EMAILJS_SERVICE_ID = "service_i3h66xg";
-const EMAILJS_TEMPLATE_ID = "template_fgq53nh";
-const EMAILJS_PUBLIC_KEY = "wQmcZvoOqTAhGnRZ3";
+// ==================== EMAILJS CONFIGURATION ====================
+const EMAILJS_SERVICE_ID = "service_a69cmrl"; // Same service ID jo footer mein use kiya
+const EMAILJS_TEMPLATE_ID = "template_ye25kyi"; // New template ID for contact form
+const EMAILJS_PUBLIC_KEY = "tuMby3K1-jT62DW4C"; // Same public key
 
 // ==================== SCHEMA ====================
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
+  phone: z.string().min(10, 'Please enter a valid phone number').optional().or(z.literal('')),
+  subject: z.string().min(3, 'Subject must be at least 3 characters'),
   message: z.string().min(10, 'Message must be at least 10 characters'),
   honeypot: z.string().max(0, 'Bot detected'),
   timestamp: z.number()
@@ -37,6 +39,8 @@ function useContactForm() {
     defaultValues: {
       name: '',
       email: '',
+      phone: '',
+      subject: '',
       message: '',
       honeypot: '',
       timestamp: formStartTime
@@ -68,13 +72,36 @@ function useContactForm() {
         return;
       }
 
+      // Get current date and time
+      const currentDate = new Date().toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        dateStyle: 'full',
+        timeStyle: 'short'
+      });
+
       const { honeypot, timestamp, ...emailData } = data;
+
       const templateParams = {
+        // Sender Information
         from_name: emailData.name,
         from_email: emailData.email,
+        from_phone: emailData.phone || 'Not provided',
+
+        // Message Details
+        subject: emailData.subject,
         message: emailData.message,
-        to_name: 'WRLDS Team',
-        reply_to: emailData.email
+
+        // Receiver Information
+        to_name: 'BLI Team',
+        to_email: 'amitmishra7427@gmail.com', // Your receiving email
+
+        // Additional Info
+        reply_to: emailData.email,
+        date: currentDate,
+
+        // Company Info
+        company_name: 'BLI - Bansal Logistics of India',
+        website: 'www.blirapid.com'
       };
 
       await emailjs.send(
@@ -85,14 +112,16 @@ function useContactForm() {
       );
 
       toast({
-        title: "Message sent!",
-        description: "We've received your message and will get back to you soon.",
+        title: "✅ Message Sent Successfully!",
+        description: "Thank you for contacting us. We'll get back to you within 2 hours.",
         variant: "default"
       });
 
       form.reset({
         name: '',
         email: '',
+        phone: '',
+        subject: '',
         message: '',
         honeypot: '',
         timestamp: Date.now()
@@ -100,8 +129,8 @@ function useContactForm() {
     } catch (error) {
       console.error('Error sending email:', error);
       toast({
-        title: "Error",
-        description: "There was a problem sending your message. Please try again later.",
+        title: "❌ Error",
+        description: "There was a problem sending your message. Please try again or call us directly.",
         variant: "destructive"
       });
     } finally {
@@ -119,13 +148,13 @@ const NameField = ({ control }: any) => (
     name="name"
     render={({ field }) => (
       <FormItem>
-        <FormLabel className="text-[#113C6A]">Name</FormLabel>
+        <FormLabel className="text-[#113C6A]">Full Name *</FormLabel>
         <div className="relative">
           <User className="absolute left-3 top-2.5 h-5 w-5 text-[#185EAA]" />
           <FormControl>
             <Input
-              placeholder="Your name"
-              className="pl-10 border-[#185EAA]/30 focus:border-[#185EAA] bg-[#F8FFFF]"
+              placeholder="Enter your full name"
+              className="pl-10 border-[#185EAA]/30 focus:border-[#FF7300] bg-[#F8FFFF]"
               {...field}
             />
           </FormControl>
@@ -142,18 +171,62 @@ const EmailField = ({ control }: any) => (
     name="email"
     render={({ field }) => (
       <FormItem>
-        <FormLabel className="text-[#113C6A]">Email</FormLabel>
+        <FormLabel className="text-[#113C6A]">Email Address *</FormLabel>
         <div className="relative">
           <Mail className="absolute left-3 top-2.5 h-5 w-5 text-[#185EAA]" />
           <FormControl>
             <Input
               type="email"
               placeholder="your.email@example.com"
-              className="pl-10 border-[#185EAA]/30 focus:border-[#185EAA] bg-[#F8FFFF]"
+              className="pl-10 border-[#185EAA]/30 focus:border-[#FF7300] bg-[#F8FFFF]"
               {...field}
             />
           </FormControl>
         </div>
+        <FormMessage />
+      </FormItem>
+    )}
+  />
+);
+
+const PhoneField = ({ control }: any) => (
+  <FormField
+    control={control}
+    name="phone"
+    render={({ field }) => (
+      <FormItem>
+        <FormLabel className="text-[#113C6A]">Phone Number (Optional)</FormLabel>
+        <div className="relative">
+          <Phone className="absolute left-3 top-2.5 h-5 w-5 text-[#185EAA]" />
+          <FormControl>
+            <Input
+              type="tel"
+              placeholder="+91 98765 43210"
+              className="pl-10 border-[#185EAA]/30 focus:border-[#FF7300] bg-[#F8FFFF]"
+              {...field}
+            />
+          </FormControl>
+        </div>
+        <FormMessage />
+      </FormItem>
+    )}
+  />
+);
+
+const SubjectField = ({ control }: any) => (
+  <FormField
+    control={control}
+    name="subject"
+    render={({ field }) => (
+      <FormItem>
+        <FormLabel className="text-[#113C6A]">Subject *</FormLabel>
+        <FormControl>
+          <Input
+            placeholder="What is this regarding?"
+            className="border-[#185EAA]/30 focus:border-[#FF7300] bg-[#F8FFFF]"
+            {...field}
+          />
+        </FormControl>
         <FormMessage />
       </FormItem>
     )}
@@ -166,13 +239,13 @@ const MessageField = ({ control }: any) => (
     name="message"
     render={({ field }) => (
       <FormItem>
-        <FormLabel className="text-[#113C6A]">Message</FormLabel>
+        <FormLabel className="text-[#113C6A]">Message *</FormLabel>
         <div className="relative">
           <MessageSquare className="absolute left-3 top-3 h-5 w-5 text-[#185EAA]" />
           <FormControl>
             <Textarea
               placeholder="Tell us about your logistics requirements..."
-              className="min-h-[150px] pl-10 resize-none border-[#185EAA]/30 focus:border-[#185EAA] bg-[#F8FFFF]"
+              className="min-h-[150px] pl-10 resize-none border-[#185EAA]/30 focus:border-[#FF7300] bg-[#F8FFFF]"
               {...field}
             />
           </FormControl>
@@ -214,10 +287,13 @@ const SubmitButton = ({ isSubmitting }: { isSubmitting: boolean }) => (
   <button
     type="submit"
     disabled={isSubmitting}
-    className="w-full bg-[#113C6A] hover:bg-[#185EAA] text-[#FFFDF7] py-3 px-6 rounded-md transition-colors flex items-center justify-center disabled:opacity-70 shadow-md hover:shadow-lg"
+    className="w-full bg-gradient-to-r from-[#FF7300] to-[#FF7729] hover:from-[#FF7729] hover:to-[#FF7300] text-white py-3 px-6 rounded-md transition-all flex items-center justify-center disabled:opacity-70 shadow-md hover:shadow-lg transform hover:scale-[1.02]"
   >
     {isSubmitting ? (
-      "Sending..."
+      <div className="flex items-center">
+        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+        Sending...
+      </div>
     ) : (
       <>
         Send Message
@@ -236,8 +312,14 @@ const ContactFormSection = () => {
       <h3 className="text-2xl font-bold mb-6 text-[#113C6A]">Send Us a Message</h3>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5">
-          <NameField control={form.control} />
-          <EmailField control={form.control} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <NameField control={form.control} />
+            <EmailField control={form.control} />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <PhoneField control={form.control} />
+            <SubjectField control={form.control} />
+          </div>
           <MessageField control={form.control} />
           <HiddenFields control={form.control} />
           <div className="mt-1">
@@ -248,23 +330,43 @@ const ContactFormSection = () => {
     </div>
   );
 };
-// Arihant Complex, 206, Atithi Rd, near Vishal Mega Mart, Vapi, Gujarat 396195
+
 // ==================== CONTACT INFO SECTION ====================
 const ContactInfoSection = () => {
   const contactInfo = [
-    { icon: <Phone className="h-5 w-5" />, title: "Call Us", content: "+91 98765 43210", subtext: "Mon-Sat, 9AM-6PM" },
-    { icon: <Mail className="h-5 w-5" />, title: "Email Us", content: "hello@wrlds.com", subtext: "24/7 Support" },
-    { icon: <MapPin className="h-5 w-5" />, title: "Visit Us", content: "Vapi, Gujarat", subtext: "Arihant Complex, 206, Atithi Rd, Nr. Vishal Mega Mart" },
-    { icon: <Clock className="h-5 w-5" />, title: "Response Time", content: "Within 2 Hours", subtext: "Quick Query Resolution" }
+    {
+      icon: <Phone className="h-5 w-5" />,
+      title: "Call Us",
+      content: "+91-968 744 8434",
+      subtext: "Mon-Sat, 9AM-6PM"
+    },
+    {
+      icon: <Mail className="h-5 w-5" />,
+      title: "Email Us",
+      content: "info@blirapid.com",
+      subtext: "24/7 Support"
+    },
+    {
+      icon: <MapPin className="h-5 w-5" />,
+      title: "Visit Us",
+      content: "Vapi, Gujarat - 396191",
+      subtext: "206, Arihant Complex, Nr. Vishal Mega Mart"
+    },
+    {
+      icon: <Clock className="h-5 w-5" />,
+      title: "Response Time",
+      content: "Within 2 Hours",
+      subtext: "Quick Query Resolution"
+    }
   ];
 
   return (
     <div className="space-y-6">
       <div className="grid gap-4">
         {contactInfo.map((info, index) => (
-          <div key={index} className="bg-[#F8FFFF] p-5 rounded-lg border border-[#185EAA]/20 hover:shadow-md transition-shadow">
+          <div key={index} className="bg-[#F8FFFF] p-5 rounded-lg border border-[#185EAA]/20 hover:shadow-md transition-all hover:border-[#FF7300]/30">
             <div className="flex items-start space-x-4">
-              <div className="w-10 h-10 bg-[#FF7729] rounded-full flex items-center justify-center text-[#FFFDF7]">
+              <div className="w-10 h-10 bg-gradient-to-r from-[#FF7300] to-[#FF7729] rounded-full flex items-center justify-center text-white">
                 {info.icon}
               </div>
               <div>
@@ -289,7 +391,7 @@ const ContactForm = () => {
 
           {/* Heading */}
           <div className="text-center mb-12">
-            <div className="inline-block mb-3 px-3 py-1 bg-[#F8FFFF] text-[#113C6A] rounded-full text-sm font-medium">
+            <div className="inline-block mb-3 px-3 py-1 bg-gradient-to-r from-[#FF7300] to-[#FF7729] text-white rounded-full text-sm font-medium">
               Get In Touch
             </div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#113C6A]">Contact Us Today</h2>

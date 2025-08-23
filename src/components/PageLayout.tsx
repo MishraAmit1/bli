@@ -3,8 +3,6 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import ContactInfo from '@/components/ContactInfo';
-import FloatingContactButton from '@/components/FloatingContactButton';
 
 type PageLayoutProps = {
   children: React.ReactNode;
@@ -13,20 +11,20 @@ type PageLayoutProps = {
 
 const PageLayout = ({ children, showContact = true }: PageLayoutProps) => {
   const location = useLocation();
-
-  // Effect to scroll to top when route changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
   return (
     <div className="min-h-screen bg-white w-full">
-      <Navbar />
+      <header className="sticky top-0 z-40 bg-white shadow-sm">
+        <Navbar />
+      </header>
       <div className="relative">
         {children}
       </div>
-      {/* {showContact && <ContactInfo />} */}
-      <Footer />
-      {showContact && <FloatingContactButton />}
+      <footer >
+        <Footer />
+      </footer>
     </div>
   );
 };

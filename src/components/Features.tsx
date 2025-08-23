@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { motion } from "framer-motion";
+import React, { useEffect, useRef, useState, memo, useCallback } from 'react';
+import { motion, useInView } from "framer-motion";
 import {
   Activity, Shield, HardHat, Zap, ArrowRight,
   Box, Code, CheckCircle, Rocket, Microchip,
@@ -26,7 +26,9 @@ import { useScrollHijack } from '@/hooks/useScrollHijack';
 import Autoplay from "embla-carousel-autoplay";
 import { AnimatedTruck } from './AnimatedTruck';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from './ui/hover-card';
+import { Helmet } from 'react-helmet-async';
 
+// Animation variants
 const itemVariants = {
   hidden: {
     y: 20,
@@ -41,19 +43,180 @@ const itemVariants = {
   }
 };
 
+// Memoized feature card component
+const FeatureCard = memo(({ feature, index }: { feature: any, index: number }) => (
+  <div className="group relative rounded-xl overflow-hidden shadow-lg border hover:border-[#FF7729] h-[420px] flex flex-col bg-white transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <span className="absolute top-3 left-3 z-10 bg-[#FF7729] text-white text-xs font-medium px-2 py-1 rounded-full shadow">
+      {feature.overlayText}
+    </span>
+    <div className="relative w-full h-64 overflow-hidden">
+      <img
+        src={feature.image}
+        alt={feature.title}
+        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        loading={index < 3 ? "eager" : "lazy"}
+        width="400"
+        height="300"
+      />
+      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+        <span className="text-white text-sm font-medium tracking-wide">
+          Safe • Fast • Reliable
+        </span>
+      </div>
+    </div>
+    <div className="p-5 flex flex-col justify-between flex-grow">
+      <div>
+        <div className="flex items-center gap-2 mb-1">
+          <span className="bg-[#113C6A] p-1 rounded-md flex items-center justify-center">
+            {feature.icon}
+          </span>
+          <h3 className="font-semibold text-[#113C6A] text-base">{feature.title}</h3>
+        </div>
+
+        <p className="text-black text-sm leading-snug mt-1">
+          {feature.description}
+        </p>
+
+        <ul className="mt-3 text-xs text-gray-600 space-y-1">
+          {feature.subFeatures.map((sf: any, i: number) => (
+            <li key={i} className="flex items-center gap-1">
+              {sf.icon} {sf.text}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="mt-4 flex items-center justify-between">
+        <Link
+          to={feature.link}
+          className="flex items-center text-[#FF7729] text-sm font-medium hover:underline"
+          aria-label={`Learn more about ${feature.title}`}
+        >
+          Read More <ArrowRight className="ml-1 w-4 h-4" />
+        </Link>
+      </div>
+    </div>
+  </div>
+));
+
+// Memoized phase card component
+const PhaseCard = memo(({ phase, index, progressValue, sprintPhases }: any) => (
+  <HoverCard key={index} openDelay={0} closeDelay={0}>
+    <HoverCardTrigger asChild>
+      <div
+        className={cn(
+          "text-center p-3 rounded cursor-pointer transition-all duration-300",
+          progressValue >= (index / sprintPhases.length) * 100 &&
+            progressValue < ((index + 1) / sprintPhases.length) * 100
+            ? "bg-[#185EAA]/10 border border-[#185EAA]/30 shadow-md scale-[1.02]"
+            : "bg-[#F8FFFF] hover:bg-[#FFFDF7] hover:shadow-lg hover:scale-105"
+        )}
+      >
+        <div className="flex flex-col items-center">
+          <div
+            className={cn(
+              "rounded-full p-2 mb-1 transition-transform duration-300",
+              progressValue >= (index / sprintPhases.length) * 100
+                ? "bg-[#185EAA]/20 text-[#185EAA] scale-110 rotate-6"
+                : "bg-[#FFFDF7] text-[#113C6A]/50 group-hover:scale-110"
+            )}
+          >
+            {phase.icon}
+          </div>
+          <span className="text-xs font-medium text-[#113C6A]">{phase.name}</span>
+        </div>
+      </div>
+    </HoverCardTrigger>
+
+    <HoverCardContent
+      side="top"
+      align="center"
+      className="z-[8999] w-64 shadow-xl border border-[#185EAA]/10 relative bg-white"
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.1 }}
+      >
+        <h4 className="text-sm font-semibold text-[#113C6A]">{phase.name}</h4>
+        <p className="text-xs text-[#0a213a]/70">
+          {phase.description}
+        </p>
+      </motion.div>
+    </HoverCardContent>
+  </HoverCard>
+));
+
 const Features = () => {
   const featuresRef = useRef<HTMLDivElement>(null);
   const hijackSectionRef = useRef<HTMLDivElement>(null);
+  const carouselSectionRef = useRef<HTMLDivElement>(null);
+  const approachSectionRef = useRef<HTMLDivElement>(null);
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
   const [progressValue, setProgressValue] = useState(0);
   const [currentSprint, setCurrentSprint] = useState(1);
+  const [carouselApi, setCarouselApi] = useState<any>(null);
   const totalSprints = 3;
   const isMobile = useIsMobile();
 
-  const plugin = useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: false })
-  );
+  // Use inView hook for better performance
+  const isCarouselInView = useInView(carouselSectionRef, {
+    threshold: 0.3,
+    margin: "-50px 0px"
+  });
 
+  const isApproachInView = useInView(approachSectionRef, {
+    threshold: 0.2,
+    margin: "-50px 0px"
+  });
+
+  // Create autoplay plugin
+  const autoplayPlugin = useRef<Autoplay>();
+
+  // Initialize plugin only once
+  useEffect(() => {
+    if (!autoplayPlugin.current) {
+      autoplayPlugin.current = Autoplay({ delay: 2000, stopOnInteraction: false });
+    }
+
+    return () => {
+      if (autoplayPlugin.current) {
+        autoplayPlugin.current.stop();
+      }
+    };
+  }, []);
+
+  // Control autoplay based on visibility
+  useEffect(() => {
+    if (autoplayPlugin.current) {
+      if (isCarouselInView) {
+        autoplayPlugin.current.play();
+      } else {
+        autoplayPlugin.current.stop();
+      }
+    }
+  }, [isCarouselInView]);
+
+  // Reset carousel to first slide when coming back into view
+  useEffect(() => {
+    if (isCarouselInView && carouselApi) {
+      carouselApi.scrollTo(0);
+    }
+  }, [isCarouselInView, carouselApi]);
+
+  // Preload critical images
+  useEffect(() => {
+    const preloadImages = () => {
+      features.slice(0, 3).forEach(feature => {
+        const img = new Image();
+        img.src = feature.image;
+      });
+    };
+
+    preloadImages();
+  }, []);
+
+  // Services data
   const features = [
     {
       icon: <Cpu className="w-4 h-4 text-[#FFFDF7]" />,
@@ -118,7 +281,7 @@ const Features = () => {
     {
       icon: <Factory className="w-4 h-4 text-[#FFFDF7]" />,
       title: "Rail Freight Solutions",
-      description: "Cost-efficient bulk shipping via India’s rail network.",
+      description: "Cost-efficient bulk shipping via India's rail network.",
       image: "/lovable-uploads/services6.jpg",
       overlayText: "Heavy • Long-Distance",
       link: "/services/rail-freight",
@@ -155,38 +318,49 @@ const Features = () => {
 
   const { isHijacked } = useScrollHijack(hijackSectionRef, features.length);
 
-  const scrollToContact = (e: React.MouseEvent) => {
+  // Memoized scroll handler
+  const scrollToContact = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     const contactSection = document.getElementById('contact-info');
     if (contactSection) {
       contactSection.scrollIntoView({ behavior: 'smooth' });
     }
-  };
+  }, []);
 
+  // Progress animation with cleanup
   useEffect(() => {
     let interval: NodeJS.Timeout;
+    let timeout: NodeJS.Timeout;
+
     const animateProgress = () => {
       setProgressValue(0);
       interval = setInterval(() => {
         setProgressValue(prev => {
           if (prev >= 100) {
             clearInterval(interval);
-            setTimeout(() => {
+            timeout = setTimeout(() => {
               setCurrentSprint(prev => prev < totalSprints ? prev + 1 : 1);
               animateProgress();
             }, 500);
             return 100;
           }
-          return prev + 1;
+          return prev + 10;
         });
-      }, 300); // Increased from 100ms to 300ms for slower speed (adjust as needed)
+      }, 400);
     };
-    animateProgress();
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, []);
 
+    // Only start animation when section is in view
+    if (isApproachInView) {
+      animateProgress();
+    }
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [isApproachInView, totalSprints]);
+
+  // Workflow phases data
   const sprintPhases = [
     {
       name: "Planning",
@@ -220,180 +394,192 @@ const Features = () => {
     }
   ];
 
+  // Schema.org structured data for SEO
+  const servicesSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": features.map((feature, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "Service",
+        "name": feature.title,
+        "description": feature.description,
+        "url": `https://www.blirapid.com${feature.link}`,
+        "provider": {
+          "@type": "Organization",
+          "name": "BLI - Bansal Logistics of India"
+        },
+        "image": `https://www.blirapid.com${feature.image}`
+      }
+    }))
+  };
+
   return (
     <>
-      <section id="features" className="relative py-10 md:py-[70px] w-full">
+      {/* SEO Structured Data */}
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(servicesSchema)}
+        </script>
+      </Helmet>
+
+      {/* Services Section */}
+      <section
+        id="features"
+        className="relative py-10 md:py-[70px] w-full"
+        ref={carouselSectionRef}
+        aria-label="BLI Logistics Services"
+      >
         <div className="text-center mb-10 max-w-3xl mx-auto feature-item">
-          <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#113C6A] mb-3">
+          <motion.h2
+            variants={itemVariants}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#113C6A] mb-3"
+          >
             Our Services
           </motion.h2>
-          <h2 className="text-3xl font-bold mb-4 text-[#113C6A]"></h2>
           <p className="text-[#0a213a]/90 max-w-3xl mx-auto">
             End-to-end logistics and 3PL solutions designed for speed, reliability, and scale across India.
           </p>
           <AnimatedTruck />
         </div>
 
-        <Carousel
-          plugins={[plugin.current]}
-          opts={{
-            loop: true,
-            // align: isMobile ? "center" : "start", // Center on mobile, start on desktop
-            align: "start", // was: isMobile ? "center" : "start"
-            containScroll: "keepSnaps", // Prevents partial slides from showing
-            skipSnaps: false, // Enforce strict snapping
-            dragFree: false, // Prevent drag-based peeking
-            slidesToScroll: 1,
-          }}
-          className="relative w-full"
-          onMouseEnter={() => plugin.current.stop()}
-          onMouseLeave={() => plugin.current.play()}
-        >
-          <div className={cn(
-            "relative max-w-[1100px] mx-auto px-4",
-            isMobile && "overflow-hidden" // Explicit overflow-hidden on mobile to clip any peek
-          )}>
-            <CarouselContent className={cn(
-              "flex",
-              isMobile ? "!ml-0 gap-0 px-0" : "gap-6 px-6 ml-1" // Padding on mobile to hide peek while keeping thinning
+        {/* Only render carousel if autoplayPlugin is defined */}
+        {autoplayPlugin.current && (
+          <Carousel
+            plugins={[autoplayPlugin.current]}
+            opts={{
+              loop: true,
+              align: "start",
+              containScroll: "keepSnaps",
+              skipSnaps: false,
+              dragFree: false,
+              slidesToScroll: 1,
+            }}
+            className="relative w-full"
+            onMouseEnter={() => autoplayPlugin.current?.stop()}
+            onMouseLeave={() => isCarouselInView && autoplayPlugin.current?.play()}
+            setApi={setCarouselApi}
+          >
+            <div className={cn(
+              "relative max-w-[1100px] mx-auto px-4",
+              isMobile && "overflow-hidden"
             )}>
-              {features.map((feature, index) => (
-                <CarouselItem
-                  key={index}
-                  className={cn(
-                    "sm:basis-1/2 lg:basis-1/3",
-                    isMobile && "basis-full !pl-0" // Slightly thinner (95% width) on mobile
-                  )}
-                >
-                  <div className="group relative rounded-xl overflow-hidden shadow-lg border hover:border-[#FF7729] h-[420px] flex flex-col bg-white transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl">
-                    {/* Tag badge (optional) */}
-                    <span className="absolute top-3 left-3 z-10 bg-[#FF7729] text-white text-xs font-medium px-2 py-1 rounded-full shadow">
-                      {feature.overlayText}
-                    </span>
-                    {/* Image Section */}
-                    <div className="relative w-full h-64 overflow-hidden">
-                      <img
-                        src={feature.image}
-                        alt={feature.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      {/* Hover Overlay */}
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span className="text-white text-sm font-medium tracking-wide">
-                          Safe • Fast • Reliable
-                        </span>
-                      </div>
-                    </div>
-                    {/* Content Section */}
-                    <div className="p-5 flex flex-col justify-between flex-grow">
-                      {/* Icon + Title */}
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="bg-[#113C6A] p-1 rounded-md flex items-center justify-center">
-                            {feature.icon}
-                          </span>
-                          <h3 className="font-semibold text-[#113C6A] text-base">{feature.title}</h3>
-                        </div>
+              <CarouselContent className={cn(
+                "flex",
+                isMobile ? "!ml-0 gap-0 px-0" : "gap-6 px-6 ml-1"
+              )}>
+                {features.map((feature, index) => (
+                  <CarouselItem
+                    key={index}
+                    className={cn(
+                      "sm:basis-1/2 lg:basis-1/3",
+                      isMobile && "basis-full !pl-0"
+                    )}
+                  >
+                    <FeatureCard feature={feature} index={index} />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
 
-                        {/* Short Description */}
-                        <p className="text-black text-sm leading-snug mt-1">
-                          {feature.description}
-                        </p>
+              <CarouselPrevious
+                className={cn(
+                  "absolute top-1/2 md:top-[40%] -translate-y-1/2 z-10",
+                  "backdrop-blur-md bg-transparent border border-white/20",
+                  "w-12 h-12 md:h-96 md:rounded-md rounded-full shadow-lg",
+                  "flex items-center justify-center",
+                  "hover:shadow-xl hover:scale-110",
+                  "transition-all duration-300",
+                  "group",
+                  isMobile ? "left-2" : "-left-14"
+                )}
+                aria-label="Previous service"
+              >
+                <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
+              </CarouselPrevious>
 
-                        {/* Sub-feature points */}
-                        <ul className="mt-3 text-xs text-gray-600 space-y-1">
-                          {feature.subFeatures.map((sf, i) => (
-                            <li key={i} className="flex items-center gap-1">
-                              {sf.icon} {sf.text}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+              <CarouselNext
+                className={cn(
+                  "absolute top-1/2 md:top-[40%] -translate-y-1/2 z-10",
+                  "backdrop-blur-md bg-transparent border border-white/20",
+                  "w-12 h-12 md:h-96 md:rounded-md rounded-full shadow-lg",
+                  "flex items-center justify-center",
+                  "hover:shadow-xl hover:scale-110",
+                  "transition-all duration-300",
+                  "group",
+                  isMobile ? "right-2" : "-right-20"
+                )}
+                aria-label="Next service"
+              >
+                <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
+              </CarouselNext>
 
-                      {/* Footer with CTA */}
-                      {/* Footer with CTA */}
-                      <div className="mt-4 flex items-center justify-between">
-                        <Link
-                          to={feature.link} // Changed from `/services/${index}` to feature.link
-                          className="flex items-center text-[#FF7729] text-sm font-medium hover:underline"
-                        >
-                          Read More <ArrowRight className="ml-1 w-4 h-4" />
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious
-              className={cn(
-                "absolute top-1/2 md:top-[40%] -translate-y-1/2 z-10",
-                // Glassmorphism: fully transparent blur, subtle border
-                "backdrop-blur-md bg-transparent border border-white/20",
-                // Size: on mobile round & small, on desktop tall & slim
-                "w-12 h-12 md:h-96 md:rounded-md rounded-full shadow-lg",
-                // Flex center & hover effects
-                "flex items-center justify-center",
-                "hover:shadow-xl hover:scale-110",
-                "transition-all duration-300",
-                "group",
-                isMobile ? "left-2" : "-left-14"
-              )}
-            >
-              <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
-            </CarouselPrevious>
-
-            <CarouselNext
-              className={cn(
-                "absolute top-1/2 md:top-[40%] -translate-y-1/2 z-10",
-                "backdrop-blur-md bg-transparent border border-white/20",
-                "w-12 h-12 md:h-96 md:rounded-md rounded-full shadow-lg",
-                "flex items-center justify-center",
-                "hover:shadow-xl hover:scale-110",
-                "transition-all duration-300",
-                "group",
-                isMobile ? "right-2" : "-right-20"
-              )}
-            >
-              <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
-            </CarouselNext>
-            <div className="text-center md:mt-18 mt-14">
-              <div className="flex justify-center">
-
-                <Link to="/services">
-                  <Button className="inline-flex items-center px-4 sm:px-6 py-3 bg-[#113C6A] hover:bg-[#185EAA] text-[#FFFDF7] rounded-lg shadow-md hover:shadow-lg transition-all group w-full sm:w-auto justify-center">
-                    View All Services
-                    <Briefcase className="ml-2 w-4 h-4 group-hover:scale-110 transition-transform" />
-                  </Button>
-                </Link>
+              <div className="text-center md:mt-18 mt-14">
+                <div className="flex justify-center">
+                  <Link to="/services">
+                    <Button
+                      className="inline-flex items-center px-4 sm:px-6 py-3 bg-[#113C6A] hover:bg-[#185EAA] text-[#FFFDF7] rounded-lg shadow-md hover:shadow-lg transition-all group w-full sm:w-auto justify-center"
+                      aria-label="View all logistics services"
+                    >
+                      View All Services
+                      <Briefcase className="ml-2 w-4 h-4 group-hover:scale-110 transition-transform" />
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
+          </Carousel>
+        )}
+
+        {/* Fallback if carousel plugin fails to load */}
+        {!autoplayPlugin.current && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-[1100px] mx-auto px-4">
+            {features.slice(0, 3).map((feature, index) => (
+              <FeatureCard key={index} feature={feature} index={index} />
+            ))}
+            <div className="text-center mt-8 col-span-full">
+              <Link to="/services">
+                <Button
+                  className="inline-flex items-center px-4 sm:px-6 py-3 bg-[#113C6A] hover:bg-[#185EAA] text-[#FFFDF7] rounded-lg shadow-md hover:shadow-lg transition-all group"
+                  aria-label="View all logistics services"
+                >
+                  View All Services
+                  <Briefcase className="ml-2 w-4 h-4 group-hover:scale-110 transition-transform" />
+                </Button>
+              </Link>
+            </div>
           </div>
-        </Carousel>
+        )}
       </section>
 
-      <section id="technology" className="bg-[#] py-10 md:py-16">
+      {/* Approach Section */}
+      <section
+        id="technology"
+        className="bg-[#] py-10 md:py-16"
+        ref={approachSectionRef}
+        aria-label="BLI Logistics Approach"
+      >
         <div className="w-full px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            {/* <div className="inline-block mb-2 px-3 py-1 bg-[#F8FFFF] text-[#113C6A] rounded-full text-sm font-medium">
-              Our Approach
-            </div> */}
-            <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#113C6A] mb-3">
+            <motion.h2
+              variants={itemVariants}
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#113C6A] mb-3"
+            >
               Our Approach
             </motion.h2>
-            <h2 className="text-3xl font-bold mb-4 text-[#113C6A]">End-to-End Logistics. On Time. Every Time</h2>
+            <h2 className="md:text-3xl text-xl font-bold mb-4 text-[#113C6A]">End-to-End Logistics. On Time. Every Time</h2>
             <p className="text-[#0a213a]/90 max-w-3xl mx-auto">
               At BLI, every shipment follows a proven five-step workflow — from initial planning to final handover.
               Our approach is designed to:
               Reduce risks with upfront clarity,
               Maintain transparency through real-time updates,
               Optimize efficiency for cost and speed,
-              ensuring your cargo arrives exactly when and where it’s needed.
+              ensuring your cargo arrives exactly when and where it's needed.
             </p>
           </div>
 
-          <div className="bg-[#F8FFFF] rounded-xl shadow-lg border border-[#185EAA]/20 p-8 mb-10 transition-all duration-300 hover:shadow-xl">
-            <div className="bg-gradient-to-r from-[#F8FFFF] to-[#FFFDF7] rounded-lg p-6 mb-10 shadow-md border border-[#185EAA]/20">
+          <div className="bg-[#F8FFFF] rounded-xl shadow-lg border border-[#185EAA]/20 md:p-8 p-3 mb-10 transition-all duration-300 hover:shadow-xl">
+            <div className="bg-gradient-to-r from-[#F8FFFF] to-[#FFFDF7] rounded-lg md:p-6 p-4 mb-10 shadow-md border border-[#185EAA]/20">
               <div className="max-w-4xl mx-auto">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-2">
                   <div className="flex items-center">
@@ -411,58 +597,22 @@ const Features = () => {
                   <Progress
                     value={progressValue}
                     className="h-3 bg-[#F8FFFF] [&>div]:bg-[#113C6A]"
+                    aria-label={`Progress: ${progressValue}%`}
                   />
                 </div>
 
                 <div className={cn("grid gap-1 mt-4 relative z-[50]", isMobile ? "grid-cols-2 gap-y-2" : "grid-cols-5")}>
                   {sprintPhases.map((phase, index) => (
-                    <HoverCard key={index} openDelay={0} closeDelay={0}>
-                      <HoverCardTrigger asChild>
-                        <div
-                          className={cn(
-                            "text-center p-3 rounded cursor-pointer transition-all duration-300",
-                            progressValue >= (index / sprintPhases.length) * 100 &&
-                              progressValue < ((index + 1) / sprintPhases.length) * 100
-                              ? "bg-[#185EAA]/10 border border-[#185EAA]/30 shadow-md scale-[1.02]"
-                              : "bg-[#F8FFFF] hover:bg-[#FFFDF7] hover:shadow-lg hover:scale-105"
-                          )}
-                        >
-                          <div className="flex flex-col items-center">
-                            <div
-                              className={cn(
-                                "rounded-full p-2 mb-1 transition-transform duration-300",
-                                progressValue >= (index / sprintPhases.length) * 100
-                                  ? "bg-[#185EAA]/20 text-[#185EAA] scale-110 rotate-6"
-                                  : "bg-[#FFFDF7] text-[#113C6A]/50 group-hover:scale-110"
-                              )}
-                            >
-                              {phase.icon}
-                            </div>
-                            <span className="text-xs font-medium text-[#113C6A]">{phase.name}</span>
-                          </div>
-                        </div>
-                      </HoverCardTrigger>
-
-                      {/* Tooltip effect on hover - Made faster with motion animation */}
-                      <HoverCardContent
-                        side="top"
-                        align="center"
-                        className="z-[8999] w-64 shadow-xl border border-[#185EAA]/10 relative bg-white"
-                      >
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.1 }} // Fast fade-in for instant feel
-                        >
-                          <h4 className="text-sm font-semibold text-[#113C6A]">{phase.name}</h4>
-                          <p className="text-xs text-[#0a213a]/70">
-                            {phase.description}
-                          </p>
-                        </motion.div>
-                      </HoverCardContent>
-                    </HoverCard>
+                    <PhaseCard
+                      key={index}
+                      phase={phase}
+                      index={index}
+                      progressValue={progressValue}
+                      sprintPhases={sprintPhases}
+                    />
                   ))}
                 </div>
+
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-6 gap-2">
                   <div className="flex items-center">
                     <div className="bg-[#FF7729]/20 rounded-full p-1 mr-2 shrink-0">
@@ -501,15 +651,25 @@ const Features = () => {
 
           <div className="text-center">
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-              <Link to="/tech-details" onClick={() => window.scrollTo(0, 0)} className="inline-flex items-center px-4 sm:px-6 bg-[#FF7729] text-[#FFFDF7] rounded-lg border border-[#FF7729] hover:bg-[#FF7729]/90 hover:shadow-md transition-all group py-3 w-full sm:w-auto justify-center">
-                Learn More About Our Technology
+              <Link
+                to="/services"
+                onClick={() => window.scrollTo(0, 0)}
+                className="inline-flex items-center px-4 sm:px-6 bg-[#FF7729] text-[#FFFDF7] rounded-lg border border-[#FF7729] hover:bg-[#FF7729]/90 hover:shadow-md transition-all group py-3 w-full sm:w-auto justify-center"
+                aria-label="Learn more about BLI logistics services"
+              >
+                Learn More About Our Services
                 <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
 
-              <Button onClick={scrollToContact} className="inline-flex items-center px-4 sm:px-6 py-3 bg-[#113C6A] hover:bg-[#185EAA] text-[#FFFDF7] rounded-lg shadow-md hover:shadow-lg transition-all group w-full sm:w-auto justify-center">
-                Contact Our Experts
-                <MessageSquare className="ml-2 w-4 h-4 group-hover:scale-110 transition-transform" />
-              </Button>
+              <Link to="/contact">
+                <Button
+                  className="inline-flex items-center px-4 sm:px-6 py-3 bg-[#113C6A] hover:bg-[#185EAA] text-[#FFFDF7] rounded-lg shadow-md hover:shadow-lg transition-all group w-full sm:w-auto justify-center"
+                  aria-label="Contact BLI logistics experts"
+                >
+                  Contact Our Experts
+                  <MessageSquare className="ml-2 w-4 h-4 group-hover:scale-110 transition-transform" />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -518,4 +678,4 @@ const Features = () => {
   );
 };
 
-export default Features;
+export default memo(Features);

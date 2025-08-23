@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useEffect } from 'react';
 import PageLayout from '@/components/PageLayout';
 import { Card, CardContent } from "@/components/ui/card";
+import { Helmet } from 'react-helmet-async';
 
 const WarehousingDistribution = () => {
     useEffect(() => {
@@ -122,10 +123,118 @@ const WarehousingDistribution = () => {
         }
     ];
 
+    // Structured Data for Warehousing Service
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "Warehousing & Distribution Services",
+        "description": "Strategic storage solutions and efficient distribution networks across India. 15M+ sq ft warehouse space with 99.9% inventory accuracy and 24/7 operations.",
+        "provider": {
+            "@type": "Organization",
+            "name": "BLI - Bansal Logistics of India",
+            "url": "https://www.blirapid.com"
+        },
+        "areaServed": {
+            "@type": "Country",
+            "name": "India"
+        },
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Warehousing Services",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Strategic Storage",
+                        "description": "15M+ sq ft warehouse space across 30+ locations in India"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Inventory Management",
+                        "description": "99.9% inventory accuracy with real-time WMS tracking"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Distribution Network",
+                        "description": "Last-mile delivery with 2-day delivery capability"
+                    }
+                }
+            ]
+        }
+    };
+
+    // FAQ Schema for Warehousing
+    const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What warehousing services does BLI offer?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BLI offers strategic storage, inventory management, distribution network, demand planning, value-added services, and risk management across 15M+ sq ft warehouse space."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How many warehouse locations does BLI have?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BLI operates 30+ warehouse locations across India including Mumbai, Delhi NCR, Bangalore, Chennai, Pune, and Ahmedabad with specialized facilities."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is BLI's inventory accuracy rate?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BLI maintains 99.9% inventory accuracy through advanced WMS, barcode & RFID tracking, and real-time monitoring systems."
+                }
+            }
+        ]
+    };
+
     return (
         <PageLayout>
+            <Helmet>
+                <title>Warehousing & Distribution Services India | 15M+ Sq Ft | 99.9% Accuracy | BLI</title>
+                <meta name="description" content="Strategic warehousing & distribution across India. 15M+ sq ft space, 30+ locations, 99.9% inventory accuracy, 24/7 operations. Mumbai, Delhi, Bangalore, Chennai hubs." />
+                <meta name="keywords" content="warehousing services india, distribution centers, inventory management, warehouse storage, logistics warehousing, cold storage, WMS system, warehouse locations mumbai delhi" />
+
+                {/* Open Graph */}
+                <meta property="og:title" content="Warehousing & Distribution - 30+ Locations Across India | BLI" />
+                <meta property="og:description" content="15M+ sq ft warehouse space with advanced WMS, 99.9% accuracy, climate control, and strategic locations for faster market reach." />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://www.blirapid.com/services/warehousing" />
+                <meta property="og:image" content="https://www.blirapid.com/warehousing-services.jpg" />
+
+                {/* Twitter Card */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Warehousing Services - 40% Cost Savings | BLI" />
+                <meta name="twitter:description" content="Strategic storage solutions with advanced technology. 15M+ sq ft across India." />
+
+                {/* Canonical URL */}
+                <link rel="canonical" href="https://www.blirapid.com/services/warehousing" />
+
+                {/* Structured Data */}
+                <script type="application/ld+json">
+                    {JSON.stringify(structuredData)}
+                </script>
+                <script type="application/ld+json">
+                    {JSON.stringify(faqSchema)}
+                </script>
+            </Helmet>
+
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+            <section className="relative pt-8 sm:pt-10 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8">
                 {/* Background image with overlay */}
                 <div
                     className="absolute inset-0 bg-cover bg-center z-0"
@@ -142,46 +251,49 @@ const WarehousingDistribution = () => {
                         >
                             <motion.h1
                                 variants={itemVariants}
-                                className="text-4xl md:text-5xl font-bold mb-6 text-[#F8FFFF]"
+                                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-[#F8FFFF] leading-tight"
                             >
                                 Warehousing & Distribution
                             </motion.h1>
 
                             <motion.p
                                 variants={itemVariants}
-                                className="text-xl text-[#F8FFFF]/90 mb-8"
+                                className="text-base sm:text-lg md:text-xl text-[#F8FFFF]/90 mb-6 sm:mb-8 leading-relaxed px-2 sm:px-0"
                             >
-                                Dedicated truck solutions for large shipments across India. When your cargo needs
-                                exclusive transportation, our FTL service delivers reliability, speed, and security.
+                                Strategic storage solutions and efficient distribution networks across India.
+                                From inventory management to order fulfillment, we optimize your supply chain operations.
                             </motion.p>
 
                             <motion.div
                                 variants={itemVariants}
-                                className="flex flex-col sm:flex-row gap-4 justify-center"
+                                className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center"
                             >
                                 <Link
                                     to="/contact"
-                                    className="inline-flex items-center justify-center px-6 py-3 bg-[#FF7729] text-white rounded hover:bg-[#e56721] transition-all group"
+                                    className="inline-flex items-center justify-center w-full sm:w-auto px-5 sm:px-6 py-3 bg-[#FF7729] text-white rounded hover:bg-[#e56721] transition-all group text-sm sm:text-base"
+                                    aria-label="Get warehouse storage quote"
                                 >
-                                    Get Warehouse Quote
-                                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                    <span>Get Warehouse Quote</span>
+                                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform flex-shrink-0" />
                                 </Link>
                                 <button
                                     onClick={() => {
                                         const element = document.getElementById('warehouse-locations');
                                         if (element) element.scrollIntoView({ behavior: 'smooth' });
                                     }}
-                                    className="inline-flex items-center justify-center px-6 py-3 bg-transparent border-2 border-[#F8FFFF] text-[#F8FFFF] rounded hover:bg-[#F8FFFF] hover:text-[#113C6A] transition-all"
+                                    className="inline-flex items-center justify-center w-full sm:w-auto px-5 sm:px-6 py-3 bg-transparent border-2 border-[#F8FFFF] text-[#F8FFFF] rounded hover:bg-[#F8FFFF] hover:text-[#113C6A] transition-all text-sm sm:text-base"
+                                    aria-label="View warehouse locations"
                                 >
-                                    View Locations
+                                    <span>View Locations</span>
                                 </button>
                             </motion.div>
                         </motion.div>
                     </div>
                 </div>
             </section>
+
             {/* Services Overview */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]">
+            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]" aria-labelledby="services-heading">
                 <div className="container mx-auto max-w-6xl">
                     <motion.div
                         initial="hidden"
@@ -190,6 +302,7 @@ const WarehousingDistribution = () => {
                         variants={containerVariants}
                     >
                         <motion.h2
+                            id="services-heading"
                             variants={itemVariants}
                             className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
                         >
@@ -198,17 +311,17 @@ const WarehousingDistribution = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {services.map((service, index) => (
-                                <motion.div key={index} variants={itemVariants}>
+                                <motion.article key={index} variants={itemVariants}>
                                     <Card className="h-full bg-white border border-[#185EAA]/20 hover:shadow-lg hover:shadow-[#185EAA]/10 transition-all hover:-translate-y-1">
                                         <CardContent className="p-6">
                                             <div className="w-14 h-14 bg-[#F8FFFF] rounded-lg flex items-center justify-center mb-4">
-                                                <service.icon className="w-7 h-7 text-[#185EAA]" />
+                                                <service.icon className="w-7 h-7 text-[#185EAA]" aria-hidden="true" />
                                             </div>
                                             <h3 className="font-bold text-lg mb-2 text-[#113C6A]">{service.title}</h3>
                                             <p className="text-[#21221C]/70 text-sm">{service.description}</p>
                                         </CardContent>
                                     </Card>
-                                </motion.div>
+                                </motion.article>
                             ))}
                         </div>
                     </motion.div>
@@ -216,7 +329,7 @@ const WarehousingDistribution = () => {
             </section>
 
             {/* Benefits Section */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8">
+            <section className="py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="benefits-heading">
                 <div className="container mx-auto max-w-6xl">
                     <motion.div
                         initial="hidden"
@@ -225,6 +338,7 @@ const WarehousingDistribution = () => {
                         variants={containerVariants}
                     >
                         <motion.h2
+                            id="benefits-heading"
                             variants={itemVariants}
                             className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
                         >
@@ -233,18 +347,18 @@ const WarehousingDistribution = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             {benefits.map((benefit, index) => (
-                                <motion.div
+                                <motion.article
                                     key={index}
                                     variants={itemVariants}
                                     className="bg-white p-6 rounded-xl border border-[#185EAA]/20 text-center hover:shadow-lg hover:shadow-[#185EAA]/10 transition-all"
                                 >
                                     <div className="w-16 h-16 bg-[#F8FFFF] rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <benefit.icon className="w-8 h-8 text-[#185EAA]" />
+                                        <benefit.icon className="w-8 h-8 text-[#185EAA]" aria-hidden="true" />
                                     </div>
                                     <div className="text-2xl font-bold text-[#FF7729] mb-2">{benefit.stat}</div>
                                     <h3 className="font-bold text-lg mb-2 text-[#113C6A]">{benefit.title}</h3>
                                     <p className="text-[#21221C]/70 text-sm">{benefit.description}</p>
-                                </motion.div>
+                                </motion.article>
                             ))}
                         </div>
                     </motion.div>
@@ -252,7 +366,7 @@ const WarehousingDistribution = () => {
             </section>
 
             {/* Features Grid */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]">
+            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]" aria-labelledby="features-heading">
                 <div className="container mx-auto max-w-6xl">
                     <motion.div
                         initial="hidden"
@@ -261,6 +375,7 @@ const WarehousingDistribution = () => {
                         variants={containerVariants}
                     >
                         <motion.h2
+                            id="features-heading"
                             variants={itemVariants}
                             className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
                         >
@@ -269,21 +384,21 @@ const WarehousingDistribution = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             {features.map((feature, index) => (
-                                <motion.div
+                                <motion.article
                                     key={index}
                                     variants={itemVariants}
                                     className="bg-white rounded-xl p-6 border border-[#185EAA]/20"
                                 >
                                     <h3 className="font-bold text-xl mb-4 text-[#113C6A]">{feature.category}</h3>
-                                    <div className="space-y-3">
+                                    <ul className="space-y-3" role="list">
                                         {feature.items.map((item, itemIndex) => (
-                                            <div key={itemIndex} className="flex items-start">
-                                                <CheckCircle className="w-5 h-5 text-[#FF7729] mt-0.5 mr-3 flex-shrink-0" />
+                                            <li key={itemIndex} className="flex items-start">
+                                                <CheckCircle className="w-5 h-5 text-[#FF7729] mt-0.5 mr-3 flex-shrink-0" aria-hidden="true" />
                                                 <span className="text-[#21221C]/80 text-sm">{item}</span>
-                                            </div>
+                                            </li>
                                         ))}
-                                    </div>
-                                </motion.div>
+                                    </ul>
+                                </motion.article>
                             ))}
                         </div>
                     </motion.div>
@@ -291,7 +406,7 @@ const WarehousingDistribution = () => {
             </section>
 
             {/* Warehouse Locations */}
-            <section id="warehouse-locations" className="py-16 px-4 sm:px-6 lg:px-8">
+            <section id="warehouse-locations" className="py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="locations-heading">
                 <div className="container mx-auto max-w-6xl">
                     <motion.div
                         initial="hidden"
@@ -300,6 +415,7 @@ const WarehousingDistribution = () => {
                         variants={containerVariants}
                     >
                         <motion.h2
+                            id="locations-heading"
                             variants={itemVariants}
                             className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
                         >
@@ -312,10 +428,10 @@ const WarehousingDistribution = () => {
                         >
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {locations.map((location, index) => (
-                                    <div key={index} className="border border-[#185EAA]/10 rounded-lg p-4 hover:border-[#185EAA]/30 transition-all">
+                                    <article key={index} className="border border-[#185EAA]/10 rounded-lg p-4 hover:border-[#185EAA]/30 transition-all">
                                         <div className="flex items-start justify-between mb-2">
                                             <h3 className="font-bold text-lg text-[#113C6A]">{location.city}</h3>
-                                            <MapPin className="w-5 h-5 text-[#FF7729]" />
+                                            <MapPin className="w-5 h-5 text-[#FF7729]" aria-hidden="true" />
                                         </div>
                                         <p className="text-[#21221C]/80 text-sm mb-1">
                                             <strong>Area:</strong> {location.area}
@@ -323,7 +439,7 @@ const WarehousingDistribution = () => {
                                         <p className="text-[#21221C]/70 text-sm">
                                             <strong>Speciality:</strong> {location.speciality}
                                         </p>
-                                    </div>
+                                    </article>
                                 ))}
                             </div>
 
@@ -334,6 +450,7 @@ const WarehousingDistribution = () => {
                                 <Link
                                     to="/contact"
                                     className="inline-flex items-center text-[#185EAA] hover:text-[#FF7729] transition-colors"
+                                    aria-label="Find warehouse near your location"
                                 >
                                     Find warehouse near your location
                                     <ArrowRight className="ml-2 w-4 h-4" />
@@ -345,7 +462,7 @@ const WarehousingDistribution = () => {
             </section>
 
             {/* Process Flow */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]">
+            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]" aria-labelledby="process-heading">
                 <div className="container mx-auto max-w-6xl">
                     <motion.div
                         initial="hidden"
@@ -354,13 +471,14 @@ const WarehousingDistribution = () => {
                         variants={containerVariants}
                     >
                         <motion.h2
+                            id="process-heading"
                             variants={itemVariants}
                             className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
                         >
                             How Our Warehousing Works
                         </motion.h2>
 
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <ol className="grid grid-cols-1 md:grid-cols-4 gap-6">
                             {[
                                 {
                                     step: "1",
@@ -387,28 +505,28 @@ const WarehousingDistribution = () => {
                                     icon: Truck
                                 }
                             ].map((item, index) => (
-                                <motion.div
+                                <motion.li
                                     key={index}
                                     variants={itemVariants}
                                     className="bg-white rounded-xl p-6 border border-[#185EAA]/20 text-center hover:shadow-lg hover:shadow-[#185EAA]/10 transition-all"
                                 >
                                     <div className="w-16 h-16 bg-[#185EAA] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                                        {item.step}
+                                        <span aria-label={`Step ${item.step}`}>{item.step}</span>
                                     </div>
                                     <div className="w-12 h-12 bg-[#F8FFFF] rounded-lg flex items-center justify-center mx-auto mb-3">
-                                        <item.icon className="w-6 h-6 text-[#FF7729]" />
+                                        <item.icon className="w-6 h-6 text-[#FF7729]" aria-hidden="true" />
                                     </div>
                                     <h3 className="font-bold text-lg mb-2 text-[#113C6A]">{item.title}</h3>
                                     <p className="text-[#21221C]/70 text-sm">{item.description}</p>
-                                </motion.div>
+                                </motion.li>
                             ))}
-                        </div>
+                        </ol>
                     </motion.div>
                 </div>
             </section>
 
             {/* Technology Integration */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8">
+            <section className="py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="technology-heading">
                 <div className="container mx-auto max-w-6xl">
                     <motion.div
                         initial="hidden"
@@ -418,7 +536,7 @@ const WarehousingDistribution = () => {
                         className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
                     >
                         <motion.div variants={itemVariants}>
-                            <h2 className="text-3xl font-bold mb-6 text-[#113C6A]">
+                            <h2 id="technology-heading" className="text-3xl font-bold mb-6 text-[#113C6A]">
                                 Advanced Warehouse Technology
                             </h2>
                             <p className="text-[#21221C]/80 mb-8">
@@ -430,7 +548,7 @@ const WarehousingDistribution = () => {
                             <div className="space-y-4">
                                 <div className="flex items-start">
                                     <div className="w-8 h-8 bg-[#F8FFFF] rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                                        <Database className="w-4 h-4 text-[#185EAA]" />
+                                        <Database className="w-4 h-4 text-[#185EAA]" aria-hidden="true" />
                                     </div>
                                     <div>
                                         <h4 className="font-semibold text-[#113C6A] mb-1">Real-time Inventory</h4>
@@ -440,7 +558,7 @@ const WarehousingDistribution = () => {
 
                                 <div className="flex items-start">
                                     <div className="w-8 h-8 bg-[#F8FFFF] rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                                        <BarChart3 className="w-4 h-4 text-[#185EAA]" />
+                                        <BarChart3 className="w-4 h-4 text-[#185EAA]" aria-hidden="true" />
                                     </div>
                                     <div>
                                         <h4 className="font-semibold text-[#113C6A] mb-1">Analytics Dashboard</h4>
@@ -450,7 +568,7 @@ const WarehousingDistribution = () => {
 
                                 <div className="flex items-start">
                                     <div className="w-8 h-8 bg-[#F8FFFF] rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                                        <Zap className="w-4 h-4 text-[#185EAA]" />
+                                        <Zap className="w-4 h-4 text-[#185EAA]" aria-hidden="true" />
                                     </div>
                                     <div>
                                         <h4 className="font-semibold text-[#113C6A] mb-1">API Integration</h4>
@@ -463,12 +581,13 @@ const WarehousingDistribution = () => {
                         <motion.div variants={itemVariants} className="relative">
                             <img
                                 src="/lovable-uploads/c30e0487-2fa0-41d1-9a0b-699cb2855388.png"
-                                alt="Modern Warehouse Technology"
-                                className="rounded-xl shadow-lg"
+                                alt="BLI modern warehouse technology and WMS system"
+                                className="rounded-xl shadow-lg w-full"
+                                loading="lazy"
                             />
-                            <div className="absolute -bottom-6 -right-6 bg-[#FF7729] text-white p-4 rounded-lg shadow-lg">
-                                <p className="text-2xl font-bold">99.9%</p>
-                                <p className="text-sm">Inventory Accuracy</p>
+                            <div className="absolute -bottom-4 -right-4 sm:-bottom-6 sm:-right-6 bg-[#FF7729] text-white p-3 sm:p-4 rounded-lg shadow-lg">
+                                <p className="text-xl sm:text-2xl font-bold">99.9%</p>
+                                <p className="text-xs sm:text-sm">Inventory Accuracy</p>
                             </div>
                         </motion.div>
                     </motion.div>
@@ -476,7 +595,7 @@ const WarehousingDistribution = () => {
             </section>
 
             {/* Pricing Section */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]">
+            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]" aria-labelledby="pricing-heading">
                 <div className="container mx-auto max-w-6xl">
                     <motion.div
                         initial="hidden"
@@ -485,6 +604,7 @@ const WarehousingDistribution = () => {
                         variants={containerVariants}
                     >
                         <motion.h2
+                            id="pricing-heading"
                             variants={itemVariants}
                             className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
                         >
@@ -512,7 +632,7 @@ const WarehousingDistribution = () => {
                                     highlight: false
                                 }
                             ].map((plan, index) => (
-                                <motion.div
+                                <motion.article
                                     key={index}
                                     variants={itemVariants}
                                     className={`rounded-xl p-6 border-2 ${plan.highlight
@@ -527,23 +647,44 @@ const WarehousingDistribution = () => {
                                     )}
                                     <h3 className="font-bold text-xl mb-2 text-[#113C6A]">{plan.title}</h3>
                                     <p className="text-[#21221C]/70 mb-4">{plan.description}</p>
-                                    <ul className="space-y-2">
+                                    <ul className="space-y-2" role="list">
                                         {plan.features.map((feature, featureIndex) => (
                                             <li key={featureIndex} className="flex items-center text-sm">
-                                                <CheckCircle className="w-4 h-4 text-[#FF7729] mr-2 flex-shrink-0" />
+                                                <CheckCircle className="w-4 h-4 text-[#FF7729] mr-2 flex-shrink-0" aria-hidden="true" />
                                                 <span className="text-[#21221C]/80">{feature}</span>
                                             </li>
                                         ))}
                                     </ul>
-                                </motion.div>
+                                </motion.article>
                             ))}
                         </div>
                     </motion.div>
                 </div>
             </section>
 
+            {/* Hidden FAQ Section for SEO */}
+            <section className="sr-only" aria-label="Frequently Asked Questions">
+                <h2>Frequently Asked Questions about Warehousing Services</h2>
+                <dl>
+                    <dt>What warehousing services does BLI offer?</dt>
+                    <dd>BLI offers strategic storage, inventory management, distribution network, demand planning, value-added services, and risk management across 15M+ sq ft warehouse space.</dd>
+
+                    <dt>How many warehouse locations does BLI have?</dt>
+                    <dd>BLI operates 30+ warehouse locations across India including Mumbai, Delhi NCR, Bangalore, Chennai, Pune, and Ahmedabad with specialized facilities.</dd>
+
+                    <dt>What is BLI's inventory accuracy rate?</dt>
+                    <dd>BLI maintains 99.9% inventory accuracy through advanced WMS, barcode & RFID tracking, and real-time monitoring systems.</dd>
+
+                    <dt>What types of storage facilities does BLI provide?</dt>
+                    <dd>BLI provides ambient & temperature-controlled storage, hazmat certified facilities, bulk & rack storage options, and cross-docking capabilities.</dd>
+
+                    <dt>How much can I save with BLI warehousing services?</dt>
+                    <dd>Businesses typically achieve 40% cost savings by eliminating warehouse infrastructure investment and leveraging BLI's economies of scale.</dd>
+                </dl>
+            </section>
+
             {/* CTA Section */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#113C6A]">
+            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#FFFDF7] to-[#113C6A] text-[#FFFDF7]" aria-labelledby="warehousing-cta">
                 <div className="container mx-auto max-w-4xl text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -551,26 +692,28 @@ const WarehousingDistribution = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h2 className="text-3xl font-bold mb-4 text-[#F8FFFF]">
+                        <h2 id="warehousing-cta" className="text-3xl font-bold mb-4 text-[#113C6A]">
                             Ready to Optimize Your Storage?
                         </h2>
-                        <p className="text-[#F8FFFF]/90 mb-8 text-lg">
+                        <p className="text-[#000]/90 mb-8 text-lg">
                             Get a custom warehousing solution tailored to your business needs.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                             <Link
                                 to="/contact"
-                                className="inline-flex items-center px-8 py-3 bg-[#FF7729] text-white rounded hover:bg-[#e56721] transition-all group"
+                                aria-label="Request warehouse tour"
+                                className="inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3 bg-[#FF7729] text-white rounded hover:bg-[#e56721] transition-all group text-sm sm:text-base"
                             >
-                                Request Warehouse Tour
-                                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                <span>Request Warehouse Tour</span>
+                                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform flex-shrink-0" />
                             </Link>
                             <a
-                                href="tel:+911234567890"
-                                className="inline-flex items-center px-8 py-3 bg-transparent border-2 border-[#F8FFFF] text-[#F8FFFF] rounded hover:bg-[#F8FFFF] hover:text-[#113C6A] transition-all"
+                                href="tel:+919687448434"
+                                aria-label="Speak with warehousing expert"
+                                className="inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3 bg-transparent border-2 border-[#F8FFFF] text-[#F8FFFF] rounded hover:bg-[#F8FFFF] hover:text-[#113C6A] transition-all text-sm sm:text-base"
                             >
-                                <Users className="mr-2 w-4 h-4" />
-                                Speak with Expert
+                                <Users className="mr-2 w-4 h-4 flex-shrink-0" />
+                                <span>Speak with Expert</span>
                             </a>
                         </div>
 
@@ -578,22 +721,30 @@ const WarehousingDistribution = () => {
                         <div className="mt-12 pt-12 border-t border-[#F8FFFF]/20">
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                                 <div>
-                                    <p className="text-3xl font-bold text-[#FF7729]">15M+</p>
-                                    <p className="text-[#F8FFFF]/80 mt-1">Sq Ft Storage</p>
+                                    <p className="text-3xl sm:text-4xl font-bold text-[#FF7729]">15M+</p>
+                                    <p className="text-[#000]/80 mt-1">Sq Ft Storage</p>
                                 </div>
                                 <div>
-                                    <p className="text-3xl font-bold text-[#FF7729]">30+</p>
-                                    <p className="text-[#F8FFFF]/80 mt-1">Warehouse Locations</p>
+                                    <p className="text-3xl sm:text-4xl font-bold text-[#FF7729]">30+</p>
+                                    <p className="text-[#000]/80 mt-1">Warehouse Locations</p>
                                 </div>
                                 <div>
-                                    <p className="text-3xl font-bold text-[#FF7729]">99.9%</p>
-                                    <p className="text-[#F8FFFF]/80 mt-1">Inventory Accuracy</p>
+                                    <p className="text-3xl sm:text-4xl font-bold text-[#FF7729]">99.9%</p>
+                                    <p className="text-[#000]/80 mt-1">Inventory Accuracy</p>
                                 </div>
                                 <div>
-                                    <p className="text-3xl font-bold text-[#FF7729]">24/7</p>
-                                    <p className="text-[#F8FFFF]/80 mt-1">Operations</p>
+                                    <p className="text-3xl sm:text-4xl font-bold text-[#FF7729]">24/7</p>
+                                    <p className="text-[#000]/80 mt-1">Operations</p>
                                 </div>
                             </div>
+                        </div>
+
+                        {/* Additional Contact Info */}
+                        <div className="mt-8 text-[#000]/80">
+                            <p className="text-sm">Need immediate assistance?</p>
+                            <a href="tel:+919687448434" className="text-xl font-bold text-[#113C6A] hover:text-[#FF7729] transition-colors">
+                                +91-968 744 8434
+                            </a>
                         </div>
                     </motion.div>
                 </div>

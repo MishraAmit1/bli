@@ -1,9 +1,9 @@
-import { ArrowLeft, CheckCircle, ArrowRight, Truck, Users, Globe, Award, Package, Clock, Shield, Target, MapPin, Zap, Headphones, Heart, TrendingUp, Calendar } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Truck, Users, Globe, Award, Package, Clock, Shield, Target, Zap, Heart, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
 import { useEffect } from 'react';
 import PageLayout from '@/components/PageLayout';
-import { Card, CardContent } from "@/components/ui/card";
+import { Helmet } from 'react-helmet-async';
 
 const About = () => {
   // Scroll to top on mount
@@ -18,7 +18,6 @@ const About = () => {
       transition: { staggerChildren: 0.15, delayChildren: 0.3, duration: 0.8 },
     },
   };
-
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1, transition: { duration: 0.6 } },
@@ -29,23 +28,75 @@ const About = () => {
     visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
   };
 
+  // Structured Data for About Page
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "BLI - Bansal Logistics of India",
+      "alternateName": "BLI Rapid",
+      "description": "For over 25 years, BLI has been a trusted logistics partner in India, specializing in FTL, PTL, 3PL, and warehousing solutions with pan-India coverage.",
+      "foundingDate": "1999",
+      "founder": {
+        "@type": "Person",
+        "name": "Founder of BLI"
+      },
+      "numberOfEmployees": {
+        "@type": "QuantitativeValue",
+        "value": "500+"
+      },
+      "areaServed": "India",
+      "slogan": "Big Enough to Move the World. Small Enough to Care.",
+      "knowsAbout": ["Logistics", "Transportation", "Supply Chain", "Warehousing", "3PL", "FTL", "PTL"],
+      "award": "25+ Years of Excellence in Logistics"
+    }
+  };
+
   return (
     <PageLayout>
+      <Helmet>
+        <title>About BLI - 25+ Years of Logistics Excellence | Bansal Logistics of India</title>
+        <meta name="description" content="Learn about BLI's 25+ year journey in logistics. From humble beginnings to pan-India coverage with 500+ vehicles, 15+ hubs serving diverse industries." />
+        <meta name="keywords" content="about BLI, bansal logistics history, logistics company india, BLI rapid story, logistics legacy, pan india logistics network" />
+
+        {/* Open Graph */}
+        <meta property="og:title" content="About BLI - Your Trusted Logistics Partner Since 1999" />
+        <meta property="og:description" content="Discover BLI's journey from regional transport to pan-India logistics leader. 25+ years, 500+ vehicles, 15+ hubs." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.blirapid.com/about" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="About BLI - 25+ Years of Logistics Excellence" />
+        <meta name="twitter:description" content="From 1999 to today: BLI's journey of becoming India's trusted logistics partner" />
+
+        {/* Canonical URL */}
+        <link rel="canonical" href="https://www.blirapid.com/about" />
+
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
+      </Helmet>
+
       {/* Hero Section */}
-      <section className="relative bg-[#113C6A] pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-[#113C6A] pt-8 sm:pt-10 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-gradient-to-b from-[#113C6A]/90 to-[#185EAA]/80" />
         <div className="container mx-auto relative z-10">
           <div className="max-w-6xl mx-auto">
-            <Link to="/" className="inline-flex items-center text-[#F8FFFF]/80 hover:text-[#F8FFFF] mb-6 transition-colors">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
-            </Link>
+            <nav aria-label="Breadcrumb" className="mb-4 sm:mb-6">
+              <Link to="/" className="inline-flex items-center text-[#F8FFFF]/80 hover:text-[#F8FFFF] transition-colors text-sm sm:text-base">
+                <ArrowLeft className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                Back to Home
+              </Link>
+            </nav>
 
             <motion.h1
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-4xl md:text-5xl font-bold mb-6 text-[#F8FFFF]"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 md:mb-6 text-[#F8FFFF]"
             >
               About BLI Rapid
             </motion.h1>
@@ -54,7 +105,7 @@ const About = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-2xl md:text-3xl font-semibold mb-4 text-[#F8FFFF]/90"
+              className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold mb-2 sm:mb-3 md:mb-4 text-[#F8FFFF]/90"
             >
               Built on Legacy. Designed for the Future.
             </motion.h2>
@@ -63,9 +114,8 @@ const About = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="text-xl text-[#F8FFFF]/90 max-w-3xl"
+              className="text-sm sm:text-base md:text-[15px] text-[#F8FFFF]/90 max-w-3xl leading-relaxed"
             >
-
               With BLI Rapid as our digital identity, we combine our trusted legacy with a future-ready
               approach — delivering scalable, dependable, and responsive logistics.
             </motion.p>
@@ -74,14 +124,15 @@ const About = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="mt-8"
+              className="mt-6 sm:mt-8"
             >
               <Link
                 to="/contact"
-                className="inline-flex items-center px-8 py-3 bg-[#FF7729] text-white rounded hover:bg-[#e56721] transition-all group"
+                className="inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3 bg-[#FF7729] text-white rounded hover:bg-[#e56721] transition-all group text-sm sm:text-base"
+                aria-label="Partner with BLI"
               >
-                Partner with Us
-                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <span>Partner with Us</span>
+                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform flex-shrink-0" />
               </Link>
             </motion.div>
           </div>
@@ -89,7 +140,7 @@ const About = () => {
       </section>
 
       {/* Who We Are Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+      <section className="py-16 sm:px-6 lg:px-8" aria-labelledby="who-we-are">
         <div className="container mx-auto max-w-6xl">
           <motion.div
             initial="hidden"
@@ -99,6 +150,7 @@ const About = () => {
             className="mb-20"
           >
             <motion.h2
+              id="who-we-are"
               variants={itemVariants}
               className="text-3xl font-bold mb-8 text-[#113C6A] text-center"
             >
@@ -120,8 +172,9 @@ const About = () => {
               <div className="relative flex flex-col justify-center">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO07XvuDlBGoDScqaVyQpK78SRr4ZbDP4O3X8U5CBzy9aNLmfb&s"
-                  alt="BLI Logistics Operations"
+                  alt="BLI Logistics warehouse and transportation operations"
                   className="rounded-xl shadow-lg w-full h-auto"
+                  loading="lazy"
                 />
                 <div className="absolute -bottom-6 -right-6 bg-[#FF7729] text-white p-4 rounded-lg shadow-lg">
                   <p className="text-2xl font-bold">25+</p>
@@ -131,7 +184,7 @@ const About = () => {
             </motion.div>
           </motion.div>
 
-          {/* Mission, Vision & Values - MOVED UP */}
+          {/* Mission, Vision & Values */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -143,7 +196,7 @@ const About = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
               <motion.div variants={itemVariants} className="text-center">
                 <div className="flex items-center justify-center mb-4">
-                  <Target className="w-10 h-10 text-[#FF7729] mr-3" />
+                  <Target className="w-10 h-10 text-[#FF7729] mr-3" aria-hidden="true" />
                   <h2 className="text-3xl font-bold text-[#113C6A]">Our Mission</h2>
                 </div>
                 <p className="text-[#21221C]/80 leading-relaxed">
@@ -154,7 +207,7 @@ const About = () => {
 
               <motion.div variants={itemVariants} className="text-center">
                 <div className="flex items-center justify-center mb-4">
-                  <Globe className="w-10 h-10 text-[#185EAA] mr-3" />
+                  <Globe className="w-10 h-10 text-[#185EAA] mr-3" aria-hidden="true" />
                   <h2 className="text-3xl font-bold text-[#113C6A]">Our Vision</h2>
                 </div>
                 <p className="text-[#21221C]/80 leading-relaxed">
@@ -200,38 +253,39 @@ const About = () => {
                     color: "text-[#185EAA]"
                   }
                 ].map((value, i) => (
-                  <div key={i} className="text-center p-6 bg-[#F8FFFF] rounded-lg border border-[#185EAA]/10 hover:shadow-md transition-all">
+                  <article key={i} className="text-center p-6 bg-[#F8FFFF] rounded-lg border border-[#185EAA]/10 hover:shadow-md transition-all">
                     <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
-                      <value.icon className={`w-8 h-8 ${value.color}`} />
+                      <value.icon className={`w-8 h-8 ${value.color}`} aria-hidden="true" />
                     </div>
                     <h3 className={`font-bold text-lg mb-2 ${value.color}`}>{value.title}</h3>
                     <p className="text-[#21221C]/70 text-sm">{value.description}</p>
-                  </div>
+                  </article>
                 ))}
               </div>
             </motion.div>
           </motion.div>
 
-          {/* Our Journey Timeline - NOW AFTER MISSION/VISION/VALUES */}
+          {/* Our Journey Timeline */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={containerVariants}
             className="mb-20"
+            aria-labelledby="our-journey"
           >
             <motion.h2
+              id="our-journey"
               variants={itemVariants}
               className="text-3xl font-bold mb-12 text-[#113C6A] text-center"
             >
               Our Journey
             </motion.h2>
-
-            <div className="relative">
+            <div className="relative" role="list">
               {/* Timeline line */}
-              <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-1 bg-[#185EAA]/20 transform md:translate-x-[-50%] hidden sm:block"></div>
+              <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-1 bg-[#185EAA]/20 transform md:translate-x-[-50%] hidden sm:block" aria-hidden="true"></div>
 
-              <div className="space-y-12">
+              <div className="md:-space-y-12 space-y-2">
                 {[
                   {
                     year: "1999",
@@ -274,20 +328,21 @@ const About = () => {
                     description: "Evolving with the times, we introduced BLI Rapid — a new-age digital logistics identity designed for speed, scale, and reliability, built on the strong legacy of BLI."
                   }
                 ].map((milestone, index) => (
-                  <motion.div
+                  <motion.article
                     key={index}
+                    role="listitem"
                     variants={itemVariants}
                     className={`relative flex flex-col md:flex-row ${index % 2 === 0 ? 'md:flex-row-reverse' : ''} items-center`}
                   >
                     {/* Timeline dot */}
-                    <div className="absolute left-0 md:left-1/2 w-6 h-6 bg-[#FF7729] rounded-full transform translate-x-[-50%] z-10 hidden sm:block"></div>
+                    <div className="absolute left-0 md:left-1/2 w-6 h-6 bg-[#FF7729] rounded-full transform translate-x-[-50%] z-10 hidden sm:block" aria-hidden="true"></div>
 
                     {/* Content */}
                     <div className={`md:w-1/2 ${index % 2 === 0 ? 'md:pl-12' : 'md:pr-12'} pl-10 sm:pl-0`}>
                       <div className="bg-white p-6 rounded-lg shadow-sm border border-[#185EAA]/10 hover:shadow-md transition-all">
                         <div className="flex items-center mb-3">
-                          <Calendar className="w-5 h-5 text-[#FF7729] mr-2" />
-                          <span className="text-lg font-bold text-[#FF7729]">{milestone.year}</span>
+                          <Calendar className="w-5 h-5 text-[#FF7729] mr-2" aria-hidden="true" />
+                          <time className="text-lg font-bold text-[#FF7729]">{milestone.year}</time>
                         </div>
                         <h3 className="text-xl font-bold mb-2 text-[#113C6A]">{milestone.title}</h3>
                         <p className="text-[#21221C]/70">{milestone.description}</p>
@@ -295,50 +350,48 @@ const About = () => {
                     </div>
 
                     {/* Mobile timeline dot and line */}
-                    <div className="absolute left-0 top-0 bottom-0 flex flex-col items-center sm:hidden">
+                    <div className="absolute left-0 top-0 bottom-0 flex flex-col items-center sm:hidden" aria-hidden="true">
                       <div className="w-4 h-4 bg-[#FF7729] rounded-full z-10"></div>
                       <div className="w-0.5 h-full bg-[#185EAA]/20 -mt-2"></div>
                     </div>
-                  </motion.div>
+                  </motion.article>
                 ))}
               </div>
             </div>
-
             <motion.div
               variants={itemVariants}
-              className="text-center mt-12 p-6 bg-[#F8FFFF] rounded-lg border border-[#185EAA]/10"
+              className="text-center mt-12 md:p-6 p-3 bg-[#F8FFFF] rounded-lg border border-[#185EAA]/10"
             >
-              <p className="text-xl italic text-[#113C6A]">
+              <p className="md:text-xl text=[17px] italic text-[#113C6A]">
                 "Big Enough to Move the World. Small Enough to Care."
               </p>
             </motion.div>
           </motion.div>
-
           {/* Our Leadership */}
-          <motion.div
+          <motion.section
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={containerVariants}
             className="mb-20"
+            aria-labelledby="leadership"
           >
             <motion.h2
+              id="leadership"
               variants={itemVariants}
               className="text-3xl font-bold mb-12 text-[#113C6A] text-center"
             >
               Our Leadership
             </motion.h2>
-
             <motion.div variants={itemVariants}>
               <p className="text-center text-[#21221C]/80 mb-12 max-w-3xl mx-auto">
                 At the core of BLI's success lies a leadership that blends experience, vision, and innovation.
               </p>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="bg-white p-8 rounded-xl shadow-sm border border-[#185EAA]/10 hover:shadow-md transition-all">
+                <article className="bg-white md:p-8 p-4 rounded-xl shadow-sm border border-[#185EAA]/10 hover:shadow-md transition-all">
                   <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                     <div className="w-32 h-32 bg-[#185EAA]/10 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Users className="w-16 h-16 text-[#185EAA]" />
+                      <Users className="w-16 h-16 text-[#185EAA]" aria-hidden="true" />
                     </div>
                     <div>
                       <h3 className="text-xl font-bold mb-2 text-[#113C6A] text-center sm:text-left">Mr. [Founder's Name]</h3>
@@ -348,12 +401,11 @@ const About = () => {
                       </p>
                     </div>
                   </div>
-                </div>
-
-                <div className="bg-white p-8 rounded-xl shadow-sm border border-[#185EAA]/10 hover:shadow-md transition-all">
+                </article>
+                <article className="bg-white md:p-8 p-4 rounded-xl shadow-sm border border-[#185EAA]/10 hover:shadow-md transition-all">
                   <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                     <div className="w-32 h-32 bg-[#185EAA]/10 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Users className="w-16 h-16 text-[#185EAA]" />
+                      <Users className="w-16 h-16 text-[#185EAA]" aria-hidden="true" />
                     </div>
                     <div>
                       <h3 className="text-xl font-bold mb-2 text-[#113C6A] text-center sm:text-left">Mr. Prince Bansal</h3>
@@ -363,20 +415,21 @@ const About = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </article>
               </div>
             </motion.div>
-          </motion.div>
-
+          </motion.section>
           {/* Why Choose Us */}
-          <motion.div
+          <motion.section
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={containerVariants}
             className="mb-20"
+            aria-labelledby="why-choose-us"
           >
             <motion.h2
+              id="why-choose-us"
               variants={itemVariants}
               className="text-3xl font-bold mb-12 text-[#113C6A] text-center"
             >
@@ -416,38 +469,38 @@ const About = () => {
                   description: "Faster vehicle turnaround, 3PL readiness, and real-time visibility."
                 }
               ].map((item, index) => (
-                <motion.div
+                <motion.article
                   key={index}
                   variants={itemVariants}
                   className="bg-white p-6 rounded-lg shadow-sm border border-[#185EAA]/10 hover:shadow-md transition-all"
                 >
                   <div className="w-12 h-12 bg-[#F8FFFF] rounded-lg flex items-center justify-center mb-4">
-                    <item.icon className="w-6 h-6 text-[#FF7729]" />
+                    <item.icon className="w-6 h-6 text-[#FF7729]" aria-hidden="true" />
                   </div>
                   <h3 className="font-bold text-lg mb-2 text-[#113C6A]">{item.title}</h3>
                   <p className="text-[#21221C]/70">{item.description}</p>
-                </motion.div>
+                </motion.article>
               ))}
             </div>
-          </motion.div>
-
+          </motion.section>
           {/* Scale & Capabilities - Stats Style */}
-          <motion.div
+          <motion.section
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="mb-20"
+            aria-labelledby="scale-capabilities"
           >
             <div className="bg-white rounded-xl border border-[#185EAA]/20 shadow-sm p-10">
               <div className="text-center mb-10">
-                <h2 className="text-3xl font-bold text-[#113C6A] mb-4">Our Scale & Capabilities</h2>
+                <h2 id="scale-capabilities" className="md:text-3xl text-2xl font-bold text-[#113C6A] mb-4">Our Scale & Capabilities</h2>
                 <p className="text-[#21221C]/70 max-w-2xl mx-auto">
                   Comprehensive logistics infrastructure designed to scale with your business needs
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
                 {[
                   { number: "500+", label: "Verified Vehicles", description: "From Tata Ace to heavy trailers" },
                   { number: "15+", label: "Key Hubs Nationwide", description: "Strategic locations across India" },
@@ -455,22 +508,22 @@ const About = () => {
                   { number: "24/7", label: "Operations", description: "Rail & Air connectivity" }
                 ].map((stat, i) => (
                   <div key={i} className="flex flex-col items-center">
-                    <div className="text-4xl font-bold text-[#FF7729] mb-2">{stat.number}</div>
-                    <div className="text-lg font-semibold text-[#113C6A] mb-1">{stat.label}</div>
+                    <div className="md:text-4xl text-2xl font-bold text-[#FF7729] mb-2">{stat.number}</div>
+                    <div className="md:text-lg text-base font-semibold text-[#113C6A] mb-1">{stat.label}</div>
                     <p className="text-sm text-[#21221C]/70">{stat.description}</p>
                   </div>
                 ))}
               </div>
             </div>
-          </motion.div>
+          </motion.section>
 
           {/* Quote Section */}
-          <motion.div
+          <motion.section
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="mb-20 bg-[#113C6A] rounded-xl p-12 text-center"
+            className="mb-20 bg-[#113C6A] rounded-xl md:p-12 p-6 text-center"
           >
             <blockquote className="text-xl md:text-2xl text-[#F8FFFF] italic mb-6">
               "At BLI, we don't just transport goods — we carry responsibility.
@@ -480,39 +533,40 @@ const About = () => {
             <p className="text-lg text-[#F8FFFF]/80 font-semibold">
               Big Enough to Move the World. Small Enough to Care.
             </p>
-          </motion.div>
-
+          </motion.section>
           {/* CTA Section */}
-          <motion.div
+          <motion.section
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="text-center bg-[#F8FFFF] rounded-xl p-12 border border-[#185EAA]/20"
+            aria-labelledby="cta-heading"
           >
-            <h2 className="text-3xl font-bold mb-4 text-[#113C6A]">Partner with BLI Today</h2>
+            <h2 id="cta-heading" className="md:text-3xl text-2xl font-bold mb-4 text-[#113C6A]">Partner with BLI Today</h2>
             <p className="text-[#21221C]/80 mb-8 max-w-2xl mx-auto">
               Experience logistics that are fast, scalable, and built on trust.
               Join thousands of businesses who rely on our proven expertise.
             </p>
-
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Link
                 to="/contact"
-                className="inline-flex items-center px-8 py-3 bg-[#FF7729] text-white rounded hover:bg-[#e56721] transition-all group"
+                className="inline-flex items-center md:px-8 px-2 py-3 bg-[#FF7729] text-white rounded hover:bg-[#e56721] transition-all group"
+                aria-label="Get in touch with BLI"
               >
                 Get in Touch
-                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 to="/services"
-                className="inline-flex items-center px-8 py-3 bg-[#185EAA] text-white rounded hover:bg-[#113C6A] transition-all group"
+                className="inline-flex items-center md:px-8 py-3 bg-[#185EAA] text-white rounded hover:bg-[#113C6A] transition-all group"
+                aria-label="View BLI services"
               >
                 View Our Services
-                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
-          </motion.div>
+          </motion.section>
         </div>
       </section>
     </PageLayout>
