@@ -134,10 +134,6 @@ const Navbar = () => {
 
   return (
     <>
-      {/* SEO: Skip navigation link for accessibility */}
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-[#FF7300] text-white px-4 py-2 rounded z-50">
-        Skip to main content
-      </a>
       <nav
         className={cn(
           "fixed top-0 left-0 right-0 z-[100] transition-all duration-300 w-full",

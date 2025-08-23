@@ -506,7 +506,7 @@ const Blogs = () => {
                                         {popularPosts.map((post, index) => (
                                             <li key={index} className="pb-3 border-b border-[#185EAA]/10 last:border-b-0">
                                                 <Link
-                                                    to="#"
+                                                    to="/resources/blogs"
                                                     className="text-xs sm:text-sm font-medium text-[#21221C] hover:text-[#FF7729] transition-colors leading-tight block"
                                                 >
                                                     {post}

@@ -18,7 +18,6 @@ export default defineConfig(({ mode }) => ({
           vendor: ['react', 'react-dom', 'react-router-dom'],
           features: ['./src/components/Features'],
           home: ['./src/pages/Index'],
-          contact: ['./src/pages/Contact'],
           services: ['./src/pages/Services'],
           airCargoServices: ['./src/pages/AirCargoServices'],
           LocalRegionalDispatch: ['./src/pages/LocalRegionalDispatch'],

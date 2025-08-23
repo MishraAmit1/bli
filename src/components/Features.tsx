@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState, memo, useCallback } from 'react';
 import { motion, useInView } from "framer-motion";
 import {
-  Activity, Shield, HardHat, Zap, ArrowRight,
-  Box, Code, CheckCircle, Rocket, Microchip,
+  Shield, HardHat, Zap, ArrowRight,
+  Box, Code, CheckCircle, Rocket,
   Handshake, RefreshCcw, MessageSquare,
-  ArrowLeft,
   ChevronRight,
   ChevronLeft,
   Cpu,
@@ -26,7 +25,6 @@ import { useScrollHijack } from '@/hooks/useScrollHijack';
 import Autoplay from "embla-carousel-autoplay";
 import { AnimatedTruck } from './AnimatedTruck';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from './ui/hover-card';
-import { Helmet } from 'react-helmet-async';
 
 // Animation variants
 const itemVariants = {
@@ -90,10 +88,12 @@ const FeatureCard = memo(({ feature, index }: { feature: any, index: number }) =
         <Link
           to={feature.link}
           className="flex items-center text-[#FF7729] text-sm font-medium hover:underline"
-          aria-label={`Learn more about ${feature.title}`}
         >
-          Read More <ArrowRight className="ml-1 w-4 h-4" />
+          Read More
+          <span className="sr-only"> about {feature.title}</span>
+          <ArrowRight className="ml-1 w-4 h-4" />
         </Link>
+
       </div>
     </div>
   </div>
@@ -393,37 +393,8 @@ const Features = () => {
         "Final-mile completion with proof of delivery, scan-based closure, and feedback loop for continuous improvement."
     }
   ];
-
-  // Schema.org structured data for SEO
-  const servicesSchema = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    "itemListElement": features.map((feature, index) => ({
-      "@type": "ListItem",
-      "position": index + 1,
-      "item": {
-        "@type": "Service",
-        "name": feature.title,
-        "description": feature.description,
-        "url": `https://blirapid.com${feature.link}`,
-        "provider": {
-          "@type": "Organization",
-          "name": "BLI - Bansal Logistics of India"
-        },
-        "image": `https://blirapid.com${feature.image}`
-      }
-    }))
-  };
-
   return (
     <>
-      {/* SEO Structured Data */}
-      <Helmet>
-        <script type="application/ld+json">
-          {JSON.stringify(servicesSchema)}
-        </script>
-      </Helmet>
-
       {/* Services Section */}
       <section
         id="features"
