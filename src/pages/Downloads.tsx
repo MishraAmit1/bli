@@ -228,7 +228,7 @@ const Downloads = () => {
         "provider": {
             "@type": "Organization",
             "name": "BLI - Bansal Logistics of India",
-            "url": "https://www.blirapid.com"
+            "url": "https://blirapid.com"
         },
         "mainEntity": {
             "@type": "ItemList",
@@ -240,8 +240,8 @@ const Downloads = () => {
                 "description": item.description,
                 "encodingFormat": "application/pdf",
                 "contentSize": item.size,
-                "url": `https://www.blirapid.com${item.url}`,
-                "downloadUrl": `https://www.blirapid.com${item.url}`,
+                "url": `https://blirapid.com${item.url}`,
+                "downloadUrl": `https://blirapid.com${item.url}`,
                 "category": item.category
             }))
         }
@@ -256,19 +256,19 @@ const Downloads = () => {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://www.blirapid.com"
+                "item": "https://blirapid.com"
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Resources",
-                "item": "https://www.blirapid.com/resources"
+                "item": "https://blirapid.com/resources"
             },
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": "Downloads",
-                "item": "https://www.blirapid.com/resources/downloads"
+                "item": "https://blirapid.com/resources/downloads"
             }
         ]
     };
@@ -284,8 +284,8 @@ const Downloads = () => {
                 <meta property="og:title" content="Logistics Resource Downloads - Free Company Profiles & Brochures | BLI" />
                 <meta property="og:description" content="Access comprehensive logistics documentation including company profiles, fleet capabilities, warehouse infrastructure, and compliance documents. Free PDF downloads." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://www.blirapid.com/resources/downloads" />
-                <meta property="og:image" content="https://www.blirapid.com/logistics-resources-downloads.jpg" />
+                <meta property="og:url" content="https://blirapid.com/resources/downloads" />
+                <meta property="og:image" content="https://blirapid.com/logistics-resources-downloads.jpg" />
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -293,7 +293,7 @@ const Downloads = () => {
                 <meta name="twitter:description" content="Download logistics company profiles, service brochures, and capability documents." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://www.blirapid.com/resources/downloads" />
+                <link rel="canonical" href="https://blirapid.com/resources/downloads" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

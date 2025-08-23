@@ -278,7 +278,7 @@ const Industries = () => {
         "@type": "Service",
         "name": project.title,
         "description": project.description,
-        "url": `https://www.blirapid.com${project.link}`,
+        "url": `https://blirapid.com${project.link}`,
         "provider": {
           "@type": "Organization",
           "name": "BLI - Bansal Logistics of India"

@@ -292,7 +292,7 @@ const BlogPost = () => {
         "@type": "BlogPosting",
         "headline": currentPost.title,
         "description": currentPost.metaDescription || currentPost.excerpt,
-        "image": `https://www.blirapid.com${currentPost.image}`,
+        "image": `https://blirapid.com${currentPost.image}`,
         "datePublished": currentPost.dateISO,
         "dateModified": currentPost.dateISO,
         "author": {
@@ -305,12 +305,12 @@ const BlogPost = () => {
             "name": "BLI - Bansal Logistics of India",
             "logo": {
                 "@type": "ImageObject",
-                "url": "https://www.blirapid.com/logo.png"
+                "url": "https://blirapid.com/logo.png"
             }
         },
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": `https://www.blirapid.com/resources/blogs/${slug}`
+            "@id": `https://blirapid.com/resources/blogs/${slug}`
         },
         "articleSection": currentPost.category,
         "keywords": currentPost.keywords
@@ -325,25 +325,25 @@ const BlogPost = () => {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://www.blirapid.com"
+                "item": "https://blirapid.com"
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Resources",
-                "item": "https://www.blirapid.com/resources"
+                "item": "https://blirapid.com/resources"
             },
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": "Blogs",
-                "item": "https://www.blirapid.com/resources/blogs"
+                "item": "https://blirapid.com/resources/blogs"
             },
             {
                 "@type": "ListItem",
                 "position": 4,
                 "name": currentPost.title,
-                "item": `https://www.blirapid.com/resources/blogs/${slug}`
+                "item": `https://blirapid.com/resources/blogs/${slug}`
             }
         ]
     };
@@ -359,8 +359,8 @@ const BlogPost = () => {
                 <meta property="og:title" content={currentPost.title} />
                 <meta property="og:description" content={currentPost.metaDescription || currentPost.excerpt} />
                 <meta property="og:type" content="article" />
-                <meta property="og:url" content={`https://www.blirapid.com/resources/blogs/${slug}`} />
-                <meta property="og:image" content={`https://www.blirapid.com${currentPost.image}`} />
+                <meta property="og:url" content={`https://blirapid.com/resources/blogs/${slug}`} />
+                <meta property="og:image" content={`https://blirapid.com${currentPost.image}`} />
                 <meta property="article:published_time" content={currentPost.dateISO} />
                 <meta property="article:author" content={currentPost.author} />
                 <meta property="article:section" content={currentPost.category} />
@@ -369,10 +369,10 @@ const BlogPost = () => {
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content={currentPost.title} />
                 <meta name="twitter:description" content={currentPost.metaDescription || currentPost.excerpt} />
-                <meta name="twitter:image" content={`https://www.blirapid.com${currentPost.image}`} />
+                <meta name="twitter:image" content={`https://blirapid.com${currentPost.image}`} />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href={`https://www.blirapid.com/resources/blogs/${slug}`} />
+                <link rel="canonical" href={`https://blirapid.com/resources/blogs/${slug}`} />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

@@ -97,7 +97,7 @@ const PartLoad = () => {
         "provider": {
             "@type": "Organization",
             "name": "BLI - Bansal Logistics of India",
-            "url": "https://www.blirapid.com"
+            "url": "https://blirapid.com"
         },
         "areaServed": {
             "@type": "Country",
@@ -181,8 +181,8 @@ const PartLoad = () => {
                 <meta property="og:title" content="Part Load Services - Save 60% on Small Shipments | BLI" />
                 <meta property="og:description" content="Ship 50kg to 5 tons at ₹12/kg starting price. 30+ consolidation hubs, daily departures, 98% on-time delivery." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://www.blirapid.com/services/part-load" />
-                <meta property="og:image" content="https://www.blirapid.com/part-load-service.jpg" />
+                <meta property="og:url" content="https://blirapid.com/services/part-load" />
+                <meta property="og:image" content="https://blirapid.com/part-load-service.jpg" />
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -190,7 +190,7 @@ const PartLoad = () => {
                 <meta name="twitter:description" content="Smart shipping for smaller loads. Share truck space, save costs, maintain reliability." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://www.blirapid.com/services/part-load" />
+                <link rel="canonical" href="https://blirapid.com/services/part-load" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

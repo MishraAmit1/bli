@@ -464,7 +464,7 @@ const TermsofService = () => {
                                                 📍 Address: 206, Arihant Complex, Nr. Vishal Mega Mart, Vapi, Gujarat - 396191
                                             </p>
                                             <p className="text-[#F8FFFF]">
-                                                🌐 Website: <a href="https://www.blirapid.com" className="text-[#FF7300] hover:text-[#FF7729]">www.blirapid.com</a>
+                                                🌐 Website: <a href="https://blirapid.com" className="text-[#FF7300] hover:text-[#FF7729]">blirapid.com</a>
                                             </p>
                                         </div>
                                     </div>

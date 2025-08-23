@@ -64,7 +64,7 @@ const About = () => {
         <meta property="og:title" content="About BLI - Your Trusted Logistics Partner Since 1999" />
         <meta property="og:description" content="Discover BLI's journey from regional transport to pan-India logistics leader. 25+ years, 500+ vehicles, 15+ hubs." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.blirapid.com/about" />
+        <meta property="og:url" content="https://blirapid.com/about" />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
@@ -72,7 +72,7 @@ const About = () => {
         <meta name="twitter:description" content="From 1999 to today: BLI's journey of becoming India's trusted logistics partner" />
 
         {/* Canonical URL */}
-        <link rel="canonical" href="https://www.blirapid.com/about" />
+        <link rel="canonical" href="https://blirapid.com/about" />
 
         {/* Structured Data */}
         <script type="application/ld+json">

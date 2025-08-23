@@ -114,7 +114,7 @@ const Resources = () => {
         "provider": {
             "@type": "Organization",
             "name": "BLI - Bansal Logistics of India",
-            "url": "https://www.blirapid.com"
+            "url": "https://blirapid.com"
         },
         "mainEntity": {
             "@type": "ItemList",
@@ -124,7 +124,7 @@ const Resources = () => {
                 "position": index + 1,
                 "name": item.title,
                 "description": item.description,
-                "url": `https://www.blirapid.com${item.href}`
+                "url": `https://blirapid.com${item.href}`
             }))
         }
     };
@@ -149,7 +149,7 @@ const Resources = () => {
         "@type": "Blog",
         "name": "BLI Logistics Blog",
         "description": "Expert insights on logistics, supply chain, and transportation trends",
-        "url": "https://www.blirapid.com/resources/blogs",
+        "url": "https://blirapid.com/resources/blogs",
         "publisher": {
             "@type": "Organization",
             "name": "BLI - Bansal Logistics of India"
@@ -158,8 +158,8 @@ const Resources = () => {
             "@type": "BlogPosting",
             "headline": blog.title,
             "description": blog.excerpt,
-            "url": `https://www.blirapid.com/resources/blogs/${blog.slug}`,
-            "image": `https://www.blirapid.com${blog.image}`,
+            "url": `https://blirapid.com/resources/blogs/${blog.slug}`,
+            "image": `https://blirapid.com${blog.image}`,
             "datePublished": "2025-01-01",
             "author": {
                 "@type": "Organization",
@@ -179,8 +179,8 @@ const Resources = () => {
                 <meta property="og:title" content="Logistics Knowledge Center - Expert Resources & Insights | BLI" />
                 <meta property="og:description" content="Access expert logistics insights, industry reports, FAQs, and downloadable resources. Stay ahead with latest supply chain trends and best practices." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://www.blirapid.com/resources" />
-                <meta property="og:image" content="https://www.blirapid.com/resources-knowledge-center.jpg" />
+                <meta property="og:url" content="https://blirapid.com/resources" />
+                <meta property="og:image" content="https://blirapid.com/resources-knowledge-center.jpg" />
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -188,7 +188,7 @@ const Resources = () => {
                 <meta name="twitter:description" content="Comprehensive logistics knowledge center with blogs, FAQs, reports, and downloads." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://www.blirapid.com/resources" />
+                <link rel="canonical" href="https://blirapid.com/resources" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

@@ -26,13 +26,13 @@ const Index = () => {
     "@type": "WebSite",
     "name": "BLI - Bansal Logistics of India",
     "alternateName": "BLI Rapid",
-    "url": "https://www.blirapid.com",
+    "url": "https://blirapid.com",
     "description": "Leading logistics and transportation services provider in India. Offering FTL, PTL, 3PL, Warehousing, and Freight solutions across 500+ destinations.",
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": "https://www.blirapid.com/search?q={search_term_string}"
+        "urlTemplate": "https://blirapid.com/search?q={search_term_string}"
       },
       "query-input": "required name=search_term_string"
     },
@@ -41,7 +41,7 @@ const Index = () => {
       "name": "BLI - Bansal Logistics of India",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://www.blirapid.com/lovable-uploads/8.png"
+        "url": "https://blirapid.com/lovable-uploads/8.png"
       }
     }
   };
@@ -64,8 +64,8 @@ const Index = () => {
         <meta property="og:title" content="BLI - Bansal Logistics of India | Your Trusted Logistics Partner" />
         <meta property="og:description" content="Experience seamless logistics with BLI. 25+ years of excellence in FTL, PTL, 3PL, Warehousing & Freight services across India." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.blirapid.com" />
-        <meta property="og:image" content="https://www.blirapid.com/og-home-image.jpg" />
+        <meta property="og:url" content="https://blirapid.com" />
+        <meta property="og:image" content="https://blirapid.com/og-home-image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
 
@@ -73,10 +73,10 @@ const Index = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="BLI - Bansal Logistics of India" />
         <meta name="twitter:description" content="Leading logistics solutions provider. FTL, PTL, 3PL, Warehousing & Freight services across 500+ Indian destinations." />
-        <meta name="twitter:image" content="https://www.blirapid.com/twitter-home-image.jpg" />
+        <meta name="twitter:image" content="https://blirapid.com/twitter-home-image.jpg" />
 
         {/* Canonical URL */}
-        <link rel="canonical" href="https://www.blirapid.com" />
+        <link rel="canonical" href="https://blirapid.com" />
         {/* Structured Data */}
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}

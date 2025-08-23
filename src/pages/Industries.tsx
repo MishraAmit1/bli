@@ -180,7 +180,7 @@ const Industries = () => {
         "provider": {
             "@type": "Organization",
             "name": "BLI - Bansal Logistics of India",
-            "url": "https://www.blirapid.com"
+            "url": "https://blirapid.com"
         },
         "areaServed": {
             "@type": "Country",
@@ -250,8 +250,8 @@ const Industries = () => {
                 <meta property="og:title" content="Industry-Specific Logistics Solutions | BLI" />
                 <meta property="og:description" content="Tailored logistics for Electronics, FMCG, Automotive, Apparel & more. Specialized handling, SOPs, and industry expertise." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://www.blirapid.com/industries" />
-                <meta property="og:image" content="https://www.blirapid.com/industries-logistics.jpg" />
+                <meta property="og:url" content="https://blirapid.com/industries" />
+                <meta property="og:image" content="https://blirapid.com/industries-logistics.jpg" />
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -259,7 +259,7 @@ const Industries = () => {
                 <meta name="twitter:description" content="8+ industries served with tailored logistics: Electronics, FMCG, Automotive, Apparel, Marketplace sellers." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://www.blirapid.com/industries" />
+                <link rel="canonical" href="https://blirapid.com/industries" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

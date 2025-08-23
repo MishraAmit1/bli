@@ -147,16 +147,16 @@ const BlogPreview = () => {
       "name": "BLI - Bansal Logistics of India",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://www.blirapid.com/lovable-uploads/8.png"
+        "url": "https://blirapid.com/lovable-uploads/8.png"
       }
     },
     "blogPost": recentPosts.map(post => ({
       "@type": "BlogPosting",
       "headline": post.title,
       "description": post.excerpt,
-      "image": post.image || "https://www.blirapid.com/placeholder.svg",
+      "image": post.image || "https://blirapid.com/placeholder.svg",
       "datePublished": post.date,
-      "url": `https://www.blirapid.com/resources/blogs/${post.slug}`
+      "url": `https://blirapid.com/resources/blogs/${post.slug}`
     }))
   };
 

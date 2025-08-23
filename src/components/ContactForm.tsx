@@ -101,7 +101,7 @@ function useContactForm() {
 
         // Company Info
         company_name: 'BLI - Bansal Logistics of India',
-        website: 'www.blirapid.com'
+        website: 'blirapid.com'
       };
 
       await emailjs.send(

@@ -54,8 +54,8 @@ const ContactInfo = () => {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "BLI - Bansal Logistics of India",
-    "url": "https://www.blirapid.com",
-    "logo": "https://www.blirapid.com/lovable-uploads/8.png",
+    "url": "https://blirapid.com",
+    "logo": "https://blirapid.com/lovable-uploads/8.png",
     "contactPoint": [
       {
         "@type": "ContactPoint",

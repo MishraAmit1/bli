@@ -62,7 +62,7 @@ const PrivacyPolicy = () => {
                   <div className="flex-1">
                     <h2 className="text-2xl font-bold text-[#113C6A] mb-3">1. Introduction</h2>
                     <p className="text-[#185EAA] leading-relaxed">
-                      BLI - Bansal Logistics of India ("we," "our," or "us") is committed to protecting your privacy and personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our logistics services or visit our website at www.blirapid.com.
+                      BLI - Bansal Logistics of India ("we," "our," or "us") is committed to protecting your privacy and personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our logistics services or visit our website at blirapid.com.
                     </p>
                   </div>
                 </div>

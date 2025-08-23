@@ -167,21 +167,21 @@ const Blogs = () => {
         "@type": "Blog",
         "name": "BLI Logistics Insights & Blog",
         "description": "Expert insights on logistics, supply chain management, warehouse automation, and transportation trends in India",
-        "url": "https://www.blirapid.com/resources/blogs",
+        "url": "https://blirapid.com/resources/blogs",
         "publisher": {
             "@type": "Organization",
             "name": "BLI - Bansal Logistics of India",
             "logo": {
                 "@type": "ImageObject",
-                "url": "https://www.blirapid.com/logo.png"
+                "url": "https://blirapid.com/logo.png"
             }
         },
         "blogPost": blogPosts.map(post => ({
             "@type": "BlogPosting",
             "headline": post.title,
             "description": post.excerpt,
-            "url": `https://www.blirapid.com/resources/blogs/${post.slug}`,
-            "image": `https://www.blirapid.com${post.image}`,
+            "url": `https://blirapid.com/resources/blogs/${post.slug}`,
+            "image": `https://blirapid.com${post.image}`,
             "datePublished": post.date,
             "author": {
                 "@type": "Organization",
@@ -203,19 +203,19 @@ const Blogs = () => {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://www.blirapid.com"
+                "item": "https://blirapid.com"
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Resources",
-                "item": "https://www.blirapid.com/resources"
+                "item": "https://blirapid.com/resources"
             },
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": "Blogs",
-                "item": "https://www.blirapid.com/resources/blogs"
+                "item": "https://blirapid.com/resources/blogs"
             }
         ]
     };
@@ -231,8 +231,8 @@ const Blogs = () => {
                 <meta property="og:title" content="Logistics Blog - Expert Supply Chain Insights | BLI" />
                 <meta property="og:description" content="Stay informed with latest logistics trends, AI automation, sustainability practices, and supply chain best practices from industry experts." />
                 <meta property="og:type" content="blog" />
-                <meta property="og:url" content="https://www.blirapid.com/resources/blogs" />
-                <meta property="og:image" content="https://www.blirapid.com/logistics-blog-insights.jpg" />
+                <meta property="og:url" content="https://blirapid.com/resources/blogs" />
+                <meta property="og:image" content="https://blirapid.com/logistics-blog-insights.jpg" />
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -240,7 +240,7 @@ const Blogs = () => {
                 <meta name="twitter:description" content="Expert insights on supply chain, warehouse automation, and logistics trends." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://www.blirapid.com/resources/blogs" />
+                <link rel="canonical" href="https://blirapid.com/resources/blogs" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

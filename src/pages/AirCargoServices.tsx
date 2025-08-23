@@ -175,7 +175,7 @@ const AirCargoServices = () => {
         "provider": {
             "@type": "Organization",
             "name": "BLI - Bansal Logistics of India",
-            "url": "https://www.blirapid.com"
+            "url": "https://blirapid.com"
         },
         "areaServed": [
             {
@@ -268,8 +268,8 @@ const AirCargoServices = () => {
                 <meta property="og:title" content="Air Cargo Services - 24-48 Hour Worldwide Delivery | BLI" />
                 <meta property="og:description" content="Fastest air freight solutions. 500+ destinations, 99.9% safe delivery, 24/7 emergency service. Domestic & international air cargo." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://www.blirapid.com/services/air-cargo" />
-                <meta property="og:image" content="https://www.blirapid.com/air-cargo-services.jpg" />
+                <meta property="og:url" content="https://blirapid.com/services/air-cargo" />
+                <meta property="og:image" content="https://blirapid.com/air-cargo-services.jpg" />
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -277,7 +277,7 @@ const AirCargoServices = () => {
                 <meta name="twitter:description" content="Emergency air freight service. 24-48 hour delivery, IATA certified, temperature controlled." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://www.blirapid.com/services/air-cargo" />
+                <link rel="canonical" href="https://blirapid.com/services/air-cargo" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

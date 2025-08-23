@@ -175,8 +175,9 @@ const Navbar = () => {
                 <NavigationMenuList>
                   {/* Home */}
                   <NavigationMenuItem>
-                    <NavLink to="/">
-                      <NavigationMenuLink
+                    <NavigationMenuLink asChild>
+                      <Link
+                        to="/"
                         className={cn(
                           navigationMenuTriggerStyle(),
                           linkUnderline,
@@ -186,14 +187,15 @@ const Navbar = () => {
                         )}
                       >
                         Home
-                      </NavigationMenuLink>
-                    </NavLink>
+                      </Link>
+                    </NavigationMenuLink>
                   </NavigationMenuItem>
 
                   {/* About */}
                   <NavigationMenuItem>
-                    <NavLink to="/about">
-                      <NavigationMenuLink
+                    <NavigationMenuLink asChild>
+                      <Link
+                        to="/about"
                         className={cn(
                           navigationMenuTriggerStyle(),
                           linkUnderline,
@@ -203,8 +205,8 @@ const Navbar = () => {
                         )}
                       >
                         About Us
-                      </NavigationMenuLink>
-                    </NavLink>
+                      </Link>
+                    </NavigationMenuLink>
                   </NavigationMenuItem>
 
                   {/* Services Dropdown */}
@@ -289,8 +291,9 @@ const Navbar = () => {
 
                   {/* Industries */}
                   <NavigationMenuItem>
-                    <NavLink to="/industries">
-                      <NavigationMenuLink
+                    <NavigationMenuLink asChild>
+                      <Link
+                        to="/industries"
                         className={cn(
                           navigationMenuTriggerStyle(),
                           linkUnderline,
@@ -300,14 +303,15 @@ const Navbar = () => {
                         )}
                       >
                         Industries
-                      </NavigationMenuLink>
-                    </NavLink>
+                      </Link>
+                    </NavigationMenuLink>
                   </NavigationMenuItem>
 
                   {/* Resources */}
                   <NavigationMenuItem>
-                    <NavLink to="/resources">
-                      <NavigationMenuLink
+                    <NavigationMenuLink asChild>
+                      <Link
+                        to="/resources"
                         className={cn(
                           navigationMenuTriggerStyle(),
                           linkUnderline,
@@ -317,8 +321,8 @@ const Navbar = () => {
                         )}
                       >
                         Resources
-                      </NavigationMenuLink>
-                    </NavLink>
+                      </Link>
+                    </NavigationMenuLink>
                   </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>

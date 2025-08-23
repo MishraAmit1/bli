@@ -136,7 +136,7 @@ const LocalRegionalDispatch = () => {
         "provider": {
             "@type": "Organization",
             "name": "BLI - Bansal Logistics of India",
-            "url": "https://www.blirapid.com"
+            "url": "https://blirapid.com"
         },
         "areaServed": [
             {
@@ -233,8 +233,8 @@ const LocalRegionalDispatch = () => {
                 <meta property="og:title" content="Local Dispatch Services - Same-Day Delivery in 4-6 Hours | BLI" />
                 <meta property="og:description" content="Lightning-fast local delivery across metro areas. 2000+ daily dispatches, 98% success rate, real-time tracking. Mumbai, Delhi, Bangalore, Chennai." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://www.blirapid.com/services/local-dispatch" />
-                <meta property="og:image" content="https://www.blirapid.com/local-dispatch-services.jpg" />
+                <meta property="og:url" content="https://blirapid.com/services/local-dispatch" />
+                <meta property="og:image" content="https://blirapid.com/local-dispatch-services.jpg" />
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -242,7 +242,7 @@ const LocalRegionalDispatch = () => {
                 <meta name="twitter:description" content="Same-day delivery in 4-6 hours. Express service available. Real-time tracking." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://www.blirapid.com/services/local-dispatch" />
+                <link rel="canonical" href="https://blirapid.com/services/local-dispatch" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

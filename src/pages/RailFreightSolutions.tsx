@@ -156,7 +156,7 @@ const RailFreightSolutions = () => {
         "provider": {
             "@type": "Organization",
             "name": "BLI - Bansal Logistics of India",
-            "url": "https://www.blirapid.com"
+            "url": "https://blirapid.com"
         },
         "areaServed": {
             "@type": "Country",
@@ -237,8 +237,8 @@ const RailFreightSolutions = () => {
                 <meta property="og:title" content="Rail Freight Solutions - 40% Cost Savings & Eco-Friendly | BLI" />
                 <meta property="og:description" content="Leverage India's railway network for cost-effective freight. 2000+ tons capacity, 95% on-time, 75% less CO2. Major corridors covered." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://www.blirapid.com/services/rail-freight" />
-                <meta property="og:image" content="https://www.blirapid.com/rail-freight-services.jpg" />
+                <meta property="og:url" content="https://blirapid.com/services/rail-freight" />
+                <meta property="og:image" content="https://blirapid.com/rail-freight-services.jpg" />
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -246,7 +246,7 @@ const RailFreightSolutions = () => {
                 <meta name="twitter:description" content="Cost-effective rail transport. 40% savings, eco-friendly, high capacity freight solutions." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://www.blirapid.com/services/rail-freight" />
+                <link rel="canonical" href="https://blirapid.com/services/rail-freight" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

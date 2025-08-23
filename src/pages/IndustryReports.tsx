@@ -234,7 +234,7 @@ const IndustryReports = () => {
         "provider": {
             "@type": "Organization",
             "name": "BLI - Bansal Logistics of India",
-            "url": "https://www.blirapid.com"
+            "url": "https://blirapid.com"
         },
         "mainEntity": {
             "@type": "ItemList",
@@ -244,7 +244,7 @@ const IndustryReports = () => {
                 "position": index + 1,
                 "name": report.title,
                 "description": report.description,
-                "url": `https://www.blirapid.com/resources/reports/${report.slug}`,
+                "url": `https://blirapid.com/resources/reports/${report.slug}`,
                 "datePublished": report.dateISO,
                 "author": {
                     "@type": "Organization",
@@ -269,19 +269,19 @@ const IndustryReports = () => {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://www.blirapid.com"
+                "item": "https://blirapid.com"
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Resources",
-                "item": "https://www.blirapid.com/resources"
+                "item": "https://blirapid.com/resources"
             },
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": "Industry Reports",
-                "item": "https://www.blirapid.com/resources/reports"
+                "item": "https://blirapid.com/resources/reports"
             }
         ]
     };
@@ -315,8 +315,8 @@ const IndustryReports = () => {
                 <meta property="og:title" content="Logistics Industry Reports & Market Analysis | BLI Research" />
                 <meta property="og:description" content="Comprehensive logistics industry reports and market analysis covering trends, technology, and insights in the Indian logistics sector." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://www.blirapid.com/resources/reports" />
-                <meta property="og:image" content="https://www.blirapid.com/logistics-industry-reports.jpg" />
+                <meta property="og:url" content="https://blirapid.com/resources/reports" />
+                <meta property="og:image" content="https://blirapid.com/logistics-industry-reports.jpg" />
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -324,7 +324,7 @@ const IndustryReports = () => {
                 <meta name="twitter:description" content="Expert insights on logistics trends, market analysis, and industry innovations." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://www.blirapid.com/resources/reports" />
+                <link rel="canonical" href="https://blirapid.com/resources/reports" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

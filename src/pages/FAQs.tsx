@@ -229,19 +229,19 @@ const FAQs = () => {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://www.blirapid.com"
+                "item": "https://blirapid.com"
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Resources",
-                "item": "https://www.blirapid.com/resources"
+                "item": "https://blirapid.com/resources"
             },
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": "FAQs",
-                "item": "https://www.blirapid.com/resources/faqs"
+                "item": "https://blirapid.com/resources/faqs"
             }
         ]
     };
@@ -251,7 +251,7 @@ const FAQs = () => {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "BLI - Bansal Logistics of India",
-        "url": "https://www.blirapid.com",
+        "url": "https://blirapid.com",
         "contactPoint": {
             "@type": "ContactPoint",
             "telephone": "+91-XXXXXXXXXX",
@@ -272,8 +272,8 @@ const FAQs = () => {
                 <meta property="og:title" content="Logistics FAQs - Quick Answers to Your Questions | BLI Rapid" />
                 <meta property="og:description" content="Find instant answers to common logistics questions about shipping, tracking, billing, and support. Expert help available 24/7." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://www.blirapid.com/resources/faqs" />
-                <meta property="og:image" content="https://www.blirapid.com/logistics-faq-support.jpg" />
+                <meta property="og:url" content="https://blirapid.com/resources/faqs" />
+                <meta property="og:image" content="https://blirapid.com/logistics-faq-support.jpg" />
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -281,7 +281,7 @@ const FAQs = () => {
                 <meta name="twitter:description" content="Quick answers to logistics questions about shipping, tracking, billing, and customer support." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://www.blirapid.com/resources/faqs" />
+                <link rel="canonical" href="https://blirapid.com/resources/faqs" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

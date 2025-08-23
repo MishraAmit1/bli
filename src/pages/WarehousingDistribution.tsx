@@ -132,7 +132,7 @@ const WarehousingDistribution = () => {
         "provider": {
             "@type": "Organization",
             "name": "BLI - Bansal Logistics of India",
-            "url": "https://www.blirapid.com"
+            "url": "https://blirapid.com"
         },
         "areaServed": {
             "@type": "Country",
@@ -213,8 +213,8 @@ const WarehousingDistribution = () => {
                 <meta property="og:title" content="Warehousing & Distribution - 30+ Locations Across India | BLI" />
                 <meta property="og:description" content="15M+ sq ft warehouse space with advanced WMS, 99.9% accuracy, climate control, and strategic locations for faster market reach." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://www.blirapid.com/services/warehousing" />
-                <meta property="og:image" content="https://www.blirapid.com/warehousing-services.jpg" />
+                <meta property="og:url" content="https://blirapid.com/services/warehousing" />
+                <meta property="og:image" content="https://blirapid.com/warehousing-services.jpg" />
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -222,7 +222,7 @@ const WarehousingDistribution = () => {
                 <meta name="twitter:description" content="Strategic storage solutions with advanced technology. 15M+ sq ft across India." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://www.blirapid.com/services/warehousing" />
+                <link rel="canonical" href="https://blirapid.com/services/warehousing" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

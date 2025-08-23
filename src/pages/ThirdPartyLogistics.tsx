@@ -105,7 +105,7 @@ const ThirdPartyLogistics = () => {
         "provider": {
             "@type": "Organization",
             "name": "BLI - Bansal Logistics of India",
-            "url": "https://www.blirapid.com"
+            "url": "https://blirapid.com"
         },
         "areaServed": {
             "@type": "Country",
@@ -186,8 +186,8 @@ const ThirdPartyLogistics = () => {
                 <meta property="og:title" content="3PL Solutions - Complete Supply Chain Management | BLI" />
                 <meta property="og:description" content="Strategic 3PL partner with 15M+ sq ft warehouse space, serving 500+ enterprise clients. Reduce costs by 25% with our integrated solutions." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://www.blirapid.com/services/3pl" />
-                <meta property="og:image" content="https://www.blirapid.com/3pl-services.jpg" />
+                <meta property="og:url" content="https://blirapid.com/services/3pl" />
+                <meta property="og:image" content="https://blirapid.com/3pl-services.jpg" />
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -195,7 +195,7 @@ const ThirdPartyLogistics = () => {
                 <meta name="twitter:description" content="End-to-end supply chain management. Warehousing, fulfillment, transportation & analytics." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://www.blirapid.com/services/3pl" />
+                <link rel="canonical" href="https://blirapid.com/services/3pl" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

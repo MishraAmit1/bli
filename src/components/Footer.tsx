@@ -138,8 +138,8 @@ const Footer = () => {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "BLI – Bansal Logistics of India",
-    "url": "https://www.blirapid.com",
-    "logo": "https://www.blirapid.com/lovable-uploads/8.png",
+    "url": "https://blirapid.com",
+    "logo": "https://blirapid.com/lovable-uploads/8.png",
     "description": "With 25+ years of legacy in logistics, BLI has built trust as a reliable partner for industries across India.",
     "address": {
       "@type": "PostalAddress",

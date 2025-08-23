@@ -405,12 +405,12 @@ const Features = () => {
         "@type": "Service",
         "name": feature.title,
         "description": feature.description,
-        "url": `https://www.blirapid.com${feature.link}`,
+        "url": `https://blirapid.com${feature.link}`,
         "provider": {
           "@type": "Organization",
           "name": "BLI - Bansal Logistics of India"
         },
-        "image": `https://www.blirapid.com${feature.image}`
+        "image": `https://blirapid.com${feature.image}`
       }
     }))
   };

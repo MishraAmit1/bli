@@ -135,7 +135,7 @@ const Services = () => {
         "provider": {
             "@type": "Organization",
             "name": "BLI - Bansal Logistics of India",
-            "url": "https://www.blirapid.com"
+            "url": "https://blirapid.com"
         },
         "areaServed": {
             "@type": "Country",
@@ -149,7 +149,7 @@ const Services = () => {
                 "position": index + 1,
                 "name": service.title,
                 "description": service.description,
-                "url": `https://www.blirapid.com${service.link}`
+                "url": `https://blirapid.com${service.link}`
             }))
         }
     };
@@ -165,15 +165,15 @@ const Services = () => {
                 <meta property="og:title" content="Complete Logistics Solutions | BLI Services" />
                 <meta property="og:description" content="End-to-end logistics services: FTL, PTL, 3PL, Warehousing, Rail & Air Freight across India. Get reliable, scalable solutions." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://www.blirapid.com/services" />
-                <meta property="og:image" content="https://www.blirapid.com/services-og-image.jpg" />
+                <meta property="og:url" content="https://blirapid.com/services" />
+                <meta property="og:image" content="https://blirapid.com/services-og-image.jpg" />
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="BLI Logistics Services - Complete Supply Chain Solutions" />
                 <meta name="twitter:description" content="From FTL to Air Cargo, comprehensive logistics solutions for businesses across India" />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://www.blirapid.com/services" />
+                <link rel="canonical" href="https://blirapid.com/services" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">
