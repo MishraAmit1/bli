@@ -9,7 +9,6 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { PageLoader } from "./components/LoadingAnimation";
 
-// Lazy load all other pages for better performance
 const About = lazy(() => import("./pages/About"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const ContactForm = lazy(() => import("./pages/ContactForm"));
