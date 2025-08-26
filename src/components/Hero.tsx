@@ -206,7 +206,7 @@ const Hero = () => {
                 }}
                 aria-label="BLI Logistics Introduction Video"
               >
-                <source src="/lovable-uploads/L-2.mp4" type="video/mp4" />
+                <source src="/lovable-uploads/bansal.mp4" type="video/mp4" />
               </video>
 
               {/* Overlay for better visibility on mobile */}
@@ -221,7 +221,6 @@ const Hero = () => {
                 {!isMainVideoLoaded && (
                   <div className="absolute inset-0 bg-[#113C6A] flex items-center justify-center">
                     <img
-                      src="/lovable-uploads/7.png"
                       alt="BLI Logistics"
                       className="w-full h-full object-cover opacity-80"
                       loading="eager"

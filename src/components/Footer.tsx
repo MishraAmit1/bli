@@ -189,9 +189,9 @@ const Footer = () => {
             <div className="lg:col-span-1">
               <Link to="/" onClick={() => window.scrollTo(0, 0)}>
                 <img
-                  src="/lovable-uploads/8.png"
+                  src="/lovable-uploads/11.png"
                   alt="BLI Logistics Logo"
-                  className="h-24 w-auto mb-6 filter brightness-0 invert"
+                  className="h-20 w-auto mb-6"
                   width="180"
                   height="96"
                   loading="lazy"

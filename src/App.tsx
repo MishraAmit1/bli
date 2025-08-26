@@ -13,7 +13,7 @@ import { PageLoader } from "./components/LoadingAnimation";
 // Lazy load all other pages for better performance
 const About = lazy(() => import("./pages/About"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
-const ContactForm = lazy(() => import("./components/ContactForm"));
+const ContactForm = lazy(() => import("./pages/ContactForm"));
 const Services = lazy(() => import("./pages/Services"));
 const Industries = lazy(() => import("./pages/Industries"));
 const Resources = lazy(() => import("./pages/Resources"));

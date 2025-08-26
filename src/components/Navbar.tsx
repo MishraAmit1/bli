@@ -145,7 +145,7 @@ const Navbar = () => {
         aria-label="Main navigation"
       >
         <div className="w-full px-4 sm:px-6 lg:px-8 mx-auto">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-[72px]">
             {/* Logo with preload */}
             <div className="flex-shrink-0">
               <Link
@@ -155,11 +155,9 @@ const Navbar = () => {
                 onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}
               >
                 <img
-                  src={isScrolled ? "/lovable-uploads/7.png" : "/lovable-uploads/8.png"}
+                  src={isScrolled ? "/lovable-uploads/9.png" : "/lovable-uploads/11.png"}
                   alt="BLI - Bansal Logistics of India"
-                  className="h-20 w-auto"
-                  width="120"
-                  height="80"
+                  className="h w-32 scroll-smooth"
                   loading="eager"
                 />
               </Link>

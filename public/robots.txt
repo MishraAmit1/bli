@@ -1,9 +1,8 @@
-
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://wrlds.com/sitemap.xml
+Sitemap: https://blirapid.com/sitemap.xml
 
 # Optimize crawling
-Crawl-delay: 10
+Crawl-delay: 1

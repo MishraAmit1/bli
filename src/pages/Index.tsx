@@ -65,7 +65,7 @@ const Index = () => {
         <meta property="og:description" content="Experience seamless logistics with BLI. 25+ years of excellence in FTL, PTL, 3PL, Warehousing & Freight services across India." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://blirapid.com" />
-        <meta property="og:image" content="https://blirapid.com/og-home-image.jpg" />
+        <meta property="og:image" content="https://blirapid.com/favicon-96x96.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
 
@@ -73,7 +73,7 @@ const Index = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="BLI - Bansal Logistics of India" />
         <meta name="twitter:description" content="Leading logistics solutions provider. FTL, PTL, 3PL, Warehousing & Freight services across 500+ Indian destinations." />
-        <meta name="twitter:image" content="https://blirapid.com/twitter-home-image.jpg" />
+        <meta name="twitter:image" content="https://blirapid.com/favicon-96x96.png" />
 
         {/* Canonical URL */}
         <link rel="canonical" href="https://blirapid.com" />
