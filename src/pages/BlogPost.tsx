@@ -1,5 +1,3 @@
-// src/pages/BlogPost.tsx
-
 import React, { useEffect } from 'react';
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -7,8 +5,6 @@ import {
     Clock, ArrowLeft, Calendar, User, Share2, ArrowRight
 } from "lucide-react";
 import PageLayout from '@/components/PageLayout';
-import { cn } from '@/lib/utils';
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Helmet } from 'react-helmet-async';
 
@@ -23,10 +19,10 @@ const BlogPost = () => {
     const blogPosts = {
         "digital-transformation-supply-chain-analytics": {
             title: "Digital Transformation in Supply Chain Analytics",
-            excerpt: "How data-driven insights are revolutionizing logistics operations across industries",
+            excerpt: "Analytics is reshaping logistics efficiency and visibility worldwide.",
             metaDescription: "Discover how digital transformation and data analytics are revolutionizing supply chain operations. Learn about AI, IoT, predictive analytics, and real-time visibility in logistics.",
             keywords: "digital transformation logistics, supply chain analytics, predictive analytics logistics, IoT supply chain, real-time visibility, logistics data analytics",
-            image: "/lovable-uploads/services1.webp",
+            image: "https://i.pinimg.com/736x/4d/e5/ad/4de5add391b426b1f263c23fc76b612f.jpg",
             category: "Technology",
             readTime: "5 min read",
             date: "December 15, 2024",
@@ -65,10 +61,10 @@ const BlogPost = () => {
         },
         "ai-powered-warehouse-automation": {
             title: "AI-Powered Warehouse Automation Trends",
-            excerpt: "Exploring the latest developments in artificial intelligence for warehouse management",
+            excerpt: "Smarter AI-driven automation is redefining warehouse management.",
             metaDescription: "Explore AI-powered warehouse automation trends including robotics, machine learning, smart inventory management, and predictive maintenance. Learn about ROI and implementation strategies.",
             keywords: "AI warehouse automation, warehouse robotics, smart inventory management, predictive maintenance, warehouse AI, automated picking systems, warehouse technology",
-            image: "/lovable-uploads/services2.webp",
+            image: "https://i.pinimg.com/736x/16/b4/36/16b436e3702ffcb459c2fcb598f2f7e9.jpg",
             category: "Technology",
             readTime: "7 min read",
             date: "December 12, 2024",
@@ -109,10 +105,10 @@ const BlogPost = () => {
         },
         "sustainable-logistics-green-transportation": {
             title: "Sustainable Logistics: Green Transportation Solutions",
-            excerpt: "Environmental initiatives driving the future of eco-friendly logistics operations",
+            excerpt: "Eco-friendly logistics tactics are securing a greener supply chain.",
             metaDescription: "Learn about sustainable logistics practices, green transportation solutions, electric vehicles in logistics, and eco-friendly supply chain strategies for environmental responsibility.",
             keywords: "sustainable logistics, green transportation, eco-friendly logistics, electric vehicles logistics, carbon footprint reduction, sustainable supply chain, green logistics strategies",
-            image: "/lovable-uploads/services3.webp",
+            image: "https://i.pinimg.com/1200x/e3/50/45/e35045144cec7d7d202269096fb5d71e.jpg",
             category: "Sustainability",
             readTime: "6 min read",
             date: "December 10, 2024",
@@ -163,10 +159,10 @@ const BlogPost = () => {
         },
         "last-mile-delivery-optimization": {
             title: "Last-Mile Delivery Optimization Strategies",
-            excerpt: "Best practices for improving last-mile delivery efficiency while reducing costs",
+            excerpt: "Effective practices for faster, cheaper, and more accurate deliveries.",
             metaDescription: "Optimize last-mile delivery with proven strategies for route planning, micro-fulfillment centers, delivery tracking, and customer satisfaction in urban logistics.",
             keywords: "last-mile delivery optimization, urban logistics, delivery route planning, micro-fulfillment centers, last-mile logistics, delivery efficiency, customer satisfaction logistics",
-            image: "/lovable-uploads/services4.webp",
+            image: "https://i.pinimg.com/1200x/25/e6/00/25e600f4f9d7f5bd381fbe033d21183b.jpg",
             category: "Operational Tips",
             readTime: "4 min read",
             date: "December 8, 2024",
@@ -195,10 +191,10 @@ const BlogPost = () => {
         },
         "cross-border-logistics-international-trade": {
             title: "Cross-Border Logistics: Navigating International Trade",
-            excerpt: "Key considerations for successful international logistics operations",
+            excerpt: "Practical strategies for smooth and compliant international logistics.",
             metaDescription: "Navigate cross-border logistics challenges with expert insights on customs procedures, documentation, international trade compliance, and strategic partnerships.",
             keywords: "cross-border logistics, international trade logistics, customs procedures, trade documentation, international shipping, global logistics, import export logistics",
-            image: "/lovable-uploads/services5.webp",
+            image: "https://i.pinimg.com/736x/b0/8a/74/b08a747bc276c46fa62ef903447b3af7.jpg",
             category: "Industry Insights",
             readTime: "8 min read",
             date: "December 5, 2024",
@@ -224,10 +220,10 @@ const BlogPost = () => {
         },
         "future-cold-chain-logistics": {
             title: "The Future of Cold Chain Logistics",
-            excerpt: "Innovations in temperature-controlled transportation and storage",
+            excerpt: "Next-gen cold chain solutions are advancing safe product transport.",
             metaDescription: "Explore the future of cold chain logistics with innovations in temperature monitoring, IoT sensors, pharmaceutical transportation, and sustainable refrigeration technologies.",
             keywords: "cold chain logistics, temperature-controlled transportation, pharmaceutical logistics, cold storage, IoT cold chain, vaccine distribution, refrigerated transport",
-            image: "/lovable-uploads/services6.webp",
+            image: "https://i.pinimg.com/1200x/25/6c/2e/256c2e61a6d6f79148ba35b87510541b.jpg",
             category: "Logistics Trends",
             readTime: "6 min read",
             date: "December 3, 2024",
@@ -372,7 +368,7 @@ const BlogPost = () => {
                 <meta name="twitter:image" content={`https://blirapid.com${currentPost.image}`} />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href={`https://blirapid.com/resources/blogs/${slug}`} />
+                <link rel="canonical" href={`https://blirapid.com/resources/blogs/${slug}/`} />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">
@@ -457,7 +453,7 @@ const BlogPost = () => {
 
                 <article>
                     {/* Featured Image */}
-                    <div className="aspect-video overflow-hidden rounded-xl mb-6 sm:mb-8">
+                    <div className="aspect-video overflow-hidden w-full mb-6 sm:mb-8">
                         <img
                             src={currentPost.image}
                             alt={currentPost.title}
@@ -545,7 +541,10 @@ const BlogPost = () => {
                                                 {post.title}
                                             </h4>
                                             <p className="text-xs sm:text-sm text-[#21221C]/70 mb-3 sm:mb-4 line-clamp-3">{post.excerpt}</p>
-                                            <span className="inline-flex items-center text-[#FF7729] hover:underline text-sm">
+                                            <span className="inline-flex items-center text-[#FF7729] hover:underline
+                                             text-sm"
+                                                aria-label={`Read more about ${post.title}`}
+                                            >
                                                 Read More
                                                 <ArrowRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" aria-hidden="true" />
                                             </span>

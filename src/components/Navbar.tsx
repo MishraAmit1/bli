@@ -96,8 +96,8 @@ const Navbar = () => {
     setIsMenuOpen(false);
     setOpenMobileDropdown(null);
   }, [location.pathname]);
+
   // Prevent body scroll ONLY when mobile menu is open (not for dropdowns)
-  // Replace the existing useEffect for body scroll with this:
   useEffect(() => {
     if (isMenuOpen) {
       // Disable body scroll when mobile menu is open
@@ -136,9 +136,9 @@ const Navbar = () => {
     <>
       <nav
         className={cn(
-          "fixed top-0 left-0 right-0 z-[100] transition-all duration-300 w-full",
+          "fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-in-out w-full",
           isScrolled
-            ? "bg-[#FFFDF7]/95 border-b border-[#F8FFFF] shadow-sm backdrop-blur-md"
+            ? "bg-white/80 backdrop-blur-sm border-b border-gray-200/50 shadow-sm"
             : "bg-[#113C6A]"
         )}
         role="navigation"
@@ -146,26 +146,50 @@ const Navbar = () => {
       >
         <div className="w-full px-4 sm:px-6 lg:px-8 mx-auto">
           <div className="flex items-center justify-between h-[72px]">
-            {/* Logo with preload */}
+            {/* Logo with smooth transition */}
             <div className="flex-shrink-0">
               <Link
                 to="/"
-                className="flex items-center"
+                className="flex items-center relative"
                 aria-label="BLI Logistics - Home"
                 onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}
               >
-                <img
-                  src={isScrolled ? "/lovable-uploads/9.png" : "/lovable-uploads/11.png"}
-                  alt="BLI - Bansal Logistics of India"
-                  className="h w-32 scroll-smooth"
-                  loading="eager"
-                />
+                {/* Container for logos with relative positioning */}
+                <div className="relative h-12 w-32">
+                  {/* White logo - visible when not scrolled */}
+                  <img
+                    src="/lovable-uploads/11.png"
+                    alt="BLI - Bansal Logistics of India"
+                    className={cn(
+                      "h-[50px] w-auto absolute top-0 left-0 transition-all duration-500 ease-in-out",
+                      isScrolled
+                        ? "opacity-0 transform scale-95"
+                        : "opacity-100 transform scale-100"
+                    )}
+                    loading="eager"
+                  />
+                  {/* Dark logo - visible when scrolled */}
+                  <img
+                    src="/lovable-uploads/9.png"
+                    alt="BLI - Bansal Logistics of India"
+                    className={cn(
+                      "h-[50px] w-auto absolute top-0 left-0 transition-all duration-500 ease-in-out",
+                      isScrolled
+                        ? "opacity-100 transform scale-100"
+                        : "opacity-0 transform scale-95"
+                    )}
+                    loading="eager"
+                  />
+                </div>
               </Link>
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-2">
-              <NavigationMenu className={cn(isScrolled ? "text-[#21221C]" : "text-[#FFFDF7]")}>
+              <NavigationMenu className={cn(
+                "transition-colors duration-500",
+                isScrolled ? "text-[#21221C]" : "text-[#FFFDF7]"
+              )}>
                 <NavigationMenuList>
                   {/* Home */}
                   <NavigationMenuItem>
@@ -175,6 +199,7 @@ const Navbar = () => {
                         className={cn(
                           navigationMenuTriggerStyle(),
                           linkUnderline,
+                          "transition-colors duration-300",
                           isScrolled
                             ? "text-[#21221C] hover:text-[#185EAA] after:bg-[#185EAA]"
                             : "text-[#FFFDF7] hover:text-[#F8FFFF] after:bg-[#FF7729]"
@@ -193,6 +218,7 @@ const Navbar = () => {
                         className={cn(
                           navigationMenuTriggerStyle(),
                           linkUnderline,
+                          "transition-colors duration-300",
                           isScrolled
                             ? "text-[#21221C] hover:text-[#185EAA] after:bg-[#185EAA]"
                             : "text-[#FFFDF7] hover:text-[#F8FFFF] after:bg-[#FF7729]"
@@ -208,6 +234,7 @@ const Navbar = () => {
                     <NavigationMenuTrigger
                       className={cn(
                         linkUnderline,
+                        "transition-colors duration-300",
                         isScrolled
                           ? "text-[#21221C] hover:text-[#185EAA] after:bg-[#185EAA]"
                           : "text-[#FFFDF7] hover:text-[#F8FFFF] after:bg-[#FF7729]"
@@ -291,6 +318,7 @@ const Navbar = () => {
                         className={cn(
                           navigationMenuTriggerStyle(),
                           linkUnderline,
+                          "transition-colors duration-300",
                           isScrolled
                             ? "text-[#21221C] hover:text-[#185EAA] after:bg-[#185EAA]"
                             : "text-[#FFFDF7] hover:text-[#F8FFFF] after:bg-[#FF7729]"
@@ -309,6 +337,7 @@ const Navbar = () => {
                         className={cn(
                           navigationMenuTriggerStyle(),
                           linkUnderline,
+                          "transition-colors duration-300",
                           isScrolled
                             ? "text-[#21221C] hover:text-[#185EAA] after:bg-[#185EAA]"
                             : "text-[#FFFDF7] hover:text-[#F8FFFF] after:bg-[#FF7729]"
@@ -337,7 +366,7 @@ const Navbar = () => {
               <button
                 onClick={toggleMenu}
                 className={cn(
-                  "p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2",
+                  "p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-300",
                   isScrolled
                     ? "text-[#21221C] focus:ring-[#185EAA]"
                     : "text-[#FFFDF7] focus:ring-[#FF7729]"
@@ -359,11 +388,10 @@ const Navbar = () => {
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="lg:hidden overflow-hidden"
-            >
+              className="lg:hidden overflow-hidden"            >
               <div className={cn(
-                "px-4 pt-2 pb-4 space-y-1 shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto", // Main menu scroll
-                isScrolled ? "bg-[#FFFDF7]/95" : "bg-[#113C6A]/95"
+                "px-4 pt-2 pb-4 space-y-1 shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto",
+                isScrolled ? "bg-white/80 backdrop-blur-md" : "bg-[#113C6A]/95 backdrop-blur-sm"
               )}>
                 {/* Mobile Navigation Items */}
                 <MobileNavItem
@@ -407,7 +435,7 @@ const Navbar = () => {
                         transition={{ duration: 0.2 }}
                         className="overflow-hidden"
                       >
-                        <div className="pl-4 space-y-1 mt-1 max-h-[40vh] overflow-y-auto"> {/* Services dropdown scroll */}
+                        <div className="pl-4 space-y-1 mt-1 max-h-[40vh] overflow-y-auto">
                           <Link
                             to="/services"
                             className={cn(
@@ -501,7 +529,7 @@ const Navbar = () => {
       </nav>
 
       {/* Spacer to prevent content jump */}
-      <div className="h-16" />
+      <div className="h-[72px]" />
     </>
   );
 };

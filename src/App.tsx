@@ -8,6 +8,7 @@ import { useState, lazy, Suspense, useEffect } from "react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { PageLoader } from "./components/LoadingAnimation";
+import { WhatsAppButton } from "./components/WhatsAppButton";
 
 const About = lazy(() => import("./pages/About"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
@@ -31,6 +32,7 @@ const LocalRegionalDispatch = lazy(() => import("./pages/LocalRegionalDispatch")
 const RailFreightSolutions = lazy(() => import("./pages/RailFreightSolutions"));
 const AirCargoServices = lazy(() => import("./pages/AirCargoServices"));
 const RealTimeSupport = lazy(() => import("./pages/RealTimeSupport"));
+const PartLoadVapi = lazy(() => import("./pages/PartLoadVapi"));
 // Define Props and State interfaces
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -130,6 +132,7 @@ const App = () => {
             <Toaster />
             <Sonner />
             <Suspense fallback={<PageLoader />}>
+              <WhatsAppButton />
               <Routes>
                 {/* Main Routes - No lazy loading for homepage */}
                 <Route path="/" element={<Index />} />
@@ -144,10 +147,11 @@ const App = () => {
                 <Route path="/services/rail-freight" element={<RailFreightSolutions />} />
                 <Route path="/services/air-cargo" element={<AirCargoServices />} />
                 <Route path="/services/real-time-support" element={<RealTimeSupport />} />
-
+                <Route path="/services/part-load-vapi" element={<PartLoadVapi />} />
                 {/* Company Routes */}
                 <Route path="/about" element={<About />} />
                 <Route path="/industries" element={<Industries />} />
+                <Route path="/projects/:industryId" element={<Industries />} />
                 <Route path="/contact" element={<ContactForm />} />
 
                 {/* Resource Routes */}

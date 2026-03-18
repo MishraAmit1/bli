@@ -16,7 +16,7 @@ const PageLayout = ({ children, showContact = true }: PageLayoutProps) => {
   }, [location]);
   return (
     <div className="min-h-screen bg-white w-full">
-      <header className="sticky top-0 z-40 bg-white shadow-sm">
+      <header className="sticky top-0 z-40 shadow-sm">
         <Navbar />
       </header>
       <div className="relative">

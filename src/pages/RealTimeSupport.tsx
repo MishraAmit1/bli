@@ -261,8 +261,8 @@ const RealTimeSupport = () => {
                 <meta property="og:title" content="Real-Time Support - 24/7 Logistics Assistance | BLI" />
                 <meta property="og:description" content="Instant support with 30s response time, 95% first-call resolution, live GPS tracking. Available in 10+ languages with dedicated account managers." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://blirapid.com/services/real-time-support" />
-                <meta property="og:image" content="https://blirapid.com/support-services.jpg" />
+                <meta property="og:url" content="https://blirapid.com/services/real-time-support/" />
+
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -270,7 +270,7 @@ const RealTimeSupport = () => {
                 <meta name="twitter:description" content="Real-time logistics support. Live tracking, instant response, multi-language assistance." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://blirapid.com/services/real-time-support" />
+                <link rel="canonical" href="https://blirapid.com/services/real-time-support/" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

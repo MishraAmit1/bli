@@ -3,6 +3,3 @@ Allow: /
 
 # Sitemap location
 Sitemap: https://blirapid.com/sitemap.xml
-
-# Optimize crawling
-Crawl-delay: 1

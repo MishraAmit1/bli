@@ -50,10 +50,10 @@ const Index = () => {
     <>
       {/* SEO Meta Tags */}
       <Helmet>
-        <title>BLI - Bansal Logistics of India | Trusted Logistics Partner Since 25+ Years</title>
+        <title>BLI - Bansal Logistics of India | Trusted Partner 25+ Years</title>
         <meta
           name="description"
-          content="BLI offers comprehensive logistics solutions across India. Full Truck Load, Part Load, 3PL Distribution, Warehousing & Freight services. Real-time tracking, 500+ destinations, 25+ years of excellence."
+          content="BLI delivers logistics across India—FTL, Part Load, 3PL, Warehousing & Freight. Real-time tracking, 500+ destinations, and 25+ years of trusted service."
         />
         <meta
           name="keywords"
@@ -76,7 +76,7 @@ const Index = () => {
         <meta name="twitter:image" content="https://blirapid.com/favicon-96x96.png" />
 
         {/* Canonical URL */}
-        <link rel="canonical" href="https://blirapid.com" />
+        <link rel="canonical" href="https://blirapid.com/" />
         {/* Structured Data */}
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}

@@ -65,22 +65,22 @@ const Resources = () => {
     const featuredBlogs = [
         {
             title: "Digital Transformation in Supply Chain Analytics",
-            excerpt: "How data-driven insights are revolutionizing logistics operations across industries.",
-            image: "/lovable-uploads/services1.webp",
+            excerpt: "Analytics and data intelligence reshaping global supply chains.",
+            image: "https://i.pinimg.com/736x/4d/e5/ad/4de5add391b426b1f263c23fc76b612f.jpg",
             readTime: "5 min read",
             slug: "digital-transformation-supply-chain-analytics"
         },
         {
             title: "AI-Powered Warehouse Automation Trends",
-            excerpt: "Exploring the latest developments in artificial intelligence for warehouse management.",
-            image: "/lovable-uploads/services2.webp",
+            excerpt: "AI-powered robots and systems redefining warehouse operations.",
+            image: "https://i.pinimg.com/736x/16/b4/36/16b436e3702ffcb459c2fcb598f2f7e9.jpg",
             readTime: "7 min read",
             slug: "ai-powered-warehouse-automation"
         },
         {
             title: "Sustainable Logistics: Green Transportation Solutions",
-            excerpt: "Environmental initiatives driving the future of eco-friendly logistics operations.",
-            image: "/lovable-uploads/services3.webp",
+            excerpt: "Eco.logistics strategies paving the way for sustainable transport.",
+            image: "https://i.pinimg.com/1200x/e3/50/45/e35045144cec7d7d202269096fb5d71e.jpg",
             readTime: "6 min read",
             slug: "sustainable-logistics-green-transportation"
         }
@@ -179,8 +179,8 @@ const Resources = () => {
                 <meta property="og:title" content="Logistics Knowledge Center - Expert Resources & Insights | BLI" />
                 <meta property="og:description" content="Access expert logistics insights, industry reports, FAQs, and downloadable resources. Stay ahead with latest supply chain trends and best practices." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://blirapid.com/resources" />
-                <meta property="og:image" content="https://blirapid.com/resources-knowledge-center.jpg" />
+                <meta property="og:url" content="https://blirapid.com/resources/" />
+
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -188,7 +188,7 @@ const Resources = () => {
                 <meta name="twitter:description" content="Comprehensive logistics knowledge center with blogs, FAQs, reports, and downloads." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://blirapid.com/resources" />
+                <link rel="canonical" href="https://blirapid.com/resources/" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">
@@ -397,9 +397,9 @@ const Resources = () => {
                         </div>
                     </div>
                 </section>
-
+                {/* 
                 {/* Newsletter Section */}
-                <section className="py-12 sm:py-16 bg-gradient-to-r from-[#113C6A] to-[#185EAA] -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 rounded-xl" aria-labelledby="newsletter-heading">
+                {/* <section className="py-12 sm:py-16 bg-gradient-to-r from-[#113C6A] to-[#185EAA] -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 rounded-xl" aria-labelledby="newsletter-heading">
                     <div className="max-w-4xl mx-auto text-center">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
@@ -431,7 +431,7 @@ const Resources = () => {
                             </form>
                         </motion.div>
                     </div>
-                </section>
+                </section>  */}
 
                 {/* Download Resources */}
                 <section className="py-12 sm:py-16" aria-labelledby="download-heading">

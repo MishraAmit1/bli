@@ -412,7 +412,7 @@ const Industries = () => {
                 More Details
               </Link>
               <a
-                href="tel:7777909218"
+                href="tel:9687448434"
                 className="px-6 py-3 rounded-lg bg-[#FF7729] text-white font-medium shadow-md hover:bg-[#e8651f] transition-colors flex items-center justify-center"
                 aria-label="Book a call with BLI logistics"
               >

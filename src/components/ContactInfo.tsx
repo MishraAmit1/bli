@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
-import { Mail, Linkedin, Phone, MapPin, Clock, ArrowRight } from 'lucide-react';
+import { Mail, Linkedin, Phone, UserCircle, Users } from 'lucide-react';
 import { motion, useInView } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 const ContactInfo = () => {
@@ -29,23 +28,23 @@ const ContactInfo = () => {
     }
   };
 
-  // BLI contact information
+  // Contact info data
   const contactPersons = [
     {
       name: "Prince Bansal",
-      position: "Managing Director",
-      image: "/lovable-uploads/7.png", // Replace with actual image
+      position: "Business Development",
       email: "info@blirapid.com",
-      linkedin: "https://www.linkedin.com/company/bli-logistics",
-      phone: "+91-968 744 8434"
+      linkedin: "https://in.linkedin.com/in/prince-bansal-p4",
+      phone: "+91-743 394 0011",
+      icon: UserCircle // 👔 Individual
     },
     {
       name: "Customer Support Team",
       position: "24/7 Logistics Support",
-      image: "/lovable-uploads/7.png", // Replace with actual image
       email: "info@blirapid.com",
       linkedin: "https://www.linkedin.com/company/bli-logistics",
-      phone: "+91-968 744 8444"
+      phone: "+91-968 744 8434",
+      icon: Users // 👥 Team
     }
   ];
 
@@ -129,51 +128,52 @@ const ContactInfo = () => {
             variants={containerVariants}
           >
             {/* Contact Cards */}
-            {contactPersons.map((person, index) => (
-              <motion.div
-                key={index}
-                className="bg-[#F8FFFF] rounded-xl shadow-xl p-6 md:p-8 border border-[#185EAA]/20 hover:shadow-2xl transition-shadow duration-300"
-                variants={itemVariants}
-              >
-                <div className="flex flex-col items-center text-center">
-                  <img
-                    src={person.image}
-                    alt={person.name}
-                    className="w-32 h-32 rounded-full mb-4 object-cover border-4 border-[#F8FFFF] shadow-md"
-                  />
-                  <h3 className="text-xl font-bold text-[#113C6A]">{person.name}</h3>
-                  <p className="text-[#21221C]/70 mb-4">{person.position}</p>
-                  <div className="flex flex-col space-y-3">
-                    <a
-                      href={`mailto:${person.email}`}
-                      className="flex items-center text-[#113C6A] hover:text-[#FF7300] transition-colors"
-                      aria-label={`Email ${person.name}`}
-                    >
-                      <Mail className="w-5 h-5 mr-2 text-[#185EAA]" />
-                      {person.email}
-                    </a>
-                    <a
-                      href={person.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center text-[#113C6A] hover:text-[#FF7300] transition-colors"
-                      aria-label={`LinkedIn profile of ${person.name}`}
-                    >
-                      <Linkedin className="w-5 h-5 mr-2 text-[#185EAA]" />
-                      LinkedIn Profile
-                    </a>
-                    <a
-                      href={`tel:${person.phone}`}
-                      className="flex items-center text-[#113C6A] hover:text-[#FF7300] transition-colors"
-                      aria-label={`Call ${person.name}`}
-                    >
-                      <Phone className="w-5 h-5 mr-2 text-[#185EAA]" />
-                      {person.phone}
-                    </a>
+            {contactPersons.map((person, index) => {
+              const Icon = person.icon;
+              return (
+                <motion.div
+                  key={index}
+                  className="bg-[#F8FFFF] rounded-xl shadow-xl p-6 md:p-8 border border-[#185EAA]/20 hover:shadow-2xl transition-shadow duration-300"
+                  variants={itemVariants}
+                >
+                  <div className="flex flex-col items-center text-center">
+                    {/* Different Icon for each person */}
+                    <Icon className="w-32 h-32 text-[#113C6A] mb-4" strokeWidth={1.5} />
+
+                    <strong className="text-xl font-bold text-[#113C6A]">{person.name}</strong>
+                    <p className="text-[#21221C]/70 mb-4">{person.position}</p>
+                    <div className="flex flex-col space-y-3">
+                      <a
+                        href={`mailto:${person.email}`}
+                        className="flex items-center text-[#113C6A] hover:text-[#FF7300] transition-colors"
+                        aria-label={`Email ${person.name}`}
+                      >
+                        <Mail className="w-5 h-5 mr-2 text-[#185EAA]" />
+                        {person.email}
+                      </a>
+                      <a
+                        href={person.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center text-[#113C6A] hover:text-[#FF7300] transition-colors"
+                        aria-label={`LinkedIn profile of ${person.name}`}
+                      >
+                        <Linkedin className="w-5 h-5 mr-2 text-[#185EAA]" />
+                        LinkedIn Profile
+                      </a>
+                      <a
+                        href={`tel:${person.phone}`}
+                        className="flex items-center text-[#113C6A] hover:text-[#FF7300] transition-colors"
+                        aria-label={`Call ${person.name}`}
+                      >
+                        <Phone className="w-5 h-5 mr-2 text-[#185EAA]" />
+                        {person.phone}
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
       </section>

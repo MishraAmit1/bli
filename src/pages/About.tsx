@@ -4,13 +4,32 @@ import { motion } from "framer-motion";
 import { useEffect } from 'react';
 import PageLayout from '@/components/PageLayout';
 import { Helmet } from 'react-helmet-async';
-
+import aboutImg from "../../public/lovable-uploads/aboutbli.png"
 const About = () => {
   // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  // In the About component, modify the useEffect to handle hash navigation
+  useEffect(() => {
+    // Check if there's a hash in the URL
+    if (window.location.hash === '#why-choose-us') {
+      // Wait for the page to render, then scroll to the section
+      setTimeout(() => {
+        const element = document.getElementById('why-choose-us');
+        if (element) {
+          // Get the element's position and add an offset
+          const yOffset = -100; // Adjust this value based on your header height
+          const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      // Otherwise scroll to top
+      window.scrollTo(0, 0);
+    }
+  }, []);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -64,7 +83,7 @@ const About = () => {
         <meta property="og:title" content="About BLI - Your Trusted Logistics Partner Since 1999" />
         <meta property="og:description" content="Discover BLI's journey from regional transport to pan-India logistics leader. 25+ years, 500+ vehicles, 15+ hubs." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://blirapid.com/about" />
+        <meta property="og:url" content="https://blirapid.com/about/" />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
@@ -72,7 +91,7 @@ const About = () => {
         <meta name="twitter:description" content="From 1999 to today: BLI's journey of becoming India's trusted logistics partner" />
 
         {/* Canonical URL */}
-        <link rel="canonical" href="https://blirapid.com/about" />
+        <link rel="canonical" href="https://blirapid.com/about/" />
 
         {/* Structured Data */}
         <script type="application/ld+json">
@@ -171,7 +190,7 @@ const About = () => {
               </div>
               <div className="relative flex flex-col justify-center">
                 <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO07XvuDlBGoDScqaVyQpK78SRr4ZbDP4O3X8U5CBzy9aNLmfb&s"
+                  src={aboutImg}
                   alt="BLI Logistics warehouse and transportation operations"
                   className="rounded-xl shadow-lg w-full h-auto"
                   loading="lazy"
@@ -394,7 +413,7 @@ const About = () => {
                       <Users className="w-16 h-16 text-[#185EAA]" aria-hidden="true" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold mb-2 text-[#113C6A] text-center sm:text-left">Mr. [Founder's Name]</h3>
+                      <h3 className="text-xl font-bold mb-2 text-[#113C6A] text-center sm:text-left">Mr. Naresh Bansal</h3>
                       <p className="text-[#FF7729] font-medium mb-4 text-center sm:text-left">Founder & Chairman</p>
                       <p className="text-[#21221C]/70">
                         With decades of experience in logistics and a strong entrepreneurial spirit, he laid the foundation of BLI in the late 1990s. His vision of building a reliable logistics brand for India continues to guide the company.

@@ -2,7 +2,7 @@ import { ArrowLeft, Shield, Lock, Eye, Database, Mail, Globe, FileText, AlertCir
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import PageLayout from '@/components/PageLayout';
-
+import { Helmet } from 'react-helmet-async';
 const PrivacyPolicy = () => {
   // Scroll to top on mount
   useEffect(() => {
@@ -11,6 +11,29 @@ const PrivacyPolicy = () => {
 
   return (
     <PageLayout>
+      <Helmet>
+        <title>Privacy Policy | BLI - Bansal Logistics of India</title>
+        <meta name="description" content="BLI Privacy Policy - Learn how we collect, use, and protect your personal information. Your privacy is our priority in logistics services across India." />
+        <meta name="keywords" content="BLI privacy policy, logistics data protection, personal information security, bansal logistics privacy, data collection policy" />
+
+        {/* Open Graph */}
+        <meta property="og:title" content="Privacy Policy - BLI Logistics" />
+        <meta property="og:description" content="Understand how BLI protects your privacy and handles your data in our logistics operations." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://blirapid.com/privacy-policy/" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Privacy Policy | BLI" />
+        <meta name="twitter:description" content="Your privacy matters. Learn about our data protection practices." />
+
+        {/* Canonical URL */}
+        <link rel="canonical" href="https://blirapid.com/privacy-policy/" />
+
+        {/* Additional Meta */}
+        <meta name="robots" content="index, follow" />
+        <meta name="last-modified" content="2025-01-22" />
+      </Helmet>
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-[#113C6A] to-[#185EAA] pt-24 pb-12 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">

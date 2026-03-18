@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { motion } from "framer-motion";
 import {
-    Clock, Search, ArrowRight, ArrowLeft, Filter
+    Clock, Search, ArrowRight, Filter
 } from "lucide-react";
 import { Link } from 'react-router-dom';
 import PageLayout from '@/components/PageLayout';
@@ -32,8 +32,8 @@ const Blogs = () => {
     const blogPosts = [
         {
             title: "Digital Transformation in Supply Chain Analytics",
-            excerpt: "How data-driven insights are revolutionizing logistics operations across industries, enabling better decision-making and operational efficiency.",
-            image: "/lovable-uploads/services1.webp",
+            excerpt: "Digital tools are revolutionizing supply chain decision-making and operational agility.",
+            image: "https://i.pinimg.com/736x/4d/e5/ad/4de5add391b426b1f263c23fc76b612f.jpg",
             category: "Technology",
             readTime: "5 min read",
             date: "Dec 15, 2024",
@@ -44,8 +44,8 @@ const Blogs = () => {
         },
         {
             title: "AI-Powered Warehouse Automation Trends",
-            excerpt: "Exploring the latest developments in artificial intelligence for warehouse management and how they're reshaping the logistics landscape.",
-            image: "/lovable-uploads/services2.webp",
+            excerpt: "The newest AI trends are unlocking smarter, scalable warehouse performance.",
+            image: "https://i.pinimg.com/736x/16/b4/36/16b436e3702ffcb459c2fcb598f2f7e9.jpg",
             category: "Technology",
             readTime: "7 min read",
             date: "Dec 12, 2024",
@@ -56,8 +56,8 @@ const Blogs = () => {
         },
         {
             title: "Sustainable Logistics: Green Transportation Solutions",
-            excerpt: "Environmental initiatives driving the future of eco-friendly logistics operations and sustainable supply chain practices.",
-            image: "/lovable-uploads/services3.webp",
+            excerpt: "Sustainable logistics solutions are driving eco-conscious supply chain success.",
+            image: "https://i.pinimg.com/1200x/e3/50/45/e35045144cec7d7d202269096fb5d71e.jpg",
             category: "Sustainability",
             readTime: "6 min read",
             date: "Dec 10, 2024",
@@ -68,8 +68,8 @@ const Blogs = () => {
         },
         {
             title: "Last-Mile Delivery Optimization Strategies",
-            excerpt: "Best practices for improving last-mile delivery efficiency while reducing costs and enhancing customer satisfaction.",
-            image: "/lovable-uploads/services4.webp",
+            excerpt: "Route planning and automation are transforming last‑mile logistics efficiency.",
+            image: "https://i.pinimg.com/1200x/25/e6/00/25e600f4f9d7f5bd381fbe033d21183b.jpg",
             category: "Operational Tips",
             readTime: "4 min read",
             date: "Dec 8, 2024",
@@ -80,8 +80,8 @@ const Blogs = () => {
         },
         {
             title: "Cross-Border Logistics: Navigating International Trade",
-            excerpt: "Key considerations and strategies for successful international logistics operations in today's global marketplace.",
-            image: "/lovable-uploads/services5.webp",
+            excerpt: "Global trade logistics requires precision in compliance, customs, and partnerships.",
+            image: "https://i.pinimg.com/736x/b0/8a/74/b08a747bc276c46fa62ef903447b3af7.jpg",
             category: "Industry Insights",
             readTime: "8 min read",
             date: "Dec 5, 2024",
@@ -92,8 +92,8 @@ const Blogs = () => {
         },
         {
             title: "The Future of Cold Chain Logistics",
-            excerpt: "Innovations in temperature-controlled transportation and storage solutions for pharmaceutical and food industries.",
-            image: "/lovable-uploads/services6.webp",
+            excerpt: "Emerging cold chain innovations keep goods safer and fresher in transit.",
+            image: "https://i.pinimg.com/1200x/25/6c/2e/256c2e61a6d6f79148ba35b87510541b.jpg",
             category: "Logistics Trends",
             readTime: "6 min read",
             date: "Dec 3, 2024",
@@ -231,8 +231,8 @@ const Blogs = () => {
                 <meta property="og:title" content="Logistics Blog - Expert Supply Chain Insights | BLI" />
                 <meta property="og:description" content="Stay informed with latest logistics trends, AI automation, sustainability practices, and supply chain best practices from industry experts." />
                 <meta property="og:type" content="blog" />
-                <meta property="og:url" content="https://blirapid.com/resources/blogs" />
-                <meta property="og:image" content="https://blirapid.com/logistics-blog-insights.jpg" />
+                <meta property="og:url" content="https://blirapid.com/resources/blogs/" />
+
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -240,7 +240,7 @@ const Blogs = () => {
                 <meta name="twitter:description" content="Expert insights on supply chain, warehouse automation, and logistics trends." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://blirapid.com/resources/blogs" />
+                <link rel="canonical" href="https://blirapid.com/resources/blogs/" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">
@@ -378,7 +378,9 @@ const Blogs = () => {
                                                         {post.title}
                                                     </h3>
                                                     <p className="text-sm sm:text-base text-[#21221C]/70 mb-3 sm:mb-4 line-clamp-3">{post.excerpt}</p>
-                                                    <span className="inline-flex items-center text-sm text-[#FF7729] hover:underline">
+                                                    <span className="inline-flex items-center text-sm text-[#FF7729] hover:underline"
+                                                        aria-label={`Read more about ${post.title}`}
+                                                    >
                                                         Read More
                                                         <ArrowRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" aria-hidden="true" />
                                                     </span>
@@ -457,7 +459,9 @@ const Blogs = () => {
                                                             {post.title}
                                                         </h3>
                                                         <p className="text-sm sm:text-base text-[#21221C]/70 mb-3 sm:mb-4 line-clamp-3">{post.excerpt}</p>
-                                                        <span className="inline-flex items-center text-sm text-[#FF7729] hover:underline">
+                                                        <span className="inline-flex items-center text-sm text-[#FF7729] hover:underline"
+                                                            aria-label={`Read more about ${post.title}`}
+                                                        >
                                                             Read More
                                                             <ArrowRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" aria-hidden="true" />
                                                         </span>

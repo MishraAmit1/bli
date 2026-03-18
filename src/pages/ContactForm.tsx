@@ -9,11 +9,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import emailjs from 'emailjs-com';
-
+import { Helmet } from 'react-helmet-async';
 // ==================== EMAILJS CONFIGURATION ====================
-const EMAILJS_SERVICE_ID = "service_a69cmrl"; // Same service ID jo footer mein use kiya
-const EMAILJS_TEMPLATE_ID = "template_ye25kyi"; // New template ID for contact form
-const EMAILJS_PUBLIC_KEY = "tuMby3K1-jT62DW4C"; // Same public key
+const EMAILJS_SERVICE_ID = "service_fmc9z7b"; // Same service ID jo footer mein use kiya
+const EMAILJS_TEMPLATE_ID = "template_jka9v1a"; // New template ID for contact form
+const EMAILJS_PUBLIC_KEY = "JpElQajspgFk5S0-l"; // Same public key
 
 // ==================== SCHEMA ====================
 const formSchema = z.object({
@@ -386,6 +386,30 @@ const ContactInfoSection = () => {
 const ContactForm = () => {
   return (
     <PageLayout>
+      <Helmet>
+        <title>Contact | BLI</title>
+        <meta name="description" content="Get in touch with BLI for all your logistics needs. Contact us via phone, email, or visit our office." />
+        <meta name="keywords" content="contact BLI, logistics support, customer service, BLI office" />
+
+        {/* Open Graph */}
+        <meta property="og:title" content="Contact | BLI" />
+        <meta property="og:description" content="Get in touch with BLI for all your logistics needs. Contact us via phone, email, or visit our office." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://blirapid.com/contact/" />
+
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Logistics Resource Downloads | BLI Rapid" />
+        <meta name="twitter:description" content="Download logistics company profiles, service brochures, and capability documents." />
+
+        {/* Canonical URL */}
+        <link rel="canonical" href="https://blirapid.com/contact/" />
+
+        {/* Structured Data */}
+
+      </Helmet>
+
       <section id="contact" className="bg-gradient-to-b from-[#FFFDF7] to-[#113C6A] text-[#FFFDF7] relative py-[60px] mt-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 

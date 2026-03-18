@@ -1,3 +1,5 @@
+// prerender.mjs
+
 import fs from "fs/promises";
 import path from "path";
 import { spawn } from "child_process";
@@ -7,28 +9,28 @@ const __dirname = process.cwd();
 const distDir = path.resolve(__dirname, "dist");
 const port = 5050;
 
-// Fixed routes - corrected the faqs route
 const routes = [
   "/",
-  "/about",
-  "/services",
-  "/industries",
-  "/resources",
-  "/contact",
-  "/services/full-truckload",
-  "/services/part-load",
-  "/services/3pl",
-  "/services/warehousing",
-  "/services/local-dispatch",
-  "/services/rail-freight",
-  "/services/air-cargo",
-  "/services/real-time-support",
-  "/resources/blogs",
-  "/resources/faqs", // Fixed - added missing /
-  "/resources/downloads",
-  "/resources/reports",
-  "/privacy-policy",
-  "/terms-of-service",
+  "/about/",
+  "/services/",
+  "/industries/",
+  "/resources/",
+  "/contact/",
+  "/services/full-truckload/",
+  "/services/part-load/",
+  "/services/part-load-vapi/",
+  "/services/3pl/",
+  "/services/warehousing/",
+  "/services/local-dispatch/",
+  "/services/rail-freight/",
+  "/services/air-cargo/",
+  "/services/real-time-support/",
+  "/resources/blogs/",
+  "/resources/faqs/",
+  "/resources/downloads/",
+  "/resources/reports/",
+  "/privacy-policy/",
+  "/terms-of-service/",
 ];
 
 console.log("🚀 Starting local server...");
@@ -36,18 +38,14 @@ console.log("🚀 Starting local server...");
 const isWindows = process.platform === "win32";
 const serveCommand = isWindows ? "npx.cmd" : "npx";
 
-const serveProcess = spawn(serveCommand, ["serve", "-s", "dist", "-l", port], {
-  stdio: "pipe",
-  shell: isWindows,
-});
-
-serveProcess.stdout.on("data", (data) => {
-  console.log(`Server: ${data}`);
-});
-
-serveProcess.stderr.on("data", (data) => {
-  console.log(`Server Error: ${data}`);
-});
+const serveProcess = spawn(
+  serveCommand,
+  ["serve", "-s", "dist", "-l", port, "--single"],
+  {
+    stdio: "pipe",
+    shell: isWindows,
+  }
+);
 
 console.log("⏳ Waiting for server to start...");
 await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -55,7 +53,8 @@ await new Promise((resolve) => setTimeout(resolve, 5000));
 console.log("✅ Server should be running. Beginning pre-rendering...\n");
 
 let browser;
-let page;
+let successCount = 0;
+let errorCount = 0;
 
 try {
   browser = await puppeteer.launch({
@@ -64,70 +63,69 @@ try {
       "--no-sandbox",
       "--disable-setuid-sandbox",
       "--disable-dev-shm-usage",
-      "--disable-web-security",
-      "--disable-features=VizDisplayCompositor",
     ],
   });
 
-  page = await browser.newPage();
-
-  // Disable images/fonts to speed up
-  await page.setRequestInterception(true);
-  page.on("request", (req) => {
-    if (["image", "font", "media"].includes(req.resourceType())) {
-      req.abort();
-    } else {
-      req.continue();
-    }
-  });
-
-  let successCount = 0;
-  let errorCount = 0;
-
+  // Process each route
   for (const route of routes) {
-    const url = `http://localhost:${port}${route}`;
     console.log(`📄 Pre-rendering: ${route}`);
 
+    // Create a new page for each route (important!)
+    const page = await browser.newPage();
+
     try {
-      await page.goto(url, { waitUntil: "networkidle0", timeout: 30000 });
+      // Set viewport
+      await page.setViewport({ width: 1920, height: 1080 });
 
-      // Wait for React Helmet meta tags to be injected
-      await page.waitForFunction(
-        () => {
-          const canonical = document.querySelector('link[rel="canonical"]');
-          const title = document.title;
-          const description = document.querySelector(
-            'meta[name="description"]'
-          );
-          const hasContent = document.querySelector(
-            'h1, main, [role="main"], .container'
-          );
+      // Disable images and fonts to speed up
+      await page.setRequestInterception(true);
+      page.on("request", (req) => {
+        const resourceType = req.resourceType();
+        const blockedTypes = ["image", "media", "font", "stylesheet"];
 
-          return (
-            canonical &&
-            title &&
-            title !== "BLI - Bansal Logistics of India" &&
-            description &&
-            hasContent
-          );
-        },
-        { timeout: 15000 }
-      );
+        if (blockedTypes.includes(resourceType)) {
+          req.abort();
+        } else {
+          req.continue();
+        }
+      });
 
-      // Use setTimeout instead of page.waitForTimeout (FIXED)
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Navigate directly to the route
+      const url = `http://localhost:${port}${route}`;
+      await page.goto(url, {
+        waitUntil: ["networkidle0", "domcontentloaded"],
+        timeout: 30000,
+      });
 
+      // Add this new section to properly wait for title updates
+      try {
+        // Wait for React Helmet to update the title
+        await page.waitForFunction(
+          () => {
+            const title = document.title;
+            return (
+              title &&
+              title !==
+                "BLI - Bansal Logistics of India | Trusted Partner 25+ Years"
+            );
+          },
+          { timeout: 5000 }
+        );
+
+        // Get the updated title
+        const pageTitle = await page.title();
+        console.log(`   🔍 Current title: ${pageTitle}`);
+      } catch (e) {
+        console.warn(`   ⚠️ Title update timeout for ${route}`);
+      }
+
+      // Get the final HTML
       const html = await page.content();
 
-      // Verify that we got the right content
+      // Log what we captured
       const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/);
-      const canonicalMatch = html.match(
-        /<link[^>]*rel="canonical"[^>]*href="([^"]+)"/
-      );
-
-      if (titleMatch && canonicalMatch) {
+      if (titleMatch) {
         console.log(`   📝 Title: ${titleMatch[1]}`);
-        console.log(`   🔗 Canonical: ${canonicalMatch[1]}`);
       }
 
       // Create output path
@@ -141,65 +139,21 @@ try {
 
       // Write the pre-rendered HTML
       await fs.writeFile(outputPath, html, "utf8");
-      console.log(`✅ Saved: ${outputPath}\n`);
+      console.log(`   ✅ Saved: ${outputPath}\n`);
       successCount++;
     } catch (error) {
       console.error(`❌ Error pre-rendering ${route}:`, error.message);
-
-      // Try a fallback approach for failed routes
-      try {
-        console.log(`   🔄 Trying fallback approach for ${route}...`);
-        await page.goto(url, { waitUntil: "domcontentloaded", timeout: 15000 });
-
-        // Wait a bit for React to render
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-
-        const html = await page.content();
-
-        // Check if we got some content (not just empty page)
-        if (
-          html.includes("<h1") ||
-          html.includes("main") ||
-          html.includes("container")
-        ) {
-          const outputPath =
-            route === "/"
-              ? path.join(distDir, "index.html")
-              : path.join(distDir, route, "index.html");
-
-          await fs.mkdir(path.dirname(outputPath), { recursive: true });
-          await fs.writeFile(outputPath, html, "utf8");
-          console.log(`   ✅ Saved with fallback: ${outputPath}\n`);
-          successCount++;
-        } else {
-          console.log(`   ⚠️  Route ${route} failed completely\n`);
-          errorCount++;
-        }
-      } catch (fallbackError) {
-        console.log(`   ⚠️  Fallback also failed for ${route}\n`);
-        errorCount++;
-      }
+      errorCount++;
+    } finally {
+      await page.close();
     }
   }
 
   console.log("🎉 Pre-rendering complete!");
   console.log(`✅ Success: ${successCount} pages`);
   console.log(`❌ Errors: ${errorCount} pages`);
-
-  if (successCount > 0) {
-    console.log("\n🔍 To verify, check:");
-    console.log("   - dist\\about\\index.html");
-    console.log("   - dist\\services\\index.html");
-    console.log("   - dist\\services\\full-truckload\\index.html");
-    console.log("   - dist\\resources\\blogs\\index.html");
-    console.log("\n📋 Next steps:");
-    console.log("   1. Check files were created");
-    console.log("   2. Open any file in browser and View Source");
-    console.log("   3. Look for unique <title> and <link rel='canonical'>");
-    console.log("   4. If successful, upload dist/ folder to Hostinger");
-  }
 } catch (error) {
-  console.error("❌ Fatal error:", error.message);
+  console.error("❌ Fatal error:", error);
 } finally {
   if (browser) {
     await browser.close();

@@ -1,6 +1,7 @@
 // src/pages/Industries.tsx
 
 import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion";
 import {
     Cpu, Gift, Coffee, Home, Shirt, Wrench, Car, ShoppingCart,
@@ -20,7 +21,25 @@ const Industries = () => {
     }, []);
 
     const [selectedIndustry, setSelectedIndustry] = useState<string | null>(null);
+    const { industryId } = useParams();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (industryId) {
+            // Check if the industry exists
+            const industryExists = industries.some(ind => ind.id === industryId);
 
+            if (industryExists) {
+                setSelectedIndustry(industryId);
+                // Scroll to the selected industry section after a short delay
+                setTimeout(() => {
+                    const element = document.getElementById('selected-industry-section');
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 100);
+            }
+        }
+    }, [industryId]);
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -166,9 +185,16 @@ const Industries = () => {
     ];
 
     const handleIndustryClick = (industryId: string) => {
-        setSelectedIndustry(selectedIndustry === industryId ? null : industryId);
+        if (selectedIndustry === industryId) {
+            // If clicking the same industry, close it
+            setSelectedIndustry(null);
+            navigate('/industries');
+        } else {
+            // Navigate to the project URL
+            setSelectedIndustry(industryId);
+            navigate(`/projects/${industryId}`);
+        }
     };
-
     const selectedIndustryData = industries.find(ind => ind.id === selectedIndustry);
 
     // Structured Data for Industries
@@ -238,11 +264,15 @@ const Industries = () => {
             }
         ]
     };
+    const currentPath = industryId ? `/projects/${industryId}` : '/industries';
+    const pageTitle = industryId && selectedIndustryData
+        ? `${selectedIndustryData.title} Logistics Solutions | BLI`
+        : 'Industries We Serve | Electronics, FMCG, Automotive, Apparel Logistics | BLI';
 
     return (
         <PageLayout>
             <Helmet>
-                <title>Industries We Serve | Electronics, FMCG, Automotive, Apparel Logistics | BLI</title>
+                <title>{pageTitle}</title>
                 <meta name="description" content="Specialized logistics for 8+ industries: Electronics (zero-breakage), FMCG (temperature-controlled), Automotive (dealer network), Apparel, Marketplace sellers. Tailored SOPs for each sector." />
                 <meta name="keywords" content="industry logistics, electronics logistics, FMCG logistics, automotive logistics, apparel logistics, marketplace logistics, specialized logistics, industry-specific transport" />
 
@@ -250,8 +280,8 @@ const Industries = () => {
                 <meta property="og:title" content="Industry-Specific Logistics Solutions | BLI" />
                 <meta property="og:description" content="Tailored logistics for Electronics, FMCG, Automotive, Apparel & more. Specialized handling, SOPs, and industry expertise." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://blirapid.com/industries" />
-                <meta property="og:image" content="https://blirapid.com/lovable-uploads/industries7.webp" />
+                <link rel="canonical" href={`https://blirapid.com${currentPath}`} />
+
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -259,7 +289,7 @@ const Industries = () => {
                 <meta name="twitter:description" content="8+ industries served with tailored logistics: Electronics, FMCG, Automotive, Apparel, Marketplace sellers." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://blirapid.com/industries" />
+                <link rel="canonical" href={`https://blirapid.com${currentPath}`} />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">
@@ -280,6 +310,16 @@ const Industries = () => {
                                 <ArrowLeft className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                                 Back to Home
                             </Link>
+                            {industryId && selectedIndustryData && (
+                                <>
+                                    <span className="mx-2 text-[#F8FFFF]/60">/</span>
+                                    <Link to="/industries" className="text-[#F8FFFF]/80 hover:text-[#F8FFFF] transition-colors">
+                                        Industries
+                                    </Link>
+                                    <span className="mx-2 text-[#F8FFFF]/60">/</span>
+                                    <span className="text-[#F8FFFF]">{selectedIndustryData.title}</span>
+                                </>
+                            )}
                         </nav>
 
                         <motion.h1
@@ -387,6 +427,7 @@ const Industries = () => {
                     {/* Selected Industry Details */}
                     {selectedIndustry && selectedIndustryData && (
                         <motion.section
+                            id="selected-industry-section"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}

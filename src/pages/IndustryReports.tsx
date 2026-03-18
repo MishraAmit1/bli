@@ -315,8 +315,8 @@ const IndustryReports = () => {
                 <meta property="og:title" content="Logistics Industry Reports & Market Analysis | BLI Research" />
                 <meta property="og:description" content="Comprehensive logistics industry reports and market analysis covering trends, technology, and insights in the Indian logistics sector." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://blirapid.com/resources/reports" />
-                <meta property="og:image" content="https://blirapid.com/logistics-industry-reports.jpg" />
+                <meta property="og:url" content="https://blirapid.com/resources/reports/" />
+
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -324,7 +324,7 @@ const IndustryReports = () => {
                 <meta name="twitter:description" content="Expert insights on logistics trends, market analysis, and industry innovations." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://blirapid.com/resources/reports" />
+                <link rel="canonical" href="https://blirapid.com/resources/reports/" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

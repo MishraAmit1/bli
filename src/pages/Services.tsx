@@ -105,7 +105,7 @@ const Services = () => {
             icon: <ShoppingBag className="w-4 h-4 text-[#FFFDF7]" />,
             title: "Air Cargo Services",
             description: "Same-day or next-day air freight for urgent, high-value shipments.",
-            image: "/lovable-uploads/services7.jpg",
+            image: "/lovable-uploads/services7.webp",
             overlayText: "Express • Secure",
             link: "/services/air-cargo",
             subFeatures: [
@@ -117,7 +117,7 @@ const Services = () => {
             icon: <Briefcase className="w-4 h-4 text-[#FFFDF7]" />,
             title: "Real-Time Support",
             description: "Stay informed with proactive updates and live tracking.",
-            image: "/lovable-uploads/services8.png",
+            image: "/lovable-uploads/services8.webp",
             overlayText: "Always-On • Transparent",
             link: "/services/real-time-support",
             subFeatures: [
@@ -165,15 +165,15 @@ const Services = () => {
                 <meta property="og:title" content="Complete Logistics Solutions | BLI Services" />
                 <meta property="og:description" content="End-to-end logistics services: FTL, PTL, 3PL, Warehousing, Rail & Air Freight across India. Get reliable, scalable solutions." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://blirapid.com/services" />
-                <meta property="og:image" content="https://blirapid.com/services-og-image.jpg" />
+                <meta property="og:url" content="https://blirapid.com/services/" />
+
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="BLI Logistics Services - Complete Supply Chain Solutions" />
                 <meta name="twitter:description" content="From FTL to Air Cargo, comprehensive logistics solutions for businesses across India" />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://blirapid.com/services" />
+                <link rel="canonical" href="https://blirapid.com/services/" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

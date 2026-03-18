@@ -4,7 +4,6 @@ import { ArrowRight, Newspaper, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import BlogPostCard from '@/components/BlogPostCard';
 import { blogPosts } from '@/data/blogPosts';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 
@@ -234,6 +233,7 @@ const BlogPreview = () => {
                       style={{ scrollSnapAlign: 'center' }}
                     >
                       <MemoizedBlogPostCard
+                        key={post.title}
                         title={post.title}
                         excerpt={post.excerpt}
                         imageUrl={post.image || '/placeholder.svg'}

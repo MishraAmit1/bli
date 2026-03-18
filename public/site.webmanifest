@@ -1,6 +1,9 @@
 {
-  "name": "MyWebSite",
-  "short_name": "MySite",
+  "name": "Bansal Logistics of India",
+  "short_name": "Bansal Logistics",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -17,5 +20,7 @@
   ],
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
-  "display": "standalone"
+  "orientation": "portrait-primary",
+  "description": "Bansal Logistics of India - Reliable and Efficient Logistics Solutions Across India.",
+  "lang": "en-US"
 }

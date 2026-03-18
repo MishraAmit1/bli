@@ -40,9 +40,9 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   // EmailJS configuration
-  const EMAILJS_SERVICE_ID = "service_a69cmrl";
-  const EMAILJS_TEMPLATE_ID = "template_f9grud5";
-  const EMAILJS_PUBLIC_KEY = "tuMby3K1-jT62DW4C";
+  const EMAILJS_SERVICE_ID = "service_fmc9z7b";
+  const EMAILJS_TEMPLATE_ID = "template_xij7ws5";
+  const EMAILJS_PUBLIC_KEY = "JpElQajspgFk5S0-l";
 
   // Services and Quick Links data
   const services = [
@@ -50,12 +50,13 @@ const Footer = () => {
     { to: "/services/part-load", label: "Part Load" },
     { to: "/services/3pl", label: "3PL & Distribution" },
     { to: "/services/warehousing", label: "Warehousing Support" },
-    { to: "/services/rail-freight", label: "Rail & Air Freight" }
+    { to: "/services/rail-freight", label: "Rail & Air Freight" },
+    { to: "/services/part-load-vapi", label: "Daily Services" }
   ];
 
   const quickLinks = [
     { to: "/about", label: "About Us" },
-    { to: "/why-bli", label: "Why BLI" },
+    { to: "/about#why-choose-us", label: "Why BLI" },
     { to: "/industries", label: "Industries We Serve" },
     { to: "/resources", label: "Case Studies" },
     { to: "/resources", label: "Insights & Blogs" },
@@ -197,9 +198,6 @@ const Footer = () => {
                   loading="lazy"
                 />
               </Link>
-              <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-[#FF7300] to-[#FF7729] bg-clip-text text-transparent">
-                BLI – Bansal Logistics of India
-              </h3>
               <p className="text-[#F8FFFF]/80 text-sm mb-8 leading-relaxed">
                 With 25+ years of legacy in logistics, BLI has built trust as a
                 reliable partner for industries across India.
@@ -329,6 +327,7 @@ const Footer = () => {
           <div className="pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-[#F8FFFF]/60">
             <p>
               © {currentYear} BLI – Bansal Logistics of India. All rights reserved.
+              Crafted by <a href="https://flauraa.com" target="_blank">Flauraa</a>.
             </p>
             <div className="mt-4 md:mt-0 flex flex-wrap items-center justify-center md:justify-end gap-2 md:gap-4">
               <span>GST: <span className="font-semibold text-[#F8FFFF]/80">24AGIPB0188Q1Z6</span></span>

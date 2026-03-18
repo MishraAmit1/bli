@@ -155,8 +155,8 @@ const FullTruckload = () => {
                 <meta property="og:title" content="Full Truck Load Services - Dedicated Trucks Across India | BLI" />
                 <meta property="og:description" content="Book dedicated trucks from 9MT to 25MT capacity. Direct delivery, GPS tracking, insurance coverage. Serving Manufacturing, E-commerce, FMCG sectors." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://blirapid.com/services/full-truckload" />
-                <meta property="og:image" content="https://blirapid.com/ftl-service-image.jpg" />
+                <meta property="og:url" content="https://blirapid.com/services/full-truckload/" />
+
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -164,7 +164,7 @@ const FullTruckload = () => {
                 <meta name="twitter:description" content="Exclusive truck transportation for large shipments. 40% faster transit, real-time tracking." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://blirapid.com/services/full-truckload" />
+                <link rel="canonical" href="https://blirapid.com/services/full-truckload/" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

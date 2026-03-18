@@ -88,6 +88,7 @@ const FeatureCard = memo(({ feature, index }: { feature: any, index: number }) =
         <Link
           to={feature.link}
           className="flex items-center text-[#FF7729] text-sm font-medium hover:underline"
+          aria-label={`Read more about ${feature.title}`}
         >
           Read More
           <span className="sr-only"> about {feature.title}</span>
@@ -131,7 +132,7 @@ const PhaseCard = memo(({ phase, index, progressValue, sprintPhases }: any) => (
     <HoverCardContent
       side="top"
       align="center"
-      className="z-[8999] w-64 shadow-xl border border-[#185EAA]/10 relative bg-white"
+      className="z-[90] w-64 shadow-xl border border-[#185EAA]/10 relative bg-white"
     >
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -328,35 +329,46 @@ const Features = () => {
   }, []);
 
   // Progress animation with cleanup
+  // Replace the existing useEffect for progress animation with this:
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    let timeout: NodeJS.Timeout;
+    let animationFrame: number;
+    let startTime: number;
+    const duration = 4000; // 4 seconds for full progress
+    const pauseDuration = 500; // 0.5 second pause at 100%
 
-    const animateProgress = () => {
-      setProgressValue(0);
-      interval = setInterval(() => {
-        setProgressValue(prev => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            timeout = setTimeout(() => {
-              setCurrentSprint(prev => prev < totalSprints ? prev + 1 : 1);
-              animateProgress();
-            }, 500);
-            return 100;
-          }
-          return prev + 10;
-        });
-      }, 400);
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+
+      if (elapsed < duration) {
+        // Smooth progress from 0 to 100
+        const progress = (elapsed / duration) * 100;
+        setProgressValue(Math.min(progress, 100));
+        animationFrame = requestAnimationFrame(animate);
+      } else if (elapsed < duration + pauseDuration) {
+        // Hold at 100%
+        setProgressValue(100);
+        animationFrame = requestAnimationFrame(animate);
+      } else {
+        // Reset and update sprint
+        setProgressValue(0);
+        setCurrentSprint(prev => prev < totalSprints ? prev + 1 : 1);
+        startTime = timestamp + 100; // Small delay before restart
+        animationFrame = requestAnimationFrame(animate);
+      }
     };
 
     // Only start animation when section is in view
     if (isApproachInView) {
-      animateProgress();
+      animationFrame = requestAnimationFrame(animate);
+    } else {
+      setProgressValue(0);
     }
 
     return () => {
-      clearInterval(interval);
-      clearTimeout(timeout);
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
     };
   }, [isApproachInView, totalSprints]);
 
@@ -548,7 +560,6 @@ const Features = () => {
               ensuring your cargo arrives exactly when and where it's needed.
             </p>
           </div>
-
           <div className="bg-[#F8FFFF] rounded-xl shadow-lg border border-[#185EAA]/20 md:p-8 p-3 mb-10 transition-all duration-300 hover:shadow-xl">
             <div className="bg-gradient-to-r from-[#F8FFFF] to-[#FFFDF7] rounded-lg md:p-6 p-4 mb-10 shadow-md border border-[#185EAA]/20">
               <div className="max-w-4xl mx-auto">
@@ -557,7 +568,7 @@ const Features = () => {
                     <h3 className="text-xl font-bold text-[#113C6A]">We start by understanding your shipment goals</h3>
                   </div>
                   <div className="flex items-center">
-                    <span className="text-sm text-[#113C6A]/60 mr-2">Iterative Development</span>
+                    {/* <span className="text-sm text-[#113C6A]/60 mr-2">Iterative Development</span> */}
                     <RefreshCcw className="h-5 w-5 text-[#185EAA] animate-rotate-slow" />
                   </div>
                 </div>
@@ -572,7 +583,7 @@ const Features = () => {
                   />
                 </div>
 
-                <div className={cn("grid gap-1 mt-4 relative z-[50]", isMobile ? "grid-cols-2 gap-y-2" : "grid-cols-5")}>
+                <div className={cn("grid gap-1 mt-4", isMobile ? "grid-cols-2 gap-y-2" : "grid-cols-5")}>
                   {sprintPhases.map((phase, index) => (
                     <PhaseCard
                       key={index}

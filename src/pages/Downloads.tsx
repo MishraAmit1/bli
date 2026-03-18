@@ -284,8 +284,8 @@ const Downloads = () => {
                 <meta property="og:title" content="Logistics Resource Downloads - Free Company Profiles & Brochures | BLI" />
                 <meta property="og:description" content="Access comprehensive logistics documentation including company profiles, fleet capabilities, warehouse infrastructure, and compliance documents. Free PDF downloads." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://blirapid.com/resources/downloads" />
-                <meta property="og:image" content="https://blirapid.com/logistics-resources-downloads.jpg" />
+                <meta property="og:url" content="https://blirapid.com/resources/downloads/" />
+
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -293,7 +293,7 @@ const Downloads = () => {
                 <meta name="twitter:description" content="Download logistics company profiles, service brochures, and capability documents." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://blirapid.com/resources/downloads" />
+                <link rel="canonical" href="https://blirapid.com/resources/downloads/" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

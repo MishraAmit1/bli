@@ -1,11 +1,13 @@
-
 #root {
-  width: 100vw; /* Changed from width: 100% to 100vw */
-  max-width: 100%; /* Added max-width to prevent horizontal scrolling */
+  width: 100vw;
+  /* Changed from width: 100% to 100vw */
+  max-width: 100%;
+  /* Added max-width to prevent horizontal scrolling */
   margin: 0;
   padding: 0;
   text-align: center;
-  overflow-x: hidden; /* Added to prevent horizontal scrollbar */
+  overflow-x: hidden;
+  /* Added to prevent horizontal scrollbar */
 }
 
 .logo {
@@ -14,9 +16,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -25,6 +29,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

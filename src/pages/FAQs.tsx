@@ -272,8 +272,8 @@ const FAQs = () => {
                 <meta property="og:title" content="Logistics FAQs - Quick Answers to Your Questions | BLI Rapid" />
                 <meta property="og:description" content="Find instant answers to common logistics questions about shipping, tracking, billing, and support. Expert help available 24/7." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://blirapid.com/resources/faqs" />
-                <meta property="og:image" content="https://blirapid.com/logistics-faq-support.jpg" />
+                <meta property="og:url" content="https://blirapid.com/resources/faqs/" />
+
 
                 {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -281,7 +281,7 @@ const FAQs = () => {
                 <meta name="twitter:description" content="Quick answers to logistics questions about shipping, tracking, billing, and customer support." />
 
                 {/* Canonical URL */}
-                <link rel="canonical" href="https://blirapid.com/resources/faqs" />
+                <link rel="canonical" href="https://blirapid.com/resources/faqs/" />
 
                 {/* Structured Data */}
                 <script type="application/ld+json">

@@ -2,7 +2,7 @@ import { ArrowLeft, FileText, Scale, CheckCircle, AlertTriangle, Users, Package,
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import PageLayout from '@/components/PageLayout';
-
+import { Helmet } from 'react-helmet-async';
 const TermsofService = () => {
     // Scroll to top on mount
     useEffect(() => {
@@ -11,6 +11,29 @@ const TermsofService = () => {
 
     return (
         <PageLayout>
+            <Helmet>
+                <title>Terms of Service | BLI - Bansal Logistics of India</title>
+                <meta name="description" content="BLI Terms of Service - Read our terms and conditions for logistics services including FTL, PTL, warehousing, and freight services across India. Effective January 2025." />
+                <meta name="keywords" content="BLI terms of service, logistics terms conditions, shipping terms, freight terms, bansal logistics terms, transportation agreement" />
+
+                {/* Open Graph */}
+                <meta property="og:title" content="Terms of Service - BLI Logistics" />
+                <meta property="og:description" content="Terms and conditions for using BLI's logistics services. Understand your rights and responsibilities." />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://blirapid.com/terms-of-service/" />
+
+                {/* Twitter Card */}
+                <meta name="twitter:card" content="summary" />
+                <meta name="twitter:title" content="Terms of Service | BLI" />
+                <meta name="twitter:description" content="Read our terms for logistics services across India." />
+
+                {/* Canonical URL */}
+                <link rel="canonical" href="https://blirapid.com/terms-of-service/" />
+
+                {/* Additional Meta */}
+                <meta name="robots" content="index, follow" />
+                <meta name="last-modified" content="2025-01-22" />
+            </Helmet>
             {/* Hero Section */}
             <section className="bg-gradient-to-b from-[#113C6A] to-[#185EAA] pt-24 pb-12 relative overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
