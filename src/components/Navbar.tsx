@@ -1,8 +1,23 @@
-import { useState, useEffect, useCallback, memo } from 'react';
-import { cn } from '@/lib/utils';
-import { Menu, X, ChevronDown, ChevronRight, Phone } from "lucide-react";
+import { useState, useEffect, useCallback, memo } from "react";
+import { cn } from "@/lib/utils";
+import {
+  Menu,
+  X,
+  ChevronDown,
+  ChevronRight,
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  Facebook,
+  Twitter,
+  Linkedin,
+  Instagram,
+  Truck,
+  ArrowRight,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from "react-router-dom";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,516 +25,621 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
 const servicesData = [
   {
     to: "/services/full-truckload",
     title: "Full Truck Load (FTL)",
-    description: "Complete trucks for large-volume cargo"
+    description: "Dedicated trucks for large shipments",
   },
   {
     to: "/services/part-load",
     title: "Part Load (PTL)",
-    description: "Pay only for the space you use"
+    description: "Cost-effective shared transport",
   },
   {
     to: "/services/3pl",
     title: "3PL & Distribution",
-    description: "End-to-end supply chain management"
+    description: "End-to-end supply chain solutions",
   },
   {
     to: "/services/warehousing",
     title: "Warehousing Support",
-    description: "Strategic storage solutions"
+    description: "Strategic storage & inventory",
   },
   {
     to: "/services/local-dispatch",
     title: "Local & Regional Dispatch",
-    description: "Quick, reliable deliveries within cities"
+    description: "Reliable intra-city deliveries",
   },
   {
     to: "/services/rail-freight",
     title: "Rail Freight Solutions",
-    description: "Cost-efficient bulk shipping"
+    description: "Bulk cargo via rail networks",
   },
   {
     to: "/services/air-cargo",
     title: "Air Cargo Services",
-    description: "Express air freight solutions"
+    description: "Time-critical air shipments",
   },
   {
     to: "/services/real-time-support",
     title: "Real-Time Support",
-    description: "24/7 coordination with live tracking"
-  }
+    description: "24/7 tracking & coordination",
+  },
 ];
 
-// Memoized NavLink component
-const NavLink = memo(({ to, children, className, onClick, isScrolled }: any) => (
-  <Link
-    to={to}
-    className={className}
-    onClick={onClick}
-    aria-label={`Navigate to ${children}`}
-  >
-    {children}
-  </Link>
-));
+const networkData = {
+  pickup: [
+    {
+      region: "Gujarat Belt",
+      cities: ["Vapi (GIDC)", "Valsad", "Surat", "Ahmedabad"],
+      to: "/services/part-load-transport/vapi",
+    },
+    {
+      region: "Maharashtra",
+      cities: ["Mumbai", "Bhiwandi", "Vasai", "Navi Mumbai"],
+      to: "/services/part-load-transport/mumbai",
+    },
+    {
+      region: "Micro Hubs",
+      cities: ["Daman", "Silvassa"],
+      to: "/services/part-load-transport/daman",
+    },
+  ],
+  delivery: [
+    {
+      region: "Delhi NCR & North",
+      cities: ["Delhi", "Noida", "Gurugram", "Ghaziabad"],
+      to: "/services/part-load-transport/delhi-ncr",
+    },
+    {
+      region: "Punjab & Haryana",
+      cities: ["Ludhiana", "Amritsar", "Panipat", "Karnal"],
+      to: "/services/part-load-transport/punjab-region",
+    },
+    {
+      region: "East India",
+      cities: ["Kolkata", "Patna", "Ranchi", "Guwahati"],
+      to: "/services/part-load-transport/east-india",
+    },
+    {
+      region: "Central & UP",
+      cities: ["Lucknow", "Kanpur", "Indore", "Bhopal"],
+      to: "/services/part-load-transport/lucknow",
+    },
+    {
+      region: "South India",
+      cities: ["Bangalore", "Chennai", "Hyderabad"],
+      to: "/services/part-load-transport/south-india",
+    },
+  ],
+};
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [openMobileDropdown, setOpenMobileDropdown] = useState<string | null>(null);
+  const [openMobileDropdown, setOpenMobileDropdown] = useState<string | null>(
+    null,
+  );
+  const [showTopBar, setShowTopBar] = useState(true);
   const location = useLocation();
 
-  // Optimized scroll handler with throttling
   useEffect(() => {
     let ticking = false;
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           setIsScrolled(window.scrollY > 10);
+          setShowTopBar(window.scrollY <= 50);
           ticking = false;
         });
         ticking = true;
       }
     };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setIsMenuOpen(false);
     setOpenMobileDropdown(null);
   }, [location.pathname]);
 
-  // Prevent body scroll ONLY when mobile menu is open (not for dropdowns)
   useEffect(() => {
-    if (isMenuOpen) {
-      // Disable body scroll when mobile menu is open
-      document.body.style.overflow = 'hidden';
-    } else {
-      // Enable body scroll when mobile menu is closed
-      document.body.style.overflow = 'unset';
-    }
-
+    document.body.style.overflow = isMenuOpen ? "hidden" : "unset";
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [isMenuOpen]);
 
-  const toggleMenu = useCallback(() => setIsMenuOpen(prev => !prev), []);
-
-  const toggleMobileDropdown = useCallback((dropdown: string) => {
-    setOpenMobileDropdown(prev => prev === dropdown ? null : dropdown);
+  const toggleMenu = useCallback(() => setIsMenuOpen((prev) => !prev), []);
+  const toggleMobileDropdown = useCallback((d: string) => {
+    setOpenMobileDropdown((prev) => (prev === d ? null : d));
   }, []);
-
   const handleNavClick = useCallback(() => {
     setIsMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
-  // Reusable underline hover styles
   const linkUnderline = `
     relative bg-transparent hover:bg-transparent
     after:content-[''] after:absolute after:left-0 after:bottom-0 after:block
     after:h-[2px] after:w-full after:scale-x-0 after:origin-bottom-right
     after:transition-transform after:duration-300
     hover:after:scale-x-100 hover:after:origin-bottom-left
+    after:bg-[#FF7300]
   `;
 
   return (
     <>
+      {/* ── TOP BANNER ── */}
+      <div
+        className={cn(
+          "fixed top-0 left-0 right-0 z-[101] transition-all duration-400 overflow-hidden bg-[#113C6A]",
+          showTopBar ? "h-[40px] opacity-100" : "h-0 opacity-0",
+        )}
+      >
+        <div className="w-full h-full px-4 sm:px-6 lg:px-8 mx-auto flex items-center justify-between">
+          <div className="hidden md:flex items-center space-x-5 text-white/75 text-[13px]">
+            <a
+              href="tel:+919687448434"
+              className="flex items-center gap-1.5 hover:text-white transition-colors"
+            >
+              <Phone size={12} />
+              <span>+91-968 744 8434</span>
+            </a>
+            <span className="w-px h-3.5 bg-white/20" />
+            <a
+              href="mailto:info@blirapid.com"
+              className="flex items-center gap-1.5 hover:text-white transition-colors"
+            >
+              <Mail size={12} />
+              <span>info@blirapid.com</span>
+            </a>
+          </div>
+
+          <a
+            href="tel:+919687448434"
+            className="flex md:hidden items-center gap-1.5 text-white/75 text-[13px]"
+          >
+            <Phone size={11} />
+            <span>+91-968 744 8434</span>
+          </a>
+
+          <div className="flex items-center space-x-4">
+            <div className="hidden lg:flex items-center gap-1.5 text-white/70 text-[13px]">
+              <MapPin size={12} />
+              <span>Pan India Network</span>
+            </div>
+            <span className="hidden sm:block w-px h-3.5 bg-white/20" />
+            <div className="hidden sm:flex items-center space-x-1.5">
+              {[
+                { icon: Facebook, href: "#", label: "Facebook" },
+                { icon: Twitter, href: "#", label: "Twitter" },
+                { icon: Linkedin, href: "#", label: "LinkedIn" },
+                { icon: Instagram, href: "#", label: "Instagram" },
+              ].map(({ icon: Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  aria-label={label}
+                  className="w-[26px] h-[26px] rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-[#FF7300] hover:text-white transition-all duration-200"
+                >
+                  <Icon size={11} />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── MAIN NAVBAR ── */}
       <nav
         className={cn(
-          "fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-in-out w-full",
-          isScrolled
-            ? "bg-white/80 backdrop-blur-sm border-b border-gray-200/50 shadow-sm"
-            : "bg-[#113C6A]"
+          "fixed left-0 right-0 z-[100] transition-all duration-500 w-full bg-white",
+          showTopBar ? "top-[40px]" : "top-0",
+          isScrolled ? "shadow-md" : "shadow-sm",
         )}
         role="navigation"
         aria-label="Main navigation"
       >
         <div className="w-full px-4 sm:px-6 lg:px-8 mx-auto">
-          <div className="flex items-center justify-between h-[72px]">
-            {/* Logo with smooth transition */}
+          <div className="flex items-center justify-between h-[76px]">
+            {/* Logo */}
             <div className="flex-shrink-0">
               <Link
                 to="/"
-                className="flex items-center relative"
                 aria-label="BLI Logistics - Home"
-                onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}
+                onClick={() => window.scrollTo({ top: 0, behavior: "instant" })}
               >
-                {/* Container for logos with relative positioning */}
-                <div className="relative h-12 w-32">
-                  {/* White logo - visible when not scrolled */}
-                  <img
-                    src="/lovable-uploads/11.png"
-                    alt="BLI - Bansal Logistics of India"
-                    className={cn(
-                      "h-[50px] w-auto absolute top-0 left-0 transition-all duration-500 ease-in-out",
-                      isScrolled
-                        ? "opacity-0 transform scale-95"
-                        : "opacity-100 transform scale-100"
-                    )}
-                    loading="eager"
-                  />
-                  {/* Dark logo - visible when scrolled */}
-                  <img
-                    src="/lovable-uploads/9.png"
-                    alt="BLI - Bansal Logistics of India"
-                    className={cn(
-                      "h-[50px] w-auto absolute top-0 left-0 transition-all duration-500 ease-in-out",
-                      isScrolled
-                        ? "opacity-100 transform scale-100"
-                        : "opacity-0 transform scale-95"
-                    )}
-                    loading="eager"
-                  />
-                </div>
+                <img
+                  src="/lovable-uploads/9.png"
+                  alt="BLI Logistics"
+                  className="h-[52px] w-auto"
+                  loading="eager"
+                />
               </Link>
             </div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-2">
-              <NavigationMenu className={cn(
-                "transition-colors duration-500",
-                isScrolled ? "text-[#21221C]" : "text-[#FFFDF7]"
-              )}>
-                <NavigationMenuList>
-                  {/* Home */}
-                  <NavigationMenuItem>
-                    <NavigationMenuLink asChild>
-                      <Link
-                        to="/"
-                        className={cn(
-                          navigationMenuTriggerStyle(),
-                          linkUnderline,
-                          "transition-colors duration-300",
-                          isScrolled
-                            ? "text-[#21221C] hover:text-[#185EAA] after:bg-[#185EAA]"
-                            : "text-[#FFFDF7] hover:text-[#F8FFFF] after:bg-[#FF7729]"
-                        )}
-                      >
-                        Home
-                      </Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
+            {/* ── CENTERED NAV ── */}
+            <div className="hidden lg:flex items-center justify-center flex-1">
+              <NavigationMenu>
+                <NavigationMenuList className="space-x-1">
+                  {[
+                    { to: "/", label: "Home" },
+                    { to: "/about", label: "About Us" },
+                  ].map(({ to, label }) => (
+                    <NavigationMenuItem key={to}>
+                      <NavigationMenuLink asChild>
+                        <Link
+                          to={to}
+                          className={cn(
+                            navigationMenuTriggerStyle(),
+                            linkUnderline,
+                            "text-[15px] px-5 py-2.5 font-medium text-[#1a1a1a] hover:text-[#113C6A]",
+                          )}
+                        >
+                          {label}
+                        </Link>
+                      </NavigationMenuLink>
+                    </NavigationMenuItem>
+                  ))}
 
-                  {/* About */}
-                  <NavigationMenuItem>
-                    <NavigationMenuLink asChild>
-                      <Link
-                        to="/about"
-                        className={cn(
-                          navigationMenuTriggerStyle(),
-                          linkUnderline,
-                          "transition-colors duration-300",
-                          isScrolled
-                            ? "text-[#21221C] hover:text-[#185EAA] after:bg-[#185EAA]"
-                            : "text-[#FFFDF7] hover:text-[#F8FFFF] after:bg-[#FF7729]"
-                        )}
-                      >
-                        About Us
-                      </Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-
-                  {/* Services Dropdown */}
+                  {/* ========== SERVICES MEGA DROPDOWN ========== */}
                   <NavigationMenuItem>
                     <NavigationMenuTrigger
                       className={cn(
                         linkUnderline,
-                        "transition-colors duration-300",
-                        isScrolled
-                          ? "text-[#21221C] hover:text-[#185EAA] after:bg-[#185EAA]"
-                          : "text-[#FFFDF7] hover:text-[#F8FFFF] after:bg-[#FF7729]"
+                        "text-[15px] px-5 py-2.5 font-medium text-[#1a1a1a] hover:text-[#113C6A]",
                       )}
                     >
                       Services
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
-                      <div className="w-[600px] bg-[#FFFDF7] shadow-xl rounded-lg p-6">
-                        {/* Header */}
-                        <div className="mb-4 pb-3 border-b border-[#185EAA]/20">
-                          <Link
-                            to="/services"
-                            className="inline-flex items-center text-[#FF7300] hover:text-[#FF7729] font-semibold transition-colors"
-                          >
-                            View All Services
-                            <ChevronRight className="ml-1 h-4 w-4" />
-                          </Link>
+                      <div className="w-[720px] bg-white rounded-lg shadow-2xl border border-gray-100/80 overflow-hidden">
+                        <div className="flex">
+                          {/* Left: Services List */}
+                          <div className="flex-1 p-5">
+                            <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">
+                              What We Offer
+                            </div>
+                            <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
+                              {servicesData.map((service) => (
+                                <Link
+                                  key={service.to}
+                                  to={service.to}
+                                  className="px-3 py-2.5 rounded-md hover:bg-gray-50 transition-colors group"
+                                >
+                                  <div className="text-sm font-medium text-[#1a1a1a] group-hover:text-[#FF7300] transition-colors">
+                                    {service.title}
+                                  </div>
+                                  <p className="text-[12px] text-gray-400 mt-0.5 leading-snug">
+                                    {service.description}
+                                  </p>
+                                </Link>
+                              ))}
+                            </div>
+                            <div className="mt-3 pt-3 border-t border-gray-100 px-3">
+                              <Link
+                                to="/services"
+                                className="inline-flex items-center text-sm text-[#113C6A] hover:text-[#FF7300] font-medium transition-colors"
+                              >
+                                View all services
+                                <ChevronRight className="ml-1 h-3.5 w-3.5" />
+                              </Link>
+                            </div>
+                          </div>
+
+                          {/* Right: Featured Panel */}
+                          <div className="w-[240px] bg-[#113C6A] p-5 flex flex-col justify-between">
+                            <div>
+                              <div className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-3">
+                                Featured
+                              </div>
+                              <h4 className="text-white font-semibold text-[15px] leading-snug">
+                                PTL Network
+                              </h4>
+                              <p className="text-white/60 text-xs mt-2 leading-relaxed">
+                                Daily dispatch from Vapi, Surat, Mumbai &amp;
+                                Ahmedabad to 25+ cities across India.
+                              </p>
+                              <div className="mt-3 space-y-1.5">
+                                {[
+                                  "Vapi → Delhi NCR",
+                                  "Mumbai → Kolkata",
+                                  "Surat → Bangalore",
+                                ].map((route) => (
+                                  <div
+                                    key={route}
+                                    className="flex items-center gap-2 text-white/70 text-xs"
+                                  >
+                                    <Truck
+                                      size={11}
+                                      className="text-[#FF7300] flex-shrink-0"
+                                    />
+                                    <span>{route}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                            <Link
+                              to="/services/part-load"
+                              className="mt-4 inline-flex items-center gap-1.5 text-[#FF7300] hover:text-[#FF9955] text-xs font-medium transition-colors"
+                            >
+                              Explore PTL routes
+                              <ArrowRight size={12} />
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+
+                  {/* ========== NETWORK DROPDOWN ========== */}
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger
+                      className={cn(
+                        linkUnderline,
+                        "text-[15px] px-5 py-2.5 font-medium text-[#1a1a1a] hover:text-[#113C6A]",
+                      )}
+                    >
+                      Network
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <div className="w-[640px] bg-white rounded-lg shadow-2xl border border-gray-100/80 overflow-hidden">
+                        <div className="flex">
+                          {/* Pickup Hubs */}
+                          <div className="flex-1 p-5 border-r border-gray-100">
+                            <div className="text-xs font-semibold text-[#FF7300] uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#FF7300]" />
+                              Pickup Hubs
+                            </div>
+                            <div className="space-y-3">
+                              {networkData.pickup.map((hub) => (
+                                <Link
+                                  key={hub.region}
+                                  to={hub.to}
+                                  className="block px-3 py-2 rounded-md hover:bg-gray-50 transition-colors group"
+                                >
+                                  <div className="text-sm font-medium text-[#1a1a1a] group-hover:text-[#FF7300] transition-colors">
+                                    {hub.region}
+                                  </div>
+                                  <p className="text-[12px] text-gray-400 mt-0.5">
+                                    {hub.cities.join(" · ")}
+                                  </p>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Delivery Zones */}
+                          <div className="flex-1 p-5">
+                            <div className="text-xs font-semibold text-[#113C6A] uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#113C6A]" />
+                              Delivery Zones
+                            </div>
+                            <div className="space-y-1">
+                              {networkData.delivery.map((zone) => (
+                                <Link
+                                  key={zone.region}
+                                  to={zone.to}
+                                  className="block px-3 py-2 rounded-md hover:bg-gray-50 transition-colors group"
+                                >
+                                  <div className="text-sm font-medium text-[#1a1a1a] group-hover:text-[#113C6A] transition-colors">
+                                    {zone.region}
+                                  </div>
+                                  <p className="text-[12px] text-gray-400 mt-0.5">
+                                    {zone.cities.join(" · ")}
+                                  </p>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
                         </div>
 
-                        {/* Services Grid - UPDATED TO SHOW ALL 8 SERVICES */}
-                        <ul className="grid grid-cols-2 gap-3">
-                          {/* First Column - 4 services */}
-                          <div className="space-y-3">
-                            {servicesData.slice(0, 4).map((service, index) => (
-                              <li key={index} className="list-none">
-                                <Link
-                                  to={service.to}
-                                  className="block p-3 rounded-lg hover:bg-[#F8FFFF] transition-colors group"
-                                >
-                                  <div className="font-medium text-[#113C6A] group-hover:text-[#FF7300] transition-colors">
-                                    {service.title}
-                                  </div>
-                                  <p className="text-sm text-[#185EAA]/70 mt-1">
-                                    {service.description}
-                                  </p>
-                                </Link>
-                              </li>
-                            ))}
-                          </div>
-
-                          {/* Second Column - 4 services */}
-                          <div className="space-y-3">
-                            {servicesData.slice(4, 8).map((service, index) => (
-                              <li key={index} className="list-none">
-                                <Link
-                                  to={service.to}
-                                  className="block p-3 rounded-lg hover:bg-[#F8FFFF] transition-colors group"
-                                >
-                                  <div className="font-medium text-[#113C6A] group-hover:text-[#FF7300] transition-colors">
-                                    {service.title}
-                                  </div>
-                                  <p className="text-sm text-[#185EAA]/70 mt-1">
-                                    {service.description}
-                                  </p>
-                                </Link>
-                              </li>
-                            ))}
-                          </div>
-                        </ul>
-
-                        {/* CTA */}
-                        <div className="mt-4 pt-3 border-t border-[#185EAA]/20">
+                        {/* Bottom bar */}
+                        <div className="bg-gray-50 px-5 py-3 flex items-center justify-between border-t border-gray-100">
+                          <span className="text-xs text-gray-500">
+                            25+ cities · Daily dispatch · Fixed routes
+                          </span>
                           <Link
-                            to="/contact"
-                            className="inline-flex items-center text-sm text-[#185EAA] hover:text-[#FF7300] transition-colors"
+                            to="/network"
+                            className="text-xs text-[#113C6A] hover:text-[#FF7300] font-medium flex items-center gap-1 transition-colors"
                           >
-                            <Phone className="mr-2 h-4 w-4" />
-                            Need help? Call +91-968 744 8434
+                            Full network map
+                            <ArrowRight size={11} />
                           </Link>
                         </div>
                       </div>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
 
-                  {/* Industries */}
-                  <NavigationMenuItem>
-                    <NavigationMenuLink asChild>
-                      <Link
-                        to="/industries"
-                        className={cn(
-                          navigationMenuTriggerStyle(),
-                          linkUnderline,
-                          "transition-colors duration-300",
-                          isScrolled
-                            ? "text-[#21221C] hover:text-[#185EAA] after:bg-[#185EAA]"
-                            : "text-[#FFFDF7] hover:text-[#F8FFFF] after:bg-[#FF7729]"
-                        )}
-                      >
-                        Industries
-                      </Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-
-                  {/* Resources */}
-                  <NavigationMenuItem>
-                    <NavigationMenuLink asChild>
-                      <Link
-                        to="/resources"
-                        className={cn(
-                          navigationMenuTriggerStyle(),
-                          linkUnderline,
-                          "transition-colors duration-300",
-                          isScrolled
-                            ? "text-[#21221C] hover:text-[#185EAA] after:bg-[#185EAA]"
-                            : "text-[#FFFDF7] hover:text-[#F8FFFF] after:bg-[#FF7729]"
-                        )}
-                      >
-                        Resources
-                      </Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
+                  {[
+                    { to: "/industries", label: "Industries" },
+                    { to: "/resources", label: "Resources" },
+                    { to: "/contact", label: "Contact" },
+                  ].map(({ to, label }) => (
+                    <NavigationMenuItem key={to}>
+                      <NavigationMenuLink asChild>
+                        <Link
+                          to={to}
+                          className={cn(
+                            navigationMenuTriggerStyle(),
+                            linkUnderline,
+                            "text-[15px] px-5 py-2.5 font-medium text-[#1a1a1a] hover:text-[#113C6A]",
+                          )}
+                        >
+                          {label}
+                        </Link>
+                      </NavigationMenuLink>
+                    </NavigationMenuItem>
+                  ))}
                 </NavigationMenuList>
               </NavigationMenu>
+            </div>
 
-              {/* CTA Button */}
-              <Link to="/contact" className="ml-4">
-                <button
-                  className="px-6 py-2.5 bg-gradient-to-r from-[#FF7300] to-[#FF7729] text-white font-semibold rounded-lg hover:shadow-lg transform hover:scale-105 transition-all duration-200"
-                  aria-label="Get a quote for logistics services"
-                >
+            {/* Right CTA */}
+            <div className="hidden lg:block flex-shrink-0">
+              <Link to="/contact">
+                <button className="px-7 py-2.5 bg-[#FF7300] hover:bg-[#e56800] text-white font-semibold rounded-md transition-colors duration-200 text-[15px]">
                   Get Quote
                 </button>
               </Link>
             </div>
 
-            {/* Mobile menu button */}
-            <div className="lg:hidden">
-              <button
-                onClick={toggleMenu}
-                className={cn(
-                  "p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-300",
-                  isScrolled
-                    ? "text-[#21221C] focus:ring-[#185EAA]"
-                    : "text-[#FFFDF7] focus:ring-[#FF7729]"
-                )}
-                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                aria-expanded={isMenuOpen}
-              >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
+            {/* Mobile Toggle */}
+            <button
+              onClick={toggleMenu}
+              className="lg:hidden p-2 rounded-md text-[#1a1a1a] hover:bg-gray-50 transition-colors"
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMenuOpen}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
         </div>
 
-        {/* Mobile Navigation Menu with Animation */}
+        {/* ── MOBILE MENU ── */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="lg:hidden overflow-hidden"            >
-              <div className={cn(
-                "px-4 pt-2 pb-4 space-y-1 shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto",
-                isScrolled ? "bg-white/80 backdrop-blur-md" : "bg-[#113C6A]/95 backdrop-blur-sm"
-              )}>
-                {/* Mobile Navigation Items */}
-                <MobileNavItem
-                  to="/"
-                  onClick={handleNavClick}
-                  isScrolled={isScrolled}
-                >
+              transition={{ duration: 0.25 }}
+              className="lg:hidden overflow-hidden border-t border-gray-100"
+            >
+              <div className="bg-white px-4 pt-2 pb-5 space-y-0.5 max-h-[calc(100vh-8rem)] overflow-y-auto">
+                <MobileNavItem to="/" onClick={handleNavClick}>
                   Home
                 </MobileNavItem>
-
-                <MobileNavItem
-                  to="/about"
-                  onClick={handleNavClick}
-                  isScrolled={isScrolled}
-                >
+                <MobileNavItem to="/about" onClick={handleNavClick}>
                   About Us
                 </MobileNavItem>
 
-                {/* Services Dropdown Mobile */}
-                <div>
-                  <button
-                    onClick={() => toggleMobileDropdown('services')}
-                    className={cn(
-                      "flex items-center justify-between w-full px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
-                      isScrolled
-                        ? "text-[#21221C] hover:bg-[#F8FFFF]"
-                        : "text-[#F8FFFF] hover:bg-[#185EAA]/30"
-                    )}
-                    aria-expanded={openMobileDropdown === 'services'}
-                  >
-                    <span>Services</span>
-                    {openMobileDropdown === 'services' ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-                  </button>
-
-                  <AnimatePresence>
-                    {openMobileDropdown === 'services' && (
-                      <motion.div
-                        initial={{ height: 0 }}
-                        animate={{ height: "auto" }}
-                        exit={{ height: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="pl-4 space-y-1 mt-1 max-h-[40vh] overflow-y-auto">
-                          <Link
-                            to="/services"
-                            className={cn(
-                              "block px-3 py-2 rounded-md text-sm font-medium",
-                              isScrolled
-                                ? "bg-[#FF7300] text-white"
-                                : "bg-[#FF7729] text-white"
-                            )}
-                            onClick={handleNavClick}
-                          >
-                            View All Services →
-                          </Link>
-
-                          {/* Show all 8 services in mobile menu */}
-                          {servicesData.map((service, index) => (
-                            <Link
-                              key={index}
-                              to={service.to}
-                              className={cn(
-                                "block px-3 py-2 rounded-md text-sm",
-                                isScrolled
-                                  ? "text-[#21221C] hover:bg-[#F8FFFF]"
-                                  : "text-[#F8FFFF] hover:bg-[#185EAA]/30"
-                              )}
-                              onClick={handleNavClick}
-                            >
-                              <div className="font-medium">{service.title}</div>
-                              <p className={cn(
-                                "text-xs mt-0.5",
-                                isScrolled ? "text-[#113C6A]/70" : "text-[#F8FFFF]/70"
-                              )}>
-                                {service.description}
-                              </p>
-                            </Link>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                <MobileNavItem
-                  to="/industries"
-                  onClick={handleNavClick}
-                  isScrolled={isScrolled}
+                {/* Services Accordion */}
+                <MobileDropdown
+                  label="Services"
+                  isOpen={openMobileDropdown === "services"}
+                  onToggle={() => toggleMobileDropdown("services")}
                 >
+                  <div className="pl-3 space-y-0.5 mt-1 border-l-2 border-[#FF7300]/20 ml-3">
+                    {servicesData.map((service) => (
+                      <Link
+                        key={service.to}
+                        to={service.to}
+                        className="block px-3 py-2.5 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+                        onClick={handleNavClick}
+                      >
+                        <div className="text-sm font-medium">
+                          {service.title}
+                        </div>
+                        <p className="text-xs text-gray-400 mt-0.5">
+                          {service.description}
+                        </p>
+                      </Link>
+                    ))}
+                    <Link
+                      to="/services"
+                      className="block px-3 py-2.5 rounded-md text-sm font-medium text-[#FF7300] hover:bg-gray-50 transition-colors"
+                      onClick={handleNavClick}
+                    >
+                      View all services →
+                    </Link>
+                  </div>
+                </MobileDropdown>
+
+                {/* Network Accordion */}
+                <MobileDropdown
+                  label="Network"
+                  isOpen={openMobileDropdown === "network"}
+                  onToggle={() => toggleMobileDropdown("network")}
+                >
+                  <div className="pl-3 mt-1 border-l-2 border-[#113C6A]/20 ml-3">
+                    <div className="px-3 py-2">
+                      <span className="text-xs font-semibold text-[#FF7300] uppercase tracking-wider">
+                        Pickup Hubs
+                      </span>
+                    </div>
+                    {networkData.pickup.map((hub) => (
+                      <Link
+                        key={hub.region}
+                        to={hub.to}
+                        className="block px-3 py-2 rounded-md hover:bg-gray-50 transition-colors"
+                        onClick={handleNavClick}
+                      >
+                        <div className="text-sm font-medium text-gray-700">
+                          {hub.region}
+                        </div>
+                        <p className="text-xs text-gray-400 mt-0.5">
+                          {hub.cities.join(" · ")}
+                        </p>
+                      </Link>
+                    ))}
+
+                    <div className="px-3 py-2 mt-2">
+                      <span className="text-xs font-semibold text-[#113C6A] uppercase tracking-wider">
+                        Delivery Zones
+                      </span>
+                    </div>
+                    {networkData.delivery.map((zone) => (
+                      <Link
+                        key={zone.region}
+                        to={zone.to}
+                        className="block px-3 py-2 rounded-md hover:bg-gray-50 transition-colors"
+                        onClick={handleNavClick}
+                      >
+                        <div className="text-sm font-medium text-gray-700">
+                          {zone.region}
+                        </div>
+                        <p className="text-xs text-gray-400 mt-0.5">
+                          {zone.cities.join(" · ")}
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
+                </MobileDropdown>
+
+                <MobileNavItem to="/industries" onClick={handleNavClick}>
                   Industries
                 </MobileNavItem>
-
-                <MobileNavItem
-                  to="/resources"
-                  onClick={handleNavClick}
-                  isScrolled={isScrolled}
-                >
+                <MobileNavItem to="/resources" onClick={handleNavClick}>
                   Resources
                 </MobileNavItem>
+                <MobileNavItem to="/contact" onClick={handleNavClick}>
+                  Contact
+                </MobileNavItem>
 
-                {/* Mobile CTA */}
                 <div className="pt-4">
                   <Link
                     to="/contact"
                     onClick={handleNavClick}
                     className="block"
                   >
-                    <button className="w-full px-4 py-3 bg-gradient-to-r from-[#FF7300] to-[#FF7729] text-white font-semibold rounded-lg shadow-lg">
+                    <button className="w-full py-3 bg-[#FF7300] hover:bg-[#e56800] text-white font-semibold rounded-md transition-colors text-[15px]">
                       Get Quote
                     </button>
                   </Link>
                 </div>
 
-                {/* Quick Contact - Mobile */}
-                <div className={cn(
-                  "pt-4 mt-4 border-t",
-                  isScrolled ? "border-[#185EAA]/20" : "border-[#FF7729]/30"
-                )}>
+                <div className="pt-4 mt-3 border-t border-gray-100 flex items-center justify-center gap-4 text-[13px] text-gray-400">
                   <a
                     href="tel:+919687448434"
-                    className={cn(
-                      "flex items-center justify-center space-x-2 text-sm",
-                      isScrolled ? "text-[#185EAA]" : "text-[#FF7729]"
-                    )}
+                    className="flex items-center gap-1.5 hover:text-[#FF7300] transition-colors"
                   >
-                    <Phone size={16} />
-                    <span>+91-968 744 8434</span>
+                    <Phone size={13} />
+                    +91-968 744 8434
+                  </a>
+                  <span className="w-px h-3.5 bg-gray-200" />
+                  <a
+                    href="mailto:info@blirapid.com"
+                    className="flex items-center gap-1.5 hover:text-[#FF7300] transition-colors"
+                  >
+                    <Mail size={13} />
+                    Email Us
                   </a>
                 </div>
               </div>
@@ -528,22 +648,51 @@ const Navbar = () => {
         </AnimatePresence>
       </nav>
 
-      {/* Spacer to prevent content jump */}
-      <div className="h-[72px]" />
+      {/* Spacer */}
+      <div
+        className="transition-all duration-500"
+        style={{ height: showTopBar ? "116px" : "76px" }}
+      />
     </>
   );
 };
 
-// Memoized Mobile Nav Item Component
-const MobileNavItem = memo(({ to, onClick, isScrolled, children }: any) => (
+/* ── Reusable Mobile Components ── */
+
+const MobileDropdown = memo(({ label, isOpen, onToggle, children }: any) => (
+  <div>
+    <button
+      onClick={onToggle}
+      className="flex items-center justify-between w-full px-3 py-3 rounded-md text-[15px] font-medium text-[#1a1a1a] hover:bg-gray-50 transition-colors"
+    >
+      {label}
+      <motion.div
+        animate={{ rotate: isOpen ? 180 : 0 }}
+        transition={{ duration: 0.2 }}
+      >
+        <ChevronDown size={16} className="text-gray-400" />
+      </motion.div>
+    </button>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ height: 0 }}
+          animate={{ height: "auto" }}
+          exit={{ height: 0 }}
+          transition={{ duration: 0.2 }}
+          className="overflow-hidden"
+        >
+          {children}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </div>
+));
+
+const MobileNavItem = memo(({ to, onClick, children }: any) => (
   <Link
     to={to}
-    className={cn(
-      "block px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
-      isScrolled
-        ? "text-[#21221C] hover:bg-[#F8FFFF]"
-        : "text-[#F8FFFF] hover:bg-[#185EAA]/30"
-    )}
+    className="block px-3 py-3 rounded-md text-[15px] font-medium text-[#1a1a1a] hover:bg-gray-50 transition-colors"
     onClick={onClick}
   >
     {children}

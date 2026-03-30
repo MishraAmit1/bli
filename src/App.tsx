@@ -22,13 +22,17 @@ const FAQs = lazy(() => import("./pages/FAQs"));
 const Downloads = lazy(() => import("./pages/Downloads"));
 const IndustryReports = lazy(() => import("./pages/IndustryReports"));
 const TermsofService = lazy(() => import("./pages/TermsofService"));
-
+const PTLLocationPage = lazy(() => import("./components/PTLLocationPage"));
 // Lazy load service pages
 const FullTruckload = lazy(() => import("./pages/FullTruckload"));
 const PartLoad = lazy(() => import("./pages/PartLoad"));
 const ThirdPartyLogistics = lazy(() => import("./pages/ThirdPartyLogistics"));
-const WarehousingDistribution = lazy(() => import("./pages/WarehousingDistribution"));
-const LocalRegionalDispatch = lazy(() => import("./pages/LocalRegionalDispatch"));
+const WarehousingDistribution = lazy(
+  () => import("./pages/WarehousingDistribution"),
+);
+const LocalRegionalDispatch = lazy(
+  () => import("./pages/LocalRegionalDispatch"),
+);
 const RailFreightSolutions = lazy(() => import("./pages/RailFreightSolutions"));
 const AirCargoServices = lazy(() => import("./pages/AirCargoServices"));
 const RealTimeSupport = lazy(() => import("./pages/RealTimeSupport"));
@@ -42,19 +46,22 @@ interface ErrorBoundaryState {
   hasError: boolean;
   errorMessage?: string;
 }
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = {
       hasError: false,
-      errorMessage: ''
+      errorMessage: "",
     };
   }
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return {
       hasError: true,
-      errorMessage: error.toString()
+      errorMessage: error.toString(),
     };
   }
   render() {
@@ -64,14 +71,27 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
           <div className="text-center p-8 max-w-lg mx-auto">
             <div className="mb-6">
               <div className="inline-flex items-center justify-center w-20 h-20 bg-[#FF7300]/10 rounded-full mb-4">
-                <svg className="w-10 h-10 text-[#FF7300]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                <svg
+                  className="w-10 h-10 text-[#FF7300]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
                 </svg>
               </div>
             </div>
-            <h1 className="text-3xl font-bold text-[#113C6A] mb-4">Oops! Something went wrong</h1>
-            <p className="text-[#185EAA] mb-8">We're sorry for the inconvenience. Our team has been notified.</p>
+            <h1 className="text-3xl font-bold text-[#113C6A] mb-4">
+              Oops! Something went wrong
+            </h1>
+            <p className="text-[#185EAA] mb-8">
+              We're sorry for the inconvenience. Our team has been notified.
+            </p>
             <div className="space-y-3">
               <button
                 onClick={() => window.location.reload()}
@@ -80,15 +100,20 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
                 🔄 Refresh Page
               </button>
               <button
-                onClick={() => window.location.href = '/'}
+                onClick={() => (window.location.href = "/")}
                 className="w-full px-6 py-3 bg-white border-2 border-[#185EAA] text-[#185EAA] rounded-lg hover:bg-[#185EAA] hover:text-white transition-all"
               >
                 🏠 Go to Homepage
               </button>
             </div>
             <div className="mt-8 pt-8 border-t border-[#185EAA]/20">
-              <p className="text-sm text-[#185EAA] mb-2">Need immediate assistance?</p>
-              <a href="tel:+919687448434" className="text-[#FF7300] font-semibold hover:underline">
+              <p className="text-sm text-[#185EAA] mb-2">
+                Need immediate assistance?
+              </p>
+              <a
+                href="tel:+919687448434"
+                className="text-[#FF7300] font-semibold hover:underline"
+              >
                 📞 +91-968 744 8434
               </a>
             </div>
@@ -113,16 +138,19 @@ const ScrollToTop = () => {
 };
 
 const App = () => {
-  const [queryClient] = useState(() => new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 5 * 60 * 1000, // 5 minutes
-        gcTime: 10 * 60 * 1000,
-        retry: 1,
-        refetchOnWindowFocus: false,
-      },
-    },
-  }));
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 5 * 60 * 1000, // 5 minutes
+            gcTime: 10 * 60 * 1000,
+            retry: 1,
+            refetchOnWindowFocus: false,
+          },
+        },
+      }),
+  );
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -139,15 +167,40 @@ const App = () => {
 
                 {/* Service Routes */}
                 <Route path="/services" element={<Services />} />
-                <Route path="/services/full-truckload" element={<FullTruckload />} />
+                <Route
+                  path="/services/part-load-transport/:slug"
+                  element={<PTLLocationPage />}
+                />
+                <Route
+                  path="/services/full-truckload"
+                  element={<FullTruckload />}
+                />
                 <Route path="/services/part-load" element={<PartLoad />} />
                 <Route path="/services/3pl" element={<ThirdPartyLogistics />} />
-                <Route path="/services/warehousing" element={<WarehousingDistribution />} />
-                <Route path="/services/local-dispatch" element={<LocalRegionalDispatch />} />
-                <Route path="/services/rail-freight" element={<RailFreightSolutions />} />
-                <Route path="/services/air-cargo" element={<AirCargoServices />} />
-                <Route path="/services/real-time-support" element={<RealTimeSupport />} />
-                <Route path="/services/part-load-vapi" element={<PartLoadVapi />} />
+                <Route
+                  path="/services/warehousing"
+                  element={<WarehousingDistribution />}
+                />
+                <Route
+                  path="/services/local-dispatch"
+                  element={<LocalRegionalDispatch />}
+                />
+                <Route
+                  path="/services/rail-freight"
+                  element={<RailFreightSolutions />}
+                />
+                <Route
+                  path="/services/air-cargo"
+                  element={<AirCargoServices />}
+                />
+                <Route
+                  path="/services/real-time-support"
+                  element={<RealTimeSupport />}
+                />
+                <Route
+                  path="/services/part-load-vapi"
+                  element={<PartLoadVapi />}
+                />
                 {/* Company Routes */}
                 <Route path="/about" element={<About />} />
                 <Route path="/industries" element={<Industries />} />
@@ -160,7 +213,10 @@ const App = () => {
                 <Route path="/resources/blogs/:slug" element={<BlogPost />} />
                 <Route path="/resources/faqs" element={<FAQs />} />
                 <Route path="/resources/downloads" element={<Downloads />} />
-                <Route path="/resources/reports" element={<IndustryReports />} />
+                <Route
+                  path="/resources/reports"
+                  element={<IndustryReports />}
+                />
 
                 {/* Legal Routes */}
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />

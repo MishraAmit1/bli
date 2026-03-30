@@ -1,266 +1,176 @@
-import { useState, useEffect, useRef, memo } from "react";
-import { motion, useInView, useAnimation } from "framer-motion";
+import { memo, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 
-// Memoized AnimatedCounter component
-const AnimatedCounter = memo(({
-  end,
-  duration = 2000,
-  prefix = "",
-  suffix = "",
-  decimals = 0,
-  label
-}: {
-  end: number;
-  duration?: number;
-  prefix?: string;
-  suffix?: string;
-  decimals?: number;
-  label?: string;
-}) => {
-  const [count, setCount] = useState(0);
-  const countRef = useRef<HTMLSpanElement>(null);
-  const inView = useInView(countRef, {
-    once: true,
-    margin: "-100px"
-  });
+const iconUrl =
+  "https://cdn.prod.website-files.com/63ede56f5ceca72669fcaced/63f2009b0314aa349233739d_why%20choose.svg";
 
-  useEffect(() => {
-    if (!inView) return;
-
-    let startTime: number;
-    let animationFrame: number;
-
-    const startAnimation = (timestamp: number) => {
-      startTime = timestamp;
-      animate(timestamp);
-    };
-
-    const animate = (timestamp: number) => {
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const currentCount = progress * end;
-      setCount(currentCount);
-
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate);
-      }
-    };
-
-    animationFrame = requestAnimationFrame(startAnimation);
-
-    return () => {
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-      }
-    };
-  }, [end, duration, inView]);
-
-  return (
-    <span
-      ref={countRef}
-      className="font-bold tabular-nums"
-      aria-label={label ? `${label}: ${prefix}${end}${suffix}` : `${prefix}${end}${suffix}`}
-    >
-      {prefix}{count.toFixed(decimals)}{suffix}
-    </span>
-  );
-});
-
-// Memoized StatCard component
-const StatCard = memo(({
-  value,
-  suffix,
-  title,
-  description,
-  variants
-}: {
-  value: number;
-  suffix: string;
-  title: string;
-  description: string;
-  variants: any;
-}) => (
-  <motion.div
-    variants={variants}
-    className="bg-[#F8FFFF] p-6 rounded-xl border border-[#185EAA]/20 text-center hover:bg-[#185EAA]/5 hover:shadow-lg hover:shadow-[#185EAA]/10 transition-all"
-    whileHover={{ y: -5, transition: { duration: 0.2 } }}
-  >
-    <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4 text-4xl text-[#113C6A] font-bold">
-      <AnimatedCounter
-        end={value}
-        suffix={suffix}
-        label={title}
-      />
-    </div>
-    <h3 className="text-[#113C6A] text-2xl lg:text-3xl font-bold mb-3">
-      {title}
-    </h3>
-    <p className="text-[#0a213a]/90">{description}</p>
-  </motion.div>
-));
+const features = [
+  {
+    title: "24/7 Support",
+    description:
+      "Real-time updates and round-the-clock assistance on every shipment.",
+  },
+  {
+    title: "Pan-India Network",
+    description:
+      "500+ vehicles dispatching daily from hubs across Gujarat, Maharashtra & beyond.",
+  },
+  {
+    title: "Live Tracking",
+    description:
+      "GPS-enabled fleet with milestone alerts and digital proof of delivery.",
+  },
+  {
+    title: "Cost Efficiency",
+    description:
+      "Optimised routing and shared-load options to cut freight costs.",
+  },
+];
 
 const WhyBLI = () => {
-  const isMobile = useIsMobile();
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
-  const controls = useAnimation();
-
-  // Start animations when section comes into view
-  useEffect(() => {
-    if (isInView) {
-      controls.start("visible");
-    }
-  }, [isInView, controls]);
-
-  const containerVariants = {
-    hidden: {
-      opacity: 0
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3,
-        duration: 0.8
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: {
-      y: 20,
-      opacity: 0
-    },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.6
-      }
-    }
-  };
-
-  // Stats data for better maintainability
-  const stats = [
-    {
-      value: 95,
-      suffix: "%",
-      title: "On-Time Deliveries",
-      description: "Achieving industry-leading punctuality so your shipments arrive exactly when promised — no delays, no excuses."
-    },
-    {
-      value: 15,
-      suffix: "+",
-      title: "Nationwide Hubs",
-      description: "Strategically located across India to reduce transit times, enable faster pickups, and provide broader coverage."
-    },
-    {
-      value: 24,
-      suffix: "/7",
-      title: "Shipment Support",
-      description: "Round-the-clock operations with proactive updates, ensuring you're always informed and your shipments stay on track."
-    }
-  ];
-
-  // Structured data for SEO
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "BLI Logistics Services",
-    "provider": {
-      "@type": "Organization",
-      "name": "BLI - Bansal Logistics of India"
-    },
-    "description": "Reliable logistics services with 95% on-time deliveries, 15+ nationwide hubs, and 24/7 shipment support.",
-    "serviceType": "Logistics and Transportation",
-    "areaServed": {
-      "@type": "Country",
-      "name": "India"
-    }
-  };
+  const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
   return (
-    <>
-      <Helmet>
-        <script type="application/ld+json">
-          {JSON.stringify(structuredData)}
-        </script>
-      </Helmet>
-
-      <section
-        id="why-bli"
-        ref={sectionRef}
-        className="relative py-16 md:py-24 overflow-hidden"
-        aria-label="Why choose BLI for logistics services"
-      >
-        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+    <section ref={sectionRef} className="bg-[#f5f5f5] py-20 sm:py-24 md:py-28">
+      <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-0">
+          {/* ── Left — Heading ── */}
           <motion.div
-            className="text-center mb-12 md:mb-16"
-            initial="hidden"
-            animate={controls}
-            variants={containerVariants}
+            className="lg:col-span-3 lg:pr-6"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <motion.h2
-              variants={itemVariants}
-              className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#113C6A] mb-3"
-            >
-              Why BLI?
-            </motion.h2>
-            <motion.p
-              variants={itemVariants}
-              className="text-[#0a213a]/90 text-lg max-w-3xl mx-auto"
-            >
-              In a fast-moving economy where supply chain disruptions cost time and money, we deliver reliability, speed, and control — ensuring your business never stops moving.
-            </motion.p>
+            <h2 className="text-3xl sm:text-4xl md:text-[44px] font-bold text-[#1a1a1a] leading-[1.12]">
+              Why choose BLI
+              <br />
+              for your logistics
+            </h2>
+
+            <p className="text-gray-500 text-[15px] leading-relaxed mt-5 max-w-xs font-light">
+              25+ years on Indian roads — speed, safety, and scale from factory
+              to warehouse.
+            </p>
+
+            <div className="mt-7">
+              <Link to="/about">
+                <button className="group inline-flex items-center gap-3 border-2 border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white font-semibold text-[15px] px-6 py-3 transition-all duration-300">
+                  <span>Learn More</span>
+                  <ArrowRight className="w-4 h-4 -rotate-45 group-hover:rotate-0 transition-transform duration-300" />
+                </button>
+              </Link>
+            </div>
           </motion.div>
 
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"
-            initial="hidden"
-            animate={controls}
-            variants={containerVariants}
-          >
-            {stats.map((stat, index) => (
-              <StatCard
-                key={index}
-                value={stat.value}
-                suffix={stat.suffix}
-                title={stat.title}
-                description={stat.description}
-                variants={itemVariants}
-              />
-            ))}
-          </motion.div>
-
-          {/* Additional CTA Section */}
-          <motion.div
-            className="text-center mt-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={controls}
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0, transition: { delay: 0.8, duration: 0.6 } }
-            }}
-          >
-            <Link
-              to="/why-bli"
-              className="inline-flex items-center md:px-6 px-4 py-3 bg-[#FF7300] text-white rounded-lg hover:bg-[#FF7729] transition-colors group"
-              aria-label="Learn more about why to choose BLI"
+          {/* ── Middle — offset down ── */}
+          <div className="lg:col-span-4 lg:col-start-5 lg:mt-[140px]">
+            <motion.div
+              className="pb-10 mb-10 border-b border-gray-300"
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
             >
-              Learn More About Our Advantages
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
+              <div className="flex items-start gap-5">
+                <img
+                  src={iconUrl}
+                  alt={features[0].title}
+                  className="w-14 h-14 flex-shrink-0"
+                  loading="lazy"
+                />
+                <div>
+                  <h3 className="text-lg font-bold text-[#1a1a1a] mb-1.5">
+                    {features[0].title}
+                  </h3>
+                  <p className="text-[13px] text-gray-500 leading-relaxed font-light">
+                    {features[0].description}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
+            >
+              <div className="flex items-start gap-5">
+                <img
+                  src={iconUrl}
+                  alt={features[1].title}
+                  className="w-14 h-14 flex-shrink-0"
+                  loading="lazy"
+                />
+                <div>
+                  <h3 className="text-lg font-bold text-[#1a1a1a] mb-1.5">
+                    {features[1].title}
+                  </h3>
+                  <p className="text-[13px] text-gray-500 leading-relaxed font-light">
+                    {features[1].description}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* ── Right — near top, with vertical line ── */}
+          <div className="lg:col-span-4 lg:col-start-9 relative lg:mt-[10px]">
+            <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-px bg-gray-300" />
+
+            <div className="lg:pl-10">
+              <motion.div
+                className="pb-10 mb-10 border-b border-gray-300"
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.35, ease: "easeOut" }}
+              >
+                <div className="flex items-start gap-5">
+                  <img
+                    src={iconUrl}
+                    alt={features[2].title}
+                    className="w-14 h-14 flex-shrink-0"
+                    loading="lazy"
+                  />
+                  <div>
+                    <h3 className="text-lg font-bold text-[#1a1a1a] mb-1.5">
+                      {features[2].title}
+                    </h3>
+                    <p className="text-[13px] text-gray-500 leading-relaxed font-light">
+                      {features[2].description}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.45, ease: "easeOut" }}
+              >
+                <div className="flex items-start gap-5">
+                  <img
+                    src={iconUrl}
+                    alt={features[3].title}
+                    className="w-14 h-14 flex-shrink-0"
+                    loading="lazy"
+                  />
+                  <div>
+                    <h3 className="text-lg font-bold text-[#1a1a1a] mb-1.5">
+                      {features[3].title}
+                    </h3>
+                    <p className="text-[13px] text-gray-500 leading-relaxed font-light">
+                      {features[3].description}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
         </div>
-
-        {/* Background decorative elements */}
-        <div className="absolute top-0 right-0 -z-10 w-1/3 h-1/3 bg-[#F8FFFF] opacity-50 rounded-bl-full"></div>
-        <div className="absolute bottom-0 left-0 -z-10 w-1/4 h-1/4 bg-[#F8FFFF] opacity-30 rounded-tr-full"></div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 
