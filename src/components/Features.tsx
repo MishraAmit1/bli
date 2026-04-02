@@ -84,14 +84,14 @@ const ServiceCard = ({
         {/* Left orange stripe */}
         <div className="absolute top-0 left-0 bottom-0 w-[3px] bg-[#FF7300] scale-y-0 group-hover:scale-y-100 transition-transform duration-600 origin-top z-20" />
 
-        {/* Number — top left */}
+        {/* Number top left */}
         <div className="absolute top-5 left-5 z-10">
           <span className="text-white/10 text-[72px] font-black leading-none group-hover:text-white/20 transition-colors duration-500">
             {String(index + 1).padStart(2, "0")}
           </span>
         </div>
 
-        {/* Arrow — top right */}
+        {/* Arrow top right */}
         <div className="absolute top-5 right-5 z-10 w-10 h-10 border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 -translate-y-2 group-hover:translate-y-0 transition-all duration-500">
           <ArrowRight className="w-4 h-4 text-white" />
         </div>
@@ -126,8 +126,14 @@ const Features = () => {
       <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
         {/* ── Header ── */}
         <div className="text-center max-w-2xl mx-auto mb-14 sm:mb-18">
+          {/* Label above heading */}
           <motion.p
-            className="text-sm font-medium uppercase tracking-widest text-gray-400 mb-3"
+            className="font-semibold uppercase tracking-widest mb-3"
+            style={{
+              fontSize: "14px",
+              lineHeight: "17px",
+              color: "rgb(28, 24, 37)",
+            }}
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.5 }}
@@ -135,19 +141,30 @@ const Features = () => {
             What We Do
           </motion.p>
 
-          {/* ✅ Fixed: br hata ke span blocks use kiye with gap */}
+          {/* Heading */}
           <motion.h2
-            className="text-2xl sm:text-3xl md:text-[40px] font-bold text-[#1a1a1a] uppercase tracking-wide mb-5"
+            className="font-bold uppercase tracking-normal mb-3"
+            style={{
+              fontSize: "52px",
+              lineHeight: "60px",
+              color: "rgb(0, 0, 0)",
+            }}
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             <span className="block">Logistics Solutions</span>
-            <span className="block mt-2 sm:mt-3">That Move India</span>
+            <span className="block">That Move India</span>
           </motion.h2>
 
+          {/* Description */}
           <motion.p
-            className="text-[15px] sm:text-base text-gray-500 font-light leading-relaxed"
+            className="font-light"
+            style={{
+              fontSize: "20px",
+              lineHeight: "29px",
+              color: "rgb(28, 24, 37)",
+            }}
             initial={{ opacity: 0, y: 15 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -163,6 +180,7 @@ const Features = () => {
             <ServiceCard key={i} service={service} index={i} />
           ))}
         </div>
+
         {/* ── View All ── */}
         <motion.div
           className="text-center mt-14 sm:mt-16"
@@ -174,12 +192,9 @@ const Features = () => {
             to="/services"
             className="group relative inline-flex items-center gap-2.5 border border-[#1a1a1a] px-6 py-2.5"
           >
-            {/* Text */}
             <span className="font-medium text-sm text-[#1a1a1a]">
               View All Services
             </span>
-
-            {/* Arrow — slides right + orange on hover */}
             <ArrowRight className="w-4 h-4 text-[#1a1a1a] group-hover:text-[#FF7300] group-hover:translate-x-1.5 transition-all duration-300" />
           </Link>
         </motion.div>

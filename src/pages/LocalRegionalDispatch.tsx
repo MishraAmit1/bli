@@ -1,774 +1,854 @@
-import { ArrowLeft, ArrowRight, MapPin, Clock, Truck, Zap, CheckCircle, Users, BarChart3, Shield, Package, Navigation } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { motion } from "framer-motion";
-import { useEffect } from 'react';
-import PageLayout from '@/components/PageLayout';
-import { Card, CardContent } from "@/components/ui/card";
-import { Helmet } from 'react-helmet-async';
+import { useEffect, useRef, useState, memo, useCallback } from "react";
+import { motion, useInView } from "framer-motion";
+import {
+  ArrowRight,
+  ChevronRight,
+  ChevronLeft,
+  Clock,
+  MapPin,
+  Truck,
+  Zap,
+  Package,
+  Navigation,
+  BarChart3,
+  Shield,
+  CheckCircle,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import PageLayout from "@/components/PageLayout";
+import { Helmet } from "react-helmet-async";
 
-const LocalRegionalDispatch = () => {
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+/* ═══════════════ DATA ═══════════════ */
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.15, delayChildren: 0.3, duration: 0.8 },
-        },
-    };
+const navLinks = [
+  { label: "Overview", id: "overview" },
+  { label: "Our Services", id: "sub-services" },
+  { label: "How It Works", id: "how-it-works" },
+  { label: "Key Benefits", id: "benefits" },
+  { label: "Coverage", id: "coverage" },
+  { label: "FAQs", id: "faq" },
+];
 
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: { y: 0, opacity: 1, transition: { duration: 0.6 } },
-    };
+const subServices = [
+  {
+    id: 1,
+    title: "Same-Day Delivery",
+    brand: "Urgent • 4-6 Hours",
+    description:
+      "Urgent deliveries within city limits with 4-6 hour commitment and real-time tracking throughout.",
+    tags: ["4-6 Hour Delivery", "City Limits", "Live Tracking"],
+    imageUrl: "/lovable-uploads/services2.webp",
+  },
+  {
+    id: 2,
+    title: "Regional Coverage",
+    brand: "Next-Day • Reliable",
+    description:
+      "Next-day delivery to surrounding districts and nearby cities with scheduled departures.",
+    tags: ["Next-Day", "District Coverage", "Scheduled Routes"],
+    imageUrl: "/lovable-uploads/services1.webp",
+  },
+  {
+    id: 3,
+    title: "Multi-Drop Routes",
+    brand: "Optimized • Efficient",
+    description:
+      "AI-powered optimized routes for multiple deliveries in a single trip for cost efficiency.",
+    tags: ["Multi-Point", "AI Routing", "Cost Effective"],
+    imageUrl: "/lovable-uploads/services3.webp",
+  },
+  {
+    id: 4,
+    title: "Express Service",
+    brand: "Priority • 2-4 Hours",
+    description:
+      "Priority handling for time-critical shipments with 2-4 hour delivery commitment.",
+    tags: ["2-4 Hours", "Priority Handling", "Dedicated Vehicle"],
+    imageUrl: "/lovable-uploads/services4.webp",
+  },
+  {
+    id: 5,
+    title: "Flexible Capacity",
+    brand: "All Sizes • Scalable",
+    description:
+      "From documents to pallets — two wheelers to mini trucks for every delivery requirement.",
+    tags: ["20kg to 1.5 Tons", "Multiple Vehicles", "Scalable"],
+    imageUrl: "/lovable-uploads/services5.webp",
+  },
+];
 
-    const services = [
-        {
-            icon: Clock,
-            title: "Same-Day Delivery",
-            description: "Urgent deliveries within city limits with 4-6 hour commitment"
-        },
-        {
-            icon: MapPin,
-            title: "Regional Coverage",
-            description: "Next-day delivery to surrounding districts and nearby cities"
-        },
-        {
-            icon: Truck,
-            title: "Multi-Drop Routes",
-            description: "Optimized routes for multiple deliveries in single trip"
-        },
-        {
-            icon: Zap,
-            title: "Express Service",
-            description: "Priority handling for time-critical shipments"
-        },
-        {
-            icon: Package,
-            title: "Flexible Capacity",
-            description: "From documents to pallets - all sizes accommodated"
-        },
-        {
-            icon: Navigation,
-            title: "Route Optimization",
-            description: "AI-powered routing for fastest and most cost-effective delivery"
-        }
-    ];
+const steps = [
+  {
+    title: "Book Online or Call",
+    desc: "Submit pickup request via app, website, or phone call. Instant booking confirmation.",
+    image: "/lovable-uploads/services1.webp",
+  },
+  {
+    title: "Instant Vehicle Assignment",
+    desc: "Nearest available vehicle assigned within minutes based on your cargo type and location.",
+    image: "/lovable-uploads/services2.webp",
+  },
+  {
+    title: "Real-Time Tracking",
+    desc: "Live GPS tracking from pickup to delivery with proactive notifications and ETA updates.",
+    image: "/lovable-uploads/services3.webp",
+  },
+  {
+    title: "Proof of Delivery",
+    desc: "Digital confirmation with recipient signature, photo proof, and instant delivery notification.",
+    image: "/lovable-uploads/services4.webp",
+  },
+];
 
-    const benefits = [
-        {
-            title: "Faster Delivery",
-            description: "Same-day and next-day delivery options",
-            icon: Zap,
-            stat: "4-6 Hours"
-        },
-        {
-            title: "Cost Effective",
-            description: "Shared routes reduce per-delivery costs",
-            icon: BarChart3,
-            stat: "30% Savings"
-        },
-        {
-            title: "Real-Time Tracking",
-            description: "Live updates on delivery status",
-            icon: Navigation,
-            stat: "100% Visibility"
-        },
-        {
-            title: "Reliable Service",
-            description: "Consistent on-time performance",
-            icon: Shield,
-            stat: "98% Success"
-        }
-    ];
+const benefits = [
+  {
+    icon: Zap,
+    title: "Faster Delivery",
+    description:
+      "Same-day 4-6 hour and express 2-4 hour delivery options for urgent local shipments across metro areas.",
+  },
+  {
+    icon: BarChart3,
+    title: "Cost Effective",
+    description:
+      "Shared routes and AI-powered optimization reduce per-delivery costs by up to 30% compared to traditional couriers.",
+  },
+  {
+    icon: Navigation,
+    title: "Real-Time Tracking",
+    description:
+      "100% visibility with live GPS tracking, proactive notifications, and accurate ETA updates for every delivery.",
+  },
+  {
+    icon: Shield,
+    title: "Reliable Service",
+    description:
+      "98% on-time success rate backed by trained riders, quality protocols, and dedicated support team.",
+  },
+];
 
-    const coverage = [
-        {
-            region: "Mumbai Metropolitan",
-            cities: ["Mumbai", "Navi Mumbai", "Thane", "Kalyan", "Vasai"],
-            radius: "50 km",
-            delivery: "Same Day"
-        },
-        {
-            region: "Delhi NCR",
-            cities: ["Delhi", "Gurgaon", "Noida", "Faridabad", "Ghaziabad"],
-            radius: "60 km",
-            delivery: "Same Day"
-        },
-        {
-            region: "Bangalore Urban",
-            cities: ["Bangalore", "Whitefield", "Electronic City", "Hosur", "Tumkur"],
-            radius: "45 km",
-            delivery: "Same Day"
-        },
-        {
-            region: "Chennai Metro",
-            cities: ["Chennai", "Tambaram", "Avadi", "Kanchipuram", "Tiruvallur"],
-            radius: "40 km",
-            delivery: "Same Day"
-        }
-    ];
+const coverageAreas = [
+  {
+    region: "Mumbai Metropolitan",
+    radius: "50 km",
+    delivery: "Same Day",
+    cities: "Mumbai, Navi Mumbai, Thane, Kalyan, Vasai",
+  },
+  {
+    region: "Delhi NCR",
+    radius: "60 km",
+    delivery: "Same Day",
+    cities: "Delhi, Gurgaon, Noida, Faridabad, Ghaziabad",
+  },
+  {
+    region: "Bangalore Urban",
+    radius: "45 km",
+    delivery: "Same Day",
+    cities: "Bangalore, Whitefield, Electronic City, Hosur",
+  },
+  {
+    region: "Chennai Metro",
+    radius: "40 km",
+    delivery: "Same Day",
+    cities: "Chennai, Tambaram, Avadi, Kanchipuram",
+  },
+  {
+    region: "Hyderabad Metro",
+    radius: "45 km",
+    delivery: "Same Day",
+    cities: "Hyderabad, Secunderabad, Gachibowli",
+  },
+  {
+    region: "Pune Metro",
+    radius: "35 km",
+    delivery: "Same Day",
+    cities: "Pune, Pimpri-Chinchwad, Hinjewadi",
+  },
+];
 
-    const vehicleTypes = [
-        { type: "Two Wheeler", capacity: "Up to 20 kg", ideal: "Documents, small parcels" },
-        { type: "Three Wheeler", capacity: "Up to 200 kg", ideal: "E-commerce packages" },
-        { type: "Pickup Van", capacity: "Up to 500 kg", ideal: "Bulk deliveries" },
-        { type: "Mini Truck", capacity: "Up to 1.5 tons", ideal: "Furniture, appliances" }
-    ];
+const faqs = [
+  {
+    question: "What is same-day delivery service?",
+    answer:
+      "Same-day delivery provides urgent deliveries within city limits with 4-6 hour commitment. Starting at ₹50 base rate plus ₹8/km. Express 2-4 hour service also available at ₹80 base.",
+  },
+  {
+    question: "Which cities does BLI cover for local dispatch?",
+    answer:
+      "BLI covers Mumbai Metropolitan (50km), Delhi NCR (60km), Bangalore Urban (45km), Chennai Metro (40km), Hyderabad Metro (45km), and Pune Metro (35km) for same-day delivery.",
+  },
+  {
+    question: "What vehicle types are available for local delivery?",
+    answer:
+      "BLI offers Two Wheeler (up to 20kg), Three Wheeler (up to 200kg), Pickup Van (up to 500kg), and Mini Truck (up to 1.5 tons) for different delivery needs and cargo sizes.",
+  },
+  {
+    question: "How does the pricing work for local dispatch?",
+    answer:
+      "Same-day delivery starts at ₹50 base + ₹8/km, Express at ₹80 base + ₹12/km, and Regional at ₹120 base + ₹15/km. Prices may vary based on weight, dimensions, and handling requirements.",
+  },
+];
 
-    const industries = [
-        "E-commerce & Quick Commerce",
-        "Food & Beverage Delivery",
-        "Pharmaceutical Distribution",
-        "Retail Chain Replenishment",
-        "Banking & Financial Services",
-        "Manufacturing JIT Supply"
-    ];
+/* ═══════════════ SUB-COMPONENTS ═══════════════ */
 
-    // Structured Data for Local Dispatch Service
-    const structuredData = {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        "name": "Local & Regional Dispatch Services",
-        "description": "Lightning-fast same-day and next-day delivery solutions across metro areas. 4-6 hour delivery commitment with real-time tracking and 98% success rate.",
-        "provider": {
-            "@type": "Organization",
-            "name": "BLI - Bansal Logistics of India",
-            "url": "https://blirapid.com"
-        },
-        "areaServed": [
-            {
-                "@type": "City",
-                "name": "Mumbai",
-                "containedInPlace": {
-                    "@type": "State",
-                    "name": "Maharashtra"
-                }
-            },
-            {
-                "@type": "City",
-                "name": "Delhi",
-                "containedInPlace": {
-                    "@type": "State",
-                    "name": "Delhi"
-                }
-            },
-            {
-                "@type": "City",
-                "name": "Bangalore",
-                "containedInPlace": {
-                    "@type": "State",
-                    "name": "Karnataka"
-                }
-            },
-            {
-                "@type": "City",
-                "name": "Chennai",
-                "containedInPlace": {
-                    "@type": "State",
-                    "name": "Tamil Nadu"
-                }
-            }
-        ],
-        "offers": [
-            {
-                "@type": "Offer",
-                "name": "Same-Day Delivery",
-                "price": "50",
-                "priceCurrency": "INR",
-                "description": "4-6 hour delivery within city limits"
-            },
-            {
-                "@type": "Offer",
-                "name": "Express Service",
-                "price": "80",
-                "priceCurrency": "INR",
-                "description": "2-4 hour priority delivery"
-            }
-        ]
-    };
-
-    // FAQ Schema for Local Dispatch
-    const faqSchema = {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "What is same-day delivery service?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Same-day delivery service provides urgent deliveries within city limits with 4-6 hour commitment. Starting at ₹50 base rate plus ₹8/km."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Which cities does BLI cover for local dispatch?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "BLI covers Mumbai Metropolitan (50km), Delhi NCR (60km), Bangalore Urban (45km), and Chennai Metro (40km) areas for same-day delivery."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What vehicle types are available for local delivery?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "BLI offers Two Wheeler (up to 20kg), Three Wheeler (up to 200kg), Pickup Van (up to 500kg), and Mini Truck (up to 1.5 tons) for different delivery needs."
-                }
-            }
-        ]
-    };
-
-    return (
-        <PageLayout>
-            <Helmet>
-                <title>Local & Regional Dispatch Services | Same-Day Delivery | 4-6 Hours | BLI</title>
-                <meta name="description" content="Same-day & next-day local dispatch services in Mumbai, Delhi, Bangalore, Chennai. 4-6 hour delivery, real-time tracking, 98% success rate. Starting ₹50." />
-                <meta name="keywords" content="same day delivery, local dispatch services, regional delivery, express delivery mumbai delhi bangalore chennai, quick delivery, urgent courier, local logistics" />
-
-                {/* Open Graph */}
-                <meta property="og:title" content="Local Dispatch Services - Same-Day Delivery in 4-6 Hours | BLI" />
-                <meta property="og:description" content="Lightning-fast local delivery across metro areas. 2000+ daily dispatches, 98% success rate, real-time tracking. Mumbai, Delhi, Bangalore, Chennai." />
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://blirapid.com/services/local-dispatch/" />
-
-
-                {/* Twitter Card */}
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content="Local Dispatch - 2000+ Daily Deliveries | BLI" />
-                <meta name="twitter:description" content="Same-day delivery in 4-6 hours. Express service available. Real-time tracking." />
-
-                {/* Canonical URL */}
-                <link rel="canonical" href="https://blirapid.com/services/local-dispatch/" />
-
-                {/* Structured Data */}
-                <script type="application/ld+json">
-                    {JSON.stringify(structuredData)}
-                </script>
-                <script type="application/ld+json">
-                    {JSON.stringify(faqSchema)}
-                </script>
-            </Helmet>
-
-            {/* Hero Section */}
-            <section className="relative pt-8 sm:pt-10 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8">
-                {/* Background image with overlay */}
-                <div
-                    className="absolute inset-0 bg-cover bg-center z-0"
-                    style={{ backgroundImage: 'url("/lovable-uploads/local-dispatch-hero.webp")' }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-[#113C6A]/80 to-[#113C6A]/90 z-0" />
-
-                <div className="container mx-auto relative z-10">
-                    <div className="max-w-3xl mx-auto text-center">
-                        <motion.div
-                            initial="hidden"
-                            animate="visible"
-                            variants={containerVariants}
-                        >
-                            <motion.h1
-                                variants={itemVariants}
-                                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-[#F8FFFF] leading-tight"
-                            >
-                                Local & Regional Dispatch
-                            </motion.h1>
-
-                            <motion.p
-                                variants={itemVariants}
-                                className="text-base sm:text-lg md:text-xl text-[#F8FFFF]/90 mb-6 sm:mb-8 leading-relaxed px-2 sm:px-0"
-                            >
-                                Lightning-fast delivery solutions for your local and regional needs. From same-day
-                                urgent deliveries to optimized multi-drop routes across metro areas.
-                            </motion.p>
-
-                            <motion.div
-                                variants={itemVariants}
-                                className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center"
-                            >
-                                <Link
-                                    to="/contact"
-                                    className="inline-flex items-center justify-center w-full sm:w-auto px-5 sm:px-6 py-3 bg-[#FF7729] text-white rounded hover:bg-[#e56721] transition-all group text-sm sm:text-base"
-                                    aria-label="Get local dispatch quote"
-                                >
-                                    <span>Get Dispatch Quote</span>
-                                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform flex-shrink-0" />
-                                </Link>
-                                <button
-                                    onClick={() => {
-                                        const element = document.getElementById('coverage-areas');
-                                        if (element) element.scrollIntoView({ behavior: 'smooth' });
-                                    }}
-                                    className="inline-flex items-center justify-center w-full sm:w-auto px-5 sm:px-6 py-3 bg-transparent border-2 border-[#F8FFFF] text-[#F8FFFF] rounded hover:bg-[#F8FFFF] hover:text-[#113C6A] transition-all text-sm sm:text-base"
-                                    aria-label="Check local delivery coverage area"
-                                >
-                                    <span>Check Coverage Area</span>
-                                </button>
-                            </motion.div>
-                        </motion.div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Services Overview */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]" aria-labelledby="services-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="services-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Fast & Flexible Dispatch Services
-                        </motion.h2>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {services.map((service, index) => (
-                                <motion.article key={index} variants={itemVariants}>
-                                    <Card className="h-full bg-white border border-[#185EAA]/20 hover:shadow-lg hover:shadow-[#185EAA]/10 transition-all hover:-translate-y-1">
-                                        <CardContent className="p-6">
-                                            <div className="w-14 h-14 bg-[#F8FFFF] rounded-lg flex items-center justify-center mb-4">
-                                                <service.icon className="w-7 h-7 text-[#185EAA]" aria-hidden="true" />
-                                            </div>
-                                            <h3 className="font-bold text-lg mb-2 text-[#113C6A]">{service.title}</h3>
-                                            <p className="text-[#21221C]/70 text-sm">{service.description}</p>
-                                        </CardContent>
-                                    </Card>
-                                </motion.article>
-                            ))}
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Benefits Section */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="benefits-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="benefits-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Why Choose BLI Local Dispatch?
-                        </motion.h2>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {benefits.map((benefit, index) => (
-                                <motion.article
-                                    key={index}
-                                    variants={itemVariants}
-                                    className="bg-white p-6 rounded-xl border border-[#185EAA]/20 text-center hover:shadow-lg hover:shadow-[#185EAA]/10 transition-all"
-                                >
-                                    <div className="w-16 h-16 bg-[#F8FFFF] rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <benefit.icon className="w-8 h-8 text-[#185EAA]" aria-hidden="true" />
-                                    </div>
-                                    <div className="text-2xl font-bold text-[#FF7729] mb-2">{benefit.stat}</div>
-                                    <h3 className="font-bold text-lg mb-2 text-[#113C6A]">{benefit.title}</h3>
-                                    <p className="text-[#21221C]/70 text-sm">{benefit.description}</p>
-                                </motion.article>
-                            ))}
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Coverage Areas */}
-            <section id="coverage-areas" className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]" aria-labelledby="coverage-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="coverage-heading"
-                            variants={itemVariants}
-                            className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center text-[#113C6A]"
-                        >
-                            Coverage Areas
-                        </motion.h2>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                            {coverage.map((area, index) => (
-                                <motion.article
-                                    key={index}
-                                    variants={itemVariants}
-                                    className="bg-white rounded-xl p-4 sm:p-6 border border-[#185EAA]/20 hover:border-[#185EAA]/40 transition-all"
-                                >
-                                    <div className="flex items-start justify-between mb-3 sm:mb-4 gap-2">
-                                        <h3 className="font-bold text-lg sm:text-xl text-[#113C6A] flex-1">{area.region}</h3>
-                                        <span className="px-2 sm:px-3 py-1 bg-[#FF7729] text-white rounded-full text-xs sm:text-sm font-medium flex-shrink-0">
-                                            {area.delivery}
-                                        </span>
-                                    </div>
-
-                                    <div className="mb-3 sm:mb-4">
-                                        <p className="text-[#21221C]/80 text-xs sm:text-sm mb-2">
-                                            <strong>Coverage Radius:</strong> {area.radius}
-                                        </p>
-                                        <p className="text-[#21221C]/80 text-xs sm:text-sm mb-2">
-                                            <strong>Key Cities:</strong>
-                                        </p>
-                                        <div className="flex flex-wrap gap-1 sm:gap-2 mt-2">
-                                            {area.cities.map((city, cityIndex) => (
-                                                <span
-                                                    key={cityIndex}
-                                                    className="px-2 py-1 bg-[#F8FFFF] text-[#113C6A] rounded text-xs border border-[#185EAA]/20"
-                                                >
-                                                    {city}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </motion.article>
-                            ))}
-                        </div>
-
-                        <motion.div
-                            variants={itemVariants}
-                            className="mt-6 sm:mt-8 text-center px-2 sm:px-0"
-                        >
-                            <p className="text-sm sm:text-base text-[#21221C]/80 mb-3 sm:mb-4">
-                                Don't see your area? We're expanding rapidly across India.
-                            </p>
-                            <Link
-                                to="/contact"
-                                className="inline-flex items-center text-sm sm:text-base text-[#185EAA] hover:text-[#FF7729] transition-colors"
-                                aria-label="Request coverage in your area"
-                            >
-                                <span>Request coverage in your area</span>
-                                <ArrowRight className="ml-2 w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                            </Link>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Vehicle Types */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="vehicles-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="vehicles-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Vehicle Options
-                        </motion.h2>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {vehicleTypes.map((vehicle, index) => (
-                                <motion.article
-                                    key={index}
-                                    variants={itemVariants}
-                                    className="bg-white rounded-xl p-6 border border-[#185EAA]/20 text-center hover:shadow-lg hover:shadow-[#185EAA]/10 transition-all"
-                                >
-                                    <div className="w-16 h-16 bg-[#F8FFFF] rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <Truck className="w-8 h-8 text-[#185EAA]" aria-hidden="true" />
-                                    </div>
-                                    <h3 className="font-bold text-lg mb-2 text-[#113C6A]">{vehicle.type}</h3>
-                                    <p className="text-[#FF7729] font-semibold text-sm mb-2">{vehicle.capacity}</p>
-                                    <p className="text-[#21221C]/70 text-sm">{vehicle.ideal}</p>
-                                </motion.article>
-                            ))}
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* How It Works */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]" aria-labelledby="process-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="process-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            How Local Dispatch Works
-                        </motion.h2>
-
-                        <ol className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                            {[
-                                {
-                                    step: "1",
-                                    title: "Book Online",
-                                    description: "Submit pickup request via app, website, or phone call",
-                                    icon: Package
-                                },
-                                {
-                                    step: "2",
-                                    title: "Instant Assignment",
-                                    description: "Nearest available vehicle assigned within minutes",
-                                    icon: Navigation
-                                },
-                                {
-                                    step: "3",
-                                    title: "Real-Time Tracking",
-                                    description: "Live GPS tracking from pickup to delivery",
-                                    icon: MapPin
-                                },
-                                {
-                                    step: "4",
-                                    title: "Proof of Delivery",
-                                    description: "Digital confirmation with recipient signature",
-                                    icon: CheckCircle
-                                }
-                            ].map((item, index) => (
-                                <motion.li
-                                    key={index}
-                                    variants={itemVariants}
-                                    className="bg-white rounded-xl p-6 border border-[#185EAA]/20 text-center hover:shadow-lg hover:shadow-[#185EAA]/10 transition-all"
-                                >
-                                    <div className="w-16 h-16 bg-[#185EAA] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                                        <span aria-label={`Step ${item.step}`}>{item.step}</span>
-                                    </div>
-                                    <div className="w-12 h-12 bg-[#F8FFFF] rounded-lg flex items-center justify-center mx-auto mb-3">
-                                        <item.icon className="w-6 h-6 text-[#FF7729]" aria-hidden="true" />
-                                    </div>
-                                    <h3 className="font-bold text-lg mb-2 text-[#113C6A]">{item.title}</h3>
-                                    <p className="text-[#21221C]/70 text-sm">{item.description}</p>
-                                </motion.li>
-                            ))}
-                        </ol>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Industries Served */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="industries-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                        className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-                    >
-                        <motion.div variants={itemVariants}>
-                            <h2 id="industries-heading" className="text-3xl font-bold mb-6 text-[#113C6A]">
-                                Industries We Serve
-                            </h2>
-                            <p className="text-[#21221C]/80 mb-8">
-                                Our local dispatch services cater to diverse industries requiring fast,
-                                reliable delivery solutions within metropolitan areas.
-                            </p>
-
-                            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="list">
-                                {industries.map((industry, index) => (
-                                    <li key={index} className="flex items-center">
-                                        <CheckCircle className="w-5 h-5 text-[#FF7729] mr-3 flex-shrink-0" aria-hidden="true" />
-                                        <span className="text-[#21221C]/80">{industry}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </motion.div>
-
-                        <motion.div variants={itemVariants} className="relative">
-                            <img
-                                src="/lovable-uploads/6b0637e9-4a7b-40d0-b219-c8b7f879f93e.webp"
-                                alt="BLI local delivery network and dispatch operations"
-                                className="rounded-xl shadow-lg w-full"
-                                loading="lazy"
-                            />
-                            <div className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 bg-[#FF7729] text-white p-3 sm:p-4 rounded-lg shadow-lg">
-                                <p className="text-xl sm:text-2xl font-bold">2000+</p>
-                                <p className="text-xs sm:text-sm">Daily Deliveries</p>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Pricing Structure */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]" aria-labelledby="pricing-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="pricing-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Transparent Pricing
-                        </motion.h2>
-
-                        <motion.div
-                            variants={itemVariants}
-                            className="bg-white rounded-xl p-8 border border-[#185EAA]/20"
-                        >
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                <div className="text-center">
-                                    <div className="w-20 h-20 bg-[#F8FFFF] rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <Clock className="w-10 h-10 text-[#185EAA]" aria-hidden="true" />
-                                    </div>
-                                    <h3 className="font-bold text-xl mb-2 text-[#113C6A]">Same-Day</h3>
-                                    <p className="text-3xl font-bold text-[#FF7729] mb-2">₹50</p>
-                                    <p className="text-[#21221C]/70 text-sm">Base rate + ₹8/km</p>
-                                    <p className="text-[#21221C]/70 text-xs mt-1">Within city limits</p>
-                                </div>
-
-                                <div className="text-center">
-                                    <div className="w-20 h-20 bg-[#F8FFFF] rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <Zap className="w-10 h-10 text-[#185EAA]" aria-hidden="true" />
-                                    </div>
-                                    <h3 className="font-bold text-xl mb-2 text-[#113C6A]">Express</h3>
-                                    <p className="text-3xl font-bold text-[#FF7729] mb-2">₹80</p>
-                                    <p className="text-[#21221C]/70 text-sm">Base rate + ₹12/km</p>
-                                    <p className="text-[#21221C]/70 text-xs mt-1">2-4 hour delivery</p>
-                                </div>
-
-                                <div className="text-center">
-                                    <div className="w-20 h-20 bg-[#F8FFFF] rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <MapPin className="w-10 h-10 text-[#185EAA]" aria-hidden="true" />
-                                    </div>
-                                    <h3 className="font-bold text-xl mb-2 text-[#113C6A]">Regional</h3>
-                                    <p className="text-3xl font-bold text-[#FF7729] mb-2">₹120</p>
-                                    <p className="text-[#21221C]/70 text-sm">Base rate + ₹15/km</p>
-                                    <p className="text-[#21221C]/70 text-xs mt-1">Next-day delivery</p>
-                                </div>
-                            </div>
-
-                            <div className="mt-8 pt-6 border-t border-[#185EAA]/20 text-center">
-                                <p className="text-[#21221C]/80 text-sm mb-4">
-                                    * Prices may vary based on weight, dimensions, and special handling requirements
-                                </p>
-                                <Link
-                                    to="/contact"
-                                    className="inline-flex items-center text-[#185EAA] hover:text-[#FF7729] transition-colors"
-                                    aria-label="Get custom quote for bulk orders"
-                                >
-                                    Get custom quote for bulk orders
-                                    <ArrowRight className="ml-2 w-4 h-4" />
-                                </Link>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Hidden FAQ Section for SEO */}
-            <section className="sr-only" aria-label="Frequently Asked Questions">
-                <h2>Frequently Asked Questions about Local Dispatch Services</h2>
-                <dl>
-                    <dt>What is same-day delivery service?</dt>
-                    <dd>Same-day delivery service provides urgent deliveries within city limits with 4-6 hour commitment. Starting at ₹50 base rate plus ₹8/km.</dd>
-
-                    <dt>Which cities does BLI cover for local dispatch?</dt>
-                    <dd>BLI covers Mumbai Metropolitan (50km), Delhi NCR (60km), Bangalore Urban (45km), and Chennai Metro (40km) areas for same-day delivery.</dd>
-
-                    <dt>What vehicle types are available for local delivery?</dt>
-                    <dd>BLI offers Two Wheeler (up to 20kg), Three Wheeler (up to 200kg), Pickup Van (up to 500kg), and Mini Truck (up to 1.5 tons) for different delivery needs.</dd>
-
-                    <dt>How fast is express delivery service?</dt>
-                    <dd>Express delivery service provides 2-4 hour priority delivery within city limits at ₹80 base rate plus ₹12/km.</dd>
-
-                    <dt>What industries use local dispatch services?</dt>
-                    <dd>E-commerce, food delivery, pharmaceutical distribution, retail chains, banking, and manufacturing industries use our local dispatch services.</dd>
-                </dl>
-            </section>
-
-            {/* CTA Section */}
-            <section
-                className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#FFFDF7] to-[#113C6A] text-[#FFFDF7]"
-                aria-labelledby="localdelivery-cta"
+const SubServiceCard = memo(
+  ({ service }: { service: (typeof subServices)[0] }) => (
+    <div className="group flex-shrink-0 w-[85vw] sm:w-[60vw] md:w-[45vw] lg:w-[28vw] min-w-[260px]">
+      <div className="relative overflow-hidden h-[180px] sm:h-[200px]">
+        <img
+          src={service.imageUrl}
+          alt={service.title}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+        <p className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 text-white/70 text-[10px] sm:text-[11px] font-medium uppercase tracking-widest">
+          {service.brand}
+        </p>
+      </div>
+      <div className="pt-4 sm:pt-5 pb-5 sm:pb-6 border-b border-gray-200">
+        <h3 className="text-[#1a1a1a] text-sm sm:text-base font-bold leading-snug mb-1.5 sm:mb-2 group-hover:text-[#113C6A] transition-colors duration-300">
+          {service.title}
+        </h3>
+        <p className="text-gray-500 text-xs sm:text-sm font-light leading-relaxed mb-3 sm:mb-4 line-clamp-2">
+          {service.description}
+        </p>
+        <div className="flex flex-wrap gap-1 sm:gap-1.5">
+          {service.tags.map((tag, idx) => (
+            <span
+              key={idx}
+              className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-gray-500 text-[10px] sm:text-[11px] border border-gray-200"
             >
-                <div className="container mx-auto max-w-4xl text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        <h2 id="localdelivery-cta" className="text-3xl font-bold mb-4 text-[#113C6A]">
-                            Need Fast Local Delivery?
-                        </h2>
-                        <p className="text-[#000]/90 mb-8 text-lg">
-                            Book your dispatch now and experience lightning-fast delivery in your city.
-                        </p>
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  ),
+);
 
-                        {/* CTA Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                            <Link
-                                to="/contact"
-                                aria-label="Book Local Dispatch Now"
-                                className="inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3 bg-[#FF7729] text-white rounded hover:bg-[#e56721] transition-all group text-sm sm:text-base"
-                            >
-                                <span>Book Dispatch Now</span>
-                                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform flex-shrink-0" />
-                            </Link>
-                            <a
-                                href="tel:+919687448434"
-                                aria-label="Call for urgent pickup"
-                                className="inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3 bg-transparent border-2 border-[#F8FFFF] text-[#F8FFFF] rounded hover:bg-[#F8FFFF] hover:text-[#113C6A] transition-all text-sm sm:text-base"
-                            >
-                                <Users className="mr-2 w-4 h-4 flex-shrink-0" />
-                                <span>Call for Urgent Pickup</span>
-                            </a>
-                        </div>
-
-                        {/* Trust Indicators */}
-                        <div className="mt-12 pt-12 border-t border-[#F8FFFF]/20">
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                                <div>
-                                    <p className="text-3xl sm:text-4xl font-bold text-[#FF7729]">4-6hrs</p>
-                                    <p className="text-[#000]/80 mt-1">Same-Day Delivery</p>
-                                </div>
-                                <div>
-                                    <p className="text-3xl sm:text-4xl font-bold text-[#FF7729]">2000+</p>
-                                    <p className="text-[#000]/80 mt-1">Daily Dispatches</p>
-                                </div>
-                                <div>
-                                    <p className="text-3xl sm:text-4xl font-bold text-[#FF7729]">98%</p>
-                                    <p className="text-[#000]/80 mt-1">On-Time Rate</p>
-                                </div>
-                                <div>
-                                    <p className="text-3xl sm:text-4xl font-bold text-[#FF7729]">24/7</p>
-                                    <p className="text-[#000]/80 mt-1">Service Available</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Additional Contact Info */}
-                        <div className="mt-8 text-[#000]/80">
-                            <p className="text-sm">Need urgent pickup?</p>
-                            <a href="tel:+919687448434" className="text-xl font-bold text-[#113C6A] hover:text-[#FF7729] transition-colors">
-                                +91-968 744 8434
-                            </a>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-        </PageLayout>
-    );
+const FAQItem = ({ faq, index }: { faq: (typeof faqs)[0]; index: number }) => {
+  const [open, setOpen] = useState(index === 0);
+  return (
+    <div className="border-b border-gray-200 last:border-b-0">
+      <button
+        className="w-full flex items-start justify-between gap-4 sm:gap-8 py-6 pr-4 text-left group"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+      >
+        <h3
+          className="text-sm sm:text-base lg:text-lg font-semibold leading-snug max-w-3xl transition-colors"
+          style={{ color: open ? "#113C6A" : "#1C1825" }}
+        >
+          {faq.question}
+        </h3>
+        <span
+          className={`flex-shrink-0 mt-1 transition-transform duration-500 ${open ? "rotate-180" : ""}`}
+        >
+          <svg viewBox="0 0 48 48" width="20" height="20" fill="none">
+            <path
+              d="M4 16.2C4 15.97 4.08 15.74 4.24 15.55C4.6 15.13 5.23 15.09 5.65 15.45L24.04 31.32C24.18 31.44 24.44 31.43 24.57 31.31L42.31 14.87C42.72 14.49 43.35 14.52 43.72 14.92C44.09 15.32 44.07 15.96 43.67 16.33L25.94 32.77C25.06 33.59 23.65 33.61 22.74 32.83L4.35 16.96C4.12 16.76 4 16.48 4 16.2Z"
+              fill={open ? "#113C6A" : "#9ca3af"}
+              stroke={open ? "#113C6A" : "#9ca3af"}
+              strokeWidth="2"
+            />
+          </svg>
+        </span>
+      </button>
+      <div
+        className={`overflow-hidden transition-all duration-500 ease-in-out ${open ? "max-h-96 opacity-100 pb-6" : "max-h-0 opacity-0"}`}
+      >
+        <p
+          className="font-light max-w-3xl text-sm sm:text-base lg:text-lg"
+          style={{ lineHeight: "27px", color: "rgb(28, 24, 37)" }}
+        >
+          {faq.answer}
+        </p>
+      </div>
+    </div>
+  );
 };
 
-export default LocalRegionalDispatch;
+/* ═══════════════ MAIN PAGE ═══════════════ */
+
+const LocalRegionalDispatch = () => {
+  const [activeSection, setActiveSection] = useState("overview");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const maxIndex = subServices.length - 1;
+
+  const overviewRef = useRef<HTMLElement>(null);
+  const subServicesRef = useRef<HTMLElement>(null);
+  const howItWorksRef = useRef<HTMLElement>(null);
+  const benefitsRef = useRef<HTMLElement>(null);
+  const coverageRef = useRef<HTMLElement>(null);
+  const faqRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    const sections = [
+      { id: "overview", ref: overviewRef },
+      { id: "sub-services", ref: subServicesRef },
+      { id: "how-it-works", ref: howItWorksRef },
+      { id: "benefits", ref: benefitsRef },
+      { id: "coverage", ref: coverageRef },
+      { id: "faq", ref: faqRef },
+    ];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px", threshold: 0 },
+    );
+    sections.forEach(({ ref }) => {
+      if (ref.current) observer.observe(ref.current);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  const goToPrev = useCallback(
+    () => setCurrentIndex((p) => Math.max(p - 1, 0)),
+    [],
+  );
+  const goToNext = useCallback(
+    () => setCurrentIndex((p) => Math.min(p + 1, maxIndex)),
+    [maxIndex],
+  );
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  }, []);
+  const onTouchMove = useCallback(
+    (e: React.TouchEvent) => setTouchEnd(e.targetTouches[0].clientX),
+    [],
+  );
+  const onTouchEnd = useCallback(() => {
+    if (!touchStart || !touchEnd) return;
+    const d = touchStart - touchEnd;
+    if (d > 50) goToNext();
+    else if (d < -50) goToPrev();
+  }, [touchStart, touchEnd, goToNext, goToPrev]);
+
+  const overviewInView = useInView(overviewRef, {
+    once: true,
+    margin: "-80px",
+  });
+  const stepsInView = useInView(howItWorksRef, { once: true, margin: "-80px" });
+  const benefitsInView = useInView(benefitsRef, {
+    once: true,
+    margin: "-80px",
+  });
+  const coverageInView = useInView(coverageRef, {
+    once: true,
+    margin: "-80px",
+  });
+
+  const getSlideOffset = () => {
+    if (typeof window === "undefined") return 29.4;
+    const w = window.innerWidth;
+    if (w < 640) return 88;
+    if (w < 768) return 62;
+    if (w < 1024) return 47;
+    return 29.4;
+  };
+
+  return (
+    <PageLayout>
+      <Helmet>
+        <title>
+          Local & Regional Dispatch Services | Same-Day Delivery | 4-6 Hours |
+          BLI
+        </title>
+        <meta
+          name="description"
+          content="Same-day & next-day local dispatch services in Mumbai, Delhi, Bangalore, Chennai. 4-6 hour delivery, real-time tracking, 98% success rate. Starting ₹50."
+        />
+        <link
+          rel="canonical"
+          href="https://blirapid.com/services/local-dispatch/"
+        />
+      </Helmet>
+
+      {/* ══════════ HERO ══════════ */}
+      <div className="relative w-full h-[50vh] min-h-[420px] sm:h-[55vh] lg:h-[65vh] lg:max-h-[550px] overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/lovable-uploads/services2.webp"
+            alt="Local & Regional Dispatch"
+            className="w-full h-full object-cover object-center"
+            fetchPriority="high"
+            loading="eager"
+          />
+        </div>
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/20 via-black/40 to-black/80 flex items-center">
+          <div className="max-w-[1280px] w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+            <nav className="mb-3 sm:mb-4" aria-label="Breadcrumb">
+              <ol className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+                <li>
+                  <Link
+                    to="/"
+                    className="text-white/90 hover:text-white text-[10px] sm:text-xs lg:text-sm font-semibold transition-colors"
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li className="text-white/70">
+                  <ChevronRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                </li>
+                <li>
+                  <Link
+                    to="/services"
+                    className="text-white/80 hover:text-white text-[10px] sm:text-xs lg:text-sm font-semibold transition-colors"
+                  >
+                    All Services
+                  </Link>
+                </li>
+                <li className="text-white/70">
+                  <ChevronRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                </li>
+                <li>
+                  <span className="text-white/60 text-[10px] sm:text-xs lg:text-sm font-semibold">
+                    Local Dispatch
+                  </span>
+                </li>
+              </ol>
+            </nav>
+
+            <h1 className="font-bold text-white uppercase tracking-normal mb-2 sm:mb-3 text-[32px] leading-[38px] sm:text-[40px] sm:leading-[46px] md:text-[44px] md:leading-[52px] lg:text-[48px] lg:leading-[56px]">
+              <span className="block">Local & Regional</span>
+              <span className="block">Dispatch</span>
+            </h1>
+
+            <p className="font-light max-w-xl mt-3 sm:mt-4 tracking-wide text-white/90 text-sm sm:text-base md:text-[17px] md:leading-[26px] lg:text-[18px] lg:leading-[27px]">
+              Lightning-fast delivery solutions for your local and regional
+              needs. Same-day 4-6 hour delivery with real-time tracking across
+              all major metro areas in India.
+            </p>
+
+            <div className="mt-5 sm:mt-6">
+              <Link
+                to="/contact"
+                className="group inline-flex items-center gap-2 sm:gap-2.5 border border-white px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 hover:bg-white hover:text-[#1a1a1a] transition-all duration-300"
+              >
+                <span className="font-medium text-xs sm:text-sm text-white group-hover:text-[#1a1a1a] transition-colors duration-300">
+                  Get Dispatch Quote
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-[#1a1a1a] group-hover:translate-x-1 transition-all duration-300" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ══════════ STICKY NAV ══════════ */}
+      <nav
+        className="bg-slate-100 border-b border-gray-200 sticky top-[56px] sm:top-[64px] lg:top-[66px] z-50 overflow-x-auto scrollbar-hide"
+        aria-label="Page sections"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="flex items-center min-w-max">
+            {navLinks.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document
+                      .getElementById(item.id)
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className={`relative py-3 sm:py-3.5 px-1 mr-5 sm:mr-6 lg:mr-8 text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap ${isActive ? "text-[#113C6A]" : "text-gray-400 hover:text-[#1a1a1a]"}`}
+                >
+                  {item.label}
+                  <span
+                    className={`absolute bottom-0 left-0 w-full h-[2px] bg-[#113C6A] transition-all duration-300 ${isActive ? "opacity-100" : "opacity-0"}`}
+                  />
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </nav>
+
+      {/* ══════════ OVERVIEW ══════════ */}
+      <section
+        id="overview"
+        ref={overviewRef}
+        className="py-12 sm:py-14 md:py-16 lg:py-20 bg-white"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <motion.div
+            className="text-center max-w-3xl mx-auto mb-8 sm:mb-9 lg:mb-10"
+            initial={{ opacity: 0, y: 30 }}
+            animate={overviewInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+              What Is Local Dispatch
+            </p>
+            <h2 className="font-bold uppercase tracking-normal mb-3 text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+              <span className="block">Deliver Faster.</span>
+              <span className="block">Locally.</span>
+            </h2>
+            <p className="font-light text-sm sm:text-base md:text-[17px] md:leading-[26px] lg:text-[18px] lg:leading-[27px] text-[#1C1825]">
+              Local & Regional Dispatch provides same-day delivery within 4-6
+              hours across metro areas — with 2000+ daily dispatches, 98%
+              success rate, and starting rates from just ₹50.
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-gray-200"
+            initial={{ opacity: 0, y: 20 }}
+            animate={overviewInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            {[
+              { value: "4-6hr", label: "Same-Day Delivery" },
+              { value: "2000+", label: "Daily Dispatches" },
+              { value: "98%", label: "On-Time Rate" },
+              { value: "₹50", label: "Starting Rate" },
+            ].map((stat, i) => (
+              <div key={i} className="bg-white p-4 sm:p-5 lg:p-6 text-center">
+                <div className="font-bold leading-none mb-1 text-[32px] sm:text-[38px] lg:text-[44px] text-black">
+                  {stat.value}
+                </div>
+                <div className="font-light text-xs sm:text-sm lg:text-base text-[#1C1825]">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ══════════ SUB-SERVICES SLIDER ══════════ */}
+      <section
+        id="sub-services"
+        ref={subServicesRef}
+        className="bg-gray-50 py-12 sm:py-14 md:py-16 lg:py-20 w-full overflow-hidden"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-5 lg:gap-6 mb-8 sm:mb-9 lg:mb-10">
+            <div className="max-w-2xl">
+              <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+                Our Dispatch Services
+              </p>
+              <h2 className="font-bold uppercase tracking-normal mb-2 text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+                <span className="block">Fast & Flexible</span>
+                <span className="block">Delivery Options</span>
+              </h2>
+              <p className="font-light max-w-lg text-sm sm:text-base md:text-[17px] md:leading-[26px] lg:text-[18px] lg:leading-[27px] text-[#1C1825]">
+                From same-day express to multi-drop routes for every local
+                delivery need.
+              </p>
+            </div>
+            <div className="flex-shrink-0">
+              <Link
+                to="/contact"
+                className="group inline-flex items-center gap-2 sm:gap-2.5 border border-[#1a1a1a] px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+              >
+                <span className="font-medium text-xs sm:text-sm text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
+                  Get Quote
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="relative"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
+          <div className="overflow-hidden pl-4 sm:pl-6 md:pl-8 lg:pl-12">
+            <div
+              ref={trackRef}
+              className="flex transition-transform duration-500 ease-out gap-3 sm:gap-4 lg:gap-5"
+              style={{
+                transform: `translateX(-${currentIndex * getSlideOffset()}vw)`,
+              }}
+            >
+              {subServices.map((s) => (
+                <SubServiceCard key={s.id} service={s} />
+              ))}
+            </div>
+          </div>
+          <div className="flex items-center gap-2 justify-end mt-5 sm:mt-6 pr-4 sm:pr-6 md:pr-8 lg:pr-12">
+            <button
+              onClick={goToPrev}
+              disabled={currentIndex === 0}
+              className="w-9 h-9 sm:w-10 sm:h-10 border border-gray-200 flex items-center justify-center text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
+              aria-label="Previous"
+            >
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+            <button
+              onClick={goToNext}
+              disabled={currentIndex >= maxIndex}
+              className="w-9 h-9 sm:w-10 sm:h-10 border border-gray-200 flex items-center justify-center text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
+              aria-label="Next"
+            >
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════ HOW IT WORKS ══════════ */}
+      <section
+        id="how-it-works"
+        ref={howItWorksRef}
+        className="py-12 sm:py-14 md:py-16 lg:py-20 bg-gradient-to-b from-white to-gray-50"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <motion.div
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-5 lg:gap-6 mb-10 sm:mb-11 lg:mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            animate={stepsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="max-w-2xl">
+              <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+                How It Works
+              </p>
+              <h2 className="font-bold uppercase tracking-normal text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+                <span className="block">From Booking</span>
+                <span className="block">To Delivery</span>
+              </h2>
+            </div>
+            <div className="flex-shrink-0">
+              <Link
+                to="/contact"
+                className="group inline-flex items-center gap-2 sm:gap-2.5 border border-[#1a1a1a] px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+              >
+                <span className="font-medium text-xs sm:text-sm text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
+                  Get Started
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+              </Link>
+            </div>
+          </motion.div>
+
+          <div className="space-y-0">
+            {steps.map((step, idx) => (
+              <motion.div
+                key={idx}
+                className="relative border-l-2 border-gray-200 pl-6 sm:pl-7 md:pl-8 lg:pl-10 pb-10 sm:pb-11 lg:pb-12 last:pb-0"
+                initial={{ opacity: 0, x: -20 }}
+                animate={stepsInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: idx * 0.15 }}
+              >
+                <div className="absolute left-[-11px] sm:left-[-13px] lg:left-[-15px] top-0 w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 rounded-full bg-white border-2 border-[#113C6A] flex items-center justify-center">
+                  <span className="text-[#113C6A] font-bold text-[10px] sm:text-xs">
+                    {idx + 1}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 md:gap-6 lg:gap-10 items-center">
+                  <div
+                    className={`lg:col-span-7 order-1 ${idx % 2 === 0 ? "lg:order-2" : "lg:order-1"}`}
+                  >
+                    <div className="relative overflow-hidden h-[200px] sm:h-[220px] md:h-[240px] lg:h-[280px] border border-gray-100">
+                      <img
+                        src={step.image}
+                        alt={step.title}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+                    </div>
+                  </div>
+                  <div
+                    className={`lg:col-span-5 order-2 ${idx % 2 === 0 ? "lg:order-1" : "lg:order-2"}`}
+                  >
+                    <span className="inline-block bg-[#113C6A] text-white font-semibold uppercase tracking-wider px-2 py-0.5 mb-2 sm:mb-2.5 lg:mb-3 text-[9px] sm:text-[10px]">
+                      Step {idx + 1}
+                    </span>
+                    <h3 className="font-bold mb-1.5 sm:mb-2 text-[20px] leading-[26px] sm:text-[22px] sm:leading-[28px] lg:text-[24px] lg:leading-[30px] text-black">
+                      {step.title}
+                    </h3>
+                    <p className="font-light text-gray-600 text-sm sm:text-[15px] leading-relaxed">
+                      {step.desc}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════ KEY BENEFITS ══════════ */}
+      <section
+        id="benefits"
+        ref={benefitsRef}
+        className="py-12 sm:py-14 md:py-16 lg:py-20 bg-white"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-9 lg:mb-10">
+            <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+              Key Benefits
+            </p>
+            <h2 className="font-bold uppercase tracking-normal text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+              <span className="block">Why Choose</span>
+              <span className="block">BLI Local Dispatch?</span>
+            </h2>
+          </div>
+
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[1px] bg-gray-200 -mx-4 sm:-mx-6 md:-mx-8 lg:-mx-12"
+            initial={{ opacity: 0, y: 30 }}
+            animate={benefitsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            {benefits.map((b, i) => (
+              <div
+                key={i}
+                className="group relative overflow-hidden bg-[#f5f5f5] px-5 sm:px-6 md:px-7 lg:px-8 pt-8 sm:pt-9 lg:pt-10 pb-5 sm:pb-6 min-h-[240px] sm:min-h-[260px] md:min-h-[280px] lg:min-h-[300px] flex flex-col justify-end cursor-default transition-colors duration-500 hover:bg-[#113C6A]"
+              >
+                <img
+                  src="https://cdn.prod.website-files.com/63ede56f5ceca72669fcaced/63f1f1de63ea2217e333ebca_track.png"
+                  alt=""
+                  className="absolute top-[8%] right-[-8%] w-[75%] opacity-[0.04] group-hover:opacity-[0.12] group-hover:invert transition-all duration-700 pointer-events-none select-none"
+                  loading="lazy"
+                  aria-hidden="true"
+                />
+                <div className="relative z-10 mb-3 sm:mb-4">
+                  <b.icon
+                    className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 text-[#1a1a1a] group-hover:text-white transition-colors duration-500"
+                    strokeWidth={1.4}
+                  />
+                </div>
+                <h3 className="relative z-10 font-bold text-[#1a1a1a] group-hover:text-white transition-colors duration-500 leading-tight mb-0 group-hover:mb-2 text-lg sm:text-xl lg:text-[22px]">
+                  {b.title}
+                </h3>
+                <div className="relative z-10 max-h-0 overflow-hidden opacity-0 group-hover:max-h-[120px] group-hover:opacity-100 transition-all duration-500 ease-out">
+                  <p className="text-white/80 text-xs sm:text-[13px] lg:text-[14px] font-light leading-relaxed">
+                    {b.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ══════════ COVERAGE ══════════ */}
+      <section
+        id="coverage"
+        ref={coverageRef}
+        className="py-12 sm:py-14 md:py-16 lg:py-20 bg-gray-50"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-5 lg:gap-6 mb-8 sm:mb-9 lg:mb-10">
+            <div className="max-w-xl">
+              <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+                Network
+              </p>
+              <h2 className="font-bold uppercase tracking-normal text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+                <span className="block">Coverage</span>
+                <span className="block">Areas</span>
+              </h2>
+            </div>
+            <div className="flex-shrink-0">
+              <Link
+                to="/contact"
+                className="group inline-flex items-center gap-2 sm:gap-2.5 border border-[#1a1a1a] px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+              >
+                <span className="font-medium text-xs sm:text-sm text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
+                  Check Your Area
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+              </Link>
+            </div>
+          </div>
+
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={coverageInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            {coverageAreas.map((area, i) => (
+              <Link
+                to="/contact"
+                key={i}
+                className="group p-5 bg-white border border-gray-200 hover:border-[#113C6A] hover:shadow-lg transition-all duration-300"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-5 h-5 text-[#FF7300]" />
+                    <h3 className="font-semibold text-[#1a1a1a] text-sm sm:text-base">
+                      {area.region}
+                    </h3>
+                  </div>
+                  <span className="px-2 py-0.5 text-[10px] font-semibold uppercase bg-[#113C6A]/10 text-[#113C6A]">
+                    {area.delivery}
+                  </span>
+                </div>
+                <p className="text-gray-600 text-xs sm:text-sm mb-1">
+                  <strong>Radius:</strong> {area.radius}
+                </p>
+                <p className="text-gray-500 text-xs sm:text-sm">
+                  {area.cities}
+                </p>
+                <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-[#FF7300] transition-colors duration-300 mt-2" />
+              </Link>
+            ))}
+          </motion.div>
+
+          <div className="flex items-center justify-between mt-5">
+            <p className="text-gray-400 text-xs sm:text-sm font-light">
+              Expanding rapidly across India
+            </p>
+            <Link
+              to="/contact"
+              className="text-[#113C6A] text-xs sm:text-sm font-semibold hover:underline flex items-center gap-1"
+            >
+              Request your area{" "}
+              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════ FAQ ══════════ */}
+      <section
+        id="faq"
+        ref={faqRef}
+        className="py-12 sm:py-14 md:py-16 lg:py-20 bg-white border-t border-gray-100"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="text-center mb-8 sm:mb-9 lg:mb-10">
+            <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+              Got Questions?
+            </p>
+            <h2 className="font-bold uppercase tracking-normal text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+              <span className="block">Frequently Asked</span>
+              <span className="block">Questions</span>
+            </h2>
+          </div>
+          <div>
+            {faqs.map((faq, i) => (
+              <FAQItem key={i} faq={faq} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </PageLayout>
+  );
+};
+
+export default memo(LocalRegionalDispatch);

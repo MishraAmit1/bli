@@ -1,578 +1,550 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import {
-    Clock, Search, ArrowRight, Filter
-} from "lucide-react";
-import { Link } from 'react-router-dom';
-import PageLayout from '@/components/PageLayout';
-import { cn } from '@/lib/utils';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Helmet } from 'react-helmet-async';
+import { Clock, Search, ArrowRight, Filter, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import PageLayout from "@/components/PageLayout";
+import { cn } from "@/lib/utils";
+import { Helmet } from "react-helmet-async";
 
 const Blogs = () => {
-    // Scroll to top on mount
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-    const [activeCategory, setActiveCategory] = useState("All Posts");
-    const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All Posts");
+  const [searchQuery, setSearchQuery] = useState("");
 
-    const categories = [
-        "All Posts",
-        "Logistics Trends",
-        "Industry Insights",
-        "Operational Tips",
-        "Technology",
-        "Sustainability"
-    ];
+  const categories = [
+    "All Posts",
+    "Logistics Trends",
+    "Industry Insights",
+    "Operational Tips",
+    "Technology",
+    "Sustainability",
+  ];
 
-    const blogPosts = [
-        {
-            title: "Digital Transformation in Supply Chain Analytics",
-            excerpt: "Digital tools are revolutionizing supply chain decision-making and operational agility.",
-            image: "https://i.pinimg.com/736x/4d/e5/ad/4de5add391b426b1f263c23fc76b612f.jpg",
-            category: "Technology",
-            readTime: "5 min read",
-            date: "Dec 15, 2024",
-            featured: true,
-            slug: "digital-transformation-supply-chain-analytics",
-            author: "BLI Logistics Team",
-            metaDescription: "Discover how digital transformation and data analytics are revolutionizing supply chain operations. Learn about AI, IoT, and predictive analytics in logistics."
-        },
-        {
-            title: "AI-Powered Warehouse Automation Trends",
-            excerpt: "The newest AI trends are unlocking smarter, scalable warehouse performance.",
-            image: "https://i.pinimg.com/736x/16/b4/36/16b436e3702ffcb459c2fcb598f2f7e9.jpg",
-            category: "Technology",
-            readTime: "7 min read",
-            date: "Dec 12, 2024",
-            featured: true,
-            slug: "ai-powered-warehouse-automation",
-            author: "BLI Logistics Team",
-            metaDescription: "Explore AI-powered warehouse automation trends including robotics, machine learning, and smart inventory management systems transforming logistics."
-        },
-        {
-            title: "Sustainable Logistics: Green Transportation Solutions",
-            excerpt: "Sustainable logistics solutions are driving eco-conscious supply chain success.",
-            image: "https://i.pinimg.com/1200x/e3/50/45/e35045144cec7d7d202269096fb5d71e.jpg",
-            category: "Sustainability",
-            readTime: "6 min read",
-            date: "Dec 10, 2024",
-            featured: false,
-            slug: "sustainable-logistics-green-transportation",
-            author: "BLI Logistics Team",
-            metaDescription: "Learn about sustainable logistics practices, green transportation solutions, and eco-friendly supply chain strategies for environmental responsibility."
-        },
-        {
-            title: "Last-Mile Delivery Optimization Strategies",
-            excerpt: "Route planning and automation are transforming last‑mile logistics efficiency.",
-            image: "https://i.pinimg.com/1200x/25/e6/00/25e600f4f9d7f5bd381fbe033d21183b.jpg",
-            category: "Operational Tips",
-            readTime: "4 min read",
-            date: "Dec 8, 2024",
-            featured: false,
-            slug: "last-mile-delivery-optimization",
-            author: "BLI Logistics Team",
-            metaDescription: "Optimize last-mile delivery with proven strategies for route planning, delivery tracking, and customer satisfaction in urban logistics."
-        },
-        {
-            title: "Cross-Border Logistics: Navigating International Trade",
-            excerpt: "Global trade logistics requires precision in compliance, customs, and partnerships.",
-            image: "https://i.pinimg.com/736x/b0/8a/74/b08a747bc276c46fa62ef903447b3af7.jpg",
-            category: "Industry Insights",
-            readTime: "8 min read",
-            date: "Dec 5, 2024",
-            featured: false,
-            slug: "cross-border-logistics-international-trade",
-            author: "BLI Logistics Team",
-            metaDescription: "Navigate cross-border logistics challenges with expert insights on customs, documentation, and international trade compliance strategies."
-        },
-        {
-            title: "The Future of Cold Chain Logistics",
-            excerpt: "Emerging cold chain innovations keep goods safer and fresher in transit.",
-            image: "https://i.pinimg.com/1200x/25/6c/2e/256c2e61a6d6f79148ba35b87510541b.jpg",
-            category: "Logistics Trends",
-            readTime: "6 min read",
-            date: "Dec 3, 2024",
-            featured: false,
-            slug: "future-cold-chain-logistics",
-            author: "BLI Logistics Team",
-            metaDescription: "Explore the future of cold chain logistics with innovations in temperature monitoring, IoT sensors, and pharmaceutical transportation."
-        }
-    ];
+  const blogPosts = [
+    {
+      title: "Digital Transformation in Supply Chain Analytics",
+      excerpt:
+        "Digital tools are revolutionizing supply chain decision-making and operational agility.",
+      image:
+        "https://i.pinimg.com/736x/4d/e5/ad/4de5add391b426b1f263c23fc76b612f.jpg",
+      category: "Technology",
+      readTime: "5 min read",
+      date: "Dec 15, 2024",
+      featured: true,
+      slug: "digital-transformation-supply-chain-analytics",
+      author: "BLI Logistics Team",
+    },
+    {
+      title: "AI-Powered Warehouse Automation Trends",
+      excerpt:
+        "The newest AI trends are unlocking smarter, scalable warehouse performance.",
+      image:
+        "https://i.pinimg.com/736x/16/b4/36/16b436e3702ffcb459c2fcb598f2f7e9.jpg",
+      category: "Technology",
+      readTime: "7 min read",
+      date: "Dec 12, 2024",
+      featured: true,
+      slug: "ai-powered-warehouse-automation",
+      author: "BLI Logistics Team",
+    },
+    {
+      title: "Sustainable Logistics: Green Transportation Solutions",
+      excerpt:
+        "Sustainable logistics solutions are driving eco-conscious supply chain success.",
+      image:
+        "https://i.pinimg.com/1200x/e3/50/45/e35045144cec7d7d202269096fb5d71e.jpg",
+      category: "Sustainability",
+      readTime: "6 min read",
+      date: "Dec 10, 2024",
+      featured: false,
+      slug: "sustainable-logistics-green-transportation",
+      author: "BLI Logistics Team",
+    },
+    {
+      title: "Last-Mile Delivery Optimization Strategies",
+      excerpt:
+        "Route planning and automation are transforming last-mile logistics efficiency.",
+      image:
+        "https://i.pinimg.com/1200x/25/e6/00/25e600f4f9d7f5bd381fbe033d21183b.jpg",
+      category: "Operational Tips",
+      readTime: "4 min read",
+      date: "Dec 8, 2024",
+      featured: false,
+      slug: "last-mile-delivery-optimization",
+      author: "BLI Logistics Team",
+    },
+    {
+      title: "Cross-Border Logistics: Navigating International Trade",
+      excerpt:
+        "Global trade logistics requires precision in compliance, customs, and partnerships.",
+      image:
+        "https://i.pinimg.com/736x/b0/8a/74/b08a747bc276c46fa62ef903447b3af7.jpg",
+      category: "Industry Insights",
+      readTime: "8 min read",
+      date: "Dec 5, 2024",
+      featured: false,
+      slug: "cross-border-logistics-international-trade",
+      author: "BLI Logistics Team",
+    },
+    {
+      title: "The Future of Cold Chain Logistics",
+      excerpt:
+        "Emerging cold chain innovations keep goods safer and fresher in transit.",
+      image:
+        "https://i.pinimg.com/1200x/25/6c/2e/256c2e61a6d6f79148ba35b87510541b.jpg",
+      category: "Logistics Trends",
+      readTime: "6 min read",
+      date: "Dec 3, 2024",
+      featured: false,
+      slug: "future-cold-chain-logistics",
+      author: "BLI Logistics Team",
+    },
+  ];
 
-    // Filter posts based on search and category
-    const filteredPosts = useMemo(() => {
-        let filtered = [...blogPosts];
+  const filteredPosts = useMemo(() => {
+    let filtered = [...blogPosts];
+    if (searchQuery.trim()) {
+      filtered = filtered.filter((post) =>
+        post.title.toLowerCase().includes(searchQuery.toLowerCase().trim()),
+      );
+    }
+    if (activeCategory !== "All Posts") {
+      filtered = filtered.filter((post) => post.category === activeCategory);
+    }
+    return filtered;
+  }, [searchQuery, activeCategory]);
 
-        // Filter by search query (only in title for now)
-        if (searchQuery.trim()) {
-            filtered = filtered.filter(post =>
-                post.title.toLowerCase().includes(searchQuery.toLowerCase().trim())
-            );
-        }
+  const featuredPosts = filteredPosts.filter((post) => post.featured);
+  const regularPosts = filteredPosts.filter((post) => !post.featured);
 
-        // Filter by category
-        if (activeCategory !== "All Posts") {
-            filtered = filtered.filter(post => post.category === activeCategory);
-        }
+  const popularPosts = [
+    {
+      title: "Digital Transformation in Supply Chain Analytics",
+      slug: "digital-transformation-supply-chain-analytics",
+    },
+    {
+      title: "AI-Powered Warehouse Automation Trends",
+      slug: "ai-powered-warehouse-automation",
+    },
+    {
+      title: "Last-Mile Delivery Optimization Strategies",
+      slug: "last-mile-delivery-optimization",
+    },
+    {
+      title: "Cross-Border Logistics Guide",
+      slug: "cross-border-logistics-international-trade",
+    },
+  ];
 
-        return filtered;
-    }, [searchQuery, activeCategory]);
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "BLI Logistics Insights & Blog",
+    description:
+      "Expert insights on logistics, supply chain management, warehouse automation, and transportation trends in India",
+    url: "https://blirapid.com/resources/blogs",
+    publisher: {
+      "@type": "Organization",
+      name: "BLI - Bansal Logistics of India",
+    },
+    blogPost: blogPosts.map((post) => ({
+      "@type": "BlogPosting",
+      headline: post.title,
+      description: post.excerpt,
+      url: `https://blirapid.com/resources/blogs/${post.slug}`,
+      datePublished: post.date,
+      author: { "@type": "Organization", name: post.author },
+    })),
+  };
 
-    // Separate featured and non-featured posts
-    const featuredPosts = filteredPosts.filter(post => post.featured);
-    const regularPosts = filteredPosts.filter(post => !post.featured);
+  return (
+    <PageLayout>
+      <Helmet>
+        <title>
+          Logistics Blog & Industry Insights | Supply Chain Trends | BLI
+        </title>
+        <meta
+          name="description"
+          content="Expert logistics insights on supply chain analytics, AI warehouse automation, sustainable transportation, last-mile delivery optimization."
+        />
+        <link rel="canonical" href="https://blirapid.com/resources/blogs/" />
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
+      </Helmet>
 
-    const popularPosts = [
-        "Digital Transformation in Supply Chain Analytics",
-        "AI-Powered Warehouse Automation Trends",
-        "Last-Mile Delivery Optimization Strategies",
-        "Cross-Border Logistics Guide"
-    ];
+      {/* ── HERO ── */}
+      <div className="relative w-full h-[50vh] sm:h-[60vh] max-h-[500px] overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://i.pinimg.com/736x/4d/e5/ad/4de5add391b426b1f263c23fc76b612f.jpg"
+            alt="BLI Logistics Blog"
+            className="w-full h-full object-cover object-center"
+            fetchPriority="high"
+            loading="eager"
+          />
+        </div>
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/20 via-black/40 to-black/80 flex items-center">
+          <div className="max-w-[1280px] w-full mx-auto px-5 sm:px-8 lg:px-12">
+            <nav className="mb-4" aria-label="Breadcrumb">
+              <ol className="flex items-center gap-1.5">
+                <li>
+                  <Link
+                    to="/"
+                    className="text-white/90 hover:text-white text-xs sm:text-sm font-semibold transition-colors"
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li className="text-white/70">
+                  <ChevronRight className="w-3 h-3" />
+                </li>
+                <li>
+                  <Link
+                    to="/resources"
+                    className="text-white/90 hover:text-white text-xs sm:text-sm font-semibold transition-colors"
+                  >
+                    Resources
+                  </Link>
+                </li>
+                <li className="text-white/70">
+                  <ChevronRight className="w-3 h-3" />
+                </li>
+                <li>
+                  <span className="text-white/80 text-xs sm:text-sm font-semibold">
+                    Blogs
+                  </span>
+                </li>
+              </ol>
+            </nav>
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.1, delayChildren: 0.2, duration: 0.8 },
-        },
-    };
+            <h1
+              className="font-bold text-white uppercase tracking-normal mb-3"
+              style={{ fontSize: "52px", lineHeight: "60px" }}
+            >
+              <span className="block">Logistics Insights</span>
+              <span className="block">& Blogs</span>
+            </h1>
+            <p
+              className="font-light max-w-xl mt-5 text-white/90"
+              style={{ fontSize: "20px", lineHeight: "29px" }}
+            >
+              Stay informed with the latest trends, insights, and best practices
+              in logistics and supply chain management.
+            </p>
+          </div>
+        </div>
+      </div>
 
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: { y: 0, opacity: 1, transition: { duration: 0.6 } },
-    };
-
-    const handleSearchChange = (e) => {
-        const value = e.target.value;
-        setSearchQuery(value);
-    };
-
-    const handleCategoryClick = (category) => {
-        setActiveCategory(category);
-    };
-
-    const resetFilters = () => {
-        setActiveCategory("All Posts");
-        setSearchQuery("");
-    };
-
-    // Structured Data for Blog Listing
-    const structuredData = {
-        "@context": "https://schema.org",
-        "@type": "Blog",
-        "name": "BLI Logistics Insights & Blog",
-        "description": "Expert insights on logistics, supply chain management, warehouse automation, and transportation trends in India",
-        "url": "https://blirapid.com/resources/blogs",
-        "publisher": {
-            "@type": "Organization",
-            "name": "BLI - Bansal Logistics of India",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://blirapid.com/logo.png"
-            }
-        },
-        "blogPost": blogPosts.map(post => ({
-            "@type": "BlogPosting",
-            "headline": post.title,
-            "description": post.excerpt,
-            "url": `https://blirapid.com/resources/blogs/${post.slug}`,
-            "image": `https://blirapid.com${post.image}`,
-            "datePublished": post.date,
-            "author": {
-                "@type": "Organization",
-                "name": post.author
-            },
-            "publisher": {
-                "@type": "Organization",
-                "name": "BLI - Bansal Logistics of India"
-            }
-        }))
-    };
-
-    // Breadcrumb Schema
-    const breadcrumbSchema = {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://blirapid.com"
-            },
-            {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Resources",
-                "item": "https://blirapid.com/resources"
-            },
-            {
-                "@type": "ListItem",
-                "position": 3,
-                "name": "Blogs",
-                "item": "https://blirapid.com/resources/blogs"
-            }
-        ]
-    };
-
-    return (
-        <PageLayout>
-            <Helmet>
-                <title>Logistics Blog & Industry Insights | Supply Chain Trends | BLI</title>
-                <meta name="description" content="Expert logistics insights on supply chain analytics, AI warehouse automation, sustainable transportation, last-mile delivery optimization. Stay updated with industry trends." />
-                <meta name="keywords" content="logistics blog, supply chain insights, warehouse automation, transportation trends, logistics technology, sustainable logistics, last-mile delivery, cross-border logistics" />
-
-                {/* Open Graph */}
-                <meta property="og:title" content="Logistics Blog - Expert Supply Chain Insights | BLI" />
-                <meta property="og:description" content="Stay informed with latest logistics trends, AI automation, sustainability practices, and supply chain best practices from industry experts." />
-                <meta property="og:type" content="blog" />
-                <meta property="og:url" content="https://blirapid.com/resources/blogs/" />
-
-
-                {/* Twitter Card */}
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content="Logistics Blog & Industry Insights | BLI" />
-                <meta name="twitter:description" content="Expert insights on supply chain, warehouse automation, and logistics trends." />
-
-                {/* Canonical URL */}
-                <link rel="canonical" href="https://blirapid.com/resources/blogs/" />
-
-                {/* Structured Data */}
-                <script type="application/ld+json">
-                    {JSON.stringify(structuredData)}
-                </script>
-                <script type="application/ld+json">
-                    {JSON.stringify(breadcrumbSchema)}
-                </script>
-            </Helmet>
-
-            {/* Hero Section */}
-            <section className="relative bg-[#113C6A] pt-8 sm:pt-10 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8">
-                <div className="absolute inset-0 bg-gradient-to-b from-[#113C6A]/90 to-[#185EAA]/80" />
-                <div className="container mx-auto relative z-10">
-                    <div className="max-w-6xl mx-auto">
-                        <nav aria-label="Breadcrumb" className="flex items-center text-[#F8FFFF]/80 mb-4 sm:mb-6 text-sm sm:text-base">
-                            <Link to="/" className="hover:text-[#F8FFFF] transition-colors">Home</Link>
-                            <span className="mx-2" aria-hidden="true">/</span>
-                            <Link to="/resources" className="hover:text-[#F8FFFF] transition-colors">Resources</Link>
-                            <span className="mx-2" aria-hidden="true">/</span>
-                            <span className="text-[#F8FFFF]" aria-current="page">Blogs</span>
-                        </nav>
-
-                        <motion.h1
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
-                            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-[#F8FFFF] leading-tight"
-                        >
-                            Logistics Insights & Blogs
-                        </motion.h1>
-
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.5, delay: 0.3 }}
-                            className="text-base sm:text-lg md:text-xl text-[#F8FFFF]/90 max-w-3xl leading-relaxed px-2 sm:px-0"
-                        >
-                            Stay informed with the latest trends, insights, and best practices in logistics and supply chain management.
-                        </motion.p>
-                    </div>
+      {/* ── MAIN CONTENT ── */}
+      <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 py-16 sm:py-20">
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-14">
+          {/* ── LEFT: Main ── */}
+          <main className="flex-1 min-w-0">
+            {/* Search + Filter */}
+            <div className="mb-10">
+              {/* Search bar */}
+              <div className="flex gap-3 mb-5">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search articles..."
+                    className="w-full pl-10 pr-4 py-2.5 border border-gray-200 bg-white text-sm focus:outline-none focus:border-[#113C6A] transition-colors"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    aria-label="Search blog articles"
+                  />
                 </div>
-            </section>
+                {(searchQuery || activeCategory !== "All Posts") && (
+                  <button
+                    onClick={() => {
+                      setActiveCategory("All Posts");
+                      setSearchQuery("");
+                    }}
+                    className="px-4 py-2.5 border border-gray-200 text-sm font-medium text-[#1a1a1a] hover:bg-gray-50 transition-colors"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
 
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 max-w-7xl">
-                <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
-                    {/* Main Content */}
-                    <main className="flex-1">
-                        {/* Search and Filter */}
-                        <div className="mb-6 sm:mb-8">
-                            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
-                                <div className="relative flex-1">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-[#21221C]/60" aria-hidden="true" />
-                                    <Input
-                                        placeholder="Search articles..."
-                                        className="pl-10 border-[#185EAA]/20 focus:border-[#185EAA] text-sm sm:text-base"
-                                        value={searchQuery}
-                                        onChange={handleSearchChange}
-                                        aria-label="Search blog articles"
-                                    />
-                                </div>
-                                {(searchQuery || activeCategory !== "All Posts") && (
-                                    <Button
-                                        variant="outline"
-                                        className="border-[#185EAA]/30 text-[#113C6A] hover:bg-[#113C6A] hover:text-white text-sm sm:text-base px-3 sm:px-4"
-                                        onClick={resetFilters}
-                                        aria-label="Clear search and category filters"
-                                    >
-                                        Clear Filters
-                                    </Button>
-                                )}
-                            </div>
-
-                            <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by category">
-                                {categories.map((category, index) => (
-                                    <Badge
-                                        key={index}
-                                        className={cn(
-                                            "cursor-pointer px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-colors",
-                                            activeCategory === category
-                                                ? "bg-[#FF7729] text-white hover:bg-[#e56721]"
-                                                : "bg-transparent text-[#113C6A] border border-[#113C6A]/30 hover:bg-[#113C6A] hover:text-white"
-                                        )}
-                                        onClick={() => handleCategoryClick(category)}
-                                        role="button"
-                                        aria-pressed={activeCategory === category}
-                                        aria-label={`Filter by ${category}`}
-                                    >
-                                        {category}
-                                    </Badge>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Featured Posts - Only show if there are featured posts after filtering */}
-                        {featuredPosts.length > 0 && (
-                            <section className="mb-8 sm:mb-12" aria-labelledby="featured-articles-heading">
-                                <h2 id="featured-articles-heading" className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-[#113C6A]">Featured Articles</h2>
-                                <motion.div
-                                    initial="hidden"
-                                    whileInView="visible"
-                                    viewport={{ once: true }}
-                                    variants={containerVariants}
-                                    className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6"
-                                    role="list"
-                                >
-                                    {featuredPosts.map((post, index) => (
-                                        <motion.article
-                                            key={index}
-                                            variants={itemVariants}
-                                            className="rounded-xl overflow-hidden bg-white border border-[#185EAA]/20 group hover:shadow-lg transition-shadow"
-                                            role="listitem"
-                                        >
-                                            <Link to={`/resources/blogs/${post.slug}`} aria-label={`Read article: ${post.title}`}>
-                                                <div className="aspect-video overflow-hidden">
-                                                    <img
-                                                        src={post.image}
-                                                        alt={post.title}
-                                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                                        loading="lazy"
-                                                    />
-                                                </div>
-                                                <div className="p-4 sm:p-6">
-                                                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-[#21221C]/60 mb-2 sm:mb-3">
-                                                        <Badge className="bg-[#113C6A]/10 text-[#113C6A] hover:bg-[#113C6A]/20 border-0 text-xs">
-                                                            {post.category}
-                                                        </Badge>
-                                                        <span className="flex items-center gap-1">
-                                                            <Clock className="h-3 w-3" aria-hidden="true" />
-                                                            <span>{post.readTime}</span>
-                                                        </span>
-                                                        <time dateTime={post.date} className="hidden sm:inline">{post.date}</time>
-                                                    </div>
-                                                    <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-[#113C6A] group-hover:text-[#FF7729] transition-colors leading-tight">
-                                                        {post.title}
-                                                    </h3>
-                                                    <p className="text-sm sm:text-base text-[#21221C]/70 mb-3 sm:mb-4 line-clamp-3">{post.excerpt}</p>
-                                                    <span className="inline-flex items-center text-sm text-[#FF7729] hover:underline"
-                                                        aria-label={`Read more about ${post.title}`}
-                                                    >
-                                                        Read More
-                                                        <ArrowRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" aria-hidden="true" />
-                                                    </span>
-                                                </div>
-                                            </Link>
-                                        </motion.article>
-                                    ))}
-                                </motion.div>
-                            </section>
-                        )}
-
-                        {/* All Posts */}
-                        <section aria-labelledby="all-articles-heading">
-                            <h2 id="all-articles-heading" className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-[#113C6A]">
-                                {filteredPosts.length > 0 ? "All Articles" : "No Articles Found"}
-                            </h2>
-
-                            {filteredPosts.length === 0 ? (
-                                <div className="text-center py-8 sm:py-12 bg-[#F8FFFF] rounded-xl border border-[#185EAA]/20">
-                                    <div className="mb-4">
-                                        <Filter className="h-10 w-10 sm:h-12 sm:w-12 mx-auto text-[#185EAA]/40 mb-3" aria-hidden="true" />
-                                        <h3 className="text-base sm:text-lg font-medium text-[#113C6A] mb-2">No Articles Found</h3>
-                                        <p className="text-sm sm:text-base text-[#21221C]/70 mb-4 px-4">
-                                            {searchQuery
-                                                ? `No articles match "${searchQuery}" in the ${activeCategory === "All Posts" ? "selected" : activeCategory} category.`
-                                                : `No articles found in the ${activeCategory} category.`
-                                            }
-                                        </p>
-                                    </div>
-                                    <Button
-                                        className="bg-[#113C6A] hover:bg-[#185EAA] text-white text-sm sm:text-base px-4 sm:px-6"
-                                        onClick={resetFilters}
-                                        aria-label="Reset filters and show all articles"
-                                    >
-                                        Show All Articles
-                                    </Button>
-                                </div>
-                            ) : (
-                                <motion.div
-                                    initial="hidden"
-                                    whileInView="visible"
-                                    viewport={{ once: true }}
-                                    variants={containerVariants}
-                                    className="grid gap-4 sm:gap-6"
-                                    role="list"
-                                >
-                                    {regularPosts.map((post, index) => (
-                                        <motion.article
-                                            key={index}
-                                            variants={itemVariants}
-                                            className="rounded-xl overflow-hidden bg-white border border-[#185EAA]/20 group hover:shadow-md transition-shadow"
-                                            role="listitem"
-                                        >
-                                            <Link to={`/resources/blogs/${post.slug}`} aria-label={`Read article: ${post.title}`}>
-                                                <div className="flex flex-col md:flex-row">
-                                                    <div className="md:w-1/3 aspect-video md:aspect-square overflow-hidden">
-                                                        <img
-                                                            src={post.image}
-                                                            alt={post.title}
-                                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                                            loading="lazy"
-                                                        />
-                                                    </div>
-                                                    <div className="md:w-2/3 p-4 sm:p-6">
-                                                        <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-[#21221C]/60 mb-2 sm:mb-3">
-                                                            <Badge className="bg-[#113C6A]/10 text-[#113C6A] hover:bg-[#113C6A]/20 border-0 text-xs">
-                                                                {post.category}
-                                                            </Badge>
-                                                            <span className="flex items-center gap-1">
-                                                                <Clock className="h-3 w-3" aria-hidden="true" />
-                                                                <span>{post.readTime}</span>
-                                                            </span>
-                                                            <time dateTime={post.date} className="hidden sm:inline">{post.date}</time>
-                                                        </div>
-                                                        <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-[#113C6A] group-hover:text-[#FF7729] transition-colors leading-tight">
-                                                            {post.title}
-                                                        </h3>
-                                                        <p className="text-sm sm:text-base text-[#21221C]/70 mb-3 sm:mb-4 line-clamp-3">{post.excerpt}</p>
-                                                        <span className="inline-flex items-center text-sm text-[#FF7729] hover:underline"
-                                                            aria-label={`Read more about ${post.title}`}
-                                                        >
-                                                            Read More
-                                                            <ArrowRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" aria-hidden="true" />
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </Link>
-                                        </motion.article>
-                                    ))}
-                                </motion.div>
-                            )}
-                        </section>
-                    </main>
-
-                    {/* Sidebar */}
-                    <aside className="lg:w-80 order-last" aria-label="Blog sidebar">
-                        <div className="lg:sticky lg:top-24 space-y-6 sm:space-y-8">
-                            {/* Newsletter Signup */}
-                            <section className="rounded-xl p-4 sm:p-6 bg-[#F8FFFF] border border-[#185EAA]/20" aria-labelledby="newsletter-heading">
-                                <h3 id="newsletter-heading" className="font-semibold mb-3 sm:mb-4 text-[#113C6A] text-base sm:text-lg">Stay Updated</h3>
-                                <p className="text-xs sm:text-sm text-[#21221C]/70 mb-3 sm:mb-4">
-                                    Get the latest logistics insights delivered to your inbox.
-                                </p>
-                                <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
-                                    <Input
-                                        type="email"
-                                        placeholder="Your email address"
-                                        className="border-[#185EAA]/20 focus:border-[#185EAA] text-sm"
-                                        required
-                                        aria-label="Email address for newsletter subscription"
-                                    />
-                                    <Button
-                                        type="submit"
-                                        className="w-full bg-[#FF7729] hover:bg-[#e56721] text-white text-sm sm:text-base"
-                                        aria-label="Subscribe to newsletter"
-                                    >
-                                        Subscribe
-                                    </Button>
-                                </form>
-                            </section>
-
-                            {/* Popular Posts */}
-                            <section className="rounded-xl p-4 sm:p-6 bg-white border border-[#185EAA]/20" aria-labelledby="popular-posts-heading">
-                                <h3 id="popular-posts-heading" className="font-semibold mb-3 sm:mb-4 text-[#113C6A] text-base sm:text-lg">Popular Posts</h3>
-                                <nav aria-label="Popular blog posts">
-                                    <ul className="space-y-3">
-                                        {popularPosts.map((post, index) => (
-                                            <li key={index} className="pb-3 border-b border-[#185EAA]/10 last:border-b-0">
-                                                <Link
-                                                    to="/resources/blogs"
-                                                    className="text-xs sm:text-sm font-medium text-[#21221C] hover:text-[#FF7729] transition-colors leading-tight block"
-                                                >
-                                                    {post}
-                                                </Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </nav>
-                            </section>
-
-                            {/* Quick Filter by Category */}
-                            <section className="rounded-xl p-4 sm:p-6 bg-white border border-[#185EAA]/20" aria-labelledby="categories-heading">
-                                <h3 id="categories-heading" className="font-semibold mb-3 sm:mb-4 text-[#113C6A] text-base sm:text-lg">Categories</h3>
-                                <nav aria-label="Blog categories">
-                                    <ul className="space-y-2">
-                                        {categories.map((category, index) => (
-                                            <li key={index}>
-                                                <button
-                                                    onClick={() => handleCategoryClick(category)}
-                                                    className={cn(
-                                                        "w-full text-left px-3 py-2 rounded text-xs sm:text-sm transition-colors flex justify-between items-center",
-                                                        activeCategory === category
-                                                            ? "bg-[#FF7729] text-white"
-                                                            : "text-[#21221C] hover:bg-[#113C6A]/10"
-                                                    )}
-                                                    aria-pressed={activeCategory === category}
-                                                    aria-label={`Filter by ${category} category`}
-                                                >
-                                                    <span className="truncate">{category}</span>
-                                                    <span className="text-xs opacity-70" aria-label={`${category === "All Posts" ? blogPosts.length : blogPosts.filter(post => post.category === category).length} posts`}>
-                                                        {category === "All Posts"
-                                                            ? blogPosts.length
-                                                            : blogPosts.filter(post => post.category === category).length
-                                                        }
-                                                    </span>
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </nav>
-                            </section>
-
-                            {/* CTA */}
-                            <section className="rounded-xl p-4 sm:p-6 bg-[#113C6A] text-[#F8FFFF]" aria-labelledby="cta-heading">
-                                <h3 id="cta-heading" className="font-semibold mb-2 text-base sm:text-lg">Need Logistics Solutions?</h3>
-                                <p className="text-xs sm:text-sm opacity-90 mb-3 sm:mb-4">
-                                    Ready to optimize your supply chain? Get a customized quote.
-                                </p>
-                                <Link
-                                    to="/contact"
-                                    className="inline-flex items-center justify-center w-full px-4 py-2 bg-[#FF7729] text-white rounded hover:bg-[#e56721] transition-colors text-sm sm:text-base"
-                                    aria-label="Get logistics quote"
-                                >
-                                    Get Quote
-                                </Link>
-                            </section>
-                        </div>
-                    </aside>
-                </div>
+              {/* Category pills */}
+              <div className="flex flex-wrap gap-2">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
+                      activeCategory === cat
+                        ? "bg-[#113C6A] text-white"
+                        : "border border-gray-200 text-gray-500 hover:border-[#113C6A] hover:text-[#113C6A]"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
             </div>
-        </PageLayout>
-    );
+
+            {/* Featured Posts */}
+            {featuredPosts.length > 0 && (
+              <div className="mb-12">
+                <p
+                  className="font-semibold uppercase tracking-widest mb-3"
+                  style={{
+                    fontSize: "14px",
+                    lineHeight: "17px",
+                    color: "rgb(28, 24, 37)",
+                  }}
+                >
+                  Featured Articles
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {featuredPosts.map((post, i) => (
+                    <Link
+                      key={i}
+                      to={`/resources/blogs/${post.slug}`}
+                      className="group bg-white border border-gray-200 overflow-hidden hover:shadow-lg hover:border-[#113C6A]/20 transition-all duration-300"
+                    >
+                      <div className="relative overflow-hidden h-[200px]">
+                        <img
+                          src={post.image}
+                          alt={post.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                        <span className="absolute bottom-3 left-4 text-white/80 text-[11px] font-medium uppercase tracking-widest">
+                          {post.readTime}
+                        </span>
+                      </div>
+                      <div className="p-5">
+                        <div className="flex items-center gap-3 mb-3">
+                          <span className="text-[11px] font-semibold uppercase tracking-wider text-[#113C6A] bg-[#113C6A]/10 px-2 py-1">
+                            {post.category}
+                          </span>
+                          <span className="text-[12px] text-gray-400">
+                            {post.date}
+                          </span>
+                        </div>
+                        <h3 className="text-base font-bold text-[#1a1a1a] leading-snug mb-2 group-hover:text-[#113C6A] transition-colors line-clamp-2">
+                          {post.title}
+                        </h3>
+                        <p className="text-sm text-gray-500 font-light leading-relaxed mb-4 line-clamp-2">
+                          {post.excerpt}
+                        </p>
+                        <div className="flex items-center gap-1.5 text-[#113C6A] group-hover:text-[#FF7300] transition-colors">
+                          <span className="text-sm font-semibold">
+                            Read More
+                          </span>
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* All Posts */}
+            <div>
+              <p
+                className="font-semibold uppercase tracking-widest mb-6"
+                style={{
+                  fontSize: "14px",
+                  lineHeight: "17px",
+                  color: "rgb(28, 24, 37)",
+                }}
+              >
+                {filteredPosts.length > 0
+                  ? "All Articles"
+                  : "No Articles Found"}
+              </p>
+
+              {filteredPosts.length === 0 ? (
+                <div className="text-center py-16 border border-gray-200 bg-gray-50">
+                  <Filter className="h-10 w-10 mx-auto text-gray-300 mb-4" />
+                  <h3 className="text-base font-bold text-[#1a1a1a] mb-2">
+                    No Articles Found
+                  </h3>
+                  <p className="text-sm text-gray-500 font-light mb-6">
+                    {searchQuery
+                      ? `No articles match "${searchQuery}".`
+                      : `No articles in the ${activeCategory} category.`}
+                  </p>
+                  <button
+                    onClick={() => {
+                      setActiveCategory("All Posts");
+                      setSearchQuery("");
+                    }}
+                    className="inline-flex items-center gap-2 border border-[#1a1a1a] px-5 py-2.5 text-sm font-medium hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+                  >
+                    Show All Articles
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-5">
+                  {regularPosts.map((post, i) => (
+                    <Link
+                      key={i}
+                      to={`/resources/blogs/${post.slug}`}
+                      className="group bg-white border border-gray-200 overflow-hidden hover:shadow-lg hover:border-[#113C6A]/20 transition-all duration-300 flex flex-col sm:flex-row"
+                    >
+                      <div className="relative overflow-hidden sm:w-[260px] flex-shrink-0 h-[200px] sm:h-auto">
+                        <img
+                          src={post.image}
+                          alt={post.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="p-5 sm:p-6 flex flex-col justify-center">
+                        <div className="flex items-center gap-3 mb-3">
+                          <span className="text-[11px] font-semibold uppercase tracking-wider text-[#113C6A] bg-[#113C6A]/10 px-2 py-1">
+                            {post.category}
+                          </span>
+                          <span className="flex items-center gap-1 text-[12px] text-gray-400">
+                            <Clock className="h-3 w-3" />
+                            {post.readTime}
+                          </span>
+                          <span className="text-[12px] text-gray-400 hidden sm:inline">
+                            {post.date}
+                          </span>
+                        </div>
+                        <h3 className="text-base font-bold text-[#1a1a1a] leading-snug mb-2 group-hover:text-[#113C6A] transition-colors line-clamp-2">
+                          {post.title}
+                        </h3>
+                        <p className="text-sm text-gray-500 font-light leading-relaxed mb-4 line-clamp-2">
+                          {post.excerpt}
+                        </p>
+                        <div className="flex items-center gap-1.5 text-[#113C6A] group-hover:text-[#FF7300] transition-colors">
+                          <span className="text-sm font-semibold">
+                            Read More
+                          </span>
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          </main>
+
+          {/* ── RIGHT: Sidebar ── */}
+          <aside className="lg:w-72 flex-shrink-0">
+            <div className="lg:sticky lg:top-24 flex flex-col gap-6">
+              {/* Newsletter */}
+              <div className="border border-gray-200 bg-white p-6">
+                <h3 className="text-base font-bold text-[#1a1a1a] mb-1">
+                  Stay Updated
+                </h3>
+                <p className="text-sm text-gray-500 font-light leading-relaxed mb-4">
+                  Get the latest logistics insights delivered to your inbox.
+                </p>
+                <form
+                  onSubmit={(e) => e.preventDefault()}
+                  className="flex flex-col gap-3"
+                >
+                  <input
+                    type="email"
+                    placeholder="Your email address"
+                    required
+                    className="w-full px-3 py-2.5 border border-gray-200 text-sm focus:outline-none focus:border-[#113C6A] transition-colors"
+                  />
+                  <button
+                    type="submit"
+                    className="group inline-flex items-center justify-center gap-2 border border-[#1a1a1a] px-4 py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+                  >
+                    <span className="text-sm font-medium text-[#1a1a1a] group-hover:text-white transition-colors">
+                      Subscribe
+                    </span>
+                    <ArrowRight className="w-4 h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+                  </button>
+                </form>
+              </div>
+
+              {/* Popular Posts */}
+              <div className="border border-gray-200 bg-white p-6">
+                <h3 className="text-base font-bold text-[#1a1a1a] mb-4">
+                  Popular Posts
+                </h3>
+                <ul className="flex flex-col gap-3">
+                  {popularPosts.map((post, i) => (
+                    <li
+                      key={i}
+                      className="border-b border-gray-100 last:border-b-0 pb-3 last:pb-0"
+                    >
+                      <Link
+                        to={`/resources/blogs/${post.slug}`}
+                        className="group flex items-start gap-2 text-sm font-medium text-[#1a1a1a] hover:text-[#113C6A] transition-colors leading-snug"
+                      >
+                        <span className="text-[#FF7300] font-bold text-xs mt-0.5 flex-shrink-0">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        {post.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Categories */}
+              <div className="border border-gray-200 bg-white p-6">
+                <h3 className="text-base font-bold text-[#1a1a1a] mb-4">
+                  Categories
+                </h3>
+                <ul className="flex flex-col gap-1">
+                  {categories.map((cat) => (
+                    <li key={cat}>
+                      <button
+                        onClick={() => setActiveCategory(cat)}
+                        className={`w-full text-left px-3 py-2 text-sm transition-colors flex justify-between items-center ${
+                          activeCategory === cat
+                            ? "bg-[#113C6A] text-white font-semibold"
+                            : "text-gray-500 hover:bg-gray-50 hover:text-[#1a1a1a]"
+                        }`}
+                      >
+                        <span>{cat}</span>
+                        <span className="text-xs opacity-70">
+                          {cat === "All Posts"
+                            ? blogPosts.length
+                            : blogPosts.filter((p) => p.category === cat)
+                                .length}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* CTA */}
+              <div className="bg-[#113C6A] p-6">
+                <h3 className="text-base font-bold text-white mb-2">
+                  Need Logistics Solutions?
+                </h3>
+                <p className="text-sm text-white/70 font-light leading-relaxed mb-5">
+                  Ready to optimize your supply chain? Get a customized quote
+                  today.
+                </p>
+                <Link
+                  to="/contact"
+                  className="group inline-flex items-center gap-2 border border-white/40 px-5 py-2.5 text-white hover:bg-white hover:text-[#113C6A] transition-all duration-300"
+                >
+                  <span className="text-sm font-medium">Get Quote</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </PageLayout>
+  );
 };
 
 export default Blogs;

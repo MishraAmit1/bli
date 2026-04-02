@@ -1,16 +1,15 @@
-import { Helmet } from 'react-helmet-async';
-import { lazy, Suspense } from 'react';
-import PageLayout from '@/components/PageLayout';
-import Hero from '@/components/Hero';
-import Features from '@/components/Features';
-import { Spinner } from '@/components/LoadingAnimation';
+import { Helmet } from "react-helmet-async";
+import { lazy, Suspense } from "react";
+import PageLayout from "@/components/PageLayout";
+import Hero from "@/components/Hero";
+import Features from "@/components/Features";
+import { Spinner } from "@/components/LoadingAnimation";
+import SafeReliable from "@/components/SafeReliable";
 
 // Lazy load non-critical sections
-const Projects = lazy(() => import('@/components/Projects'));
-const WhyWrlds = lazy(() => import('@/components/WhyWrlds'));
-const BlogPreview = lazy(() => import('@/components/BlogPreview'));
-const BrandLogoSlider = lazy(() => import('@/components/BrandLogoSlider'));
-const ContactInfo = lazy(() => import('@/components/ContactInfo'));
+const WhyWrlds = lazy(() => import("@/components/WhyWrlds"));
+const BlogPreview = lazy(() => import("@/components/BlogPreview"));
+const BrandLogoSlider = lazy(() => import("@/components/BrandLogoSlider"));
 
 // Section Loading Fallback
 const SectionLoader = () => (
@@ -24,36 +23,39 @@ const Index = () => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "BLI - Bansal Logistics of India",
-    "alternateName": "BLI Rapid",
-    "url": "https://blirapid.com",
-    "description": "Leading logistics and transportation services provider in India. Offering FTL, PTL, 3PL, Warehousing, and Freight solutions across 500+ destinations.",
-    "potentialAction": {
+    name: "BLI - Bansal Logistics of India",
+    alternateName: "BLI Rapid",
+    url: "https://blirapid.com",
+    description:
+      "Leading logistics and transportation services provider in India. Offering FTL, PTL, 3PL, Warehousing, and Freight solutions across 500+ destinations.",
+    potentialAction: {
       "@type": "SearchAction",
-      "target": {
+      target: {
         "@type": "EntryPoint",
-        "urlTemplate": "https://blirapid.com/search?q={search_term_string}"
+        urlTemplate: "https://blirapid.com/search?q={search_term_string}",
       },
-      "query-input": "required name=search_term_string"
+      "query-input": "required name=search_term_string",
     },
-    "publisher": {
+    publisher: {
       "@type": "Organization",
-      "name": "BLI - Bansal Logistics of India",
-      "logo": {
+      name: "BLI - Bansal Logistics of India",
+      logo: {
         "@type": "ImageObject",
-        "url": "https://blirapid.com/lovable-uploads/8.png"
-      }
-    }
+        url: "https://blirapid.com/lovable-uploads/8.png",
+      },
+    },
   };
 
   return (
     <>
       {/* SEO Meta Tags */}
       <Helmet>
-        <title>BLI - Bansal Logistics of India | Trusted Partner 25+ Years</title>
+        <title>
+          BLI - Bansal Logistics of India | Trusted Partner 25+ Years
+        </title>
         <meta
           name="description"
-          content="BLI delivers logistics across India—FTL, Part Load, 3PL, Warehousing & Freight. Real-time tracking, 500+ destinations, and 25+ years of trusted service."
+          content="BLI delivers logistics across IndiaFTL, Part Load, 3PL, Warehousing & Freight. Real-time tracking, 500+ destinations, and 25+ years of trusted service."
         />
         <meta
           name="keywords"
@@ -61,19 +63,34 @@ const Index = () => {
         />
 
         {/* Open Graph Tags */}
-        <meta property="og:title" content="BLI - Bansal Logistics of India | Your Trusted Logistics Partner" />
-        <meta property="og:description" content="Experience seamless logistics with BLI. 25+ years of excellence in FTL, PTL, 3PL, Warehousing & Freight services across India." />
+        <meta
+          property="og:title"
+          content="BLI - Bansal Logistics of India | Your Trusted Logistics Partner"
+        />
+        <meta
+          property="og:description"
+          content="Experience seamless logistics with BLI. 25+ years of excellence in FTL, PTL, 3PL, Warehousing & Freight services across India."
+        />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://blirapid.com" />
-        <meta property="og:image" content="https://blirapid.com/favicon-96x96.png" />
+        <meta
+          property="og:image"
+          content="https://blirapid.com/favicon-96x96.png"
+        />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
 
         {/* Twitter Card Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="BLI - Bansal Logistics of India" />
-        <meta name="twitter:description" content="Leading logistics solutions provider. FTL, PTL, 3PL, Warehousing & Freight services across 500+ Indian destinations." />
-        <meta name="twitter:image" content="https://blirapid.com/favicon-96x96.png" />
+        <meta
+          name="twitter:description"
+          content="Leading logistics solutions provider. FTL, PTL, 3PL, Warehousing & Freight services across 500+ Indian destinations."
+        />
+        <meta
+          name="twitter:image"
+          content="https://blirapid.com/favicon-96x96.png"
+        />
 
         {/* Canonical URL */}
         <link rel="canonical" href="https://blirapid.com/" />
@@ -87,18 +104,20 @@ const Index = () => {
         {/* Critical above-the-fold content - No lazy loading */}
         <Hero />
         <Features />
-
         {/* Lazy load below-the-fold content */}
-        <Suspense fallback={<SectionLoader />}>
-          <BrandLogoSlider />
-        </Suspense>
 
         <Suspense fallback={<SectionLoader />}>
           <WhyWrlds />
         </Suspense>
-
         <Suspense fallback={<SectionLoader />}>
+          <BrandLogoSlider />
+        </Suspense>
+
+        {/* <Suspense fallback={<SectionLoader />}>
           <Projects />
+        </Suspense> */}
+        <Suspense fallback={<SectionLoader />}>
+          <SafeReliable />
         </Suspense>
 
         <Suspense fallback={<SectionLoader />}>
@@ -106,7 +125,7 @@ const Index = () => {
         </Suspense>
 
         <Suspense fallback={<SectionLoader />}>
-          <ContactInfo />
+          {/* <ContactInfo /> */}
         </Suspense>
       </PageLayout>
     </>

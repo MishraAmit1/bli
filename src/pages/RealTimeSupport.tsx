@@ -1,804 +1,937 @@
-import { ArrowLeft, ArrowRight, Headset, Clock, MessageSquare, Phone, Monitor, Users, CheckCircle, Zap, Shield, Globe, AlertTriangle, BarChart3 } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { motion } from "framer-motion";
-import { useEffect } from 'react';
-import PageLayout from '@/components/PageLayout';
-import { Card, CardContent } from "@/components/ui/card";
-import { Helmet } from 'react-helmet-async';
+import { useEffect, useRef, useState, memo, useCallback } from "react";
+import { motion, useInView } from "framer-motion";
+import {
+  ArrowRight,
+  ChevronRight,
+  ChevronLeft,
+  Phone,
+  MessageSquare,
+  Headset,
+  Clock,
+  Monitor,
+  Users,
+  Shield,
+  Zap,
+  Globe,
+  AlertTriangle,
+  CheckCircle,
+  BarChart3,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import PageLayout from "@/components/PageLayout";
+import { Helmet } from "react-helmet-async";
 
-const RealTimeSupport = () => {
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+/* ═══════════════ DATA ═══════════════ */
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.15, delayChildren: 0.3, duration: 0.8 },
-        },
-    };
+const navLinks = [
+  { label: "Overview", id: "overview" },
+  { label: "Support Channels", id: "support-channels" },
+  { label: "How It Works", id: "how-it-works" },
+  { label: "Service Levels", id: "service-levels" },
+  { label: "Features", id: "features" },
+  { label: "FAQs", id: "faq" },
+];
 
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: { y: 0, opacity: 1, transition: { duration: 0.6 } },
-    };
+const supportChannels = [
+  {
+    id: 1,
+    title: "24/7 Phone Support",
+    brand: "Instant • Human",
+    description:
+      "Dedicated helpline with instant human assistance for urgent queries and shipment updates.",
+    tags: ["30s Response", "95% FCR", "100+ Experts"],
+    imageUrl: "/lovable-uploads/services1.webp",
+  },
+  {
+    id: 2,
+    title: "Live Chat Support",
+    brand: "Real-Time • Convenient",
+    description:
+      "Real-time chat assistance through website and mobile app with instant responses.",
+    tags: ["Web & Mobile", "Instant Reply", "Multi-Language"],
+    imageUrl: "/lovable-uploads/services2.webp",
+  },
+  {
+    id: 3,
+    title: "Shipment Tracking",
+    brand: "GPS-Enabled • Proactive",
+    description:
+      "Live GPS tracking with proactive alerts, status updates, and ETA calculations.",
+    tags: ["Real-Time GPS", "Auto Alerts", "POD"],
+    imageUrl: "/lovable-uploads/services3.webp",
+  },
+  {
+    id: 4,
+    title: "Dedicated Account Manager",
+    brand: "Personal • Enterprise",
+    description:
+      "Personal relationship manager for enterprise clients with direct escalation line.",
+    tags: ["Direct Line", "Custom Reports", "SLA Guarantee"],
+    imageUrl: "/lovable-uploads/services4.webp",
+  },
+  {
+    id: 5,
+    title: "Emergency Response",
+    brand: "Critical • Immediate",
+    description:
+      "Immediate escalation and resolution for critical issues with 15-minute response.",
+    tags: ["15min Response", "Priority Queue", "Issue Escalation"],
+    imageUrl: "/lovable-uploads/services5.webp",
+  },
+];
 
-    const supportChannels = [
-        {
-            icon: Phone,
-            title: "24/7 Phone Support",
-            description: "Dedicated helpline with instant human assistance for urgent queries"
-        },
-        {
-            icon: MessageSquare,
-            title: "Live Chat Support",
-            description: "Real-time chat assistance through website and mobile app"
-        },
-        {
-            icon: Monitor,
-            title: "Shipment Tracking",
-            description: "Live GPS tracking with proactive alerts and status updates"
-        },
-        {
-            icon: Headset,
-            title: "Dedicated Account Manager",
-            description: "Personal relationship manager for enterprise clients"
-        },
-        {
-            icon: AlertTriangle,
-            title: "Emergency Response",
-            description: "Immediate escalation and resolution for critical issues"
-        },
-        {
-            icon: Globe,
-            title: "Multi-Language Support",
-            description: "Support in Hindi, English, and regional languages"
-        }
-    ];
+const steps = [
+  {
+    title: "Reach Out to Us",
+    desc: "Contact via phone, chat, WhatsApp, or email - choose your preferred channel for instant assistance.",
+    image: "/lovable-uploads/services1.webp",
+  },
+  {
+    title: "Issue Assessment",
+    desc: "Our trained experts quickly understand your query and assess the urgency level for appropriate routing.",
+    image: "/lovable-uploads/services2.webp",
+  },
+  {
+    title: "Instant Resolution",
+    desc: "95% of issues resolved on first contact with real-time tracking updates and proactive notifications.",
+    image: "/lovable-uploads/services3.webp",
+  },
+  {
+    title: "Follow-Up & Feedback",
+    desc: "Post-resolution follow-up to ensure satisfaction and continuous improvement through feedback.",
+    image: "/lovable-uploads/services4.webp",
+  },
+];
 
-    const features = [
-        {
-            title: "Instant Response",
-            description: "Average response time under 30 seconds",
-            icon: Zap,
-            stat: "<30 Seconds"
-        },
-        {
-            title: "24/7 Availability",
-            description: "Round-the-clock support, 365 days a year",
-            icon: Clock,
-            stat: "24/7/365"
-        },
-        {
-            title: "Expert Team",
-            description: "Trained logistics professionals",
-            icon: Users,
-            stat: "100+ Experts"
-        },
-        {
-            title: "Issue Resolution",
-            description: "First-call resolution rate",
-            icon: Shield,
-            stat: "95% FCR"
-        }
-    ];
+const features = [
+  {
+    icon: Zap,
+    title: "30-Second Response",
+    description:
+      "Average response time under 30 seconds across all channels with 100+ trained logistics experts ready to assist.",
+  },
+  {
+    icon: Clock,
+    title: "24/7/365 Availability",
+    description:
+      "Round-the-clock support every single day of the year including weekends, holidays, and festivals.",
+  },
+  {
+    icon: Shield,
+    title: "95% First-Call Resolution",
+    description:
+      "Industry-leading first-call resolution rate ensuring your issues are solved immediately without callbacks.",
+  },
+  {
+    icon: Globe,
+    title: "Multi-Language Support",
+    description:
+      "Support in 10+ Indian languages including Hindi, Tamil, Telugu, Kannada, Malayalam, Marathi, and more.",
+  },
+];
 
-    const supportLevels = [
-        {
-            level: "Standard Support",
-            description: "For regular shipments and general queries",
-            features: [
-                "Phone and email support",
-                "Business hours availability",
-                "Standard response time",
-                "Basic tracking updates"
-            ],
-            responseTime: "2-4 hours",
-            availability: "9 AM - 6 PM"
-        },
-        {
-            level: "Priority Support",
-            description: "For time-sensitive and high-value shipments",
-            features: [
-                "24/7 phone support",
-                "Live chat assistance",
-                "Priority queue handling",
-                "Proactive notifications"
-            ],
-            responseTime: "30 minutes",
-            availability: "24/7",
-            highlighted: true
-        },
-        {
-            level: "Enterprise Support",
-            description: "For large volume customers and partners",
-            features: [
-                "Dedicated account manager",
-                "Direct escalation line",
-                "Custom reporting",
-                "SLA guarantees"
-            ],
-            responseTime: "15 minutes",
-            availability: "24/7"
-        }
-    ];
+const serviceLevels = [
+  { name: "Standard Support", clients: "All Customers", icon: Users },
+  { name: "Priority Support", clients: "High-Value Shipments", icon: Zap },
+  { name: "Enterprise Support", clients: "Large Volume Clients", icon: Shield },
+];
 
-    const trackingFeatures = [
-        "Real-time GPS location updates",
-        "Estimated delivery time calculations",
-        "Automatic delay notifications",
-        "Proof of delivery with signatures",
-        "Temperature monitoring (for sensitive cargo)",
-        "Route optimization alerts",
-        "Delivery attempt notifications",
-        "Custom milestone tracking"
-    ];
+const trackingFeatures = [
+  "Real-time GPS location updates",
+  "Estimated delivery time calculations",
+  "Automatic delay notifications",
+  "Proof of delivery with signatures",
+  "Temperature monitoring (cold chain)",
+  "Route optimization alerts",
+  "Delivery attempt notifications",
+  "Custom milestone tracking",
+];
 
-    const contactMethods = [
-        {
-            method: "Emergency Hotline",
-            contact: "+91-1800-123-4567",
-            description: "For urgent shipment issues",
-            availability: "24/7"
-        },
-        {
-            method: "Customer Care",
-            contact: "+91-1800-765-4321",
-            description: "For general inquiries",
-            availability: "24/7"
-        },
-        {
-            method: "WhatsApp Support",
-            contact: "+91-98765-43210",
-            description: "Quick updates and queries",
-            availability: "24/7"
-        },
-        {
-            method: "Email Support",
-            contact: "support@blilogistics.com",
-            description: "Detailed queries and documentation",
-            availability: "24/7"
-        }
-    ];
+const faqs = [
+  {
+    question: "How can I track my shipment in real-time?",
+    answer:
+      "Use your tracking number on our website or mobile app for live GPS updates with real-time location, estimated delivery time, and proactive notifications for delays or delivery attempts.",
+  },
+  {
+    question: "What is the response time for support?",
+    answer:
+      "Our average response time is under 30 seconds with 95% first-call resolution rate. Priority support offers 30-minute response, and Enterprise support gets 15-minute response with dedicated account managers.",
+  },
+  {
+    question: "Is support available 24/7?",
+    answer:
+      "Yes, our support is available 24/7/365 through phone, live chat, WhatsApp, and email with 100+ trained logistics experts ready to assist you any time of day or night.",
+  },
+  {
+    question: "What languages does BLI support?",
+    answer:
+      "BLI provides support in 10+ languages including English, Hindi, Tamil, Telugu, Kannada, Malayalam, Marathi, Gujarati, Bengali, and Punjabi to serve customers across India.",
+  },
+];
 
-    const languages = [
-        "English", "Hindi", "Tamil", "Telugu", "Kannada", "Malayalam",
-        "Marathi", "Gujarati", "Bengali", "Punjabi"
-    ];
+/* ═══════════════ SUB-COMPONENTS ═══════════════ */
 
-    // Structured Data for Real-Time Support Service
-    const structuredData = {
-        "@context": "https://schema.org",
-        "@type": "CustomerService",
-        "name": "Real-Time Support Services",
-        "description": "24/7 logistics support with 30-second response time, 95% first-call resolution, live GPS tracking, and multi-language assistance across 10+ Indian languages.",
-        "provider": {
-            "@type": "Organization",
-            "name": "BLI - Bansal Logistics of India",
-            "url": "https://blirapid.com"
-        },
-        "areaServed": {
-            "@type": "Country",
-            "name": "India"
-        },
-        "availableLanguage": [
-            "English", "Hindi", "Tamil", "Telugu", "Kannada", "Malayalam",
-            "Marathi", "Gujarati", "Bengali", "Punjabi"
-        ],
-        "hoursAvailable": {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-                "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
-            ],
-            "opens": "00:00",
-            "closes": "23:59"
-        },
-        "contactPoint": [
-            {
-                "@type": "ContactPoint",
-                "telephone": "+91-1800-123-4567",
-                "contactType": "Emergency Support",
-                "availableLanguage": ["English", "Hindi"]
-            },
-            {
-                "@type": "ContactPoint",
-                "telephone": "+91-1800-765-4321",
-                "contactType": "Customer Service",
-                "availableLanguage": ["English", "Hindi"]
-            }
-        ]
-    };
-
-    // FAQ Schema for Support
-    const faqSchema = {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "How can I track my shipment in real-time?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Use your tracking number on our website or mobile app for live GPS updates with real-time location, estimated delivery time, and proactive notifications."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What is the response time for support?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Our average response time is under 30 seconds with 95% first-call resolution rate. Priority support offers 30-minute response, Enterprise gets 15-minute response."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Is support available 24/7?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes, our support is available 24/7/365 through phone, live chat, WhatsApp, and email with 100+ trained logistics experts."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What languages does BLI support?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "BLI provides support in 10+ languages including English, Hindi, Tamil, Telugu, Kannada, Malayalam, Marathi, Gujarati, Bengali, and Punjabi."
-                }
-            }
-        ]
-    };
-
-    return (
-        <PageLayout>
-            <Helmet>
-                <title>24/7 Real-Time Support | 30s Response | Live Tracking | Multi-Language | BLI</title>
-                <meta name="description" content="24/7 logistics support with 30-second response time, 95% first-call resolution, live GPS tracking, emergency hotline. Support in 10+ Indian languages including Hindi, Tamil, Telugu." />
-                <meta name="keywords" content="24/7 logistics support, real time tracking, live chat support, emergency logistics hotline, multi language support, shipment tracking, customer service, logistics help" />
-
-                {/* Open Graph */}
-                <meta property="og:title" content="Real-Time Support - 24/7 Logistics Assistance | BLI" />
-                <meta property="og:description" content="Instant support with 30s response time, 95% first-call resolution, live GPS tracking. Available in 10+ languages with dedicated account managers." />
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://blirapid.com/services/real-time-support/" />
-
-
-                {/* Twitter Card */}
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content="24/7 Support - 100+ Experts Ready to Help | BLI" />
-                <meta name="twitter:description" content="Real-time logistics support. Live tracking, instant response, multi-language assistance." />
-
-                {/* Canonical URL */}
-                <link rel="canonical" href="https://blirapid.com/services/real-time-support/" />
-
-                {/* Structured Data */}
-                <script type="application/ld+json">
-                    {JSON.stringify(structuredData)}
-                </script>
-                <script type="application/ld+json">
-                    {JSON.stringify(faqSchema)}
-                </script>
-            </Helmet>
-
-            <section className="relative pt-8 sm:pt-10 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8">
-                {/* Background image with overlay */}
-                <div
-                    className="absolute inset-0 bg-cover bg-center z-0"
-                    style={{ backgroundImage: 'url("/lovable-uploads/support-hero.webp")' }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-[#113C6A]/80 to-[#113C6A]/90 z-0" />
-
-                <div className="container mx-auto relative z-10">
-                    <div className="max-w-3xl mx-auto text-center">
-                        <motion.div
-                            initial="hidden"
-                            animate="visible"
-                            variants={containerVariants}
-                        >
-                            <motion.h1
-                                variants={itemVariants}
-                                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-[#F8FFFF] leading-tight"
-                            >
-                                Real-Time Support
-                            </motion.h1>
-
-                            <motion.p
-                                variants={itemVariants}
-                                className="text-base sm:text-lg md:text-xl text-[#F8FFFF]/90 mb-6 sm:mb-8 leading-relaxed px-2 sm:px-0"
-                            >
-                                Stay connected with your shipments 24/7. Our dedicated support team ensures you're
-                                always informed and any issues are resolved instantly, keeping your logistics running smoothly.
-                            </motion.p>
-
-                            <motion.div
-                                variants={itemVariants}
-                                className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center"
-                            >
-                                <a
-                                    href="tel:+919687448434"
-                                    className="inline-flex items-center justify-center w-full sm:w-auto px-5 sm:px-6 py-3 bg-[#FF7729] text-white rounded hover:bg-[#e56721] transition-all group text-sm sm:text-base"
-                                    aria-label="Call BLI support team"
-                                >
-                                    <span>Call Support Now</span>
-                                    <Phone className="ml-2 w-4 h-4 group-hover:scale-110 transition-transform flex-shrink-0" />
-                                </a>
-                                <button
-                                    onClick={() => {
-                                        const element = document.getElementById('live-chat');
-                                        if (element) element.scrollIntoView({ behavior: 'smooth' });
-                                    }}
-                                    className="inline-flex items-center justify-center w-full sm:w-auto px-5 sm:px-6 py-3 bg-transparent border-2 border-[#F8FFFF] text-[#F8FFFF] rounded hover:bg-[#F8FFFF] hover:text-[#113C6A] transition-all text-sm sm:text-base"
-                                    aria-label="Start live chat with BLI support"
-                                >
-                                    <span>Start Live Chat</span>
-                                </button>
-                            </motion.div>
-                        </motion.div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Support Channels */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]" aria-labelledby="channels-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="channels-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Multiple Support Channels
-                        </motion.h2>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {supportChannels.map((channel, index) => (
-                                <motion.article key={index} variants={itemVariants}>
-                                    <Card className="h-full bg-white border border-[#185EAA]/20 hover:shadow-lg hover:shadow-[#185EAA]/10 transition-all hover:-translate-y-1">
-                                        <CardContent className="p-6">
-                                            <div className="w-14 h-14 bg-[#F8FFFF] rounded-lg flex items-center justify-center mb-4">
-                                                <channel.icon className="w-7 h-7 text-[#185EAA]" aria-hidden="true" />
-                                            </div>
-                                            <h3 className="font-bold text-lg mb-2 text-[#113C6A]">{channel.title}</h3>
-                                            <p className="text-[#21221C]/70 text-sm">{channel.description}
-                                            </p>
-                                        </CardContent>
-                                    </Card>
-                                </motion.article>
-                            ))}
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Features Section */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="features-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="features-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Why Our Support Stands Out
-                        </motion.h2>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {features.map((feature, index) => (
-                                <motion.article
-                                    key={index}
-                                    variants={itemVariants}
-                                    className="bg-white p-6 rounded-xl border border-[#185EAA]/20 text-center hover:shadow-lg hover:shadow-[#185EAA]/10 transition-all"
-                                >
-                                    <div className="w-16 h-16 bg-[#F8FFFF] rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <feature.icon className="w-8 h-8 text-[#185EAA]" aria-hidden="true" />
-                                    </div>
-                                    <div className="text-2xl font-bold text-[#FF7729] mb-2">{feature.stat}</div>
-                                    <h3 className="font-bold text-lg mb-2 text-[#113C6A]">{feature.title}</h3>
-                                    <p className="text-[#21221C]/70 text-sm">{feature.description}</p>
-                                </motion.article>
-                            ))}
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Support Levels */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]" aria-labelledby="levels-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="levels-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Support Service Levels
-                        </motion.h2>
-
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {supportLevels.map((level, index) => (
-                                <motion.article
-                                    key={index}
-                                    variants={itemVariants}
-                                    className={`rounded-xl p-6 border-2 ${level.highlighted
-                                        ? 'border-[#FF7729] bg-white shadow-lg'
-                                        : 'border-[#185EAA]/20 bg-white'
-                                        }`}
-                                >
-                                    {level.highlighted && (
-                                        <div className="inline-block px-3 py-1 bg-[#FF7729] text-white rounded-full text-sm font-medium mb-4">
-                                            Most Popular
-                                        </div>
-                                    )}
-                                    <h3 className="font-bold text-xl mb-2 text-[#113C6A]">{level.level}</h3>
-                                    <p className="text-[#21221C]/70 mb-4">{level.description}</p>
-
-                                    <div className="mb-4">
-                                        <div className="flex justify-between items-center mb-2">
-                                            <span className="text-sm text-[#21221C]/70">Response Time:</span>
-                                            <span className="font-semibold text-[#FF7729]">{level.responseTime}</span>
-                                        </div>
-                                        <div className="flex justify-between items-center mb-4">
-                                            <span className="text-sm text-[#21221C]/70">Availability:</span>
-                                            <span className="font-semibold text-[#113C6A]">{level.availability}</span>
-                                        </div>
-                                    </div>
-
-                                    <ul className="space-y-2" role="list">
-                                        {level.features.map((feature, featureIndex) => (
-                                            <li key={featureIndex} className="flex items-center text-sm">
-                                                <CheckCircle className="w-4 h-4 text-[#FF7729] mr-2 flex-shrink-0" aria-hidden="true" />
-                                                <span className="text-[#21221C]/80">{feature}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </motion.article>
-                            ))}
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Real-Time Tracking */}
-            <section id="live-chat" className="py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="tracking-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                        className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-                    >
-                        <motion.div variants={itemVariants}>
-                            <h2 id="tracking-heading" className="text-3xl font-bold mb-6 text-[#113C6A]">
-                                Advanced Shipment Tracking
-                            </h2>
-                            <p className="text-[#21221C]/80 mb-8">
-                                Stay informed every step of the way with our comprehensive tracking system.
-                                Get real-time updates, proactive notifications, and complete visibility of your shipments.
-                            </p>
-
-                            <ul className="space-y-3" role="list">
-                                {trackingFeatures.map((feature, index) => (
-                                    <li key={index} className="flex items-start">
-                                        <CheckCircle className="w-5 h-5 text-[#FF7729] mt-0.5 mr-3 flex-shrink-0" aria-hidden="true" />
-                                        <span className="text-[#21221C]/80 text-sm">{feature}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </motion.div>
-
-                        <motion.div variants={itemVariants} className="relative">
-                            <img
-                                src="/lovable-uploads/6b0637e9-4a7b-40d0-b219-c8b7f879f93e.webp"
-                                alt="BLI real-time tracking dashboard and GPS monitoring system"
-                                className="rounded-xl shadow-lg"
-                                loading="lazy"
-                            />
-                            <div className="absolute -bottom-6 -right-6 bg-[#FF7729] text-white p-4 rounded-lg shadow-lg">
-                                <p className="text-2xl font-bold">Live</p>
-                                <p className="text-sm">GPS Tracking</p>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Contact Methods */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]" aria-labelledby="contact-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="contact-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Get In Touch
-                        </motion.h2>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {contactMethods.map((method, index) => (
-                                <motion.article
-                                    key={index}
-                                    variants={itemVariants}
-                                    className="bg-white rounded-xl p-6 border border-[#185EAA]/20 text-center hover:shadow-lg hover:shadow-[#185EAA]/10 transition-all"
-                                >
-                                    <div className="w-16 h-16 bg-[#F8FFFF] rounded-full flex items-center justify-center mx-auto mb-4">
-                                        {method.method.includes('Phone') || method.method.includes('Hotline') ? (
-                                            <Phone className="w-8 h-8 text-[#185EAA]" aria-hidden="true" />
-                                        ) : method.method.includes('WhatsApp') ? (
-                                            <MessageSquare className="w-8 h-8 text-[#185EAA]" aria-hidden="true" />
-                                        ) : (
-                                            <Headset className="w-8 h-8 text-[#185EAA]" aria-hidden="true" />
-                                        )}
-                                    </div>
-                                    <h3 className="font-bold text-lg mb-2 text-[#113C6A]">{method.method}</h3>
-                                    <p className="text-[#FF7729] font-semibold mb-2">{method.contact}</p>
-                                    <p className="text-[#21221C]/70 text-sm mb-2">{method.description}</p>
-                                    <span className="inline-block px-2 py-1 bg-[#F8FFFF] text-[#185EAA] rounded text-xs">
-                                        {method.availability}
-                                    </span>
-                                </motion.article>
-                            ))}
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Language Support */}
-            <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="language-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="language-heading"
-                            variants={itemVariants}
-                            className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center text-[#113C6A]"
-                        >
-                            Multi-Language Support
-                        </motion.h2>
-
-                        <motion.div
-                            variants={itemVariants}
-                            className="bg-white rounded-xl p-4 sm:p-6 md:p-8 border border-[#185EAA]/20"
-                        >
-                            <div className="text-center mb-6 sm:mb-8">
-                                <Globe className="w-12 h-12 sm:w-16 sm:h-16 text-[#185EAA] mx-auto mb-3 sm:mb-4" aria-hidden="true" />
-                                <h3 className="text-xl sm:text-2xl font-bold text-[#113C6A] mb-2">
-                                    Speak Your Language
-                                </h3>
-                                <p className="text-sm sm:text-base text-[#21221C]/80 px-2 sm:px-0">
-                                    Our support team is fluent in multiple Indian languages to serve you better
-                                </p>
-                            </div>
-
-                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
-                                {languages.map((language, index) => (
-                                    <div
-                                        key={index}
-                                        className="text-center p-2 sm:p-3 bg-[#F8FFFF] rounded-lg border border-[#185EAA]/20 hover:border-[#185EAA]/40 transition-all"
-                                    >
-                                        <span className="text-[#113C6A] font-medium text-sm sm:text-base">{language}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Support Statistics */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]" aria-labelledby="stats-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="stats-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Support Performance
-                        </motion.h2>
-
-                        <motion.div
-                            variants={itemVariants}
-                            className="bg-white rounded-xl p-8 border border-[#185EAA]/20"
-                        >
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                                <div className="text-center">
-                                    <div className="text-4xl font-bold text-[#FF7729] mb-2">95%</div>
-                                    <p className="text-[#21221C]/70">First Call Resolution</p>
-                                </div>
-                                <div className="text-center">
-                                    <div className="text-4xl font-bold text-[#FF7729] mb-2">30s</div>
-                                    <p className="text-[#21221C]/70">Average Response Time</p>
-                                </div>
-                                <div className="text-center">
-                                    <div className="text-4xl font-bold text-[#FF7729] mb-2">4.8/5</div>
-                                    <p className="text-[#21221C]/70">Customer Satisfaction</p>
-                                </div>
-                                <div className="text-center">
-                                    <div className="text-4xl font-bold text-[#FF7729] mb-2">50K+</div>
-                                    <p className="text-[#21221C]/70">Monthly Support Tickets</p>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* FAQ Section */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="faq-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="faq-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Frequently Asked Questions
-                        </motion.h2>
-
-                        <motion.div
-                            variants={itemVariants}
-                            className="grid grid-cols-1 md:grid-cols-2 gap-6"
-                        >
-                            {[
-                                {
-                                    question: "How can I track my shipment in real-time?",
-                                    answer: "Use your tracking number on our website or mobile app for live GPS updates."
-                                },
-                                {
-                                    question: "What if my shipment is delayed?",
-                                    answer: "You'll receive automatic notifications. Our support team will proactively contact you with updates."
-                                },
-                                {
-                                    question: "Can I change delivery address after booking?",
-                                    answer: "Yes, contact our support team immediately. Changes are possible before dispatch."
-                                },
-                                {
-                                    question: "How do I file a claim for damaged goods?",
-                                    answer: "Report within 24 hours via phone or email. Our claims team will guide you through the process."
-                                },
-                                {
-                                    question: "Is support available on weekends?",
-                                    answer: "Yes, our support is available 24/7, including weekends and holidays."
-                                },
-                                {
-                                    question: "Can I get updates via WhatsApp?",
-                                    answer: "Absolutely! We provide shipment updates and support via WhatsApp for your convenience."
-                                }
-                            ].map((faq, index) => (
-                                <article key={index} className="bg-white p-6 rounded-lg border border-[#185EAA]/20">
-                                    <h4 className="font-semibold text-[#113C6A] mb-2">{faq.question}</h4>
-                                    <p className="text-[#21221C]/80 text-sm">{faq.answer}</p>
-                                </article>
-                            ))}
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Hidden FAQ Section for SEO */}
-            <section className="sr-only" aria-label="Frequently Asked Questions">
-                <h2>Frequently Asked Questions about Real-Time Support</h2>
-                <dl>
-                    <dt>How can I track my shipment in real-time?</dt>
-                    <dd>Use your tracking number on our website or mobile app for live GPS updates with real-time location, estimated delivery time, and proactive notifications.</dd>
-
-                    <dt>What is the response time for support?</dt>
-                    <dd>Our average response time is under 30 seconds with 95% first-call resolution rate. Priority support offers 30-minute response, Enterprise gets 15-minute response.</dd>
-
-                    <dt>Is support available 24/7?</dt>
-                    <dd>Yes, our support is available 24/7/365 through phone, live chat, WhatsApp, and email with 100+ trained logistics experts.</dd>
-
-                    <dt>What languages does BLI support?</dt>
-                    <dd>BLI provides support in 10+ languages including English, Hindi, Tamil, Telugu, Kannada, Malayalam, Marathi, Gujarati, Bengali, and Punjabi.</dd>
-
-                    <dt>What support levels are available?</dt>
-                    <dd>BLI offers Standard Support (2-4 hour response), Priority Support (30-minute response), and Enterprise Support (15-minute response) with dedicated account managers.</dd>
-                </dl>
-            </section>
-
-            {/* CTA Section */}
-            <section
-                className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#FFFDF7] to-[#113C6A] text-[#FFFDF7]"
-                aria-labelledby="support-cta"
+const SupportChannelCard = memo(
+  ({ channel }: { channel: (typeof supportChannels)[0] }) => (
+    <div className="group flex-shrink-0 w-[85vw] sm:w-[60vw] md:w-[45vw] lg:w-[28vw] min-w-[260px]">
+      <div className="relative overflow-hidden h-[180px] sm:h-[200px]">
+        <img
+          src={channel.imageUrl}
+          alt={channel.title}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+        <p className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 text-white/70 text-[10px] sm:text-[11px] font-medium uppercase tracking-widest">
+          {channel.brand}
+        </p>
+      </div>
+      <div className="pt-4 sm:pt-5 pb-5 sm:pb-6 border-b border-gray-200">
+        <h3 className="text-[#1a1a1a] text-sm sm:text-base font-bold leading-snug mb-1.5 sm:mb-2 group-hover:text-[#113C6A] transition-colors duration-300">
+          {channel.title}
+        </h3>
+        <p className="text-gray-500 text-xs sm:text-sm font-light leading-relaxed mb-3 sm:mb-4 line-clamp-2">
+          {channel.description}
+        </p>
+        <div className="flex flex-wrap gap-1 sm:gap-1.5">
+          {channel.tags.map((tag, idx) => (
+            <span
+              key={idx}
+              className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-gray-500 text-[10px] sm:text-[11px] border border-gray-200"
             >
-                <div className="container mx-auto max-w-4xl text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        {/* Heading */}
-                        <h2 id="support-cta" className="text-3xl font-bold mb-4 text-[#113C6A]">
-                            Need Help Right Now?
-                        </h2>
-                        <p className="text-[#000]/90 mb-8 text-lg">
-                            Our support team is standing by to assist you with any logistics needs or questions.
-                        </p>
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  ),
+);
 
-                        {/* CTA Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                            <a
-                                href="tel:+919687448434"
-                                aria-label="Call support team"
-                                className="inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3 bg-[#FF7729] text-white rounded hover:bg-[#e56721] transition-all group text-sm sm:text-base"
-                            >
-                                <span>Call Support Now</span>
-                                <Phone className="ml-2 w-4 h-4 group-hover:scale-110 transition-transform flex-shrink-0" />
-                            </a>
-                            <Link
-                                to="/contact"
-                                aria-label="Start live chat with support"
-                                className="inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3 bg-transparent border-2 border-[#F8FFFF] text-[#F8FFFF] rounded hover:bg-[#F8FFFF] hover:text-[#113C6A] transition-all text-sm sm:text-base"
-                            >
-                                <MessageSquare className="mr-2 w-4 h-4 flex-shrink-0" />
-                                <span>Start Live Chat</span>
-                            </Link>
-                        </div>
-
-                        {/* Trust Indicators */}
-                        <div className="mt-12 pt-12 border-t border-[#F8FFFF]/20">
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                                <div>
-                                    <p className="text-3xl sm:text-4xl font-bold text-[#FF7729]">24/7</p>
-                                    <p className="text-[#000]/80 mt-1">Support Available</p>
-                                </div>
-                                <div>
-                                    <p className="text-3xl sm:text-4xl font-bold text-[#FF7729]">30s</p>
-                                    <p className="text-[#000]/80 mt-1">Avg Response Time</p>
-                                </div>
-                                <div>
-                                    <p className="text-3xl sm:text-4xl font-bold text-[#FF7729]">95%</p>
-                                    <p className="text-[#000]/80 mt-1">First Call Resolution</p>
-                                </div>
-                                <div>
-                                    <p className="text-3xl sm:text-4xl font-bold text-[#FF7729]">10+</p>
-                                    <p className="text-[#000]/80 mt-1">Languages Supported</p>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-        </PageLayout>
-    );
+const FAQItem = ({ faq, index }: { faq: (typeof faqs)[0]; index: number }) => {
+  const [open, setOpen] = useState(index === 0);
+  return (
+    <div className="border-b border-gray-200 last:border-b-0">
+      <button
+        className="w-full flex items-start justify-between gap-4 sm:gap-8 py-6 pr-4 text-left group"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+      >
+        <h3
+          className="text-sm sm:text-base lg:text-lg font-semibold leading-snug max-w-3xl transition-colors"
+          style={{ color: open ? "#113C6A" : "#1C1825" }}
+        >
+          {faq.question}
+        </h3>
+        <span
+          className={`flex-shrink-0 mt-1 transition-transform duration-500 ${open ? "rotate-180" : ""}`}
+        >
+          <svg viewBox="0 0 48 48" width="20" height="20" fill="none">
+            <path
+              d="M4 16.2C4 15.97 4.08 15.74 4.24 15.55C4.6 15.13 5.23 15.09 5.65 15.45L24.04 31.32C24.18 31.44 24.44 31.43 24.57 31.31L42.31 14.87C42.72 14.49 43.35 14.52 43.72 14.92C44.09 15.32 44.07 15.96 43.67 16.33L25.94 32.77C25.06 33.59 23.65 33.61 22.74 32.83L4.35 16.96C4.12 16.76 4 16.48 4 16.2Z"
+              fill={open ? "#113C6A" : "#9ca3af"}
+              stroke={open ? "#113C6A" : "#9ca3af"}
+              strokeWidth="2"
+            />
+          </svg>
+        </span>
+      </button>
+      <div
+        className={`overflow-hidden transition-all duration-500 ease-in-out ${open ? "max-h-96 opacity-100 pb-6" : "max-h-0 opacity-0"}`}
+      >
+        <p
+          className="font-light max-w-3xl text-sm sm:text-base lg:text-lg"
+          style={{
+            lineHeight: "27px",
+            color: "rgb(28, 24, 37)",
+          }}
+        >
+          {faq.answer}
+        </p>
+      </div>
+    </div>
+  );
 };
 
-export default RealTimeSupport;
+/* ═══════════════ MAIN PAGE ═══════════════ */
+
+const RealTimeSupport = () => {
+  const [activeSection, setActiveSection] = useState("overview");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const maxIndex = supportChannels.length - 1;
+
+  const overviewRef = useRef<HTMLElement>(null);
+  const channelsRef = useRef<HTMLElement>(null);
+  const howItWorksRef = useRef<HTMLElement>(null);
+  const levelsRef = useRef<HTMLElement>(null);
+  const featuresRef = useRef<HTMLElement>(null);
+  const faqRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    const sections = [
+      { id: "overview", ref: overviewRef },
+      { id: "support-channels", ref: channelsRef },
+      { id: "how-it-works", ref: howItWorksRef },
+      { id: "service-levels", ref: levelsRef },
+      { id: "features", ref: featuresRef },
+      { id: "faq", ref: faqRef },
+    ];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px", threshold: 0 },
+    );
+    sections.forEach(({ ref }) => {
+      if (ref.current) observer.observe(ref.current);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  const goToPrev = useCallback(
+    () => setCurrentIndex((p) => Math.max(p - 1, 0)),
+    [],
+  );
+  const goToNext = useCallback(
+    () => setCurrentIndex((p) => Math.min(p + 1, maxIndex)),
+    [maxIndex],
+  );
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  }, []);
+  const onTouchMove = useCallback(
+    (e: React.TouchEvent) => setTouchEnd(e.targetTouches[0].clientX),
+    [],
+  );
+  const onTouchEnd = useCallback(() => {
+    if (!touchStart || !touchEnd) return;
+    const d = touchStart - touchEnd;
+    if (d > 50) goToNext();
+    else if (d < -50) goToPrev();
+  }, [touchStart, touchEnd, goToNext, goToPrev]);
+
+  const overviewInView = useInView(overviewRef, {
+    once: true,
+    margin: "-80px",
+  });
+  const stepsInView = useInView(howItWorksRef, { once: true, margin: "-80px" });
+  const featuresInView = useInView(featuresRef, {
+    once: true,
+    margin: "-80px",
+  });
+  const levelsInView = useInView(levelsRef, { once: true, margin: "-80px" });
+
+  const getSlideOffset = () => {
+    if (typeof window === "undefined") return 29.4;
+    const width = window.innerWidth;
+    if (width < 640) return 88;
+    if (width < 768) return 62;
+    if (width < 1024) return 47;
+    return 29.4;
+  };
+
+  // Structured Data
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "CustomerService",
+    name: "Real-Time Support Services",
+    description:
+      "24/7 logistics support with 30-second response time, 95% first-call resolution, live GPS tracking, and multi-language assistance.",
+    provider: {
+      "@type": "Organization",
+      name: "BLI - Bansal Logistics of India",
+      url: "https://blirapid.com",
+    },
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
+  return (
+    <PageLayout>
+      <Helmet>
+        <title>
+          24/7 Real-Time Support | 30s Response | Live Tracking | Multi-Language
+          | BLI
+        </title>
+        <meta
+          name="description"
+          content="24/7 logistics support with 30-second response time, 95% first-call resolution, live GPS tracking. Support in 10+ Indian languages."
+        />
+        <link
+          rel="canonical"
+          href="https://blirapid.com/services/real-time-support/"
+        />
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
+        <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+      </Helmet>
+
+      {/* ══════════ HERO ══════════ */}
+      <div className="relative w-full h-[50vh] min-h-[420px] sm:h-[55vh] lg:h-[65vh] lg:max-h-[550px] overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/lovable-uploads/services1.webp"
+            alt="Real-Time Support"
+            className="w-full h-full object-cover object-center"
+            fetchPriority="high"
+            loading="eager"
+          />
+        </div>
+
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/20 via-black/40 to-black/80 flex items-center">
+          <div className="max-w-[1280px] w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+            {/* Breadcrumb */}
+            <nav className="mb-3 sm:mb-4" aria-label="Breadcrumb">
+              <ol className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+                <li>
+                  <Link
+                    to="/"
+                    className="text-white/90 hover:text-white text-[10px] sm:text-xs lg:text-sm font-semibold transition-colors"
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li className="text-white/70">
+                  <ChevronRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                </li>
+                <li>
+                  <Link
+                    to="/services"
+                    className="text-white/80 hover:text-white text-[10px] sm:text-xs lg:text-sm font-semibold transition-colors"
+                  >
+                    All Services
+                  </Link>
+                </li>
+                <li className="text-white/70">
+                  <ChevronRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                </li>
+                <li>
+                  <span className="text-white/60 text-[10px] sm:text-xs lg:text-sm font-semibold">
+                    Real-Time Support
+                  </span>
+                </li>
+              </ol>
+            </nav>
+
+            {/* H1 */}
+            <h1 className="font-bold text-white uppercase tracking-normal mb-2 sm:mb-3 text-[32px] leading-[38px] sm:text-[40px] sm:leading-[46px] md:text-[44px] md:leading-[52px] lg:text-[48px] lg:leading-[56px]">
+              <span className="block">Real-Time</span>
+              <span className="block">Support</span>
+            </h1>
+
+            {/* Description */}
+            <p className="font-light max-w-xl mt-3 sm:mt-4 tracking-wide text-white/90 text-sm sm:text-base md:text-[17px] md:leading-[26px] lg:text-[18px] lg:leading-[27px]">
+              24/7 logistics support with 30-second response time and 95%
+              first-call resolution. Stay connected with live GPS tracking and
+              multi-language assistance.
+            </p>
+
+            {/* CTA */}
+            <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row gap-3">
+              <a
+                href="tel:+919687448434"
+                className="group inline-flex items-center justify-center gap-2 sm:gap-2.5 border border-white px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 hover:bg-white hover:text-[#1a1a1a] transition-all duration-300"
+              >
+                <span className="font-medium text-xs sm:text-sm text-white group-hover:text-[#1a1a1a] transition-colors duration-300">
+                  Call Support Now
+                </span>
+                <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-[#1a1a1a] transition-all duration-300" />
+              </a>
+              <button
+                onClick={() => {
+                  const element = document.getElementById("support-channels");
+                  if (element) element.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="group inline-flex items-center justify-center gap-2 sm:gap-2.5 border border-white px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 hover:bg-white hover:text-[#1a1a1a] transition-all duration-300"
+              >
+                <span className="font-medium text-xs sm:text-sm text-white group-hover:text-[#1a1a1a] transition-colors duration-300">
+                  View Support Channels
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ══════════ STICKY NAV ══════════ */}
+      <nav
+        className="bg-slate-100 border-b border-gray-200 sticky top-[56px] sm:top-[64px] lg:top-[66px] z-50 overflow-x-auto scrollbar-hide"
+        aria-label="Page sections"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="flex items-center min-w-max">
+            {navLinks.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document
+                      .getElementById(item.id)
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className={`relative py-3 sm:py-3.5 px-1 mr-5 sm:mr-6 lg:mr-8 text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap ${
+                    isActive
+                      ? "text-[#113C6A]"
+                      : "text-gray-400 hover:text-[#1a1a1a]"
+                  }`}
+                >
+                  {item.label}
+                  <span
+                    className={`absolute bottom-0 left-0 w-full h-[2px] bg-[#113C6A] transition-all duration-300 ${isActive ? "opacity-100" : "opacity-0"}`}
+                  />
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </nav>
+
+      {/* ══════════ OVERVIEW ══════════ */}
+      <section
+        id="overview"
+        ref={overviewRef}
+        className="py-12 sm:py-14 md:py-16 lg:py-20 bg-white"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <motion.div
+            className="text-center max-w-3xl mx-auto mb-8 sm:mb-9 lg:mb-10"
+            initial={{ opacity: 0, y: 30 }}
+            animate={overviewInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+              24/7 Assistance
+            </p>
+            <h2 className="font-bold uppercase tracking-normal mb-3 text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+              <span className="block">Always Here.</span>
+              <span className="block">Always Ready.</span>
+            </h2>
+            <p className="font-light text-sm sm:text-base md:text-[17px] md:leading-[26px] lg:text-[18px] lg:leading-[27px] text-[#1C1825]">
+              Get instant help with 30-second response time, 95% first-call
+              resolution, and support in 10+ Indian languages. Our 100+ trained
+              experts are available 24/7/365.
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-gray-200"
+            initial={{ opacity: 0, y: 20 }}
+            animate={overviewInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            {[
+              { value: "30s", label: "Avg Response Time" },
+              { value: "95%", label: "First-Call Resolution" },
+              { value: "24/7", label: "Support Availability" },
+              { value: "10+", label: "Languages Supported" },
+            ].map((stat, i) => (
+              <div key={i} className="bg-white p-4 sm:p-5 lg:p-6 text-center">
+                <div className="font-bold leading-none mb-1 text-[32px] sm:text-[38px] lg:text-[44px] text-black">
+                  {stat.value}
+                </div>
+                <div className="font-light text-xs sm:text-sm lg:text-base text-[#1C1825]">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ══════════ SUPPORT CHANNELS SLIDER ══════════ */}
+      <section
+        id="support-channels"
+        ref={channelsRef}
+        className="bg-gray-50 py-12 sm:py-14 md:py-16 lg:py-20 w-full overflow-hidden"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-5 lg:gap-6 mb-8 sm:mb-9 lg:mb-10">
+            <div className="max-w-2xl">
+              <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+                Support Channels
+              </p>
+              <h2 className="font-bold uppercase tracking-normal mb-2 text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+                <span className="block">Multiple Ways</span>
+                <span className="block">To Reach Us</span>
+              </h2>
+              <p className="font-light max-w-lg text-sm sm:text-base md:text-[17px] md:leading-[26px] lg:text-[18px] lg:leading-[27px] text-[#1C1825]">
+                Choose your preferred channel - phone, chat, email, or WhatsApp.
+                We're here to help 24/7.
+              </p>
+            </div>
+            <div className="flex-shrink-0">
+              <a
+                href="tel:+919687448434"
+                className="group inline-flex items-center gap-2 sm:gap-2.5 border border-[#1a1a1a] px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+              >
+                <span className="font-medium text-xs sm:text-sm text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
+                  Call Now
+                </span>
+                <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-white transition-all duration-300" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="relative"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
+          <div className="overflow-hidden pl-4 sm:pl-6 md:pl-8 lg:pl-12">
+            <div
+              ref={trackRef}
+              className="flex transition-transform duration-500 ease-out gap-3 sm:gap-4 lg:gap-5"
+              style={{
+                transform: `translateX(-${currentIndex * getSlideOffset()}vw)`,
+              }}
+            >
+              {supportChannels.map((s) => (
+                <SupportChannelCard key={s.id} channel={s} />
+              ))}
+            </div>
+          </div>
+          <div className="flex items-center gap-2 justify-end mt-5 sm:mt-6 pr-4 sm:pr-6 md:pr-8 lg:pr-12">
+            <button
+              onClick={goToPrev}
+              disabled={currentIndex === 0}
+              className="w-9 h-9 sm:w-10 sm:h-10 border border-gray-200 flex items-center justify-center text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
+              aria-label="Previous"
+            >
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+            <button
+              onClick={goToNext}
+              disabled={currentIndex >= maxIndex}
+              className="w-9 h-9 sm:w-10 sm:h-10 border border-gray-200 flex items-center justify-center text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
+              aria-label="Next"
+            >
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════ HOW IT WORKS ══════════ */}
+      <section
+        id="how-it-works"
+        ref={howItWorksRef}
+        className="py-12 sm:py-14 md:py-16 lg:py-20 bg-gradient-to-b from-white to-gray-50"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <motion.div
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-5 lg:gap-6 mb-10 sm:mb-11 lg:mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            animate={stepsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="max-w-2xl">
+              <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+                How It Works
+              </p>
+              <h2 className="font-bold uppercase tracking-normal text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+                <span className="block">From Query</span>
+                <span className="block">To Resolution</span>
+              </h2>
+            </div>
+          </motion.div>
+
+          <div className="space-y-0">
+            {steps.map((step, idx) => (
+              <motion.div
+                key={idx}
+                className="relative border-l-2 border-gray-200 pl-6 sm:pl-7 md:pl-8 lg:pl-10 pb-10 sm:pb-11 lg:pb-12 last:pb-0"
+                initial={{ opacity: 0, x: -20 }}
+                animate={stepsInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: idx * 0.15 }}
+              >
+                <div className="absolute left-[-11px] sm:left-[-13px] lg:left-[-15px] top-0 w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 rounded-full bg-white border-2 border-[#113C6A] flex items-center justify-center">
+                  <span className="text-[#113C6A] font-bold text-[10px] sm:text-xs">
+                    {idx + 1}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 md:gap-6 lg:gap-10 items-center">
+                  <div
+                    className={`lg:col-span-7 order-1 ${idx % 2 === 0 ? "lg:order-2" : "lg:order-1"}`}
+                  >
+                    <div className="relative overflow-hidden h-[200px] sm:h-[220px] md:h-[240px] lg:h-[280px] border border-gray-100">
+                      <img
+                        src={step.image}
+                        alt={step.title}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+                    </div>
+                  </div>
+
+                  <div
+                    className={`lg:col-span-5 order-2 ${idx % 2 === 0 ? "lg:order-1" : "lg:order-2"}`}
+                  >
+                    <span className="inline-block bg-[#113C6A] text-white font-semibold uppercase tracking-wider px-2 py-0.5 mb-2 sm:mb-2.5 lg:mb-3 text-[9px] sm:text-[10px]">
+                      Step {idx + 1}
+                    </span>
+                    <h3 className="font-bold mb-1.5 sm:mb-2 text-[20px] leading-[26px] sm:text-[22px] sm:leading-[28px] lg:text-[24px] lg:leading-[30px] text-black">
+                      {step.title}
+                    </h3>
+                    <p className="font-light text-gray-600 text-sm sm:text-[15px] leading-relaxed">
+                      {step.desc}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════ SERVICE LEVELS ══════════ */}
+      <section
+        id="service-levels"
+        ref={levelsRef}
+        className="py-12 sm:py-14 md:py-16 lg:py-20 bg-white"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-9 lg:mb-10">
+            <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+              Service Levels
+            </p>
+            <h2 className="font-bold uppercase tracking-normal text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+              <span className="block">Choose Your</span>
+              <span className="block">Support Level</span>
+            </h2>
+          </div>
+
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={levelsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            {serviceLevels.map((level, i) => (
+              <Link
+                to="/contact"
+                key={i}
+                className="group flex items-center justify-between p-5 bg-gray-50 border border-gray-200 hover:border-[#113C6A] hover:shadow-lg transition-all duration-300"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-white group-hover:bg-[#113C6A]/10 flex items-center justify-center transition-colors duration-300">
+                    <level.icon className="w-6 h-6 text-[#113C6A]" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-[#1a1a1a] text-sm sm:text-base">
+                      {level.name}
+                    </h3>
+                    <p className="text-gray-500 text-xs sm:text-sm">
+                      {level.clients}
+                    </p>
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-[#FF7300] transition-colors duration-300" />
+              </Link>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ══════════ FEATURES ══════════ */}
+      <section
+        id="features"
+        ref={featuresRef}
+        className="py-12 sm:py-14 md:py-16 lg:py-20 bg-gray-50"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-9 lg:mb-10">
+            <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+              Key Features
+            </p>
+            <h2 className="font-bold uppercase tracking-normal text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+              <span className="block">Why Our Support</span>
+              <span className="block">Stands Out</span>
+            </h2>
+          </div>
+
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[1px] bg-gray-200 -mx-4 sm:-mx-6 md:-mx-8 lg:-mx-12"
+            initial={{ opacity: 0, y: 30 }}
+            animate={featuresInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            {features.map((f, i) => (
+              <div
+                key={i}
+                className="group relative overflow-hidden bg-[#f5f5f5] px-5 sm:px-6 md:px-7 lg:px-8 pt-8 sm:pt-9 lg:pt-10 pb-5 sm:pb-6 min-h-[240px] sm:min-h-[260px] md:min-h-[280px] lg:min-h-[300px] flex flex-col justify-end cursor-default transition-colors duration-500 hover:bg-[#113C6A]"
+              >
+                <img
+                  src="https://cdn.prod.website-files.com/63ede56f5ceca72669fcaced/63f1f1de63ea2217e333ebca_track.png"
+                  alt=""
+                  className="absolute top-[8%] right-[-8%] w-[75%] opacity-[0.04] group-hover:opacity-[0.12] group-hover:invert transition-all duration-700 pointer-events-none select-none"
+                  loading="lazy"
+                  aria-hidden="true"
+                />
+
+                <div className="relative z-10 mb-3 sm:mb-4">
+                  <f.icon
+                    className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 text-[#1a1a1a] group-hover:text-white transition-colors duration-500"
+                    strokeWidth={1.4}
+                  />
+                </div>
+
+                <h3 className="relative z-10 font-bold text-[#1a1a1a] group-hover:text-white transition-colors duration-500 leading-tight mb-0 group-hover:mb-2 text-lg sm:text-xl lg:text-[22px]">
+                  {f.title}
+                </h3>
+
+                <div className="relative z-10 max-h-0 overflow-hidden opacity-0 group-hover:max-h-[120px] group-hover:opacity-100 transition-all duration-500 ease-out">
+                  <p className="text-white/80 text-xs sm:text-[13px] lg:text-[14px] font-light leading-relaxed">
+                    {f.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ══════════ TRACKING FEATURES ══════════ */}
+      <section className="py-12 sm:py-14 md:py-16 lg:py-20 bg-white">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div>
+              <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+                Live Tracking
+              </p>
+              <h2 className="font-bold uppercase tracking-normal mb-4 text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+                <span className="block">Advanced</span>
+                <span className="block">Shipment Tracking</span>
+              </h2>
+              <p className="font-light text-sm sm:text-base md:text-[17px] md:leading-[26px] lg:text-[18px] lg:leading-[27px] text-[#1C1825] mb-6">
+                Stay informed every step of the way with real-time GPS tracking,
+                proactive notifications, and complete visibility.
+              </p>
+              <ul className="space-y-2" role="list">
+                {trackingFeatures.map((feature, idx) => (
+                  <li key={idx} className="flex items-start">
+                    <CheckCircle className="w-4 h-4 text-[#FF7300] mt-0.5 mr-2 flex-shrink-0" />
+                    <span className="text-sm text-gray-600">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="relative">
+              <img
+                src="/lovable-uploads/services4.webp"
+                alt="Live GPS Tracking"
+                className="w-full h-auto"
+                loading="lazy"
+              />
+              <div className="absolute -bottom-4 -right-4 bg-[#FF7300] text-white p-4 shadow-lg">
+                <p className="text-2xl font-bold">Live</p>
+                <p className="text-sm">GPS Tracking</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════ FAQ ══════════ */}
+      <section
+        id="faq"
+        ref={faqRef}
+        className="py-12 sm:py-14 md:py-16 lg:py-20 bg-gray-50 border-t border-gray-100"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="text-center mb-8 sm:mb-9 lg:mb-10">
+            <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+              Got Questions?
+            </p>
+            <h2 className="font-bold uppercase tracking-normal text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+              <span className="block">Frequently Asked</span>
+              <span className="block">Questions</span>
+            </h2>
+          </div>
+
+          <div>
+            {faqs.map((faq, i) => (
+              <FAQItem key={i} faq={faq} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════ CTA ══════════ */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#FFFDF7] to-[#113C6A]">
+        <div className="max-w-[1280px] mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-4 text-[#113C6A]">
+            Need Help Right Now?
+          </h2>
+          <p className="text-[#000]/90 mb-8 text-lg max-w-2xl mx-auto">
+            Our support team is standing by 24/7 to assist you with any
+            logistics needs or questions.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="tel:+919687448434"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-[#FF7300] text-white hover:bg-[#e56721] transition-all"
+            >
+              <span className="font-medium">Call Support Now</span>
+              <Phone className="w-4 h-4" />
+            </a>
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-transparent border-2 border-[#F8FFFF] text-[#F8FFFF] hover:bg-[#F8FFFF] hover:text-[#113C6A] transition-all"
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span className="font-medium">Start Live Chat</span>
+            </Link>
+          </div>
+
+          <div className="mt-12 pt-12 border-t border-[#F8FFFF]/20 grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { value: "24/7", label: "Support Available" },
+              { value: "30s", label: "Avg Response Time" },
+              { value: "95%", label: "First Call Resolution" },
+              { value: "10+", label: "Languages Supported" },
+            ].map((stat, i) => (
+              <div key={i}>
+                <p className="text-3xl sm:text-4xl font-bold text-[#FF7300]">
+                  {stat.value}
+                </p>
+                <p className="text-[#000]/80 mt-1">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </PageLayout>
+  );
+};
+
+export default memo(RealTimeSupport);

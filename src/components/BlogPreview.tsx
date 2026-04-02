@@ -1,25 +1,12 @@
-import { useRef, useEffect, useState, memo } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, Newspaper, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import BlogPostCard from '@/components/BlogPostCard';
-import { blogPosts } from '@/data/blogPosts';
-import { motion, useAnimation, useInView } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import { useRef, useEffect, useState, memo } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import BlogPostCard from "@/components/BlogPostCard";
+import { blogPosts } from "@/data/blogPosts";
+import { motion, useAnimation, useInView } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 
-// Memoized blog post card wrapper
 const MemoizedBlogPostCard = memo(BlogPostCard);
-
-// Pagination indicator component
-const PaginationIndicator = memo(({ active, index, onClick }: { active: boolean; index: number; onClick?: () => void }) => (
-  <button
-    onClick={onClick}
-    className={`h-1.5 rounded-full transition-all duration-300 ${active ? 'w-6 bg-[#FF7729]' : 'w-2 bg-[#185EAA]/30 hover:bg-[#185EAA]/50'
-      }`}
-    aria-label={`Go to slide ${index + 1}`}
-    aria-current={active ? 'true' : 'false'}
-  />
-));
 
 const BlogPreview = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -30,32 +17,28 @@ const BlogPreview = () => {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
-  // Get the 3 most recent blog posts
   const recentPosts = [...blogPosts]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 3);
 
-  // Start animations when section comes into view
   useEffect(() => {
-    if (isInView) {
-      controls.start("visible");
-    }
+    if (isInView) controls.start("visible");
   }, [isInView, controls]);
 
-  // Handle mobile carousel navigation
   const scrollToSlide = (index: number) => {
     if (carouselRef.current) {
-      // Get all slides
       const slides = Array.from(carouselRef.current.children);
       if (slides[index]) {
-        // Scroll to the selected slide
-        slides[index].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        slides[index].scrollIntoView({
+          behavior: "smooth",
+          inline: "center",
+          block: "nearest",
+        });
         setActiveSlide(index);
       }
     }
   };
 
-  // Handle touch events for swiping
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);
   };
@@ -66,154 +49,137 @@ const BlogPreview = () => {
 
   const handleTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
-
     const distance = touchStart - touchEnd;
-    const minSwipeDistance = 50;
-
-    if (distance > minSwipeDistance) {
-      // Swiped left, go to next slide
-      const nextSlide = Math.min(recentPosts.length - 1, activeSlide + 1);
-      scrollToSlide(nextSlide);
-    } else if (distance < -minSwipeDistance) {
-      // Swiped right, go to previous slide
-      const prevSlide = Math.max(0, activeSlide - 1);
-      scrollToSlide(prevSlide);
-    }
+    if (distance > 50)
+      scrollToSlide(Math.min(recentPosts.length - 1, activeSlide + 1));
+    else if (distance < -50) scrollToSlide(Math.max(0, activeSlide - 1));
   };
 
-  // Handle intersection observer for each slide
   useEffect(() => {
     if (!carouselRef.current) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Find the index of the visible slide
             const slides = Array.from(carouselRef.current?.children || []);
-            const index = slides.findIndex(slide => slide === entry.target);
-            if (index !== -1) {
-              setActiveSlide(index);
-            }
+            const index = slides.findIndex((slide) => slide === entry.target);
+            if (index !== -1) setActiveSlide(index);
           }
         });
       },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.7 // Consider a slide visible when 70% is in view
-      }
+      { root: null, rootMargin: "0px", threshold: 0.7 },
     );
-
-    // Observe all slides
     const slides = Array.from(carouselRef.current.children);
-    slides.forEach(slide => observer.observe(slide));
-
-    return () => {
-      slides.forEach(slide => observer.unobserve(slide));
-    };
+    slides.forEach((slide) => observer.observe(slide));
+    return () => slides.forEach((slide) => observer.unobserve(slide));
   }, []);
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.5 }
-    }
-  };
-
-  // Structured data for SEO
   const blogSchema = {
     "@context": "https://schema.org",
     "@type": "Blog",
-    "headline": "BLI Logistics Blog",
-    "description": "Latest insights on logistics, transportation, and supply chain management from BLI.",
-    "publisher": {
+    headline: "BLI Logistics Blog",
+    description:
+      "Latest insights on logistics, transportation, and supply chain management from BLI.",
+    publisher: {
       "@type": "Organization",
-      "name": "BLI - Bansal Logistics of India",
-      "logo": {
+      name: "BLI - Bansal Logistics of India",
+      logo: {
         "@type": "ImageObject",
-        "url": "https://blirapid.com/lovable-uploads/8.png"
-      }
+        url: "https://blirapid.com/lovable-uploads/8.png",
+      },
     },
-    "blogPost": recentPosts.map(post => ({
+    blogPost: recentPosts.map((post) => ({
       "@type": "BlogPosting",
-      "headline": post.title,
-      "description": post.excerpt,
-      "image": post.image || "https://blirapid.com/placeholder.svg",
-      "datePublished": post.date,
-      "url": `https://blirapid.com/resources/blogs/${post.slug}`
-    }))
+      headline: post.title,
+      description: post.excerpt,
+      image: post.image || "https://blirapid.com/placeholder.svg",
+      datePublished: post.date,
+      url: `https://blirapid.com/resources/blogs/${post.slug}`,
+    })),
   };
 
   return (
     <>
       <Helmet>
-        <script type="application/ld+json">
-          {JSON.stringify(blogSchema)}
-        </script>
+        <script type="application/ld+json">{JSON.stringify(blogSchema)}</script>
       </Helmet>
 
       <section
         id="blog"
         ref={sectionRef}
-        className="py-12 md:py-24 px-0 md:px-12 bg-[#]"
+        className="bg-white py-20 sm:py-24 md:py-28"
         aria-labelledby="blog-heading"
       >
-        <div className="container mx-auto max-w-6xl">
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
+          {/* ── Header ── */}
           <motion.div
-            className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-12"
-            initial="hidden"
-            animate={controls}
-            variants={containerVariants}
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-14 sm:mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
           >
-            <motion.div variants={itemVariants}>
-              <div className="flex items-center gap-2 mb-3">
-                <Newspaper size={20} className="text-[#185EAA]" />
-                <span className="text-[#113C6A] font-medium">Our Blog</span>
-              </div>
-              <h2 id="blog-heading" className="text-3xl md:text-4xl font-bold mb-4 text-[#113C6A]">Latest Updates</h2>
-              <p className="text-[#0a213a]/90 max-w-xl">
-                Stay informed with the latest insights on logistics, transportation trends, and industry best practices.
+            {/* Left */}
+            <div>
+              {/* Label */}
+              <p
+                className="font-semibold uppercase tracking-widest mb-3"
+                style={{
+                  fontSize: "14px",
+                  lineHeight: "17px",
+                  color: "rgb(28, 24, 37)",
+                }}
+              >
+                Our Blog
               </p>
-            </motion.div>
+              {/* Heading */}
+              <h2
+                id="blog-heading"
+                className="font-bold uppercase tracking-normal mb-3"
+                style={{
+                  fontSize: "52px",
+                  lineHeight: "60px",
+                  color: "rgb(0, 0, 0)",
+                }}
+              >
+                <span className="block">Latest Insights</span>
+                <span className="block">& Updates</span>
+              </h2>
+              {/* Description */}
+              <p
+                className="font-light max-w-lg"
+                style={{
+                  fontSize: "20px",
+                  lineHeight: "29px",
+                  color: "rgb(28, 24, 37)",
+                }}
+              >
+                Stay informed with the latest insights on logistics,
+                transportation trends, and industry best practices.
+              </p>
+            </div>
 
-            <motion.div variants={itemVariants} className='md:mt-0 mt-2'>
-              <Link to="/resources/blogs" className="mt-4">
-                <Button
-                  variant="outline"
-                  className="group border-[#185EAA] text-[#113C6A] hover:bg-[#113C6A] hover:text-[#FFFDF7] hover:border-[#113C6A]"
-                  aria-label="View all blog posts"
-                >
+            {/* Right View All button */}
+            <div className="flex-shrink-0">
+              <Link
+                to="/resources/blogs"
+                className="group relative inline-flex items-center gap-2.5 border border-[#1a1a1a] px-6 py-2.5"
+              >
+                <span className="font-medium text-sm text-[#1a1a1a]">
                   View All Posts
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
+                </span>
+                <ArrowRight className="w-4 h-4 text-[#FF7300] group-hover:translate-x-1.5 transition-all duration-300" />
               </Link>
-            </motion.div>
+            </div>
           </motion.div>
 
+          {/* ── Cards ── */}
           <motion.div
-            className="relative"
-            initial="hidden"
-            animate={controls}
-            variants={containerVariants}
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            {/* Mobile carousel - ONE CARD AT A TIME */}
-            <div className="md:hidden relative">
-              {/* Mobile swipeable carousel */}
+            {/* Mobile carousel */}
+            <div className="md:hidden">
               <div
                 className="overflow-x-auto scrollbar-hide snap-x snap-mandatory"
                 onTouchStart={handleTouchStart}
@@ -226,17 +192,15 @@ const BlogPreview = () => {
                   role="region"
                   aria-label="Blog posts carousel"
                 >
-                  {recentPosts.map((post, index) => (
+                  {recentPosts.map((post) => (
                     <div
                       key={post.title}
-                      className="w-full flex-shrink-0 flex-grow-0 snap-center"
-                      style={{ scrollSnapAlign: 'center' }}
+                      className="w-full flex-shrink-0 snap-center [&_.rounded-xl]:rounded-none [&_.rounded-lg]:rounded-none [&_.rounded]:rounded-none"
                     >
                       <MemoizedBlogPostCard
-                        key={post.title}
                         title={post.title}
                         excerpt={post.excerpt}
-                        imageUrl={post.image || '/placeholder.svg'}
+                        imageUrl={post.image || "/placeholder.svg"}
                         date={post.date}
                         slug={post.slug}
                         category={post.category}
@@ -246,54 +210,53 @@ const BlogPreview = () => {
                 </div>
               </div>
 
-              {/* Mobile navigation controls */}
-              <div className="mt-6 flex justify-center items-center">
+              {/* Mobile nav */}
+              <div className="mt-6 flex justify-center items-center gap-4">
                 <button
                   onClick={() => scrollToSlide(Math.max(0, activeSlide - 1))}
-                  className="mr-4 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-[#185EAA] hover:text-[#113C6A] transition-colors border border-[#185EAA]/20"
-                  aria-label="Previous blog post"
                   disabled={activeSlide === 0}
+                  className="w-9 h-9 border border-gray-200 flex items-center justify-center text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white disabled:opacity-30 transition-all duration-300"
                 >
                   <ChevronLeft size={18} />
                 </button>
 
                 <div className="flex gap-2">
                   {recentPosts.map((_, i) => (
-                    <PaginationIndicator
+                    <button
                       key={i}
-                      active={i === activeSlide}
-                      index={i}
                       onClick={() => scrollToSlide(i)}
+                      className={`h-[3px] transition-all duration-300 ${
+                        i === activeSlide
+                          ? "bg-[#FF7300] w-8"
+                          : "bg-gray-300 w-4"
+                      }`}
+                      aria-label={`Go to slide ${i + 1}`}
                     />
                   ))}
                 </div>
 
                 <button
-                  onClick={() => scrollToSlide(Math.min(recentPosts.length - 1, activeSlide + 1))}
-                  className="ml-4 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-[#185EAA] hover:text-[#113C6A] transition-colors border border-[#185EAA]/20"
-                  aria-label="Next blog post"
+                  onClick={() =>
+                    scrollToSlide(
+                      Math.min(recentPosts.length - 1, activeSlide + 1),
+                    )
+                  }
                   disabled={activeSlide === recentPosts.length - 1}
+                  className="w-9 h-9 border border-gray-200 flex items-center justify-center text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white disabled:opacity-30 transition-all duration-300"
                 >
                   <ChevronRight size={18} />
                 </button>
               </div>
-
-              {/* Swipe instruction */}
-              <div className="flex items-center justify-center mt-2 text-[#185EAA]/60 text-xs">
-                <ChevronLeft size={12} />
-                <span className="mx-1">Swipe to navigate</span>
-                <ChevronRight size={12} />
-              </div>
             </div>
 
-            {/* Desktop grid layout - KEEP UNCHANGED */}
-            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Desktop grid */}
+            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 [&_.rounded-xl]:rounded-none [&_.rounded-lg]:rounded-none [&_.rounded]:rounded-none">
               {recentPosts.map((post) => (
                 <MemoizedBlogPostCard
                   key={post.title}
                   title={post.title}
                   excerpt={post.excerpt}
-                  imageUrl={post.image || '/placeholder.svg'}
+                  imageUrl={post.image || "/placeholder.svg"}
                   date={post.date}
                   slug={post.slug}
                   category={post.category}

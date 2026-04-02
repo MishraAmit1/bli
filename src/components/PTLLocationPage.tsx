@@ -377,7 +377,7 @@ const PTLLocationPage = () => {
                       <div className="mt-4 p-3 bg-green-50 border border-green-100 rounded flex items-start gap-2">
                         <Zap className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
                         <p className="text-sm text-green-800">
-                          <strong>Same-day pickup available</strong> — Vehicle
+                          <strong>Same-day pickup available</strong> Vehicle
                           placement within 2-4 hours for bookings before 2 PM
                         </p>
                       </div>
@@ -445,7 +445,7 @@ const PTLLocationPage = () => {
                               </div>
                             </td>
                             <td className="py-3 px-3 text-gray-500">
-                              {route.distance || "—"}
+                              {route.distance || ""}
                             </td>
                             <td className="py-3 px-3">
                               <span className="inline-flex items-center gap-1 text-gray-700">
@@ -891,7 +891,7 @@ const PTLLocationPage = () => {
                   </>
                 )}
 
-                {/* Related Region Link — for delivery hubs */}
+                {/* Related Region Link  for delivery hubs */}
                 {location.type === "delivery" && relatedRegion && (
                   <Link
                     to={`/services/part-load-transport/${relatedRegion.slug}`}
@@ -911,7 +911,7 @@ const PTLLocationPage = () => {
                   </Link>
                 )}
 
-                {/* Regions Quick Links — show on all location pages */}
+                {/* Regions Quick Links  show on all location pages */}
                 {regionPages.length > 0 && location.type !== "region" && (
                   <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
                     <h3 className="font-bold text-[#113C6A] mb-3 text-sm flex items-center gap-2">
@@ -1036,7 +1036,7 @@ const PTLLocationPage = () => {
             </a>
           </div>
           <p className="text-white/40 text-sm mt-6">
-            BLI Rapid — Big Enough to Move the World. Small Enough to Care.
+            BLI Rapid Big Enough to Move the World. Small Enough to Care.
           </p>
         </div>
       </section>

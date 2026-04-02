@@ -44,7 +44,7 @@ const AnimatedCounter = ({
 
 /* ── Custom SVG Icons ── */
 
-// 1st stat icon — Truck (tumhara diya hua)
+// 1st stat icon  Truck (tumhara diya hua)
 const TruckSvg = () => (
   <svg
     width="30"
@@ -91,7 +91,7 @@ const TruckSvg = () => (
   </svg>
 );
 
-// 2nd stat icon — YAHAN APNA SVG DAALNA (Reviews/Star wala)
+// 2nd stat icon  YAHAN APNA SVG DAALNA (Reviews/Star wala)
 const Icon2Svg = () => (
   <svg
     width="30"
@@ -107,7 +107,7 @@ const Icon2Svg = () => (
   </svg>
 );
 
-// 3rd stat icon — YAHAN APNA SVG DAALNA (Happy Clients wala)
+// 3rd stat icon  YAHAN APNA SVG DAALNA (Happy Clients wala)
 const Icon3Svg = () => (
   <svg
     width="30"
@@ -130,7 +130,7 @@ const Icon3Svg = () => (
   </svg>
 );
 
-// 4th stat icon — YAHAN APNA SVG DAALNA (Fleet/Building wala)
+// 4th stat icon  YAHAN APNA SVG DAALNA (Fleet/Building wala)
 const Icon4Svg = () => (
   <svg
     width="28"
@@ -303,7 +303,7 @@ const Hero = () => {
                           ease: "easeOut",
                         }}
                       >
-                        Full truckload, part load, and 3PL solutions — backed by
+                        Full truckload, part load, and 3PL solutions backed by
                         25+ years of on-ground experience.
                       </motion.p>
                     </div>
@@ -338,13 +338,28 @@ const Hero = () => {
           <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
             {/* Title */}
             <div className="text-center mb-14 sm:mb-16">
-              <p className="text-[#1a1a1a] text-sm font-medium uppercase tracking-widest mb-3">
+              {/* Label above heading */}
+              <p
+                className="font-semibold uppercase tracking-widest mb-3"
+                style={{
+                  fontSize: "14px",
+                  lineHeight: "17px",
+                  color: "rgb(28, 24, 37)",
+                }}
+              >
                 Stats
               </p>
-              {/* ✅ Added leading-[1.3] for breathing room between lines */}
-              <h2 className="text-2xl sm:text-3xl md:text-[40px] font-semibold text-[#1a1a1a] uppercase tracking-wide">
+              {/* Heading */}
+              <h2
+                className="font-bold uppercase tracking-normal mb-3"
+                style={{
+                  fontSize: "52px",
+                  lineHeight: "60px",
+                  color: "rgb(0, 0, 0)",
+                }}
+              >
                 <span className="block">Built On Trust,</span>
-                <span className="block mt-2 sm:mt-2">Measured In Results</span>
+                <span className="block">Measured In Results</span>
               </h2>
             </div>
 
@@ -355,7 +370,7 @@ const Hero = () => {
                 className="hidden md:block absolute top-0 left-0 right-0 pointer-events-none"
                 style={{ height: "60px" }}
               >
-                {/* Horizontal line — from col 1 center to col 4 center */}
+                {/* Horizontal line from col 1 center to col 4 center */}
                 <div
                   className="absolute bg-gray-400"
                   style={{
@@ -365,7 +380,7 @@ const Hero = () => {
                     height: "1.5px",
                   }}
                 />
-                {/* Vertical drops — centered on each grid column */}
+                {/* Vertical drops centered on each grid column */}
                 {[0, 1, 2, 3].map((i) => (
                   <div
                     key={i}
@@ -405,7 +420,14 @@ const Hero = () => {
                     </div>
 
                     {/* Number */}
-                    <div className="text-[38px] sm:text-[48px] md:text-[56px] font-normal text-[#1a1a1a] leading-none tracking-tight">
+                    <div
+                      className="font-bold leading-none tracking-tight"
+                      style={{
+                        fontSize: "52px",
+                        lineHeight: "60px",
+                        color: "rgb(0, 0, 0)",
+                      }}
+                    >
                       {stat.displayPrefix ? (
                         <motion.span
                           initial={{ opacity: 0 }}
@@ -428,7 +450,14 @@ const Hero = () => {
                     </div>
 
                     {/* Label */}
-                    <p className="text-[13px] sm:text-sm text-gray-400 mt-2.5">
+                    <p
+                      className="font-light mt-2.5"
+                      style={{
+                        fontSize: "20px",
+                        lineHeight: "29px",
+                        color: "rgb(28, 24, 37)",
+                      }}
+                    >
                       {stat.label}
                     </p>
                   </motion.div>

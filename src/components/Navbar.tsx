@@ -8,7 +8,6 @@ import {
   Phone,
   Mail,
   MapPin,
-  Clock,
   Facebook,
   Twitter,
   Linkedin,
@@ -170,7 +169,7 @@ const Navbar = () => {
     after:h-[2px] after:w-full after:scale-x-0 after:origin-bottom-right
     after:transition-transform after:duration-300
     hover:after:scale-x-100 hover:after:origin-bottom-left
-    after:bg-[#FF7300]
+    after:bg-[#113C6A]
   `;
 
   return (
@@ -226,7 +225,7 @@ const Navbar = () => {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="w-[26px] h-[26px] rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-[#FF7300] hover:text-white transition-all duration-200"
+                  className="w-[26px] h-[26px] rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white hover:text-[#113C6A] transition-all duration-200"
                 >
                   <Icon size={11} />
                 </a>
@@ -289,6 +288,7 @@ const Navbar = () => {
                   ))}
 
                   {/* ========== SERVICES MEGA DROPDOWN ========== */}
+                  {/* ========== SERVICES MEGA DROPDOWN ========== */}
                   <NavigationMenuItem>
                     <NavigationMenuTrigger
                       className={cn(
@@ -299,78 +299,34 @@ const Navbar = () => {
                       Services
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
-                      <div className="w-[720px] bg-white rounded-lg shadow-2xl border border-gray-100/80 overflow-hidden">
-                        <div className="flex">
-                          {/* Left: Services List */}
-                          <div className="flex-1 p-5">
-                            <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">
-                              What We Offer
-                            </div>
-                            <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
-                              {servicesData.map((service) => (
-                                <Link
-                                  key={service.to}
-                                  to={service.to}
-                                  className="px-3 py-2.5 rounded-md hover:bg-gray-50 transition-colors group"
-                                >
-                                  <div className="text-sm font-medium text-[#1a1a1a] group-hover:text-[#FF7300] transition-colors">
-                                    {service.title}
-                                  </div>
-                                  <p className="text-[12px] text-gray-400 mt-0.5 leading-snug">
-                                    {service.description}
-                                  </p>
-                                </Link>
-                              ))}
-                            </div>
-                            <div className="mt-3 pt-3 border-t border-gray-100 px-3">
-                              <Link
-                                to="/services"
-                                className="inline-flex items-center text-sm text-[#113C6A] hover:text-[#FF7300] font-medium transition-colors"
-                              >
-                                View all services
-                                <ChevronRight className="ml-1 h-3.5 w-3.5" />
-                              </Link>
-                            </div>
+                      <div className="w-[520px] bg-white rounded-lg shadow-2xl border border-gray-100/80 overflow-hidden">
+                        <div className="p-5">
+                          <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">
+                            What We Offer
                           </div>
-
-                          {/* Right: Featured Panel */}
-                          <div className="w-[240px] bg-[#113C6A] p-5 flex flex-col justify-between">
-                            <div>
-                              <div className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-3">
-                                Featured
-                              </div>
-                              <h4 className="text-white font-semibold text-[15px] leading-snug">
-                                PTL Network
-                              </h4>
-                              <p className="text-white/60 text-xs mt-2 leading-relaxed">
-                                Daily dispatch from Vapi, Surat, Mumbai &amp;
-                                Ahmedabad to 25+ cities across India.
-                              </p>
-                              <div className="mt-3 space-y-1.5">
-                                {[
-                                  "Vapi → Delhi NCR",
-                                  "Mumbai → Kolkata",
-                                  "Surat → Bangalore",
-                                ].map((route) => (
-                                  <div
-                                    key={route}
-                                    className="flex items-center gap-2 text-white/70 text-xs"
-                                  >
-                                    <Truck
-                                      size={11}
-                                      className="text-[#FF7300] flex-shrink-0"
-                                    />
-                                    <span>{route}</span>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
+                          <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
+                            {servicesData.map((service) => (
+                              <Link
+                                key={service.to}
+                                to={service.to}
+                                className="px-3 py-2.5 rounded-md hover:bg-gray-50 transition-colors group"
+                              >
+                                <div className="text-sm font-medium text-[#1a1a1a] group-hover:text-[#113C6A] transition-colors">
+                                  {service.title}
+                                </div>
+                                <p className="text-[12px] text-gray-400 mt-0.5 leading-snug">
+                                  {service.description}
+                                </p>
+                              </Link>
+                            ))}
+                          </div>
+                          <div className="mt-3 pt-3 border-t border-gray-100 px-3">
                             <Link
-                              to="/services/part-load"
-                              className="mt-4 inline-flex items-center gap-1.5 text-[#FF7300] hover:text-[#FF9955] text-xs font-medium transition-colors"
+                              to="/services"
+                              className="inline-flex items-center text-sm text-[#113C6A] hover:text-[#1a1a1a] font-medium transition-colors"
                             >
-                              Explore PTL routes
-                              <ArrowRight size={12} />
+                              View all services
+                              <ChevronRight className="ml-1 h-3.5 w-3.5" />
                             </Link>
                           </div>
                         </div>
@@ -393,8 +349,8 @@ const Navbar = () => {
                         <div className="flex">
                           {/* Pickup Hubs */}
                           <div className="flex-1 p-5 border-r border-gray-100">
-                            <div className="text-xs font-semibold text-[#FF7300] uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#FF7300]" />
+                            <div className="text-xs font-semibold text-[#113C6A] uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#113C6A]" />
                               Pickup Hubs
                             </div>
                             <div className="space-y-3">
@@ -404,7 +360,7 @@ const Navbar = () => {
                                   to={hub.to}
                                   className="block px-3 py-2 rounded-md hover:bg-gray-50 transition-colors group"
                                 >
-                                  <div className="text-sm font-medium text-[#1a1a1a] group-hover:text-[#FF7300] transition-colors">
+                                  <div className="text-sm font-medium text-[#1a1a1a] group-hover:text-[#113C6A] transition-colors">
                                     {hub.region}
                                   </div>
                                   <p className="text-[12px] text-gray-400 mt-0.5">
@@ -417,8 +373,8 @@ const Navbar = () => {
 
                           {/* Delivery Zones */}
                           <div className="flex-1 p-5">
-                            <div className="text-xs font-semibold text-[#113C6A] uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#113C6A]" />
+                            <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-gray-400" />
                               Delivery Zones
                             </div>
                             <div className="space-y-1">
@@ -447,7 +403,7 @@ const Navbar = () => {
                           </span>
                           <Link
                             to="/network"
-                            className="text-xs text-[#113C6A] hover:text-[#FF7300] font-medium flex items-center gap-1 transition-colors"
+                            className="text-xs text-[#113C6A] hover:text-[#1a1a1a] font-medium flex items-center gap-1 transition-colors"
                           >
                             Full network map
                             <ArrowRight size={11} />
@@ -481,12 +437,16 @@ const Navbar = () => {
               </NavigationMenu>
             </div>
 
-            {/* Right CTA */}
+            {/* Right CTA — Clean Outlined Style */}
             <div className="hidden lg:block flex-shrink-0">
-              <Link to="/contact">
-                <button className="px-7 py-2.5 bg-[#FF7300] hover:bg-[#e56800] text-white font-semibold rounded-md transition-colors duration-200 text-[15px]">
+              <Link
+                to="/contact"
+                className="group inline-flex items-center gap-2 px-5 py-2.5 border border-[#1a1a1a] hover:bg-[#1a1a1a] transition-all duration-300"
+              >
+                <span className="text-[14px] font-semibold text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
                   Get Quote
-                </button>
+                </span>
+                <ArrowRight className="w-4 h-4 text-[#1a1a1a] group-hover:text-white group-hover:translate-x-0.5 transition-all duration-300" />
               </Link>
             </div>
 
@@ -526,7 +486,7 @@ const Navbar = () => {
                   isOpen={openMobileDropdown === "services"}
                   onToggle={() => toggleMobileDropdown("services")}
                 >
-                  <div className="pl-3 space-y-0.5 mt-1 border-l-2 border-[#FF7300]/20 ml-3">
+                  <div className="pl-3 space-y-0.5 mt-1 border-l-2 border-[#113C6A]/20 ml-3">
                     {servicesData.map((service) => (
                       <Link
                         key={service.to}
@@ -544,7 +504,7 @@ const Navbar = () => {
                     ))}
                     <Link
                       to="/services"
-                      className="block px-3 py-2.5 rounded-md text-sm font-medium text-[#FF7300] hover:bg-gray-50 transition-colors"
+                      className="block px-3 py-2.5 rounded-md text-sm font-medium text-[#113C6A] hover:bg-gray-50 transition-colors"
                       onClick={handleNavClick}
                     >
                       View all services →
@@ -560,7 +520,7 @@ const Navbar = () => {
                 >
                   <div className="pl-3 mt-1 border-l-2 border-[#113C6A]/20 ml-3">
                     <div className="px-3 py-2">
-                      <span className="text-xs font-semibold text-[#FF7300] uppercase tracking-wider">
+                      <span className="text-xs font-semibold text-[#113C6A] uppercase tracking-wider">
                         Pickup Hubs
                       </span>
                     </div>
@@ -581,7 +541,7 @@ const Navbar = () => {
                     ))}
 
                     <div className="px-3 py-2 mt-2">
-                      <span className="text-xs font-semibold text-[#113C6A] uppercase tracking-wider">
+                      <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         Delivery Zones
                       </span>
                     </div>
@@ -613,22 +573,22 @@ const Navbar = () => {
                   Contact
                 </MobileNavItem>
 
+                {/* Mobile CTA — Outlined Style */}
                 <div className="pt-4">
                   <Link
                     to="/contact"
                     onClick={handleNavClick}
-                    className="block"
+                    className="flex items-center justify-center gap-2 w-full py-3 border border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white text-[#1a1a1a] font-semibold transition-all duration-300 text-[15px]"
                   >
-                    <button className="w-full py-3 bg-[#FF7300] hover:bg-[#e56800] text-white font-semibold rounded-md transition-colors text-[15px]">
-                      Get Quote
-                    </button>
+                    <span>Get Quote</span>
+                    <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
 
                 <div className="pt-4 mt-3 border-t border-gray-100 flex items-center justify-center gap-4 text-[13px] text-gray-400">
                   <a
                     href="tel:+919687448434"
-                    className="flex items-center gap-1.5 hover:text-[#FF7300] transition-colors"
+                    className="flex items-center gap-1.5 hover:text-[#113C6A] transition-colors"
                   >
                     <Phone size={13} />
                     +91-968 744 8434
@@ -636,7 +596,7 @@ const Navbar = () => {
                   <span className="w-px h-3.5 bg-gray-200" />
                   <a
                     href="mailto:info@blirapid.com"
-                    className="flex items-center gap-1.5 hover:text-[#FF7300] transition-colors"
+                    className="flex items-center gap-1.5 hover:text-[#113C6A] transition-colors"
                   >
                     <Mail size={13} />
                     Email Us

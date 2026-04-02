@@ -31,7 +31,7 @@
         },
         {
             title: "Last-Mile Delivery Optimization Strategies",
-            excerpt: "Proven strategies to optimize last‑mile delivery—lowering costs while ensuring fast, reliable, and customer-friendly experiences.",
+            excerpt: "Proven strategies to optimize last‑mile deliverylowering costs while ensuring fast, reliable, and customer-friendly experiences.",
             image: "https://i.pinimg.com/1200x/25/e6/00/25e600f4f9d7f5bd381fbe033d21183b.jpg",
             category: "Operational Tips",
             readTime: "4 min read",
@@ -41,7 +41,7 @@
         },
         {
             title: "Cross-Border Logistics: Navigating International Trade",
-            excerpt: "Essential insights for handling cross-border logistics—navigating customs, compliance, and documentation in global trade.",
+            excerpt: "Essential insights for handling cross-border logisticsnavigating customs, compliance, and documentation in global trade.",
             image: "https://i.pinimg.com/736x/b0/8a/74/b08a747bc276c46fa62ef903447b3af7.jpg",
             category: "Industry Insights",
             readTime: "8 min read",

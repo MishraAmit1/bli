@@ -79,7 +79,7 @@ export const ptlLocations: PTLLocation[] = [
 
 BLI Rapid has established a strong operational presence in Vapi with dedicated pickup points across all four phases of GIDC, extending coverage to nearby industrial zones in Daman, Silvassa, and Valsad. Our daily dispatch network ensures that manufacturers and distributors in this region can reliably ship their products to any corner of India.
 
-The strategic location of Vapi — positioned on NH-48 between Mumbai (180 km) and Ahmedabad (360 km) — makes it an ideal consolidation point for part load shipments heading to North, East, and South India. Our hub-and-spoke model leverages this advantage to offer competitive transit times and optimized freight costs.
+The strategic location of Vapi  positioned on NH-48 between Mumbai (180 km) and Ahmedabad (360 km)  makes it an ideal consolidation point for part load shipments heading to North, East, and South India. Our hub-and-spoke model leverages this advantage to offer competitive transit times and optimized freight costs.
 
 Whether you're shipping chemical drums, plastic granules, packaged food products, or engineering components, our trained handlers and GPS-tracked vehicles ensure safe, timely delivery with complete transparency.`,
     metaTitle: 'Part Load Transport from Vapi | PTL Services GIDC, Daman, Silvassa | BLI Rapid',
@@ -295,7 +295,7 @@ BLI Rapid operates an extensive part load network from Surat, covering all major
 
 The city's strategic position on the Mumbai-Delhi industrial corridor makes it a natural consolidation point for PTL shipments. Our Surat hub processes over 12,000 shipments monthly, connecting local manufacturers with retailers, distributors, and end consumers across 500+ cities in India.
 
-We understand the unique requirements of Surat's industries — from the time-sensitive nature of fashion textiles to the high-value, security-critical diamond shipments. Our customized solutions include secure transit for valuables, fabric-friendly handling, and express delivery options for urgent orders.`,
+We understand the unique requirements of Surat's industries  from the time-sensitive nature of fashion textiles to the high-value, security-critical diamond shipments. Our customized solutions include secure transit for valuables, fabric-friendly handling, and express delivery options for urgent orders.`,
     metaTitle: 'Part Load Transport from Surat | Textile & Diamond Logistics | PTL Sachin GIDC | BLI',
     metaDescription: 'Part load shipping from Surat to all India. Textile & diamond cargo specialists. Daily dispatch to Delhi, Mumbai, Kolkata, Bangalore. 12,000+ monthly shipments. Get quote now.',
     keyHighlights: [
@@ -579,7 +579,7 @@ With 120+ warehouse partners and 25,000+ monthly shipments, BLI's Mumbai hub is 
 
 BLI Rapid's Daman operations are closely integrated with our Vapi hub, enabling efficient consolidation and dispatch. We provide coverage across all industrial zones including Kadaiya, Bhimpore, and Ringanwada, with same-day pickup services and competitive rates.
 
-The territory's strategic location — 180 km from Mumbai and well-connected via NH-48 — makes it an efficient shipping origin. Our daily dispatch network ensures that manufacturers in Daman can reach customers in Delhi NCR within 2-3 days, and South India within 3-4 days.`,
+The territory's strategic location  180 km from Mumbai and well-connected via NH-48  makes it an efficient shipping origin. Our daily dispatch network ensures that manufacturers in Daman can reach customers in Delhi NCR within 2-3 days, and South India within 3-4 days.`,
     metaTitle: 'Part Load Transport from Daman | Industrial Logistics UT | PTL Daman | BLI',
     metaDescription: 'Part load from Daman Industrial Estate to all India. 2,000+ monthly shipments. Connected with Vapi hub. Daily dispatch to Delhi, Mumbai. Get quote.',
     keyHighlights: [
@@ -898,7 +898,7 @@ BLI Rapid's Navi Mumbai operations provide extensive coverage across all industr
 
 Taloja MIDC, the largest industrial estate in Navi Mumbai, hosts major chemical and pharmaceutical companies. Our hazmat-certified vehicles and trained handlers serve this cluster with proper documentation and safety protocols. The Rabale and TTC areas host engineering, electronics, and IT hardware companies, requiring precision logistics.
 
-The city's excellent connectivity — Mumbai-Pune Expressway, Sion-Panvel Highway, and the upcoming Navi Mumbai International Airport — positions it as a strategic logistics hub. Our services leverage this infrastructure for efficient distribution across India.
+The city's excellent connectivity  Mumbai-Pune Expressway, Sion-Panvel Highway, and the upcoming Navi Mumbai International Airport  positions it as a strategic logistics hub. Our services leverage this infrastructure for efficient distribution across India.
 
 With the JNPT port (India's largest container port) nearby, Navi Mumbai also serves as a key node for import-export logistics. Our network supports both domestic distribution and port-related cargo movement.`,
     metaTitle: 'Part Load Transport from Navi Mumbai | Taloja, Rabale MIDC PTL | BLI',
@@ -1087,11 +1087,11 @@ With 30,000+ monthly deliveries in the NCR region, we have deep knowledge of tra
     description: 'Noida and Greater Noida form a major IT and manufacturing hub in NCR. BLI provides comprehensive PTL delivery covering all sectors and industrial zones.',
     longDescription: `Noida (New Okhla Industrial Development Authority), along with Greater Noida, has transformed from an industrial township into one of India's premier IT and manufacturing hubs. The region hosts major technology companies, mobile phone manufacturers, e-commerce fulfillment centers, and a vibrant startup ecosystem.
 
-BLI Rapid's Noida operations cover the entire spread of the twin cities — from the established IT sectors (62, 63, 58) to the newer developments in Greater Noida and Noida Extension. Our delivery network serves corporate offices, manufacturing units, e-commerce warehouses, and retail outlets with equal efficiency.
+BLI Rapid's Noida operations cover the entire spread of the twin cities  from the established IT sectors (62, 63, 58) to the newer developments in Greater Noida and Noida Extension. Our delivery network serves corporate offices, manufacturing units, e-commerce warehouses, and retail outlets with equal efficiency.
 
 The region's role in India's mobile manufacturing story (with Samsung, OPPO, Vivo, and others having facilities here) creates specialized logistics requirements. Components arrive from various parts of India and abroad, and finished products are distributed nationwide. Our network supports both inbound and outbound logistics for this sector.
 
-Greater Noida's industrial areas (Ecotech, Surajpur, Kasna) host manufacturing operations in diverse sectors — electronics, automotive components, consumer goods, and more. Our daily arrivals from West India ensure that these manufacturers have reliable supply chain support.`,
+Greater Noida's industrial areas (Ecotech, Surajpur, Kasna) host manufacturing operations in diverse sectors  electronics, automotive components, consumer goods, and more. Our daily arrivals from West India ensure that these manufacturers have reliable supply chain support.`,
     metaTitle: 'Part Load Delivery to Noida | Greater Noida | IT & Manufacturing Hub | BLI',
     metaDescription: 'Part load to Noida, Greater Noida from Gujarat, Mumbai. 8,000+ monthly deliveries. All sectors, industrial areas covered. IT, electronics, e-commerce specialists.',
     keyHighlights: [
@@ -1255,7 +1255,7 @@ Udyog Vihar, spread across five phases, hosts manufacturing and trading operatio
     description: 'Ghaziabad is NCR\'s manufacturing backbone with extensive industrial estates. BLI provides daily PTL delivery to Sahibabad, Loni, and all industrial zones.',
     longDescription: `Ghaziabad, often called the "Gateway of UP," is a major industrial city in the National Capital Region. The city hosts extensive industrial estates, including the famous Sahibabad Industrial Area, making it a significant manufacturing and trading hub.
 
-BLI Rapid's Ghaziabad operations cover all major industrial and commercial areas. The Sahibabad Industrial Area, one of Asia's largest, hosts thousands of manufacturing units across diverse sectors — steel, pipes, electronics, plastics, and more. Our daily delivery services ensure these manufacturers receive their supplies reliably.
+BLI Rapid's Ghaziabad operations cover all major industrial and commercial areas. The Sahibabad Industrial Area, one of Asia's largest, hosts thousands of manufacturing units across diverse sectors  steel, pipes, electronics, plastics, and more. Our daily delivery services ensure these manufacturers receive their supplies reliably.
 
 The city's position on the Delhi-Meerut corridor and its excellent connectivity to NH-24 and NH-9 make it a natural distribution point for UP and Uttarakhand. Many distribution companies use Ghaziabad as their North India hub, and our services support this secondary distribution model.
 
@@ -1339,9 +1339,9 @@ Ghaziabad's steel and pipe industry is particularly notable, with the city being
 
 BLI Rapid's Ludhiana operations serve the city's diverse manufacturing base, with particular focus on the textile and hosiery industry. The Focal Point and Industrial Area complexes host thousands of small and medium manufacturing units that require reliable logistics support for their pan-India distribution.
 
-The Gujarat to Punjab corridor is one of our strongest routes, driven by significant cargo flows — textile machinery and parts from Gujarat to Ludhiana's garment industry, chemicals for dyeing and processing, and return loads of finished hosiery products. Our network is optimized for these bidirectional flows.
+The Gujarat to Punjab corridor is one of our strongest routes, driven by significant cargo flows  textile machinery and parts from Gujarat to Ludhiana's garment industry, chemicals for dyeing and processing, and return loads of finished hosiery products. Our network is optimized for these bidirectional flows.
 
-We also serve Ludhiana's bicycle industry, which produces over 50% of India's bicycles, and the hand tools sector, which exports globally. Our handling protocols are designed for the specific requirements of these industries — from fabric-friendly vehicles for textiles to secure packaging for precision tools.
+We also serve Ludhiana's bicycle industry, which produces over 50% of India's bicycles, and the hand tools sector, which exports globally. Our handling protocols are designed for the specific requirements of these industries  from fabric-friendly vehicles for textiles to secure packaging for precision tools.
 
 With 7,000+ monthly deliveries, we've built strong relationships with Ludhiana's manufacturing community and understand the seasonal patterns (pre-winter hosiery rush) that affect logistics demand.`,
     metaTitle: 'Part Load Delivery to Ludhiana | Punjab Hosiery & Industrial | From Gujarat, Mumbai | BLI',
@@ -1430,7 +1430,7 @@ With 7,000+ monthly deliveries, we've built strong relationships with Ludhiana's
 
 BLI Rapid serves Kolkata through scheduled consolidated movements from our West India hubs. While the transit time is longer compared to North or South India routes (4-5 days from Gujarat), we maintain consistent service levels with fixed departure schedules and reliable arrival patterns.
 
-Our Kolkata coverage extends across all major commercial and industrial zones — from the traditional trading areas of Burrabazar and Howrah to modern industrial estates in Salt Lake, Dankuni, and Uluberia. The city's importance as a jute processing center, tea trading hub, and engineering goods manufacturer creates diverse logistics requirements that our network addresses.
+Our Kolkata coverage extends across all major commercial and industrial zones  from the traditional trading areas of Burrabazar and Howrah to modern industrial estates in Salt Lake, Dankuni, and Uluberia. The city's importance as a jute processing center, tea trading hub, and engineering goods manufacturer creates diverse logistics requirements that our network addresses.
 
 Kolkata also serves as our distribution center for the Northeast. Shipments destined for Guwahati, Patna, and other Eastern cities often transit through our Kolkata hub for onward dispatch. This hub-and-spoke model enables us to offer services to areas that might otherwise be difficult to serve efficiently.
 
@@ -1515,7 +1515,7 @@ BLI Rapid's Patna operations connect the city with our West India network throug
 
 Patna's economy is dominated by trading and distribution, with the city serving as a supply hub for Bihar's rural areas. FMCG companies, pharmaceutical distributors, and consumer goods traders form the core of our customer base. Our services support both inbound cargo to Patna and onward distribution to other Bihar cities.
 
-The Gujarat to Bihar route, while not as high-frequency as some others, carries important cargo flows — from medicines and FMCG products to construction materials and industrial supplies. Our network ensures that Bihar's growing economy has access to goods from India's manufacturing heartland.
+The Gujarat to Bihar route, while not as high-frequency as some others, carries important cargo flows  from medicines and FMCG products to construction materials and industrial supplies. Our network ensures that Bihar's growing economy has access to goods from India's manufacturing heartland.
 
 With 4,000+ monthly deliveries and steady growth, Patna represents our commitment to serving even India's developing markets with quality logistics services.`,
     metaTitle: 'Part Load Delivery to Patna | Bihar Gateway | From Gujarat, Mumbai | BLI',
@@ -1601,7 +1601,7 @@ BLI Rapid's Lucknow operations serve both the city's local needs and its functio
 
 The city's industrial profile is diverse, ranging from traditional Chikan handicrafts (for which Lucknow is globally famous) to modern industries like food processing, pharmaceuticals, and consumer goods. Our network serves all these sectors with appropriate handling and delivery protocols.
 
-The Gujarat to UP route carries significant cargo — chemicals and raw materials from Gujarat's industrial belt to UP's manufacturing sector, finished goods from Mumbai for UP consumption, and return loads of seasonal products. Our scheduled services ensure consistent delivery timelines for supply chain planning.
+The Gujarat to UP route carries significant cargo  chemicals and raw materials from Gujarat's industrial belt to UP's manufacturing sector, finished goods from Mumbai for UP consumption, and return loads of seasonal products. Our scheduled services ensure consistent delivery timelines for supply chain planning.
 
 With 5,000+ monthly deliveries and growing, Lucknow represents one of our key growth markets as UP's economy continues to expand.`,
     metaTitle: 'Part Load Delivery to Lucknow | UP Capital | From Gujarat, Mumbai | BLI',
@@ -1690,7 +1690,7 @@ With 5,000+ monthly deliveries and growing, Lucknow represents one of our key gr
 
 BLI Rapid's Bangalore operations cover all major industrial zones including the massive Peenya Industrial Area (one of Asia's largest), Electronic City, Whitefield, and the numerous industrial clusters along the ORR (Outer Ring Road). Our network serves both inbound cargo from manufacturing hubs and distribution shipments to Karnataka and neighboring states.
 
-The Vapi/Surat/Mumbai to Bangalore corridor is one of our strongest routes, with daily dispatch and consistent 3-4 day transit times. The route serves numerous industries — from chemical manufacturers in Gujarat shipping to Bangalore's pharma sector, to textile exporters in Surat supplying Bangalore's garment industry.
+The Vapi/Surat/Mumbai to Bangalore corridor is one of our strongest routes, with daily dispatch and consistent 3-4 day transit times. The route serves numerous industries  from chemical manufacturers in Gujarat shipping to Bangalore's pharma sector, to textile exporters in Surat supplying Bangalore's garment industry.
 
 Our Bangalore hub also supports onward distribution to other South Indian cities including Chennai, Hyderabad, and Kerala. Many clients use Bangalore as their South India distribution center, and our network facilitates this regional redistribution efficiently.
 
@@ -1781,9 +1781,9 @@ With 18,000+ monthly deliveries and 35 warehouse partnerships, we've developed d
 
 BLI Rapid's Chennai operations are tailored to serve the automotive supply chain, which dominates the city's industrial landscape. The Sriperumbudur-Oragadam auto corridor, with its numerous OEMs and tier-1/tier-2 suppliers, is a key focus area for our network. We understand the JIT (Just-In-Time) requirements of the auto industry and offer services designed around these needs.
 
-Beyond automotive, we serve Chennai's diverse industrial ecosystem — from the traditional manufacturing areas of Ambattur and Guindy to the port-adjacent zones of Manali and Ennore. Our connectivity with Chennai Port also enables us to support businesses involved in import-export logistics.
+Beyond automotive, we serve Chennai's diverse industrial ecosystem  from the traditional manufacturing areas of Ambattur and Guindy to the port-adjacent zones of Manali and Ennore. Our connectivity with Chennai Port also enables us to support businesses involved in import-export logistics.
 
-The Gujarat-Chennai route serves significant cargo flows — chemicals and petrochemicals from GIDC areas to Chennai's downstream industries, textiles from Surat to Chennai's garment exporters, and engineering goods bidirectionally. Our network is optimized for these consistent flows.
+The Gujarat-Chennai route serves significant cargo flows  chemicals and petrochemicals from GIDC areas to Chennai's downstream industries, textiles from Surat to Chennai's garment exporters, and engineering goods bidirectionally. Our network is optimized for these consistent flows.
 
 With 11,000+ monthly deliveries and automotive logistics expertise, we've established ourselves as a reliable partner for businesses across Chennai's industrial spectrum.`,
     metaTitle: 'Part Load Delivery to Chennai | Auto Logistics | From Gujarat, Mumbai | BLI',
@@ -1872,7 +1872,7 @@ With 11,000+ monthly deliveries and automotive logistics expertise, we've establ
 
 BLI Rapid's Hyderabad operations are designed around the unique requirements of the pharma industry, which dominates the city's logistics landscape. Our services include GDP-compliant handling, temperature monitoring options, and specialized vehicles for sensitive pharmaceutical cargo. The Patancheru-Jeedimetla-Medchal pharma belt receives particular attention in our network planning.
 
-Beyond pharma, we serve Hyderabad's diverse industrial ecosystem — from IT parks in Hitech City and Gachibowli to manufacturing units in Shamshabad and the traditional trading areas of Secunderabad. Our daily arrivals from West India ensure that businesses have reliable supply chain support.
+Beyond pharma, we serve Hyderabad's diverse industrial ecosystem  from IT parks in Hitech City and Gachibowli to manufacturing units in Shamshabad and the traditional trading areas of Secunderabad. Our daily arrivals from West India ensure that businesses have reliable supply chain support.
 
 The Vapi/Mumbai to Hyderabad corridor is particularly strong due to the chemical-to-pharma supply chain. Many API (Active Pharmaceutical Ingredient) shipments from Gujarat's chemical belt are destined for Hyderabad's pharma manufacturers, and our network is optimized for this flow.
 
@@ -1937,11 +1937,11 @@ With 12,000+ monthly deliveries and pharma-focused capabilities, we've become a 
     description: 'Complete NCR coverage including Delhi, Noida, Gurugram, Ghaziabad, Faridabad, and surrounding industrial zones.',
     longDescription: `The National Capital Region (NCR) represents India's largest economic zone, spanning Delhi and parts of Haryana, Uttar Pradesh, and Rajasthan. With a combined GDP exceeding $370 billion and population over 55 million, NCR is the most important market for any pan-India business.
 
-BLI Rapid provides comprehensive PTL coverage across the entire NCR region, treating it as an integrated logistics zone rather than separate cities. Our network connects all major nodes — Delhi's industrial areas (Okhla, Narela, Bawana), Noida and Greater Noida's manufacturing hubs, Gurugram's corporate and industrial districts, Ghaziabad's trading centers, and Faridabad's engineering clusters.
+BLI Rapid provides comprehensive PTL coverage across the entire NCR region, treating it as an integrated logistics zone rather than separate cities. Our network connects all major nodes  Delhi's industrial areas (Okhla, Narela, Bawana), Noida and Greater Noida's manufacturing hubs, Gurugram's corporate and industrial districts, Ghaziabad's trading centers, and Faridabad's engineering clusters.
 
 Our West India to NCR routes are among the strongest in our network, with daily departures and consistent 2-3 day transit times. The high frequency enables businesses to maintain lean inventories while ensuring product availability. Whether shipping from Vapi's chemical plants, Surat's textile mills, or Mumbai's warehouses, NCR delivery is reliable and predictable.
 
-The region's diverse requirements — from just-in-time auto parts to bulk FMCG, from high-value electronics to industrial machinery — are all addressed through our flexible service options. Express service for urgent shipments, scheduled deliveries for regular supply chains, and market-specific services for trading areas ensure that every need is met.
+The region's diverse requirements  from just-in-time auto parts to bulk FMCG, from high-value electronics to industrial machinery  are all addressed through our flexible service options. Express service for urgent shipments, scheduled deliveries for regular supply chains, and market-specific services for trading areas ensure that every need is met.
 
 NCR also serves as our primary redistribution hub for North India. Shipments destined for Punjab, Haryana, Rajasthan, and UP often transit through our NCR facilities, leveraging the region's excellent connectivity. This hub-and-spoke model enables efficient coverage of the entire North Indian market.`,
     metaTitle: 'Part Load Transport to Delhi NCR | Complete Region Coverage | From West India | BLI',
@@ -2047,7 +2047,7 @@ The region also serves as a gateway to Jammu & Kashmir, with many shipments tran
 
 BLI Rapid serves East India through scheduled consolidated movements from our West India hubs. Kolkata serves as our primary Eastern hub, with onward distribution to Bihar (Patna, Muzaffarpur), Jharkhand (Ranchi, Jamshedpur), Odisha (Bhubaneswar, Cuttack), and the Northeast (Guwahati).
 
-The West India to East India corridor carries diverse cargo — FMCG products for the region's growing consumer market, industrial supplies for manufacturing units, chemicals for downstream processing, and machinery for infrastructure projects. Our network ensures that businesses can reach this important market despite the distances involved.
+The West India to East India corridor carries diverse cargo  FMCG products for the region's growing consumer market, industrial supplies for manufacturing units, chemicals for downstream processing, and machinery for infrastructure projects. Our network ensures that businesses can reach this important market despite the distances involved.
 
 Transit times to East India are longer (4-6 days from Gujarat) compared to North or South routes, but we maintain consistent schedules that enable effective supply chain planning. Our consolidation model keeps costs competitive while ensuring regular departures.
 

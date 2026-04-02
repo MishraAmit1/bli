@@ -1,7 +1,5 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface BlogPostCardProps {
   title: string;
@@ -18,47 +16,45 @@ const BlogPostCard = ({
   imageUrl,
   date,
   slug,
-  category
+  category,
 }: BlogPostCardProps) => {
   return (
-    <Card className="overflow-hidden hover:shadow-lg hover:shadow-[#185EAA]/10 transition-all duration-300 h-full bg-[#F8FFFF] border-[#185EAA]/20">
-      <div className="grid grid-rows-[200px,1fr]">
-        <div
-          className="bg-cover bg-center"
-          style={{ backgroundImage: `url('${imageUrl}')` }}
-        >
-          <div className="w-full h-full bg-[#113C6A]/30 flex items-center justify-center">
-            <span className="px-3 py-1 bg-[#FF7729]/90 backdrop-blur-sm rounded-full text-sm font-medium text-[#FFFDF7] inline-block">
-              {category}
-            </span>
-          </div>
-        </div>
-        <CardContent className="p-6 bg-[#F8FFFF] flex flex-col">
-          <p className="text-[#0a213a]/90 text-sm mb-2">{date}</p>
+    <div className="overflow-hidden border border-gray-200 hover:shadow-md transition-all duration-300 h-full bg-white flex flex-col">
+      {/* Image */}
+      <div
+        className="bg-cover bg-center h-[200px] relative flex-shrink-0"
+        style={{ backgroundImage: `url('${imageUrl}')` }}
+      ></div>
 
-          {/* ✅ Title is the descriptive internal link */}
-          <h3 className="text-xl font-bold mb-2 line-clamp-2 text-[#113C6A]">
-            <Link to={`/resources/blogs/${slug}`}>
-              {title}
-            </Link>
-          </h3>
+      {/* Content */}
+      <div className="p-6 flex flex-col flex-grow">
+        <p className="text-gray-400 text-xs mb-3 uppercase tracking-wider">
+          {date}
+        </p>
 
-          <p className="text-[#0a213a]/90 mb-4 line-clamp-3">{excerpt}</p>
-
-          {/* ✅ Button is also a link, but short anchor + aria-label */}
-          <Link to={`/resources/blogs/${slug}`} className="mt-auto inline-block">
-            <Button
-              variant="outline"
-              className="group border-[#185EAA] text-[#113C6A] hover:bg-[#113C6A] hover:text-[#FFFDF7] hover:border-[#113C6A] w-full"
-              aria-label={`Read more about ${title}`}
-            >
-              Read more
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Button>
+        <h3 className="text-lg font-bold mb-3 line-clamp-2 text-[#1a1a1a] leading-snug">
+          <Link
+            to={`/resources/blogs/${slug}`}
+            className="hover:text-[#FF7300] transition-colors duration-300"
+          >
+            {title}
           </Link>
-        </CardContent>
+        </h3>
+
+        <p className="text-gray-500 text-sm font-light leading-relaxed mb-6 line-clamp-3">
+          {excerpt}
+        </p>
+
+        <Link
+          to={`/resources/blogs/${slug}`}
+          className="mt-auto group inline-flex items-center gap-1.5 text-[#1a1a1a] hover:text-[#FF7300] transition-colors duration-300"
+          aria-label={`Read more about ${title}`}
+        >
+          <span className="text-sm font-semibold">Read more</span>
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+        </Link>
       </div>
-    </Card>
+    </div>
   );
 };
 

@@ -1,881 +1,916 @@
-import { ArrowLeft, ArrowRight, Plane, Clock, Globe, Shield, Package, Zap, CheckCircle, Users, BarChart3, MapPin, Truck, AlertTriangle } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { motion } from "framer-motion";
-import { useEffect } from 'react';
-import PageLayout from '@/components/PageLayout';
-import { Card, CardContent } from "@/components/ui/card";
-import { Helmet } from 'react-helmet-async';
+import { useEffect, useRef, useState, memo, useCallback } from "react";
+import { motion, useInView } from "framer-motion";
+import {
+  ArrowRight,
+  ChevronRight,
+  ChevronLeft,
+  Plane,
+  Package,
+  Shield,
+  Globe,
+  AlertTriangle,
+  Truck,
+  Zap,
+  Clock,
+  CheckCircle,
+  MapPin,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import PageLayout from "@/components/PageLayout";
+import { Helmet } from "react-helmet-async";
 
-const AirCargoServices = () => {
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+/* ═══════════════ DATA ═══════════════ */
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.15, delayChildren: 0.3, duration: 0.8 },
-        },
-    };
+const navLinks = [
+  { label: "Overview", id: "overview" },
+  { label: "Our Services", id: "sub-services" },
+  { label: "How It Works", id: "how-it-works" },
+  { label: "Key Benefits", id: "benefits" },
+  { label: "Air Routes", id: "routes" },
+  { label: "FAQs", id: "faq" },
+];
 
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: { y: 0, opacity: 1, transition: { duration: 0.6 } },
-    };
+const subServices = [
+  {
+    id: 1,
+    title: "Express Air Freight",
+    brand: "Fastest • Urgent",
+    description:
+      "Next-day delivery for urgent shipments across domestic and international routes with priority handling.",
+    tags: ["Same-Day Pickup", "Next-Day Delivery", "Priority Handling"],
+    imageUrl: "/lovable-uploads/services2.webp",
+  },
+  {
+    id: 2,
+    title: "Consolidated Cargo",
+    brand: "Cost-Effective • Shared",
+    description:
+      "Cost-effective air freight for smaller shipments through cargo consolidation with multiple consignments.",
+    tags: ["Shared Space", "Lower Cost", "Weekly Departures"],
+    imageUrl: "/lovable-uploads/services1.webp",
+  },
+  {
+    id: 3,
+    title: "Secure High-Value Transport",
+    brand: "Protected • Monitored",
+    description:
+      "High-value and sensitive cargo with enhanced security protocols and 24/7 monitoring systems.",
+    tags: ["24/7 Monitoring", "Insurance", "Secure Handling"],
+    imageUrl: "/lovable-uploads/services3.webp",
+  },
+  {
+    id: 4,
+    title: "International Shipping",
+    brand: "Global • Customs Support",
+    description:
+      "Global air freight with customs clearance and complete documentation support for hassle-free shipping.",
+    tags: ["Customs Clearance", "Documentation", "500+ Destinations"],
+    imageUrl: "/lovable-uploads/services4.webp",
+  },
+  {
+    id: 5,
+    title: "Dangerous Goods",
+    brand: "IATA Certified • Compliant",
+    description:
+      "IATA-certified handling of hazardous materials and dangerous goods with specialized packaging.",
+    tags: ["IATA Certified", "Hazmat Trained", "Specialized Packaging"],
+    imageUrl: "/lovable-uploads/services5.webp",
+  },
+];
 
-    const services = [
-        {
-            icon: Plane,
-            title: "Express Air Freight",
-            description: "Next-day delivery for urgent shipments across domestic and international routes"
-        },
-        {
-            icon: Package,
-            title: "Consolidated Cargo",
-            description: "Cost-effective air freight for smaller shipments through cargo consolidation"
-        },
-        {
-            icon: Shield,
-            title: "Secure Transport",
-            description: "High-value and sensitive cargo with enhanced security protocols"
-        },
-        {
-            icon: Globe,
-            title: "International Shipping",
-            description: "Global air freight with customs clearance and documentation support"
-        },
-        {
-            icon: AlertTriangle,
-            title: "Dangerous Goods",
-            description: "IATA-certified handling of hazardous materials and dangerous goods"
-        },
-        {
-            icon: Truck,
-            title: "Door-to-Airport",
-            description: "Complete pickup and delivery service to and from airports"
-        }
-    ];
+const steps = [
+  {
+    title: "Booking & Documentation",
+    desc: "Air waybill creation, customs documentation, and booking confirmation with airline partners.",
+    image: "/lovable-uploads/services1.webp",
+  },
+  {
+    title: "Pickup & Security Screening",
+    desc: "Secure pickup from your location and mandatory airport security screening before loading.",
+    image: "/lovable-uploads/services2.webp",
+  },
+  {
+    title: "Flight Departure & Tracking",
+    desc: "Cargo loading, flight departure with real-time tracking and in-transit status updates.",
+    image: "/lovable-uploads/services3.webp",
+  },
+  {
+    title: "Customs & Final Delivery",
+    desc: "Customs clearance processing and final delivery to destination address with POD.",
+    image: "/lovable-uploads/services4.webp",
+  },
+];
 
-    const advantages = [
-        {
-            title: "Fastest Transit",
-            description: "Same-day to 48-hour delivery worldwide",
-            icon: Zap,
-            stat: "24-48 Hours"
-        },
-        {
-            title: "Global Reach",
-            description: "Access to 500+ destinations worldwide",
-            icon: Globe,
-            stat: "500+ Cities"
-        },
-        {
-            title: "High Security",
-            description: "Enhanced security for valuable cargo",
-            icon: Shield,
-            stat: "99.9% Safe"
-        },
-        {
-            title: "Time Critical",
-            description: "Perfect for urgent and perishable goods",
-            icon: Clock,
-            stat: "Emergency Ready"
-        }
-    ];
+const benefits = [
+  {
+    icon: Zap,
+    title: "Fastest Transit",
+    description:
+      "Same-day to 48-hour delivery worldwide. Emergency service available 24/7 for critical shipments.",
+  },
+  {
+    icon: Globe,
+    title: "Global Reach",
+    description:
+      "Access to 500+ destinations worldwide through our airline partnerships and hub network.",
+  },
+  {
+    icon: Shield,
+    title: "High Security",
+    description:
+      "Enhanced security for valuable cargo with insurance coverage up to cargo value and tracking.",
+  },
+  {
+    icon: Clock,
+    title: "Time Critical Perfect",
+    description:
+      "Ideal for urgent, perishable, and pharmaceutical goods requiring temperature-controlled transport.",
+  },
+];
 
-    const routes = [
-        {
-            route: "Mumbai - Delhi",
-            frequency: "Multiple daily",
-            transit: "2-4 hours",
-            type: "Domestic"
-        },
-        {
-            route: "Delhi - Dubai",
-            frequency: "Daily",
-            transit: "3-5 hours",
-            type: "International"
-        },
-        {
-            route: "Bangalore - Singapore",
-            frequency: "Daily",
-            transit: "4-6 hours",
-            type: "International"
-        },
-        {
-            route: "Chennai - Frankfurt",
-            frequency: "3x weekly",
-            transit: "8-12 hours",
-            type: "International"
-        },
-        {
-            route: "Kolkata - Bangkok",
-            frequency: "Daily",
-            transit: "2-4 hours",
-            type: "International"
-        },
-        {
-            route: "Hyderabad - London",
-            frequency: "Daily",
-            transit: "9-13 hours",
-            type: "International"
-        }
-    ];
+const routes = [
+  {
+    from: "Mumbai",
+    to: "Delhi",
+    transit: "2-4 hours",
+    frequency: "Multiple daily",
+  },
+  { from: "Delhi", to: "Dubai", transit: "3-5 hours", frequency: "Daily" },
+  {
+    from: "Bangalore",
+    to: "Singapore",
+    transit: "4-6 hours",
+    frequency: "Daily",
+  },
+  {
+    from: "Chennai",
+    to: "Frankfurt",
+    transit: "8-12 hours",
+    frequency: "3x weekly",
+  },
+  { from: "Kolkata", to: "Bangkok", transit: "2-4 hours", frequency: "Daily" },
+  {
+    from: "Hyderabad",
+    to: "London",
+    transit: "9-13 hours",
+    frequency: "Daily",
+  },
+];
 
-    const cargoTypes = [
-        {
-            type: "Pharmaceuticals",
-            description: "Temperature-controlled transport",
-            features: ["Cold chain", "GDP compliance", "Real-time monitoring"]
-        },
-        {
-            type: "Electronics",
-            description: "High-value technology products",
-            features: ["Anti-static packaging", "Secure handling", "Insurance coverage"]
-        },
-        {
-            type: "Perishables",
-            description: "Fresh produce and food items",
-            features: ["Temperature control", "Quick clearance", "Fresh handling"]
-        },
-        {
-            type: "Documents",
-            description: "Important business documents",
-            features: ["Same-day delivery", "Secure custody", "Proof of delivery"]
-        }
-    ];
+const faqs = [
+  {
+    question: "How fast is air cargo delivery?",
+    answer:
+      "Air cargo offers 24-48 hour delivery worldwide, with same-day to next-day delivery for domestic shipments. Emergency service available 24/7 with next available flight booking.",
+  },
+  {
+    question: "What is the cost of air cargo services?",
+    answer:
+      "Domestic air cargo starts at ₹80/kg, international at ₹150/kg, and express service at ₹200/kg. Rates vary based on destination, weight, dimensions, cargo type, and fuel surcharges.",
+  },
+  {
+    question: "Which airports does BLI serve for air cargo?",
+    answer:
+      "BLI serves 50+ airports across India including Mumbai (BOM), Delhi (DEL), Bangalore (BLR), Chennai (MAA), Hyderabad (HYD), and Kolkata (CCU) with cargo facilities.",
+  },
+  {
+    question: "What types of cargo can be shipped by air?",
+    answer:
+      "Air cargo handles pharmaceuticals, electronics, perishables, documents, dangerous goods (IATA certified), and high-value cargo with specialized temperature-controlled handling.",
+  },
+];
 
-    const airports = [
-        { city: "Mumbai", code: "BOM", cargo: "700K tons/year" },
-        { city: "Delhi", code: "DEL", cargo: "800K tons/year" },
-        { city: "Bangalore", code: "BLR", cargo: "400K tons/year" },
-        { city: "Chennai", code: "MAA", cargo: "300K tons/year" },
-        { city: "Hyderabad", code: "HYD", cargo: "250K tons/year" },
-        { city: "Kolkata", code: "CCU", cargo: "150K tons/year" }
-    ];
+/* ═══════════════ SUB-COMPONENTS ═══════════════ */
 
-    const features = [
-        "Real-time flight tracking and updates",
-        "Temperature-controlled cargo holds",
-        "Customs clearance assistance",
-        "Door-to-door pickup and delivery",
-        "Insurance coverage up to cargo value",
-        "24/7 emergency cargo handling",
-        "IATA dangerous goods certification",
-        "Multi-currency billing options"
-    ];
-
-    // Structured Data for Air Cargo Service
-    const structuredData = {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        "name": "Air Cargo Services",
-        "description": "Fastest air freight solutions for urgent shipments. 24-48 hour delivery worldwide, 500+ destinations, 99.9% safe delivery with 24/7 emergency service.",
-        "provider": {
-            "@type": "Organization",
-            "name": "BLI - Bansal Logistics of India",
-            "url": "https://blirapid.com"
-        },
-        "areaServed": [
-            {
-                "@type": "Country",
-                "name": "India"
-            },
-            {
-                "@type": "Place",
-                "name": "Worldwide"
-            }
-        ],
-        "offers": [
-            {
-                "@type": "Offer",
-                "name": "Domestic Air Cargo",
-                "price": "80",
-                "priceCurrency": "INR",
-                "priceSpecification": {
-                    "@type": "UnitPriceSpecification",
-                    "price": "80",
-                    "priceCurrency": "INR",
-                    "unitText": "per kg"
-                },
-                "description": "Same-day to next-day domestic delivery"
-            },
-            {
-                "@type": "Offer",
-                "name": "International Air Cargo",
-                "price": "150",
-                "priceCurrency": "INR",
-                "priceSpecification": {
-                    "@type": "UnitPriceSpecification",
-                    "price": "150",
-                    "priceCurrency": "INR",
-                    "unitText": "per kg"
-                },
-                "description": "24-48 hours international delivery"
-            }
-        ]
-    };
-
-    // FAQ Schema for Air Cargo
-    const faqSchema = {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "How fast is air cargo delivery?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Air cargo offers 24-48 hour delivery worldwide, with same-day to next-day delivery for domestic shipments and emergency service available 24/7."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What is the cost of air cargo services?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Domestic air cargo starts at ₹80/kg, international at ₹150/kg, and express service at ₹200/kg. Rates vary based on destination, weight, and cargo type."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Which airports does BLI serve for air cargo?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "BLI serves 50+ airports across India including Mumbai (BOM), Delhi (DEL), Bangalore (BLR), Chennai (MAA), Hyderabad (HYD), and Kolkata (CCU)."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What types of cargo can be shipped by air?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Air cargo handles pharmaceuticals, electronics, perishables, documents, dangerous goods (IATA certified), and high-value cargo with specialized handling."
-                }
-            }
-        ]
-    };
-
-    return (
-        <PageLayout>
-            <Helmet>
-                <title>Air Cargo Services India | 24-48 Hour Delivery | ₹80/kg | Emergency Hotline | BLI</title>
-                <meta name="description" content="Fastest air freight across India & worldwide. 24-48 hour delivery, 500+ destinations, 99.9% safe delivery. Domestic ₹80/kg, International ₹150/kg. 24/7 emergency service." />
-                <meta name="keywords" content="air cargo services india, air freight, express air cargo, international air freight, emergency air cargo, pharmaceutical air transport, same day air delivery, urgent cargo" />
-
-                {/* Open Graph */}
-                <meta property="og:title" content="Air Cargo Services - 24-48 Hour Worldwide Delivery | BLI" />
-                <meta property="og:description" content="Fastest air freight solutions. 500+ destinations, 99.9% safe delivery, 24/7 emergency service. Domestic & international air cargo." />
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://blirapid.com/services/air-cargo/" />
-
-
-                {/* Twitter Card */}
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content="Air Cargo - 500+ Destinations Worldwide | BLI" />
-                <meta name="twitter:description" content="Emergency air freight service. 24-48 hour delivery, IATA certified, temperature controlled." />
-
-                {/* Canonical URL */}
-                <link rel="canonical" href="https://blirapid.com/services/air-cargo/" />
-
-                {/* Structured Data */}
-                <script type="application/ld+json">
-                    {JSON.stringify(structuredData)}
-                </script>
-                <script type="application/ld+json">
-                    {JSON.stringify(faqSchema)}
-                </script>
-            </Helmet>
-
-            {/* Hero Section */}
-            <section className="relative pt-8 sm:pt-10 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8">
-                {/* Background image with overlay */}
-                <div
-                    className="absolute inset-0 bg-cover bg-center z-0"
-                    style={{ backgroundImage: 'url("/lovable-uploads/air-cargo-hero.webp")' }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-[#113C6A]/80 to-[#113C6A]/90 z-0" />
-
-                <div className="container mx-auto relative z-10">
-                    <div className="max-w-3xl mx-auto text-center">
-                        <motion.div
-                            initial="hidden"
-                            animate="visible"
-                            variants={containerVariants}
-                        >
-                            <motion.h1
-                                variants={itemVariants}
-                                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-[#F8FFFF] leading-tight"
-                            >
-                                Air Cargo Services
-                            </motion.h1>
-
-                            <motion.p
-                                variants={itemVariants}
-                                className="text-base sm:text-lg md:text-xl text-[#F8FFFF]/90 mb-6 sm:mb-8 leading-relaxed px-2 sm:px-0"
-                            >
-                                When time is critical, trust our air cargo solutions for the fastest, most reliable
-                                transportation of your urgent shipments across India and worldwide.
-                            </motion.p>
-
-                            <motion.div
-                                variants={itemVariants}
-                                className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center"
-                            >
-                                <Link
-                                    to="/contact"
-                                    className="inline-flex items-center justify-center w-full sm:w-auto px-5 sm:px-6 py-3 bg-[#FF7729] text-white rounded hover:bg-[#e56721] transition-all group text-sm sm:text-base"
-                                    aria-label="Get air cargo quote"
-                                >
-                                    <span>Get Air Cargo Quote</span>
-                                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform flex-shrink-0" />
-                                </Link>
-                                <button
-                                    onClick={() => {
-                                        const element = document.getElementById('air-routes');
-                                        if (element) element.scrollIntoView({ behavior: 'smooth' });
-                                    }}
-                                    className="inline-flex items-center justify-center w-full sm:w-auto px-5 sm:px-6 py-3 bg-transparent border-2 border-[#F8FFFF] text-[#F8FFFF] rounded hover:bg-[#F8FFFF] hover:text-[#113C6A] transition-all text-sm sm:text-base"
-                                    aria-label="View air cargo flight routes"
-                                >
-                                    <span>View Flight Routes</span>
-                                </button>
-                            </motion.div>
-                        </motion.div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Services Overview */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]" aria-labelledby="services-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="services-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Comprehensive Air Cargo Solutions
-                        </motion.h2>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {services.map((service, index) => (
-                                <motion.article key={index} variants={itemVariants}>
-                                    <Card className="h-full bg-white border border-[#185EAA]/20 hover:shadow-lg hover:shadow-[#185EAA]/10 transition-all hover:-translate-y-1">
-                                        <CardContent className="p-6">
-                                            <div className="w-14 h-14 bg-[#F8FFFF] rounded-lg flex items-center justify-center mb-4">
-                                                <service.icon className="w-7 h-7 text-[#185EAA]" aria-hidden="true" />
-                                            </div>
-                                            <h3 className="font-bold text-lg mb-2 text-[#113C6A]">{service.title}</h3>
-                                            <p className="text-[#21221C]/70 text-sm">{service.description}</p>
-                                        </CardContent>
-                                    </Card>
-                                </motion.article>
-                            ))}
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Advantages Section */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="advantages-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="advantages-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Why Choose Air Cargo?
-                        </motion.h2>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {advantages.map((advantage, index) => (
-                                <motion.article
-                                    key={index}
-                                    variants={itemVariants}
-                                    className="bg-white p-6 rounded-xl border border-[#185EAA]/20 text-center hover:shadow-lg hover:shadow-[#185EAA]/10 transition-all"
-                                >
-                                    <div className="w-16 h-16 bg-[#F8FFFF] rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <advantage.icon className="w-8 h-8 text-[#185EAA]" aria-hidden="true" />
-                                    </div>
-                                    <div className="text-2xl font-bold text-[#FF7729] mb-2">{advantage.stat}</div>
-                                    <h3 className="font-bold text-lg mb-2 text-[#113C6A]">{advantage.title}</h3>
-                                    <p className="text-[#21221C]/70 text-sm">{advantage.description}</p>
-                                </motion.article>
-                            ))}
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Air Routes */}
-            <section id="air-routes" className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]" aria-labelledby="routes-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="routes-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Key Air Routes
-                        </motion.h2>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {routes.map((route, index) => (
-                                <motion.article
-                                    key={index}
-                                    variants={itemVariants}
-                                    className="bg-white rounded-xl p-6 border border-[#185EAA]/20 hover:border-[#185EAA]/40 transition-all"
-                                >
-                                    <div className="flex items-start justify-between mb-4">
-                                        <h3 className="font-bold text-lg text-[#113C6A]">{route.route}</h3>
-                                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${route.type === 'International'
-                                            ? 'bg-[#FF7729] text-white'
-                                            : 'bg-[#F8FFFF] text-[#185EAA] border border-[#185EAA]/20'
-                                            }`}>
-                                            {route.type}
-                                        </span>
-                                    </div>
-
-                                    <div className="space-y-2 text-sm">
-                                        <div className="flex justify-between">
-                                            <span className="text-[#21221C]/70">Frequency:</span>
-                                            <span className="font-medium text-[#113C6A]">{route.frequency}</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-[#21221C]/70">Transit Time:</span>
-                                            <span className="font-medium text-[#113C6A]">{route.transit}</span>
-                                        </div>
-                                    </div>
-                                </motion.article>
-                            ))}
-                        </div>
-
-                        <motion.div
-                            variants={itemVariants}
-                            className="mt-8 text-center"
-                        >
-                            <p className="text-[#21221C]/80 mb-4">
-                                Connect to 500+ destinations worldwide through our airline partnerships
-                            </p>
-                            <Link
-                                to="/contact"
-                                className="inline-flex items-center text-[#185EAA] hover:text-[#FF7729] transition-colors"
-                                aria-label="Check air cargo availability for your destination"
-                            >
-                                Check availability for your destination
-                                <ArrowRight className="ml-2 w-4 h-4" />
-                            </Link>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Cargo Types */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="cargo-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="cargo-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Specialized Cargo Handling
-                        </motion.h2>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {cargoTypes.map((cargo, index) => (
-                                <motion.article
-                                    key={index}
-                                    variants={itemVariants}
-                                    className="bg-white rounded-xl p-6 border border-[#185EAA]/20 hover:shadow-lg hover:shadow-[#185EAA]/10 transition-all"
-                                >
-                                    <div className="w-16 h-16 bg-[#F8FFFF] rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <Package className="w-8 h-8 text-[#185EAA]" aria-hidden="true" />
-                                    </div>
-                                    <h3 className="font-bold text-lg mb-2 text-[#113C6A]">{cargo.type}</h3>
-                                    <p className="text-[#21221C]/70 text-sm mb-3">{cargo.description}</p>
-                                    <ul className="space-y-1" role="list">
-                                        {cargo.features.map((feature, featureIndex) => (
-                                            <li key={featureIndex} className="flex items-center text-xs">
-                                                <CheckCircle className="w-3 h-3 text-[#FF7729] mr-2 flex-shrink-0" aria-hidden="true" />
-                                                <span className="text-[#21221C]/70">{feature}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </motion.article>
-                            ))}
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Airport Network */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]" aria-labelledby="airports-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="airports-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Our Airport Network
-                        </motion.h2>
-
-                        <motion.div
-                            variants={itemVariants}
-                            className="bg-white rounded-xl p-8 border border-[#185EAA]/20"
-                        >
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {airports.map((airport, index) => (
-                                    <article key={index} className="border border-[#185EAA]/10 rounded-lg p-4 hover:border-[#185EAA]/30 transition-all">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <h3 className="font-bold text-lg text-[#113C6A]">{airport.city}</h3>
-                                            <span className="px-2 py-1 bg-[#F8FFFF] text-[#185EAA] rounded text-sm font-mono">
-                                                {airport.code}
-                                            </span>
-                                        </div>
-                                        <p className="text-[#21221C]/70 text-sm">
-                                            <strong>Cargo Volume:</strong> {airport.cargo}
-                                        </p>
-                                    </article>
-                                ))}
-                            </div>
-
-                            <div className="mt-8 pt-6 border-t border-[#185EAA]/20 text-center">
-                                <p className="text-[#21221C]/80 mb-4">
-                                    <strong>Total Network:</strong> 50+ airports across India with cargo facilities
-                                </p>
-                                <Link
-                                    to="/contact"
-                                    className="inline-flex items-center text-[#185EAA] hover:text-[#FF7729] transition-colors"
-                                    aria-label="Find nearest cargo airport"
-                                >
-                                    Find nearest cargo airport
-                                    <ArrowRight className="ml-2 w-4 h-4" />
-                                </Link>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Process & Features */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="process-features">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                        className="grid grid-cols-1 lg:grid-cols-2 gap-12"
-                    >
-                        {/* Process */}
-                        <motion.div variants={itemVariants}>
-                            <h3 id="process-features" className="text-2xl font-bold mb-6 text-[#113C6A]">
-                                Air Cargo Process
-                            </h3>
-                            <ol className="space-y-4" role="list">
-                                {[
-                                    { step: "1", title: "Booking & Documentation", description: "Air waybill creation and customs documentation" },
-                                    { step: "2", title: "Pickup & Security", description: "Secure pickup and airport security screening" },
-                                    { step: "3", title: "Flight Departure", description: "Cargo loading and flight departure tracking" },
-                                    { step: "4", title: "In-Transit Updates", description: "Real-time flight tracking and status updates" },
-                                    { step: "5", title: "Customs & Delivery", description: "Customs clearance and final delivery" }
-                                ].map((item, index) => (
-                                    <li key={index} className="flex items-start bg-white p-4 rounded-lg border border-[#185EAA]/20">
-                                        <div className="w-8 h-8 bg-[#185EAA] text-white rounded-full flex items-center justify-center text-sm font-bold mr-4 flex-shrink-0">
-                                            <span aria-label={`Step ${item.step}`}>{item.step}</span>
-                                        </div>
-                                        <div>
-                                            <h4 className="font-semibold text-[#113C6A] mb-1">{item.title}</h4>
-                                            <p className="text-[#21221C]/70 text-sm">{item.description}</p>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ol>
-                        </motion.div>
-
-                        {/* Features */}
-                        <motion.div variants={itemVariants}>
-                            <h3 className="text-2xl font-bold mb-6 text-[#113C6A]">
-                                Service Features
-                            </h3>
-                            <div className="bg-white rounded-xl p-6 border border-[#185EAA]/20">
-                                <ul className="space-y-3" role="list">
-                                    {features.map((feature, index) => (
-                                        <li key={index} className="flex items-start">
-                                            <CheckCircle className="w-5 h-5 text-[#FF7729] mt-0.5 mr-3 flex-shrink-0" aria-hidden="true" />
-                                            <span className="text-[#21221C]/80 text-sm">{feature}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Pricing Structure */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FFFF]" aria-labelledby="pricing-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="pricing-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Air Cargo Pricing
-                        </motion.h2>
-
-                        <motion
-                            .div
-                            variants={itemVariants}
-                            className="bg-white rounded-xl p-8 border border-[#185EAA]/20"
-                        >
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                <div className="text-center">
-                                    <div className="w-20 h-20 bg-[#F8FFFF] rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <MapPin className="w-10 h-10 text-[#185EAA]" aria-hidden="true" />
-                                    </div>
-                                    <h3 className="font-bold text-xl mb-2 text-[#113C6A]">Domestic</h3>
-                                    <p className="text-3xl font-bold text-[#FF7729] mb-2">₹80/kg</p>
-                                    <p className="text-[#21221C]/70 text-sm">Starting rate</p>
-                                    <p className="text-[#21221C]/70 text-xs mt-1">Same-day to next-day</p>
-                                </div>
-
-                                <div className="text-center">
-                                    <div className="w-20 h-20 bg-[#F8FFFF] rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <Globe className="w-10 h-10 text-[#185EAA]" aria-hidden="true" />
-                                    </div>
-                                    <h3 className="font-bold text-xl mb-2 text-[#113C6A]">International</h3>
-                                    <p className="text-3xl font-bold text-[#FF7729] mb-2">₹150/kg</p>
-                                    <p className="text-[#21221C]/70 text-sm">Starting rate</p>
-                                    <p className="text-[#21221C]/70 text-xs mt-1">24-48 hours</p>
-                                </div>
-
-                                <div className="text-center">
-                                    <div className="w-20 h-20 bg-[#F8FFFF] rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <Zap className="w-10 h-10 text-[#185EAA]" aria-hidden="true" />
-                                    </div>
-                                    <h3 className="font-bold text-xl mb-2 text-[#113C6A]">Express</h3>
-                                    <p className="text-3xl font-bold text-[#FF7729] mb-2">₹200/kg</p>
-                                    <p className="text-[#21221C]/70 text-sm">Premium rate</p>
-                                    <p className="text-[#21221C]/70 text-xs mt-1">Next available flight</p>
-                                </div>
-                            </div>
-
-                            <div className="mt-8 pt-6 border-t border-[#185EAA]/20 text-center">
-                                <p className="text-[#21221C]/80 text-sm mb-4">
-                                    * Rates vary based on destination, weight, dimensions, and cargo type. Fuel surcharges may apply.
-                                </p>
-                                <Link
-                                    to="/contact"
-                                    className="inline-flex items-center text-[#185EAA] hover:text-[#FF7729] transition-colors"
-                                    aria-label="Get detailed air cargo quote"
-                                >
-                                    Get detailed quote for your shipment
-                                    <ArrowRight className="ml-2 w-4 h-4" />
-                                </Link>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Emergency Services */}
-            <section className="py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="emergency-heading">
-                <div className="container mx-auto max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={containerVariants}
-                    >
-                        <motion.h2
-                            id="emergency-heading"
-                            variants={itemVariants}
-                            className="text-3xl font-bold mb-12 text-center text-[#113C6A]"
-                        >
-                            Emergency Air Cargo
-                        </motion.h2>
-
-                        <motion.article
-                            variants={itemVariants}
-                            className="bg-gradient-to-r from-[#FF7729] to-[#e56721] rounded-xl p-8 text-white"
-                        >
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                                <div>
-                                    <div className="inline-block px-3 py-1 bg-white/20 rounded-full text-sm font-medium mb-4">
-                                        24/7 Emergency Service
-                                    </div>
-                                    <h3 className="text-2xl font-bold mb-4">
-                                        Critical Cargo Solutions
-                                    </h3>
-                                    <p className="text-white/90 mb-6">
-                                        When every minute counts, our emergency air cargo service ensures your critical
-                                        shipments reach their destination on the next available flight, 24/7.
-                                    </p>
-                                    <div className="grid grid-cols-2 gap-4 mb-6">
-                                        <div>
-                                            <p className="text-3xl font-bold">2-4hrs</p>
-                                            <p className="text-sm text-white/80">Emergency Pickup</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-3xl font-bold">24/7</p>
-                                            <p className="text-sm text-white/80">Service Available</p>
-                                        </div>
-                                    </div>
-                                    <a
-                                        href="tel:+919687448434"
-                                        className="inline-flex items-center px-6 py-3 bg-white text-[#FF7729] rounded hover:bg-gray-100 transition-all font-semibold"
-                                        aria-label="Call emergency air cargo hotline"
-                                    >
-                                        Emergency Hotline
-                                        <ArrowRight className="ml-2 w-4 h-4" />
-                                    </a>
-                                </div>
-                                <div className="relative">
-                                    <img
-                                        src="/lovable-uploads/6b0637e9-4a7b-40d0-b219-c8b7f879f93e.webp"
-                                        alt="BLI emergency air cargo operations and urgent freight handling"
-                                        className="rounded-lg shadow-xl"
-                                        loading="lazy"
-                                    />
-                                </div>
-                            </div>
-                        </motion.article>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Hidden FAQ Section for SEO */}
-            <section className="sr-only" aria-label="Frequently Asked Questions">
-                <h2>Frequently Asked Questions about Air Cargo Services</h2>
-                <dl>
-                    <dt>How fast is air cargo delivery?</dt>
-                    <dd>Air cargo offers 24-48 hour delivery worldwide, with same-day to next-day delivery for domestic shipments and emergency service available 24/7.</dd>
-
-                    <dt>What is the cost of air cargo services?</dt>
-                    <dd>Domestic air cargo starts at ₹80/kg, international at ₹150/kg, and express service at ₹200/kg. Rates vary based on destination, weight, and cargo type.</dd>
-
-                    <dt>Which airports does BLI serve for air cargo?</dt>
-                    <dd>BLI serves 50+ airports across India including Mumbai (BOM), Delhi (DEL), Bangalore (BLR), Chennai (MAA), Hyderabad (HYD), and Kolkata (CCU).</dd>
-
-                    <dt>What types of cargo can be shipped by air?</dt>
-                    <dd>Air cargo handles pharmaceuticals, electronics, perishables, documents, dangerous goods (IATA certified), and high-value cargo with specialized handling.</dd>
-
-                    <dt>Is emergency air cargo service available?</dt>
-                    <dd>Yes, BLI offers 24/7 emergency air cargo service with 2-4 hour pickup and next available flight booking for critical shipments.</dd>
-                </dl>
-            </section>
-
-            {/* CTA Section */}
-            <section
-                className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#FFFDF7] to-[#113C6A] text-[#FFFDF7]"
-                aria-labelledby="aircargo-cta"
+const SubServiceCard = memo(
+  ({ service }: { service: (typeof subServices)[0] }) => (
+    <div className="group flex-shrink-0 w-[85vw] sm:w-[60vw] md:w-[45vw] lg:w-[28vw] min-w-[260px]">
+      <div className="relative overflow-hidden h-[180px] sm:h-[200px]">
+        <img
+          src={service.imageUrl}
+          alt={service.title}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+        <p className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 text-white/70 text-[10px] sm:text-[11px] font-medium uppercase tracking-widest">
+          {service.brand}
+        </p>
+      </div>
+      <div className="pt-4 sm:pt-5 pb-5 sm:pb-6 border-b border-gray-200">
+        <h3 className="text-[#1a1a1a] text-sm sm:text-base font-bold leading-snug mb-1.5 sm:mb-2 group-hover:text-[#113C6A] transition-colors duration-300">
+          {service.title}
+        </h3>
+        <p className="text-gray-500 text-xs sm:text-sm font-light leading-relaxed mb-3 sm:mb-4 line-clamp-2">
+          {service.description}
+        </p>
+        <div className="flex flex-wrap gap-1 sm:gap-1.5">
+          {service.tags.map((tag, idx) => (
+            <span
+              key={idx}
+              className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-gray-500 text-[10px] sm:text-[11px] border border-gray-200"
             >
-                <div className="container mx-auto max-w-4xl text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        {/* Heading */}
-                        <h2 id="aircargo-cta" className="text-3xl font-bold mb-4 text-[#113C6A]">
-                            Need Urgent Air Cargo?
-                        </h2>
-                        <p className="text-[#000]/90 mb-8 text-lg">
-                            Get your time-critical shipments delivered faster with our reliable air cargo services.
-                        </p>
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  ),
+);
 
-                        {/* CTA Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                            <Link
-                                to="/contact"
-                                aria-label="Book Air Cargo Service"
-                                className="inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3 bg-[#FF7729] text-white rounded hover:bg-[#e56721] transition-all group text-sm sm:text-base"
-                            >
-                                <span>Book Air Cargo Now</span>
-                                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform flex-shrink-0" />
-                            </Link>
-                            <a
-                                href="tel:+919687448434"
-                                aria-label="Call Air Cargo Emergency Hotline"
-                                className="inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3 bg-transparent border-2 border-[#F8FFFF] text-[#F8FFFF] rounded hover:bg-[#F8FFFF] hover:text-[#113C6A] transition-all text-sm sm:text-base"
-                            >
-                                <Users className="mr-2 w-4 h-4 flex-shrink-0" />
-                                <span>Emergency Hotline</span>
-                            </a>
-                        </div>
-
-                        {/* Trust Indicators */}
-                        <div className="mt-12 pt-12 border-t border-[#F8FFFF]/20">
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                                <div>
-                                    <p className="text-3xl sm:text-4xl font-bold text-[#FF7729]">24-48hrs</p>
-                                    <p className="text-[#000]/80 mt-1">Global Delivery</p>
-                                </div>
-                                <div>
-                                    <p className="text-3xl sm:text-4xl font-bold text-[#FF7729]">500+</p>
-                                    <p className="text-[#000]/80 mt-1">Destinations</p>
-                                </div>
-                                <div>
-                                    <p className="text-3xl sm:text-4xl font-bold text-[#FF7729]">99.9%</p>
-                                    <p className="text-[#000]/80 mt-1">Safe Delivery</p>
-                                </div>
-                                <div>
-                                    <p className="text-3xl sm:text-4xl font-bold text-[#FF7729]">24/7</p>
-                                    <p className="text-[#000]/80 mt-1">Emergency Service</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Additional Contact Info */}
-                        <div className="mt-8 text-[#000]/80">
-                            <p className="text-sm">Emergency air cargo needed?</p>
-                            <a href="tel:+919687448434" className="text-xl font-bold text-[#113C6A] hover:text-[#FF7729] transition-colors">
-                                +91-968 744 8434
-                            </a>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-        </PageLayout>
-    );
+const FAQItem = ({ faq, index }: { faq: (typeof faqs)[0]; index: number }) => {
+  const [open, setOpen] = useState(index === 0);
+  return (
+    <div className="border-b border-gray-200 last:border-b-0">
+      <button
+        className="w-full flex items-start justify-between gap-4 sm:gap-8 py-6 pr-4 text-left group"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+      >
+        <h3
+          className="text-sm sm:text-base lg:text-lg font-semibold leading-snug max-w-3xl transition-colors"
+          style={{ color: open ? "#113C6A" : "#1C1825" }}
+        >
+          {faq.question}
+        </h3>
+        <span
+          className={`flex-shrink-0 mt-1 transition-transform duration-500 ${open ? "rotate-180" : ""}`}
+        >
+          <svg viewBox="0 0 48 48" width="20" height="20" fill="none">
+            <path
+              d="M4 16.2C4 15.97 4.08 15.74 4.24 15.55C4.6 15.13 5.23 15.09 5.65 15.45L24.04 31.32C24.18 31.44 24.44 31.43 24.57 31.31L42.31 14.87C42.72 14.49 43.35 14.52 43.72 14.92C44.09 15.32 44.07 15.96 43.67 16.33L25.94 32.77C25.06 33.59 23.65 33.61 22.74 32.83L4.35 16.96C4.12 16.76 4 16.48 4 16.2Z"
+              fill={open ? "#113C6A" : "#9ca3af"}
+              stroke={open ? "#113C6A" : "#9ca3af"}
+              strokeWidth="2"
+            />
+          </svg>
+        </span>
+      </button>
+      <div
+        className={`overflow-hidden transition-all duration-500 ease-in-out ${open ? "max-h-96 opacity-100 pb-6" : "max-h-0 opacity-0"}`}
+      >
+        <p
+          className="font-light max-w-3xl text-sm sm:text-base lg:text-lg"
+          style={{
+            lineHeight: "27px",
+            color: "rgb(28, 24, 37)",
+          }}
+        >
+          {faq.answer}
+        </p>
+      </div>
+    </div>
+  );
 };
 
-export default AirCargoServices;
+/* ═══════════════ MAIN PAGE ═══════════════ */
+
+const AirCargoServices = () => {
+  const [activeSection, setActiveSection] = useState("overview");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const maxIndex = subServices.length - 1;
+
+  const overviewRef = useRef<HTMLElement>(null);
+  const subServicesRef = useRef<HTMLElement>(null);
+  const howItWorksRef = useRef<HTMLElement>(null);
+  const benefitsRef = useRef<HTMLElement>(null);
+  const routesRef = useRef<HTMLElement>(null);
+  const faqRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    const sections = [
+      { id: "overview", ref: overviewRef },
+      { id: "sub-services", ref: subServicesRef },
+      { id: "how-it-works", ref: howItWorksRef },
+      { id: "benefits", ref: benefitsRef },
+      { id: "routes", ref: routesRef },
+      { id: "faq", ref: faqRef },
+    ];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px", threshold: 0 },
+    );
+    sections.forEach(({ ref }) => {
+      if (ref.current) observer.observe(ref.current);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  const goToPrev = useCallback(
+    () => setCurrentIndex((p) => Math.max(p - 1, 0)),
+    [],
+  );
+  const goToNext = useCallback(
+    () => setCurrentIndex((p) => Math.min(p + 1, maxIndex)),
+    [maxIndex],
+  );
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  }, []);
+  const onTouchMove = useCallback(
+    (e: React.TouchEvent) => setTouchEnd(e.targetTouches[0].clientX),
+    [],
+  );
+  const onTouchEnd = useCallback(() => {
+    if (!touchStart || !touchEnd) return;
+    const d = touchStart - touchEnd;
+    if (d > 50) goToNext();
+    else if (d < -50) goToPrev();
+  }, [touchStart, touchEnd, goToNext, goToPrev]);
+
+  const overviewInView = useInView(overviewRef, {
+    once: true,
+    margin: "-80px",
+  });
+  const stepsInView = useInView(howItWorksRef, { once: true, margin: "-80px" });
+  const benefitsInView = useInView(benefitsRef, {
+    once: true,
+    margin: "-80px",
+  });
+  const routesInView = useInView(routesRef, { once: true, margin: "-80px" });
+
+  const getSlideOffset = () => {
+    if (typeof window === "undefined") return 29.4;
+    const width = window.innerWidth;
+    if (width < 640) return 88;
+    if (width < 768) return 62;
+    if (width < 1024) return 47;
+    return 29.4;
+  };
+
+  return (
+    <PageLayout>
+      <Helmet>
+        <title>
+          Air Cargo Services India | 24-48 Hour Delivery | ₹80/kg | Emergency
+          Hotline | BLI
+        </title>
+        <meta
+          name="description"
+          content="Fastest air freight across India & worldwide. 24-48 hour delivery, 500+ destinations, 99.9% safe delivery. Domestic ₹80/kg, International ₹150/kg. 24/7 emergency service."
+        />
+        <link rel="canonical" href="https://blirapid.com/services/air-cargo/" />
+      </Helmet>
+
+      {/* ══════════ HERO ══════════ */}
+      <div className="relative w-full h-[50vh] min-h-[420px] sm:h-[55vh] lg:h-[65vh] lg:max-h-[550px] overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/lovable-uploads/services2.webp"
+            alt="Air Cargo Services"
+            className="w-full h-full object-cover object-center"
+            fetchPriority="high"
+            loading="eager"
+          />
+        </div>
+
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/20 via-black/40 to-black/80 flex items-center">
+          <div className="max-w-[1280px] w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+            <nav className="mb-3 sm:mb-4" aria-label="Breadcrumb">
+              <ol className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+                <li>
+                  <Link
+                    to="/"
+                    className="text-white/90 hover:text-white text-[10px] sm:text-xs lg:text-sm font-semibold transition-colors"
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li className="text-white/70">
+                  <ChevronRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                </li>
+                <li>
+                  <Link
+                    to="/services"
+                    className="text-white/80 hover:text-white text-[10px] sm:text-xs lg:text-sm font-semibold transition-colors"
+                  >
+                    All Services
+                  </Link>
+                </li>
+                <li className="text-white/70">
+                  <ChevronRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                </li>
+                <li>
+                  <span className="text-white/60 text-[10px] sm:text-xs lg:text-sm font-semibold">
+                    Air Cargo
+                  </span>
+                </li>
+              </ol>
+            </nav>
+
+            <h1 className="font-bold text-white uppercase tracking-normal mb-2 sm:mb-3 text-[32px] leading-[38px] sm:text-[40px] sm:leading-[46px] md:text-[44px] md:leading-[52px] lg:text-[48px] lg:leading-[56px]">
+              <span className="block">Air Cargo</span>
+              <span className="block">Services</span>
+            </h1>
+
+            <p className="font-light max-w-xl mt-3 sm:mt-4 tracking-wide text-white/90 text-sm sm:text-base md:text-[17px] md:leading-[26px] lg:text-[18px] lg:leading-[27px]">
+              When time is critical, trust our air cargo solutions for fastest,
+              most reliable transportation. 24-48 hour delivery worldwide to
+              500+ destinations with 24/7 emergency service.
+            </p>
+
+            <div className="mt-5 sm:mt-6">
+              <Link
+                to="/contact"
+                className="group inline-flex items-center gap-2 sm:gap-2.5 border border-white px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 hover:bg-white hover:text-[#1a1a1a] transition-all duration-300"
+              >
+                <span className="font-medium text-xs sm:text-sm text-white group-hover:text-[#1a1a1a] transition-colors duration-300">
+                  Get Air Cargo Quote
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-[#1a1a1a] group-hover:translate-x-1 transition-all duration-300" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ══════════ STICKY NAV ══════════ */}
+      <nav
+        className="bg-slate-100 border-b border-gray-200 sticky top-[56px] sm:top-[64px] lg:top-[66px] z-50 overflow-x-auto scrollbar-hide"
+        aria-label="Page sections"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="flex items-center min-w-max">
+            {navLinks.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document
+                      .getElementById(item.id)
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className={`relative py-3 sm:py-3.5 px-1 mr-5 sm:mr-6 lg:mr-8 text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap ${
+                    isActive
+                      ? "text-[#113C6A]"
+                      : "text-gray-400 hover:text-[#1a1a1a]"
+                  }`}
+                >
+                  {item.label}
+                  <span
+                    className={`absolute bottom-0 left-0 w-full h-[2px] bg-[#113C6A] transition-all duration-300 ${isActive ? "opacity-100" : "opacity-0"}`}
+                  />
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </nav>
+
+      {/* ══════════ OVERVIEW ══════════ */}
+      <section
+        id="overview"
+        ref={overviewRef}
+        className="py-12 sm:py-14 md:py-16 lg:py-20 bg-white"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <motion.div
+            className="text-center max-w-3xl mx-auto mb-8 sm:mb-9 lg:mb-10"
+            initial={{ opacity: 0, y: 30 }}
+            animate={overviewInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+              What Is Air Cargo
+            </p>
+            <h2 className="font-bold uppercase tracking-normal mb-3 text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+              <span className="block">Ship Fastest.</span>
+              <span className="block">Deliver Urgently.</span>
+            </h2>
+            <p className="font-light text-sm sm:text-base md:text-[17px] md:leading-[26px] lg:text-[18px] lg:leading-[27px] text-[#1C1825]">
+              Air cargo provides the fastest shipping solution for time-critical
+              shipments — delivering in 24-48 hours worldwide with 99.9% safe
+              delivery and access to 500+ destinations through our airline
+              partnerships.
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-gray-200"
+            initial={{ opacity: 0, y: 20 }}
+            animate={overviewInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            {[
+              { value: "24-48hr", label: "Global Delivery" },
+              { value: "500+", label: "Destinations" },
+              { value: "99.9%", label: "Safe Delivery" },
+              { value: "24/7", label: "Emergency Service" },
+            ].map((stat, i) => (
+              <div key={i} className="bg-white p-4 sm:p-5 lg:p-6 text-center">
+                <div className="font-bold leading-none mb-1 text-[32px] sm:text-[38px] lg:text-[44px] text-black">
+                  {stat.value}
+                </div>
+                <div className="font-light text-xs sm:text-sm lg:text-base text-[#1C1825]">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ══════════ SUB-SERVICES SLIDER ══════════ */}
+      <section
+        id="sub-services"
+        ref={subServicesRef}
+        className="bg-gray-50 py-12 sm:py-14 md:py-16 lg:py-20 w-full overflow-hidden"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-5 lg:gap-6 mb-8 sm:mb-9 lg:mb-10">
+            <div className="max-w-2xl">
+              <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+                Our Air Cargo Services
+              </p>
+              <h2 className="font-bold uppercase tracking-normal mb-2 text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+                <span className="block">Complete Air</span>
+                <span className="block">Freight Solutions</span>
+              </h2>
+              <p className="font-light max-w-lg text-sm sm:text-base md:text-[17px] md:leading-[26px] lg:text-[18px] lg:leading-[27px] text-[#1C1825]">
+                From express freight to dangerous goods handling with IATA
+                certification for every air cargo need.
+              </p>
+            </div>
+            <div className="flex-shrink-0">
+              <Link
+                to="/contact"
+                className="group inline-flex items-center gap-2 sm:gap-2.5 border border-[#1a1a1a] px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+              >
+                <span className="font-medium text-xs sm:text-sm text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
+                  Get Quote
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="relative"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
+          <div className="overflow-hidden pl-4 sm:pl-6 md:pl-8 lg:pl-12">
+            <div
+              ref={trackRef}
+              className="flex transition-transform duration-500 ease-out gap-3 sm:gap-4 lg:gap-5"
+              style={{
+                transform: `translateX(-${currentIndex * getSlideOffset()}vw)`,
+              }}
+            >
+              {subServices.map((s) => (
+                <SubServiceCard key={s.id} service={s} />
+              ))}
+            </div>
+          </div>
+          <div className="flex items-center gap-2 justify-end mt-5 sm:mt-6 pr-4 sm:pr-6 md:pr-8 lg:pr-12">
+            <button
+              onClick={goToPrev}
+              disabled={currentIndex === 0}
+              className="w-9 h-9 sm:w-10 sm:h-10 border border-gray-200 flex items-center justify-center text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
+              aria-label="Previous"
+            >
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+            <button
+              onClick={goToNext}
+              disabled={currentIndex >= maxIndex}
+              className="w-9 h-9 sm:w-10 sm:h-10 border border-gray-200 flex items-center justify-center text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
+              aria-label="Next"
+            >
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════ HOW IT WORKS ══════════ */}
+      <section
+        id="how-it-works"
+        ref={howItWorksRef}
+        className="py-12 sm:py-14 md:py-16 lg:py-20 bg-gradient-to-b from-white to-gray-50"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <motion.div
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-5 lg:gap-6 mb-10 sm:mb-11 lg:mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            animate={stepsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="max-w-2xl">
+              <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+                How It Works
+              </p>
+              <h2 className="font-bold uppercase tracking-normal text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+                <span className="block">From Booking</span>
+                <span className="block">To Delivery</span>
+              </h2>
+            </div>
+            <div className="flex-shrink-0">
+              <Link
+                to="/contact"
+                className="group inline-flex items-center gap-2 sm:gap-2.5 border border-[#1a1a1a] px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+              >
+                <span className="font-medium text-xs sm:text-sm text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
+                  Get Started
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+              </Link>
+            </div>
+          </motion.div>
+
+          <div className="space-y-0">
+            {steps.map((step, idx) => (
+              <motion.div
+                key={idx}
+                className="relative border-l-2 border-gray-200 pl-6 sm:pl-7 md:pl-8 lg:pl-10 pb-10 sm:pb-11 lg:pb-12 last:pb-0"
+                initial={{ opacity: 0, x: -20 }}
+                animate={stepsInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: idx * 0.15 }}
+              >
+                <div className="absolute left-[-11px] sm:left-[-13px] lg:left-[-15px] top-0 w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 rounded-full bg-white border-2 border-[#113C6A] flex items-center justify-center">
+                  <span className="text-[#113C6A] font-bold text-[10px] sm:text-xs">
+                    {idx + 1}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 md:gap-6 lg:gap-10 items-center">
+                  <div
+                    className={`lg:col-span-7 order-1 ${idx % 2 === 0 ? "lg:order-2" : "lg:order-1"}`}
+                  >
+                    <div className="relative overflow-hidden h-[200px] sm:h-[220px] md:h-[240px] lg:h-[280px] border border-gray-100">
+                      <img
+                        src={step.image}
+                        alt={step.title}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+                    </div>
+                  </div>
+
+                  <div
+                    className={`lg:col-span-5 order-2 ${idx % 2 === 0 ? "lg:order-1" : "lg:order-2"}`}
+                  >
+                    <span className="inline-block bg-[#113C6A] text-white font-semibold uppercase tracking-wider px-2 py-0.5 mb-2 sm:mb-2.5 lg:mb-3 text-[9px] sm:text-[10px]">
+                      Step {idx + 1}
+                    </span>
+                    <h3 className="font-bold mb-1.5 sm:mb-2 text-[20px] leading-[26px] sm:text-[22px] sm:leading-[28px] lg:text-[24px] lg:leading-[30px] text-black">
+                      {step.title}
+                    </h3>
+                    <p className="font-light text-gray-600 text-sm sm:text-[15px] leading-relaxed">
+                      {step.desc}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════ KEY BENEFITS ══════════ */}
+      <section
+        id="benefits"
+        ref={benefitsRef}
+        className="py-12 sm:py-14 md:py-16 lg:py-20 bg-white"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-9 lg:mb-10">
+            <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+              Key Benefits
+            </p>
+            <h2 className="font-bold uppercase tracking-normal text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+              <span className="block">Why Choose</span>
+              <span className="block">Air Cargo?</span>
+            </h2>
+          </div>
+
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[1px] bg-gray-200 -mx-4 sm:-mx-6 md:-mx-8 lg:-mx-12"
+            initial={{ opacity: 0, y: 30 }}
+            animate={benefitsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            {benefits.map((b, i) => (
+              <div
+                key={i}
+                className="group relative overflow-hidden bg-[#f5f5f5] px-5 sm:px-6 md:px-7 lg:px-8 pt-8 sm:pt-9 lg:pt-10 pb-5 sm:pb-6 min-h-[240px] sm:min-h-[260px] md:min-h-[280px] lg:min-h-[300px] flex flex-col justify-end cursor-default transition-colors duration-500 hover:bg-[#113C6A]"
+              >
+                <img
+                  src="https://cdn.prod.website-files.com/63ede56f5ceca72669fcaced/63f1f1de63ea2217e333ebca_track.png"
+                  alt=""
+                  className="absolute top-[8%] right-[-8%] w-[75%] opacity-[0.04] group-hover:opacity-[0.12] group-hover:invert transition-all duration-700 pointer-events-none select-none"
+                  loading="lazy"
+                  aria-hidden="true"
+                />
+
+                <div className="relative z-10 mb-3 sm:mb-4">
+                  <b.icon
+                    className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 text-[#1a1a1a] group-hover:text-white transition-colors duration-500"
+                    strokeWidth={1.4}
+                  />
+                </div>
+
+                <h3 className="relative z-10 font-bold text-[#1a1a1a] group-hover:text-white transition-colors duration-500 leading-tight mb-0 group-hover:mb-2 text-lg sm:text-xl lg:text-[22px]">
+                  {b.title}
+                </h3>
+
+                <div className="relative z-10 max-h-0 overflow-hidden opacity-0 group-hover:max-h-[120px] group-hover:opacity-100 transition-all duration-500 ease-out">
+                  <p className="text-white/80 text-xs sm:text-[13px] lg:text-[14px] font-light leading-relaxed">
+                    {b.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ══════════ ROUTES ══════════ */}
+      <section
+        id="routes"
+        ref={routesRef}
+        className="py-12 sm:py-14 md:py-16 lg:py-20 bg-gray-50"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-5 lg:gap-6 mb-8 sm:mb-9 lg:mb-10">
+            <div className="max-w-xl">
+              <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+                Network
+              </p>
+              <h2 className="font-bold uppercase tracking-normal text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+                <span className="block">Key Air</span>
+                <span className="block">Routes</span>
+              </h2>
+            </div>
+            <div className="flex-shrink-0">
+              <Link
+                to="/contact"
+                className="group inline-flex items-center gap-2 sm:gap-2.5 border border-[#1a1a1a] px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+              >
+                <span className="font-medium text-xs sm:text-sm text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
+                  Check Availability
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+              </Link>
+            </div>
+          </div>
+
+          <motion.div
+            className="bg-white border border-gray-200 overflow-hidden"
+            initial={{ opacity: 0, y: 30 }}
+            animate={routesInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="hidden md:grid grid-cols-12 gap-4 px-4 sm:px-5 py-3 border-b border-gray-200 bg-gray-50">
+              <div className="col-span-5">
+                <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-gray-400">
+                  Route
+                </span>
+              </div>
+              <div className="col-span-4 text-center">
+                <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-gray-400">
+                  Transit Time
+                </span>
+              </div>
+              <div className="col-span-3 text-right">
+                <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-gray-400">
+                  Frequency
+                </span>
+              </div>
+            </div>
+
+            {routes.map((route, i) => (
+              <Link
+                to="/contact"
+                key={i}
+                className="group block border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition-all duration-300"
+              >
+                <div className="md:hidden px-4 py-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#113C6A]" />
+                      <span className="font-semibold text-[#1a1a1a] text-sm">
+                        {route.from}
+                      </span>
+                      <ArrowRight className="w-3 h-3 text-gray-300" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#FF7300]" />
+                      <span className="font-semibold text-[#1a1a1a] text-sm">
+                        {route.to}
+                      </span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-gray-300" />
+                  </div>
+                  <div className="flex items-center justify-between text-xs text-gray-500">
+                    <div className="flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      <span>{route.transit}</span>
+                    </div>
+                    <span className="px-2 py-0.5 text-[10px] font-semibold uppercase bg-[#113C6A]/10 text-[#113C6A]">
+                      {route.frequency}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="hidden md:grid grid-cols-12 gap-4 px-5 py-4 items-center">
+                  <div className="col-span-5 flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#113C6A]" />
+                      <span className="font-semibold text-[#1a1a1a] text-sm">
+                        {route.from}
+                      </span>
+                    </div>
+                    <ArrowRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-[#FF7300] transition-colors duration-300" />
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#FF7300]" />
+                      <span className="font-semibold text-[#1a1a1a] text-sm">
+                        {route.to}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="col-span-4 text-center">
+                    <div className="inline-flex items-center gap-1 text-gray-500">
+                      <Clock className="w-3.5 h-3.5" />
+                      <span className="font-medium text-sm">
+                        {route.transit}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="col-span-3 text-right flex items-center justify-end gap-2">
+                    <span className="px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider bg-[#113C6A]/10 text-[#113C6A]">
+                      {route.frequency}
+                    </span>
+                    <div className="w-7 h-7 border border-gray-200 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                      <ArrowRight className="w-3 h-3 text-[#113C6A]" />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </motion.div>
+
+          <div className="flex items-center justify-between mt-5">
+            <p className="text-gray-400 text-xs sm:text-sm font-light">
+              <span className="font-semibold text-[#1a1a1a]">500+</span>{" "}
+              destinations worldwide
+            </p>
+            <Link
+              to="/contact"
+              className="text-[#113C6A] text-xs sm:text-sm font-semibold hover:underline flex items-center gap-1"
+            >
+              View all destinations
+              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════ FAQ ══════════ */}
+      <section
+        id="faq"
+        ref={faqRef}
+        className="py-12 sm:py-14 md:py-16 lg:py-20 bg-white border-t border-gray-100"
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="text-center mb-8 sm:mb-9 lg:mb-10">
+            <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs lg:text-[13px] text-[#1C1825]">
+              Got Questions?
+            </p>
+            <h2 className="font-bold uppercase tracking-normal text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+              <span className="block">Frequently Asked</span>
+              <span className="block">Questions</span>
+            </h2>
+          </div>
+
+          <div>
+            {faqs.map((faq, i) => (
+              <FAQItem key={i} faq={faq} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </PageLayout>
+  );
+};
+
+export default memo(AirCargoServices);
