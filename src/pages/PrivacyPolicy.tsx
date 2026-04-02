@@ -345,5 +345,4 @@ const PrivacyPolicy = () => {
     </PageLayout>
   );
 };
-
 export default PrivacyPolicy;
