@@ -302,7 +302,7 @@ const SubmitButton = ({ isSubmitting }: { isSubmitting: boolean }) => (
   <button
     type="submit"
     disabled={isSubmitting}
-    className="group inline-flex items-center justify-center gap-2.5 border border-[#1a1a1a] px-8 py-3 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
+    className="group inline-flex items-center justify-center gap-2.5 border border-[#1a1a1a] px-6 sm:px-8 py-2.5 sm:py-3 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
   >
     {isSubmitting ? (
       <div className="flex items-center gap-2">
@@ -325,7 +325,7 @@ const contactInfo = [
   {
     icon: Phone,
     title: "Call Us",
-    content: "+91-968 744 8434",
+    content: "+91-96874 48434",
     subtext: "Mon-Sat, 9AM-6PM",
     href: "tel:+919687448434",
   },
@@ -370,7 +370,7 @@ const ContactForm = () => {
       </Helmet>
 
       {/* ── HERO ── */}
-      <div className="relative w-full h-[50vh] sm:h-[60vh] max-h-[500px] overflow-hidden">
+      <div className="relative w-full h-[35vh] min-h-[300px] sm:h-[55vh] lg:h-[60vh] lg:max-h-[500px] overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="/lovable-uploads/services3.webp"
@@ -396,24 +396,18 @@ const ContactForm = () => {
                   <ChevronRight className="w-3 h-3" />
                 </li>
                 <li>
-                  <span className="text-white/80 text-xs sm:text-sm font-semibold">
+                  <span className="text-white/60 text-xs sm:text-sm font-semibold">
                     Contact
                   </span>
                 </li>
               </ol>
             </nav>
 
-            <h1
-              className="font-bold text-white uppercase tracking-normal mb-3"
-              style={{ fontSize: "52px", lineHeight: "60px" }}
-            >
+            <h1 className="font-bold text-white uppercase tracking-normal mb-3 text-[32px] leading-[38px] sm:text-[40px] sm:leading-[46px] lg:text-[52px] lg:leading-[60px]">
               <span className="block">Get In Touch</span>
               <span className="block">With Us</span>
             </h1>
-            <p
-              className="font-light max-w-xl mt-5 text-white/90"
-              style={{ fontSize: "20px", lineHeight: "29px" }}
-            >
+            <p className="font-light max-w-xl mt-5 text-white/90 text-sm sm:text-base lg:text-[20px] lg:leading-[29px]">
               Have questions about our logistics services? We're here to help
               you move smarter.
             </p>
@@ -427,19 +421,19 @@ const ContactForm = () => {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-[1px] bg-gray-200 -mx-5 sm:-mx-8 lg:-mx-12">
             {contactInfo.map((info, i) => {
               const Inner = (
-                <div className="bg-white px-5 sm:px-8 py-6 sm:py-8 group hover:bg-gray-50 transition-colors">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-[#113C6A] flex items-center justify-center flex-shrink-0">
-                      <info.icon className="w-5 h-5 text-white" />
+                <div className="bg-white px-4 sm:px-6 lg:px-8 py-5 sm:py-6 lg:py-8 group hover:bg-gray-50 transition-colors h-full">
+                  <div className="flex items-start gap-3 sm:gap-4">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#113C6A] flex items-center justify-center flex-shrink-0">
+                      <info.icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                     </div>
-                    <div>
-                      <p className="text-[13px] text-gray-400 font-medium mb-0.5">
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[11px] sm:text-[13px] text-gray-400 font-medium mb-0.5">
                         {info.title}
                       </p>
-                      <p className="text-[#1a1a1a] font-bold text-sm sm:text-base">
+                      <p className="text-[#1a1a1a] font-bold text-[11px] sm:text-sm lg:text-base break-words hyphens-auto">
                         {info.content}
                       </p>
-                      <p className="text-gray-400 text-[12px] mt-0.5">
+                      <p className="text-gray-400 text-[10px] sm:text-[12px] mt-0.5 break-words">
                         {info.subtext}
                       </p>
                     </div>
@@ -448,21 +442,22 @@ const ContactForm = () => {
               );
 
               return info.href ? (
-                <a key={i} href={info.href} className="block">
+                <a key={i} href={info.href} className="block h-full">
                   {Inner}
                 </a>
               ) : (
-                <div key={i}>{Inner}</div>
+                <div key={i} className="h-full">
+                  {Inner}
+                </div>
               );
             })}
           </div>
         </div>
       </div>
-
       {/* ── FORM + INFO SECTION ── */}
-      <section ref={sectionRef} className="py-20 sm:py-24 bg-gray-50">
+      <section ref={sectionRef} className="py-16 sm:py-20 lg:py-24 bg-gray-50">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
             {/* Left — Form */}
             <motion.div
               className="lg:col-span-7"
@@ -470,49 +465,28 @@ const ContactForm = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
             >
-              <p
-                className="font-semibold uppercase tracking-widest mb-3"
-                style={{
-                  fontSize: "14px",
-                  lineHeight: "17px",
-                  color: "rgb(28, 24, 37)",
-                }}
-              >
+              <p className="font-semibold uppercase tracking-widest mb-3 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]">
                 Send A Message
               </p>
-              <h2
-                className="font-bold uppercase tracking-normal mb-4"
-                style={{
-                  fontSize: "52px",
-                  lineHeight: "60px",
-                  color: "rgb(0, 0, 0)",
-                }}
-              >
+              <h2 className="font-bold uppercase tracking-normal mb-4 text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[52px] lg:leading-[60px] text-black">
                 <span className="block">Let's Talk</span>
                 <span className="block">Logistics</span>
               </h2>
-              <p
-                className="font-light mb-10"
-                style={{
-                  fontSize: "20px",
-                  lineHeight: "29px",
-                  color: "rgb(28, 24, 37)",
-                }}
-              >
+              <p className="font-light mb-8 sm:mb-10 text-sm sm:text-base lg:text-[20px] lg:leading-[29px] text-[#1C1825]">
                 Fill the form and our team will get back to you within 2 hours.
               </p>
 
-              <div className="bg-white border border-gray-200 p-6 sm:p-8">
+              <div className="bg-white border border-gray-200 p-5 sm:p-6 lg:p-8">
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="flex flex-col gap-5"
+                    className="flex flex-col gap-4 sm:gap-5"
                   >
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                       <NameField control={form.control} />
                       <EmailField control={form.control} />
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                       <PhoneField control={form.control} />
                       <SubjectField control={form.control} />
                     </div>
@@ -533,47 +507,26 @@ const ContactForm = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <p
-                className="font-semibold uppercase tracking-widest mb-3"
-                style={{
-                  fontSize: "14px",
-                  lineHeight: "17px",
-                  color: "rgb(28, 24, 37)",
-                }}
-              >
+              <p className="font-semibold uppercase tracking-widest mb-3 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]">
                 Why BLI
               </p>
-              <h3
-                className="font-bold uppercase tracking-normal mb-8"
-                style={{
-                  fontSize: "32px",
-                  lineHeight: "38px",
-                  color: "rgb(0, 0, 0)",
-                }}
-              >
+              <h3 className="font-bold uppercase tracking-normal mb-6 sm:mb-8 text-[24px] leading-[30px] sm:text-[28px] sm:leading-[34px] lg:text-[32px] lg:leading-[38px] text-black">
                 Numbers That Speak
               </h3>
 
               {/* Stats */}
-              <div className="grid grid-cols-2 gap-px bg-gray-200 mb-10">
+              <div className="grid grid-cols-2 gap-px bg-gray-200 mb-8 sm:mb-10">
                 {[
                   { value: "25+", label: "Years on Road" },
                   { value: "500+", label: "Fleet Vehicles" },
                   { value: "25+", label: "Cities Covered" },
                   { value: "98%", label: "On-Time Rate" },
                 ].map((stat, i) => (
-                  <div key={i} className="bg-white p-5 sm:p-6">
-                    <div
-                      className="font-bold leading-none mb-1"
-                      style={{
-                        fontSize: "36px",
-                        lineHeight: "42px",
-                        color: "rgb(0, 0, 0)",
-                      }}
-                    >
+                  <div key={i} className="bg-white p-4 sm:p-5 lg:p-6">
+                    <div className="font-bold leading-none mb-1 text-[28px] sm:text-[32px] lg:text-[36px] lg:leading-[42px] text-black">
                       {stat.value}
                     </div>
-                    <div className="text-gray-400 text-sm font-light">
+                    <div className="text-gray-400 text-xs sm:text-sm font-light">
                       {stat.label}
                     </div>
                   </div>
@@ -581,22 +534,22 @@ const ContactForm = () => {
               </div>
 
               {/* Quick connect */}
-              <div className="bg-[#113C6A] p-6 sm:p-8">
-                <h4 className="text-white font-bold text-lg mb-4">
+              <div className="bg-[#113C6A] p-5 sm:p-6 lg:p-8">
+                <h4 className="text-white font-bold text-base sm:text-lg mb-3 sm:mb-4">
                   Prefer a direct call?
                 </h4>
-                <p className="text-white/70 text-sm font-light leading-relaxed mb-6">
+                <p className="text-white/70 text-xs sm:text-sm font-light leading-relaxed mb-5 sm:mb-6">
                   Our logistics experts are available Monday to Saturday, 9AM to
                   6PM to discuss your requirements.
                 </p>
                 <a
                   href="tel:+919687448434"
-                  className="group inline-flex items-center gap-2.5 border border-white/40 px-6 py-2.5 hover:bg-white hover:text-[#113C6A] text-white transition-all duration-300"
+                  className="group inline-flex items-center gap-2 sm:gap-2.5 border border-white/40 px-5 sm:px-6 py-2 sm:py-2.5 hover:bg-white hover:text-[#113C6A] text-white transition-all duration-300"
                 >
-                  <span className="font-medium text-sm">
-                    Call +91-968 744 8434
+                  <span className="font-medium text-xs sm:text-sm">
+                    Call +91-96874 48434
                   </span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                  <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </a>
               </div>
             </motion.div>
@@ -606,26 +559,12 @@ const ContactForm = () => {
 
       {/* ── MAP ── */}
       <section id="map" className="bg-white">
-        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 py-20 sm:py-24">
-          <div className="text-center mb-10">
-            <p
-              className="font-semibold uppercase tracking-widest mb-3"
-              style={{
-                fontSize: "14px",
-                lineHeight: "17px",
-                color: "rgb(28, 24, 37)",
-              }}
-            >
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 py-16 sm:py-20 lg:py-24">
+          <div className="text-center mb-8 sm:mb-10">
+            <p className="font-semibold uppercase tracking-widest mb-3 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]">
               Our Location
             </p>
-            <h2
-              className="font-bold uppercase tracking-normal mb-3"
-              style={{
-                fontSize: "52px",
-                lineHeight: "60px",
-                color: "rgb(0, 0, 0)",
-              }}
-            >
+            <h2 className="font-bold uppercase tracking-normal mb-3 text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[52px] lg:leading-[60px] text-black">
               Find Us Here
             </h2>
           </div>
@@ -634,7 +573,8 @@ const ContactForm = () => {
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3740.3431472084335!2d72.9245998!3d20.368736799999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be0cf2068f2de87%3A0x3ab36ccb6f06eb87!2sBansal%20Logistics%20of%20India!5e0!3m2!1sen!2sin!4v1755170562386!5m2!1sen!2sin"
               width="100%"
-              height="400"
+              height="300"
+              className="sm:h-[350px] lg:h-[400px]"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"

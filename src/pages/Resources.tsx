@@ -139,9 +139,8 @@ const Resources = () => {
         />
         <link rel="canonical" href="https://blirapid.com/resources/" />
       </Helmet>
-
       {/* ── HERO ── */}
-      <div className="relative w-full h-[60vh] sm:h-[70vh] max-h-[600px] overflow-hidden">
+      <div className="relative w-full min-h-[400px] sm:min-h-[420px] lg:min-h-[500px] lg:max-h-[600px] overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="https://i.pinimg.com/736x/4d/e5/ad/4de5add391b426b1f263c23fc76b612f.jpg"
@@ -152,8 +151,8 @@ const Resources = () => {
           />
         </div>
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/20 via-black/40 to-black/80 flex items-center">
-          <div className="max-w-[1280px] w-full mx-auto px-5 sm:px-8 lg:px-12">
-            <nav className="mb-4" aria-label="Breadcrumb">
+          <div className="max-w-[1280px] w-full mx-auto px-5 sm:px-8 lg:px-12 py-12 sm:py-16 lg:py-20">
+            <nav className="mb-3 sm:mb-4" aria-label="Breadcrumb">
               <ol className="flex items-center gap-1.5">
                 <li>
                   <Link
@@ -167,41 +166,39 @@ const Resources = () => {
                   <ChevronRight className="w-3 h-3" />
                 </li>
                 <li>
-                  <span className="text-white/80 text-xs sm:text-sm font-semibold">
+                  <span className="text-white/60 text-xs sm:text-sm font-semibold">
                     Resources
                   </span>
                 </li>
               </ol>
             </nav>
 
-            <h1
-              className="font-bold text-white uppercase tracking-normal mb-3"
-              style={{ fontSize: "52px", lineHeight: "60px" }}
-            >
+            <h1 className="font-bold text-white uppercase tracking-normal mb-3 text-[28px] leading-[34px] sm:text-[40px] sm:leading-[46px] lg:text-[52px] lg:leading-[60px]">
               <span className="block">Resources & </span>
               <span className="block">Knowledge Center</span>
             </h1>
-            <p
-              className="font-light max-w-xl mt-5 text-white/90"
-              style={{ fontSize: "20px", lineHeight: "29px" }}
-            >
+            <p className="font-light max-w-xl mt-4 sm:mt-5 text-white/90 text-sm sm:text-base lg:text-[20px] lg:leading-[29px]">
               From insights to FAQs — find everything you need to move smarter
               with BLI.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mt-8">
+            <div className="flex flex-wrap gap-3 sm:gap-4 mt-6 sm:mt-8">
               <Link
                 to="/resources/blogs"
-                className="group inline-flex items-center justify-center gap-2.5 bg-white text-[#113C6A] border-2 border-white px-6 py-2.5 hover:bg-transparent hover:text-white transition-all duration-300"
+                className="group inline-flex items-center gap-2.5 bg-white text-[#113C6A] border-2 border-white px-5 sm:px-6 py-2 sm:py-2.5 hover:bg-transparent hover:text-white transition-all duration-300"
               >
-                <span className="font-medium text-sm">Explore Blogs</span>
-                <ArrowRight className="w-4 h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+                <span className="font-medium text-xs sm:text-sm">
+                  Explore Blogs
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
               </Link>
               <Link
                 to="/contact"
-                className="group inline-flex items-center justify-center gap-2.5 border-2 border-white/60 text-white px-6 py-2.5 hover:bg-white hover:text-[#113C6A] transition-all duration-300"
+                className="group inline-flex items-center gap-2.5 border-2 border-white/60 text-white px-5 sm:px-6 py-2 sm:py-2.5 hover:bg-white hover:text-[#113C6A] transition-all duration-300"
               >
-                <span className="font-medium text-sm">Get Quote</span>
+                <span className="font-medium text-xs sm:text-sm">
+                  Get Quote
+                </span>
               </Link>
             </div>
           </div>
@@ -209,33 +206,19 @@ const Resources = () => {
       </div>
 
       {/* ── QUICK ACCESS ── */}
-      <section ref={quickRef} className="py-20 sm:py-24 bg-white">
+      <section ref={quickRef} className="py-16 sm:py-20 lg:py-24 bg-white">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <p
-              className="font-semibold uppercase tracking-widest mb-3"
-              style={{
-                fontSize: "14px",
-                lineHeight: "17px",
-                color: "rgb(28, 24, 37)",
-              }}
-            >
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 lg:mb-14">
+            <p className="font-semibold uppercase tracking-widest mb-3 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]">
               Explore
             </p>
-            <h2
-              className="font-bold uppercase tracking-normal mb-3"
-              style={{
-                fontSize: "52px",
-                lineHeight: "60px",
-                color: "rgb(0, 0, 0)",
-              }}
-            >
+            <h2 className="font-bold uppercase tracking-normal mb-3 text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[52px] lg:leading-[60px] text-black">
               <span className="block">Quick Access</span>
             </h2>
           </div>
 
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[1px] bg-gray-200"
+            className="grid grid-cols-2 lg:grid-cols-4 gap-[1px] bg-gray-200"
             initial={{ opacity: 0, y: 30 }}
             animate={quickInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
@@ -244,24 +227,26 @@ const Resources = () => {
               <Link
                 key={i}
                 to={item.href}
-                className="group bg-white p-6 sm:p-8 hover:bg-gray-50 transition-all duration-300 relative"
+                className="group bg-white p-5 sm:p-6 lg:p-8 hover:bg-gray-50 transition-all duration-300 relative"
               >
                 <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#113C6A] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
 
-                <div className="w-12 h-12 bg-[#113C6A]/10 flex items-center justify-center mb-5">
-                  <item.icon className="w-6 h-6 text-[#113C6A]" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#113C6A]/10 flex items-center justify-center mb-4 sm:mb-5">
+                  <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#113C6A]" />
                 </div>
 
-                <h3 className="text-lg font-bold text-[#1a1a1a] mb-2 group-hover:text-[#113C6A] transition-colors">
+                <h3 className="text-base sm:text-lg font-bold text-[#1a1a1a] mb-2 group-hover:text-[#113C6A] transition-colors">
                   {item.title}
                 </h3>
-                <p className="text-sm text-gray-500 font-light leading-relaxed mb-4">
+                <p className="text-xs sm:text-sm text-gray-500 font-light leading-relaxed mb-3 sm:mb-4">
                   {item.description}
                 </p>
 
                 <div className="flex items-center gap-1.5 text-[#113C6A] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="text-sm font-semibold">Explore</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                  <span className="text-xs sm:text-sm font-semibold">
+                    Explore
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </div>
               </Link>
             ))}
@@ -270,28 +255,14 @@ const Resources = () => {
       </section>
 
       {/* ── FEATURED BLOGS ── */}
-      <section ref={blogRef} className="py-20 sm:py-24 bg-gray-50">
+      <section ref={blogRef} className="py-16 sm:py-20 lg:py-24 bg-gray-50">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-14">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5 lg:gap-8 mb-10 sm:mb-12 lg:mb-14">
             <div>
-              <p
-                className="font-semibold uppercase tracking-widest mb-3"
-                style={{
-                  fontSize: "14px",
-                  lineHeight: "17px",
-                  color: "rgb(28, 24, 37)",
-                }}
-              >
+              <p className="font-semibold uppercase tracking-widest mb-3 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]">
                 Latest Insights
               </p>
-              <h2
-                className="font-bold uppercase tracking-normal mb-3"
-                style={{
-                  fontSize: "52px",
-                  lineHeight: "60px",
-                  color: "rgb(0, 0, 0)",
-                }}
-              >
+              <h2 className="font-bold uppercase tracking-normal mb-3 text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[52px] lg:leading-[60px] text-black">
                 <span className="block">From Our</span>
                 <span className="block">Blog</span>
               </h2>
@@ -299,18 +270,18 @@ const Resources = () => {
             <div className="flex-shrink-0">
               <Link
                 to="/resources/blogs"
-                className="group inline-flex items-center gap-2.5 border border-[#1a1a1a] px-6 py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+                className="group inline-flex items-center gap-2.5 border border-[#1a1a1a] px-5 sm:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
               >
-                <span className="font-medium text-sm text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
+                <span className="font-medium text-xs sm:text-sm text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
                   View All Blogs
                 </span>
-                <ArrowRight className="w-4 h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
               </Link>
             </div>
           </div>
 
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"
             initial={{ opacity: 0, y: 30 }}
             animate={blogInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
@@ -321,7 +292,7 @@ const Resources = () => {
                 to={`/resources/blogs/${blog.slug}`}
                 className="group bg-white border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300"
               >
-                <div className="relative overflow-hidden h-[220px]">
+                <div className="relative overflow-hidden h-[180px] sm:h-[200px] lg:h-[220px]">
                   <img
                     src={blog.image}
                     alt={blog.title}
@@ -329,21 +300,23 @@ const Resources = () => {
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                  <span className="absolute bottom-3 left-4 text-white/80 text-[11px] font-medium uppercase tracking-widest">
+                  <span className="absolute bottom-3 left-4 text-white/80 text-[10px] sm:text-[11px] font-medium uppercase tracking-widest">
                     {blog.readTime}
                   </span>
                 </div>
 
-                <div className="p-5 sm:p-6">
-                  <h3 className="text-base font-bold text-[#1a1a1a] leading-snug mb-2 group-hover:text-[#113C6A] transition-colors duration-300 line-clamp-2">
+                <div className="p-4 sm:p-5 lg:p-6">
+                  <h3 className="text-sm sm:text-base font-bold text-[#1a1a1a] leading-snug mb-2 group-hover:text-[#113C6A] transition-colors duration-300 line-clamp-2">
                     {blog.title}
                   </h3>
-                  <p className="text-sm text-gray-500 font-light leading-relaxed mb-4 line-clamp-2">
+                  <p className="text-xs sm:text-sm text-gray-500 font-light leading-relaxed mb-3 sm:mb-4 line-clamp-2">
                     {blog.excerpt}
                   </p>
                   <div className="flex items-center gap-1.5 text-[#113C6A] group-hover:text-[#FF7300] transition-colors duration-300">
-                    <span className="text-sm font-semibold">Read More</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    <span className="text-xs sm:text-sm font-semibold">
+                      Read More
+                    </span>
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform duration-300" />
                   </div>
                 </div>
               </Link>
@@ -355,28 +328,14 @@ const Resources = () => {
       {/* ── FAQ ── */}
       <section
         ref={faqRef}
-        className="py-20 sm:py-24 bg-white border-t border-gray-100"
+        className="py-16 sm:py-20 lg:py-24 bg-white border-t border-gray-100"
       >
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="text-center mb-14">
-            <p
-              className="font-semibold uppercase tracking-widest mb-3"
-              style={{
-                fontSize: "14px",
-                lineHeight: "17px",
-                color: "rgb(28, 24, 37)",
-              }}
-            >
+          <div className="text-center mb-10 sm:mb-12 lg:mb-14">
+            <p className="font-semibold uppercase tracking-widest mb-3 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]">
               Got Questions?
             </p>
-            <h2
-              className="font-bold uppercase tracking-normal mb-3"
-              style={{
-                fontSize: "52px",
-                lineHeight: "60px",
-                color: "rgb(0, 0, 0)",
-              }}
-            >
+            <h2 className="font-bold uppercase tracking-normal mb-3 text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[52px] lg:leading-[60px] text-black">
               <span className="block">Frequently Asked</span>
               <span className="block">Questions</span>
             </h2>
@@ -392,72 +351,51 @@ const Resources = () => {
             ))}
           </motion.div>
 
-          <div className="text-center mt-10">
+          <div className="text-center mt-8 sm:mt-10">
             <Link
               to="/resources/faqs"
-              className="group inline-flex items-center gap-2.5 border border-[#1a1a1a] px-6 py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+              className="group inline-flex items-center gap-2.5 border border-[#1a1a1a] px-5 sm:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
             >
-              <span className="font-medium text-sm text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
+              <span className="font-medium text-xs sm:text-sm text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
                 View All FAQs
               </span>
-              <ArrowRight className="w-4 h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
             </Link>
           </div>
         </div>
       </section>
 
       {/* ── DOWNLOADS ── */}
-      <section ref={downloadRef} className="py-20 sm:py-24 bg-gray-50">
+      <section ref={downloadRef} className="py-16 sm:py-20 lg:py-24 bg-gray-50">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-14">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5 lg:gap-8 mb-10 sm:mb-12 lg:mb-14">
             <div>
-              <p
-                className="font-semibold uppercase tracking-widest mb-3"
-                style={{
-                  fontSize: "14px",
-                  lineHeight: "17px",
-                  color: "rgb(28, 24, 37)",
-                }}
-              >
+              <p className="font-semibold uppercase tracking-widest mb-3 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]">
                 Resources
               </p>
-              <h2
-                className="font-bold uppercase tracking-normal mb-3"
-                style={{
-                  fontSize: "52px",
-                  lineHeight: "60px",
-                  color: "rgb(0, 0, 0)",
-                }}
-              >
+              <h2 className="font-bold uppercase tracking-normal mb-3 text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[52px] lg:leading-[60px] text-black">
                 <span className="block">Download</span>
                 <span className="block">Resources</span>
               </h2>
-              <p
-                className="font-light max-w-lg"
-                style={{
-                  fontSize: "20px",
-                  lineHeight: "29px",
-                  color: "rgb(28, 24, 37)",
-                }}
-              >
+              <p className="font-light max-w-lg text-sm sm:text-base lg:text-[20px] lg:leading-[29px] text-[#1C1825]">
                 Access our comprehensive guides and company materials.
               </p>
             </div>
             <div className="flex-shrink-0">
               <Link
                 to="/resources/downloads"
-                className="group inline-flex items-center gap-2.5 border border-[#1a1a1a] px-6 py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+                className="group inline-flex items-center gap-2.5 border border-[#1a1a1a] px-5 sm:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
               >
-                <span className="font-medium text-sm text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
+                <span className="font-medium text-xs sm:text-sm text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
                   View All Downloads
                 </span>
-                <ArrowRight className="w-4 h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
               </Link>
             </div>
           </div>
 
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-5"
+            className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5"
             initial={{ opacity: 0, y: 30 }}
             animate={downloadInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
@@ -465,30 +403,32 @@ const Resources = () => {
             {downloads.map((resource, i) => (
               <div
                 key={i}
-                className="group bg-white border border-gray-200 p-6 sm:p-8 hover:border-[#113C6A]/30 hover:shadow-lg transition-all duration-300 relative"
+                className="group bg-white border border-gray-200 p-5 sm:p-6 lg:p-8 hover:border-[#113C6A]/30 hover:shadow-lg transition-all duration-300 relative"
               >
                 {/* Top accent */}
                 <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#113C6A] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
 
-                <div className="flex items-start justify-between mb-5">
-                  <div className="w-12 h-12 bg-[#113C6A]/10 flex items-center justify-center">
-                    <Download className="w-6 h-6 text-[#113C6A]" />
+                <div className="flex items-start justify-between mb-4 sm:mb-5">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#113C6A]/10 flex items-center justify-center">
+                    <Download className="w-5 h-5 sm:w-6 sm:h-6 text-[#113C6A]" />
                   </div>
-                  <span className="text-[12px] text-gray-400 font-medium">
+                  <span className="text-[11px] sm:text-[12px] text-gray-400 font-medium">
                     {resource.size}
                   </span>
                 </div>
 
-                <h3 className="text-lg font-bold text-[#1a1a1a] mb-2">
+                <h3 className="text-base sm:text-lg font-bold text-[#1a1a1a] mb-2">
                   {resource.title}
                 </h3>
-                <p className="text-sm text-gray-500 font-light leading-relaxed mb-6">
+                <p className="text-xs sm:text-sm text-gray-500 font-light leading-relaxed mb-5 sm:mb-6">
                   {resource.description}
                 </p>
 
-                <button className="group/btn inline-flex items-center gap-2.5 border border-[#1a1a1a] px-5 py-2 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300">
-                  <Download className="w-4 h-4" />
-                  <span className="font-medium text-sm">Download</span>
+                <button className="group/btn inline-flex items-center gap-2 sm:gap-2.5 border border-[#1a1a1a] px-4 sm:px-5 py-1.5 sm:py-2 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300">
+                  <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <span className="font-medium text-xs sm:text-sm">
+                    Download
+                  </span>
                 </button>
               </div>
             ))}
@@ -499,7 +439,7 @@ const Resources = () => {
   );
 };
 
-/* ── FAQ Item — same as services page ── */
+/* ── FAQ Item ── */
 const FAQItem = ({
   faq,
   index,
@@ -511,12 +451,12 @@ const FAQItem = ({
   return (
     <div className="border-b border-gray-200 last:border-b-0">
       <button
-        className="w-full flex items-start justify-between gap-8 py-7 pr-4 text-left group"
+        className="w-full flex items-start justify-between gap-4 sm:gap-8 py-5 sm:py-6 lg:py-7 pr-4 text-left group"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
       >
         <h3
-          className="text-base sm:text-lg font-semibold leading-snug max-w-3xl transition-colors"
+          className="text-sm sm:text-base lg:text-lg font-semibold leading-snug max-w-3xl transition-colors"
           style={{ color: open ? "#113C6A" : "#1C1825" }}
         >
           {faq.question}
@@ -524,7 +464,13 @@ const FAQItem = ({
         <span
           className={`flex-shrink-0 mt-1 transition-transform duration-500 ${open ? "rotate-180" : ""}`}
         >
-          <svg viewBox="0 0 48 48" width="20" height="20" fill="none">
+          <svg
+            viewBox="0 0 48 48"
+            width="18"
+            height="18"
+            className="sm:w-5 sm:h-5"
+            fill="none"
+          >
             <path
               d="M4 16.2C4 15.97 4.08 15.74 4.24 15.55C4.6 15.13 5.23 15.09 5.65 15.45L24.04 31.32C24.18 31.44 24.44 31.43 24.57 31.31L42.31 14.87C42.72 14.49 43.35 14.52 43.72 14.92C44.09 15.32 44.07 15.96 43.67 16.33L25.94 32.77C25.06 33.59 23.65 33.61 22.74 32.83L4.35 16.96C4.12 16.76 4 16.48 4 16.2Z"
               fill={open ? "#113C6A" : "#9ca3af"}
@@ -535,16 +481,9 @@ const FAQItem = ({
         </span>
       </button>
       <div
-        className={`overflow-hidden transition-all duration-500 ease-in-out ${open ? "max-h-96 opacity-100 pb-7" : "max-h-0 opacity-0"}`}
+        className={`overflow-hidden transition-all duration-500 ease-in-out ${open ? "max-h-96 opacity-100 pb-5 sm:pb-6 lg:pb-7" : "max-h-0 opacity-0"}`}
       >
-        <p
-          className="font-light max-w-3xl"
-          style={{
-            fontSize: "20px",
-            lineHeight: "29px",
-            color: "rgb(28, 24, 37)",
-          }}
-        >
+        <p className="font-light max-w-3xl text-sm sm:text-base lg:text-[20px] lg:leading-[29px] text-[#1C1825]">
           {faq.answer}
         </p>
       </div>

@@ -12,7 +12,6 @@ import {
   Twitter,
   Linkedin,
   Instagram,
-  Truck,
   ArrowRight,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -128,11 +127,22 @@ const Navbar = () => {
 
   useEffect(() => {
     let ticking = false;
+    let lastScrollY = 0;
+
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setIsScrolled(window.scrollY > 10);
-          setShowTopBar(window.scrollY <= 50);
+          const currentScrollY = window.scrollY;
+          setIsScrolled(currentScrollY > 10);
+
+          // Hysteresis: hide at 80px, show only at 10px
+          if (currentScrollY > 80 && showTopBar) {
+            setShowTopBar(false);
+          } else if (currentScrollY < 10 && !showTopBar) {
+            setShowTopBar(true);
+          }
+
+          lastScrollY = currentScrollY;
           ticking = false;
         });
         ticking = true;
@@ -140,7 +150,7 @@ const Navbar = () => {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [showTopBar]);
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -288,7 +298,6 @@ const Navbar = () => {
                   ))}
 
                   {/* ========== SERVICES MEGA DROPDOWN ========== */}
-                  {/* ========== SERVICES MEGA DROPDOWN ========== */}
                   <NavigationMenuItem>
                     <NavigationMenuTrigger
                       className={cn(
@@ -347,7 +356,6 @@ const Navbar = () => {
                     <NavigationMenuContent>
                       <div className="w-[640px] bg-white rounded-lg shadow-2xl border border-gray-100/80 overflow-hidden">
                         <div className="flex">
-                          {/* Pickup Hubs */}
                           <div className="flex-1 p-5 border-r border-gray-100">
                             <div className="text-xs font-semibold text-[#113C6A] uppercase tracking-wider mb-3 flex items-center gap-1.5">
                               <span className="w-1.5 h-1.5 rounded-full bg-[#113C6A]" />
@@ -370,8 +378,6 @@ const Navbar = () => {
                               ))}
                             </div>
                           </div>
-
-                          {/* Delivery Zones */}
                           <div className="flex-1 p-5">
                             <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
                               <span className="w-1.5 h-1.5 rounded-full bg-gray-400" />
@@ -395,8 +401,6 @@ const Navbar = () => {
                             </div>
                           </div>
                         </div>
-
-                        {/* Bottom bar */}
                         <div className="bg-gray-50 px-5 py-3 flex items-center justify-between border-t border-gray-100">
                           <span className="text-xs text-gray-500">
                             25+ cities · Daily dispatch · Fixed routes
@@ -413,10 +417,10 @@ const Navbar = () => {
                     </NavigationMenuContent>
                   </NavigationMenuItem>
 
+                  {/* ✅ Contact hataya — sirf Industries aur Resources */}
                   {[
                     { to: "/industries", label: "Industries" },
                     { to: "/resources", label: "Resources" },
-                    { to: "/contact", label: "Contact" },
                   ].map(({ to, label }) => (
                     <NavigationMenuItem key={to}>
                       <NavigationMenuLink asChild>
@@ -437,7 +441,7 @@ const Navbar = () => {
               </NavigationMenu>
             </div>
 
-            {/* Right CTA — Clean Outlined Style */}
+            {/* Right CTA */}
             <div className="hidden lg:block flex-shrink-0">
               <Link
                 to="/contact"
@@ -480,7 +484,6 @@ const Navbar = () => {
                   About Us
                 </MobileNavItem>
 
-                {/* Services Accordion */}
                 <MobileDropdown
                   label="Services"
                   isOpen={openMobileDropdown === "services"}
@@ -512,7 +515,6 @@ const Navbar = () => {
                   </div>
                 </MobileDropdown>
 
-                {/* Network Accordion */}
                 <MobileDropdown
                   label="Network"
                   isOpen={openMobileDropdown === "network"}
@@ -539,7 +541,6 @@ const Navbar = () => {
                         </p>
                       </Link>
                     ))}
-
                     <div className="px-3 py-2 mt-2">
                       <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         Delivery Zones
@@ -569,11 +570,8 @@ const Navbar = () => {
                 <MobileNavItem to="/resources" onClick={handleNavClick}>
                   Resources
                 </MobileNavItem>
-                <MobileNavItem to="/contact" onClick={handleNavClick}>
-                  Contact
-                </MobileNavItem>
 
-                {/* Mobile CTA — Outlined Style */}
+                {/* ✅ Contact link hataya — sirf Get Quote CTA */}
                 <div className="pt-4">
                   <Link
                     to="/contact"
@@ -618,7 +616,6 @@ const Navbar = () => {
 };
 
 /* ── Reusable Mobile Components ── */
-
 const MobileDropdown = memo(({ label, isOpen, onToggle, children }: any) => (
   <div>
     <button

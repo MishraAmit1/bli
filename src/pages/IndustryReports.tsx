@@ -292,7 +292,7 @@ const IndustryReports = () => {
       </Helmet>
 
       {/* ── HERO ── */}
-      <div className="relative w-full h-[50vh] sm:h-[60vh] max-h-[500px] overflow-hidden">
+      <div className="relative w-full h-[35vh] min-h-[300px] sm:h-[55vh] lg:h-[60vh] lg:max-h-[500px] overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="/lovable-uploads/services1.webp"
@@ -304,8 +304,8 @@ const IndustryReports = () => {
         </div>
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/20 via-black/40 to-black/80 flex items-center">
           <div className="max-w-[1280px] w-full mx-auto px-5 sm:px-8 lg:px-12">
-            <nav className="mb-4" aria-label="Breadcrumb">
-              <ol className="flex items-center gap-1.5">
+            <nav className="mb-3 sm:mb-4" aria-label="Breadcrumb">
+              <ol className="flex items-center gap-1.5 flex-wrap">
                 <li>
                   <Link
                     to="/"
@@ -320,7 +320,7 @@ const IndustryReports = () => {
                 <li>
                   <Link
                     to="/resources"
-                    className="text-white/90 hover:text-white text-xs sm:text-sm font-semibold transition-colors"
+                    className="text-white/80 hover:text-white text-xs sm:text-sm font-semibold transition-colors"
                   >
                     Resources
                   </Link>
@@ -329,24 +329,18 @@ const IndustryReports = () => {
                   <ChevronRight className="w-3 h-3" />
                 </li>
                 <li>
-                  <span className="text-white/80 text-xs sm:text-sm font-semibold">
+                  <span className="text-white/60 text-xs sm:text-sm font-semibold">
                     Industry Reports
                   </span>
                 </li>
               </ol>
             </nav>
 
-            <h1
-              className="font-bold text-white uppercase tracking-normal mb-3"
-              style={{ fontSize: "52px", lineHeight: "60px" }}
-            >
+            <h1 className="font-bold text-white uppercase tracking-normal mb-3 text-[28px] leading-[34px] sm:text-[40px] sm:leading-[46px] lg:text-[52px] lg:leading-[60px]">
               <span className="block">Industry Reports</span>
               <span className="block">& Analysis</span>
             </h1>
-            <p
-              className="font-light max-w-xl mt-5 text-white/90"
-              style={{ fontSize: "20px", lineHeight: "29px" }}
-            >
+            <p className="font-light max-w-xl mt-4 sm:mt-5 text-white/90 text-sm sm:text-base lg:text-[20px] lg:leading-[29px]">
               Gain valuable insights into logistics trends, market analysis, and
               industry best practices through our comprehensive reports.
             </p>
@@ -396,15 +390,15 @@ const IndustryReports = () => {
 
       {/* ── SEARCH BAR ── */}
       <div className="bg-white border-b border-gray-200">
-        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 py-6">
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 py-5 sm:py-6">
           <div className="relative max-w-xl">
             <Search
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"
+              className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400"
               aria-hidden="true"
             />
             <Input
               placeholder="Search reports..."
-              className="pl-12 h-12 text-base border-gray-200 focus:border-[#113C6A] bg-white"
+              className="pl-10 sm:pl-12 h-11 sm:h-12 text-sm sm:text-base border-gray-200 focus:border-[#113C6A] bg-white"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               aria-label="Search industry reports"
@@ -415,36 +409,22 @@ const IndustryReports = () => {
 
       {/* ── FEATURED REPORTS ── */}
       {featuredReports.length > 0 && (
-        <section ref={featuredRef} className="py-16 sm:py-20 bg-white">
+        <section ref={featuredRef} className="py-12 sm:py-16 lg:py-20 bg-white">
           <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5 lg:gap-6 mb-8 sm:mb-10">
               <div>
-                <p
-                  className="font-semibold uppercase tracking-widest mb-2"
-                  style={{
-                    fontSize: "14px",
-                    lineHeight: "17px",
-                    color: "rgb(28, 24, 37)",
-                  }}
-                >
+                <p className="font-semibold uppercase tracking-widest mb-2 sm:mb-3 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]">
                   Latest Research
                 </p>
-                <h2
-                  className="font-bold uppercase tracking-normal"
-                  style={{
-                    fontSize: "44px",
-                    lineHeight: "52px",
-                    color: "rgb(0, 0, 0)",
-                  }}
-                >
-                  <span className="block">Featured</span>
-                  <span className="block">Reports</span>
+                <h2 className="font-bold uppercase tracking-normal text-[24px] leading-[30px] sm:text-[32px] sm:leading-[38px] lg:text-[44px] lg:leading-[52px] text-black">
+                  <span className="sm:block">Featured </span>
+                  <span className="sm:block">Reports</span>
                 </h2>
               </div>
             </div>
 
             <motion.div
-              className="grid grid-cols-1 md:grid-cols-3 gap-5"
+              className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5"
               initial={{ opacity: 0, y: 30 }}
               animate={featuredInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
@@ -455,7 +435,7 @@ const IndustryReports = () => {
                   to={`/resources/reports/${report.slug}`}
                   className="group bg-white border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300"
                 >
-                  <div className="relative overflow-hidden h-[200px]">
+                  <div className="relative overflow-hidden h-[160px] sm:h-[180px] lg:h-[200px]">
                     <img
                       src={report.image}
                       alt={report.title}
@@ -463,39 +443,39 @@ const IndustryReports = () => {
                       loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                    <span className="absolute top-3 left-3 px-2 py-1 text-[11px] text-white bg-[#113C6A] font-medium">
+                    <span className="absolute top-2 sm:top-3 left-2 sm:left-3 px-1.5 sm:px-2 py-0.5 sm:py-1 text-[10px] sm:text-[11px] text-white bg-[#113C6A] font-medium">
                       {report.category}
                     </span>
-                    <div className="absolute bottom-3 left-3 flex items-center gap-3 text-white/80 text-[11px]">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
+                    <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 flex items-center gap-2 sm:gap-3 text-white/80 text-[10px] sm:text-[11px]">
+                      <span className="flex items-center gap-0.5 sm:gap-1">
+                        <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                         {report.date}
                       </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
+                      <span className="flex items-center gap-0.5 sm:gap-1">
+                        <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                         {report.readTime}
                       </span>
                     </div>
                   </div>
 
-                  <div className="p-5 sm:p-6">
-                    <h3 className="text-base font-bold text-[#1a1a1a] leading-snug mb-2 group-hover:text-[#113C6A] transition-colors duration-300 line-clamp-2">
+                  <div className="p-4 sm:p-5 lg:p-6">
+                    <h3 className="text-sm sm:text-base font-bold text-[#1a1a1a] leading-snug mb-2 group-hover:text-[#113C6A] transition-colors duration-300 line-clamp-2">
                       {report.title}
                     </h3>
-                    <p className="text-sm text-gray-500 font-light leading-relaxed mb-4 line-clamp-2">
+                    <p className="text-xs sm:text-sm text-gray-500 font-light leading-relaxed mb-3 sm:mb-4 line-clamp-2">
                       {report.description}
                     </p>
 
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-400 flex items-center gap-1">
-                        <Eye className="w-3 h-3" />
+                      <span className="text-[10px] sm:text-xs text-gray-400 flex items-center gap-0.5 sm:gap-1">
+                        <Eye className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                         {report.views.toLocaleString()} views
                       </span>
-                      <span className="flex items-center gap-1.5 text-[#113C6A] group-hover:text-[#FF7300] transition-colors duration-300">
-                        <span className="text-sm font-semibold">
+                      <span className="flex items-center gap-1 sm:gap-1.5 text-[#113C6A] group-hover:text-[#FF7300] transition-colors duration-300">
+                        <span className="text-xs sm:text-sm font-semibold">
                           Read Report
                         </span>
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                        <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform duration-300" />
                       </span>
                     </div>
                   </div>
@@ -509,58 +489,39 @@ const IndustryReports = () => {
       {/* ── ALL REPORTS ── */}
       <section
         ref={allRef}
-        className="py-16 sm:py-20 bg-gray-50 border-t border-gray-200"
+        className="py-12 sm:py-16 lg:py-20 bg-gray-50 border-t border-gray-200"
       >
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5 lg:gap-6 mb-8 sm:mb-10">
             <div>
-              <p
-                className="font-semibold uppercase tracking-widest mb-2"
-                style={{
-                  fontSize: "14px",
-                  lineHeight: "17px",
-                  color: "rgb(28, 24, 37)",
-                }}
-              >
+              <p className="font-semibold uppercase tracking-widest mb-2 sm:mb-3 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]">
                 {activeCategory}
               </p>
-              <h2
-                className="font-bold uppercase tracking-normal"
-                style={{
-                  fontSize: "44px",
-                  lineHeight: "52px",
-                  color: "rgb(0, 0, 0)",
-                }}
-              >
-                <span className="block">All</span>
-                <span className="block">Reports</span>
+              <h2 className="font-bold uppercase tracking-normal text-[24px] leading-[30px] sm:text-[32px] sm:leading-[38px] lg:text-[44px] lg:leading-[52px] text-black">
+                <span className="sm:block">All</span>
+                <span className="sm:block"> Reports</span>
               </h2>
-              <p
-                className="font-light max-w-lg mt-3"
-                style={{
-                  fontSize: "18px",
-                  lineHeight: "27px",
-                  color: "rgb(28, 24, 37)",
-                }}
-              >
+              <p className="font-light max-w-lg mt-2 sm:mt-3 text-sm sm:text-base lg:text-[18px] lg:leading-[27px] text-[#1C1825]">
                 {filteredReports.length} reports available.
               </p>
             </div>
           </div>
 
           {filteredReports.length === 0 ? (
-            <div className="text-center py-16 bg-white border border-gray-200">
-              <p className="text-gray-500 mb-6">
+            <div className="text-center py-12 sm:py-16 bg-white border border-gray-200">
+              <p className="text-gray-500 mb-5 sm:mb-6 text-sm sm:text-base">
                 No reports match your search criteria.
               </p>
               <button
-                className="group inline-flex items-center gap-2.5 border border-[#1a1a1a] px-6 py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+                className="group inline-flex items-center gap-2.5 border border-[#1a1a1a] px-5 sm:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
                 onClick={() => {
                   setActiveCategory("All Reports");
                   setSearchQuery("");
                 }}
               >
-                <span className="font-medium text-sm">Reset Filters</span>
+                <span className="font-medium text-xs sm:text-sm">
+                  Reset Filters
+                </span>
               </button>
             </div>
           ) : (
@@ -576,51 +537,53 @@ const IndustryReports = () => {
                   to={`/resources/reports/${report.slug}`}
                   className="group flex flex-col md:flex-row bg-white border-b border-gray-200 first:border-t hover:bg-gray-50 transition-all duration-300"
                 >
-                  <div className="md:w-1/4 h-[180px] md:h-auto overflow-hidden relative">
+                  <div className="md:w-1/4 h-[140px] sm:h-[160px] md:h-auto overflow-hidden relative">
                     <img
                       src={report.image}
                       alt={report.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       loading="lazy"
                     />
-                    <span className="absolute top-3 left-3 px-2 py-1 text-[10px] text-white bg-[#113C6A] font-medium">
+                    <span className="absolute top-2 sm:top-3 left-2 sm:left-3 px-1.5 sm:px-2 py-0.5 sm:py-1 text-[9px] sm:text-[10px] text-white bg-[#113C6A] font-medium">
                       {report.category}
                     </span>
                   </div>
 
-                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-center">
-                    <div className="flex items-center gap-4 text-xs text-gray-400 mb-2">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
+                  <div className="flex-1 p-4 sm:p-5 lg:p-6 flex flex-col justify-center">
+                    <div className="flex items-center gap-3 sm:gap-4 text-[10px] sm:text-xs text-gray-400 mb-1.5 sm:mb-2">
+                      <span className="flex items-center gap-0.5 sm:gap-1">
+                        <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                         {report.date}
                       </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
+                      <span className="flex items-center gap-0.5 sm:gap-1">
+                        <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                         {report.readTime}
                       </span>
-                      <span className="flex items-center gap-1">
-                        <Eye className="w-3 h-3" />
-                        {report.views.toLocaleString()} views
+                      <span className="flex items-center gap-0.5 sm:gap-1">
+                        <Eye className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                        {report.views.toLocaleString()}
                       </span>
                     </div>
 
-                    <h3 className="text-lg font-bold text-[#1a1a1a] mb-2 group-hover:text-[#113C6A] transition-colors">
+                    <h3 className="text-base sm:text-lg font-bold text-[#1a1a1a] mb-1.5 sm:mb-2 group-hover:text-[#113C6A] transition-colors">
                       {report.title}
                     </h3>
-                    <p className="text-sm text-gray-500 font-light line-clamp-2 mb-4">
+                    <p className="text-xs sm:text-sm text-gray-500 font-light line-clamp-2 mb-3 sm:mb-4">
                       {report.description}
                     </p>
 
-                    <div className="flex items-center gap-4">
-                      <button className="group/btn inline-flex items-center gap-2 border border-[#1a1a1a] px-4 py-2 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300">
-                        <Download className="w-4 h-4" />
-                        <span className="font-medium text-sm">PDF</span>
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <button className="group/btn inline-flex items-center gap-1.5 sm:gap-2 border border-[#1a1a1a] px-3 sm:px-4 py-1.5 sm:py-2 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300">
+                        <Download className="w-3 h-3 sm:w-4 sm:h-4" />
+                        <span className="font-medium text-xs sm:text-sm">
+                          PDF
+                        </span>
                       </button>
-                      <span className="flex items-center gap-1.5 text-[#113C6A] group-hover:text-[#FF7300] transition-colors duration-300">
-                        <span className="text-sm font-semibold">
+                      <span className="flex items-center gap-1 sm:gap-1.5 text-[#113C6A] group-hover:text-[#FF7300] transition-colors duration-300">
+                        <span className="text-xs sm:text-sm font-semibold">
                           Read Report
                         </span>
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                        <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform duration-300" />
                       </span>
                     </div>
                   </div>
@@ -634,30 +597,16 @@ const IndustryReports = () => {
       {/* ── TRENDING INSIGHTS ── */}
       <section
         ref={insightsRef}
-        className="py-16 sm:py-20 bg-white border-t border-gray-200"
+        className="py-12 sm:py-16 lg:py-20 bg-white border-t border-gray-200"
       >
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="flex items-center gap-3 mb-10">
-            <TrendingUp className="w-6 h-6 text-[#FF7300]" />
+          <div className="flex items-center gap-2 sm:gap-3 mb-8 sm:mb-10">
+            <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF7300]" />
             <div>
-              <p
-                className="font-semibold uppercase tracking-widest mb-1"
-                style={{
-                  fontSize: "14px",
-                  lineHeight: "17px",
-                  color: "rgb(28, 24, 37)",
-                }}
-              >
+              <p className="font-semibold uppercase tracking-widest mb-0.5 sm:mb-1 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]">
                 Key Data Points
               </p>
-              <h2
-                className="font-bold uppercase tracking-normal"
-                style={{
-                  fontSize: "32px",
-                  lineHeight: "38px",
-                  color: "rgb(0, 0, 0)",
-                }}
-              >
+              <h2 className="font-bold uppercase tracking-normal text-[20px] leading-[26px] sm:text-[24px] sm:leading-[30px] lg:text-[32px] lg:leading-[38px] text-black">
                 Trending Insights
               </h2>
             </div>
@@ -672,18 +621,15 @@ const IndustryReports = () => {
             {trendingInsights.map((insight, index) => (
               <div
                 key={index}
-                className="bg-white p-5 sm:p-6 hover:bg-gray-50 transition-colors"
+                className="bg-white p-4 sm:p-5 lg:p-6 hover:bg-gray-50 transition-colors"
               >
-                <div
-                  className="font-bold text-[#FF7300] mb-1"
-                  style={{ fontSize: "28px", lineHeight: "34px" }}
-                >
+                <div className="font-bold text-[#FF7300] mb-0.5 sm:mb-1 text-[20px] leading-[26px] sm:text-[24px] sm:leading-[30px] lg:text-[28px] lg:leading-[34px]">
                   {insight.stat}
                 </div>
-                <div className="text-sm font-semibold text-[#113C6A] mb-1">
+                <div className="text-xs sm:text-sm font-semibold text-[#113C6A] mb-0.5 sm:mb-1">
                   {insight.trend}
                 </div>
-                <div className="text-xs text-gray-500 font-light leading-relaxed">
+                <div className="text-[10px] sm:text-xs text-gray-500 font-light leading-relaxed">
                   {insight.text}
                 </div>
               </div>
@@ -693,33 +639,37 @@ const IndustryReports = () => {
       </section>
 
       {/* ── CTA SECTION ── */}
-      <section className="py-12 sm:py-14 md:py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-[#113C6A]">
+      <section className="py-12 sm:py-14 lg:py-16 px-5 sm:px-8 lg:px-12 bg-gradient-to-b from-white to-[#113C6A]">
         <div className="max-w-[1280px] mx-auto text-center">
-          <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs text-[#1C1825]">
+          <p className="font-semibold uppercase tracking-widest mb-2 sm:mb-3 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]">
             Need Custom Research?
           </p>
-          <h2 className="font-bold uppercase tracking-normal mb-3 text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+          <h2 className="font-bold uppercase tracking-normal mb-3 sm:mb-4 text-[24px] leading-[30px] sm:text-[32px] sm:leading-[38px] lg:text-[44px] lg:leading-[52px] text-black">
             <span className="block">Custom Industry</span>
             <span className="block">Analysis</span>
           </h2>
-          <p className="font-light text-[#1C1825] mb-8 text-sm sm:text-base md:text-[17px] md:leading-[26px] lg:text-[18px] lg:leading-[27px] max-w-2xl mx-auto">
+          <p className="font-light text-[#1C1825] mb-6 sm:mb-8 text-sm sm:text-base lg:text-[18px] lg:leading-[27px] max-w-2xl mx-auto">
             Our research team can provide tailored industry reports and market
             analysis specific to your business needs.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <Link
               to="/contact"
-              className="group inline-flex items-center justify-center gap-2 px-8 py-3 bg-[#FF7300] text-white hover:bg-[#e56800] transition-all"
+              className="group inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 bg-[#FF7300] text-white hover:bg-[#e56800] transition-all"
             >
-              <span className="font-medium">Request Custom Report</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <span className="font-medium text-xs sm:text-sm">
+                Request Custom Report
+              </span>
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               to="/contact"
-              className="inline-flex items-center justify-center gap-2 px-8 py-3 border-2 border-[#F8FFFF] text-[#F8FFFF] hover:bg-[#F8FFFF] hover:text-[#113C6A] transition-all"
+              className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 border-2 border-[#F8FFFF] text-[#F8FFFF] hover:bg-[#F8FFFF] hover:text-[#113C6A] transition-all"
             >
-              <span className="font-medium">Subscribe to Updates</span>
-              <ArrowRight className="w-4 h-4" />
+              <span className="font-medium text-xs sm:text-sm">
+                Subscribe to Updates
+              </span>
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </Link>
           </div>
         </div>

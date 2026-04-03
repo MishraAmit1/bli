@@ -450,22 +450,23 @@ const RealTimeSupport = () => {
             </p>
 
             {/* CTA */}
-            <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row gap-3">
+            <div className="mt-5 sm:mt-6 flex flex-row flex-wrap gap-3">
               <a
                 href="tel:+919687448434"
-                className="group inline-flex items-center justify-center gap-2 sm:gap-2.5 border border-white px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 hover:bg-white hover:text-[#1a1a1a] transition-all duration-300"
+                className="group inline-flex items-center justify-center gap-2 sm:gap-2.5 border border-white px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 hover:bg-white hover:text-[#1a1a1a] transition-all duration-300 w-fit"
               >
                 <span className="font-medium text-xs sm:text-sm text-white group-hover:text-[#1a1a1a] transition-colors duration-300">
                   Call Support Now
                 </span>
                 <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-[#1a1a1a] transition-all duration-300" />
               </a>
+
               <button
                 onClick={() => {
                   const element = document.getElementById("support-channels");
                   if (element) element.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="group inline-flex items-center justify-center gap-2 sm:gap-2.5 border border-white px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 hover:bg-white hover:text-[#1a1a1a] transition-all duration-300"
+                className="group inline-flex items-center justify-center gap-2 sm:gap-2.5 border border-white px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 hover:bg-white hover:text-[#1a1a1a] transition-all duration-300 w-fit"
               >
                 <span className="font-medium text-xs sm:text-sm text-white group-hover:text-[#1a1a1a] transition-colors duration-300">
                   View Support Channels

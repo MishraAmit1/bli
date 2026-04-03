@@ -1,4 +1,7 @@
 // src/components/PTLLocationPage.tsx
+import { useEffect, useState, useRef, memo } from "react";
+import { Link, useParams } from "react-router-dom";
+import { motion, useInView } from "framer-motion";
 import {
   ArrowRight,
   MapPin,
@@ -14,14 +17,11 @@ import {
   ChevronRight,
   ChevronDown,
   MessageCircle,
-  Headphones,
-  IndianRupee,
   Timer,
   Box,
   Warehouse,
+  IndianRupee,
 } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import PageLayout from "@/components/PageLayout";
 import { Helmet } from "react-helmet-async";
 import {
@@ -37,17 +37,103 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
+/* ═══════════════ SUB-COMPONENTS ═══════════════ */
+
+const StatsCard = memo(
+  ({
+    icon: Icon,
+    value,
+    label,
+  }: {
+    icon: any;
+    value: string;
+    label: string;
+  }) => (
+    <div className="bg-white p-4 sm:p-5 lg:p-6 border border-gray-200">
+      <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF7300] mb-2 sm:mb-3" />
+      <div className="font-bold leading-none mb-1 text-[28px] sm:text-[32px] lg:text-[36px] text-black">
+        {value}
+      </div>
+      <div className="font-light text-xs sm:text-sm text-[#1C1825]">
+        {label}
+      </div>
+    </div>
+  ),
+);
+
+const ProcessStep = memo(
+  ({ step, title, desc }: { step: string; title: string; desc: string }) => (
+    <div className="bg-gray-50 p-4 sm:p-5 border border-gray-200">
+      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FF7300] text-white flex items-center justify-center mx-auto mb-3 font-bold text-base sm:text-lg">
+        {step}
+      </div>
+      <div className="text-sm sm:text-base font-bold text-[#113C6A] mb-1">
+        {title}
+      </div>
+      <div className="text-xs sm:text-sm text-gray-500 font-light">{desc}</div>
+    </div>
+  ),
+);
+
+const WhyChooseCard = memo(
+  ({ icon: Icon, title, desc }: { icon: any; title: string; desc: string }) => (
+    <div className="flex items-start gap-3 sm:gap-4 p-4 sm:p-5 bg-white border border-gray-200">
+      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#113C6A] flex items-center justify-center flex-shrink-0">
+        <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={1.5} />
+      </div>
+      <div>
+        <div className="font-bold text-sm sm:text-base text-[#113C6A] mb-1">
+          {title}
+        </div>
+        <div className="text-xs sm:text-sm text-gray-600 font-light leading-relaxed">
+          {desc}
+        </div>
+      </div>
+    </div>
+  ),
+);
+
+const NetworkLink = memo(
+  ({ to, name, state }: { to: string; name: string; state: string }) => (
+    <Link
+      to={to}
+      className="group flex items-center justify-between p-3 sm:p-4 bg-white border border-gray-200 hover:border-[#FF7300] transition-all duration-300"
+    >
+      <div>
+        <span className="text-sm sm:text-base font-semibold text-[#1a1a1a] group-hover:text-[#113C6A] transition-colors">
+          {name}
+        </span>
+        <span className="text-xs text-gray-400 ml-2">{state}</span>
+      </div>
+      <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-[#FF7300] group-hover:translate-x-1 transition-all" />
+    </Link>
+  ),
+);
+
+/* ═══════════════ MAIN COMPONENT ═══════════════ */
+
 const PTLLocationPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const location = getLocationBySlug(slug || "");
 
-  // State for expand/collapse
   const [showAllDelivery, setShowAllDelivery] = useState(false);
   const [showAllPickup, setShowAllPickup] = useState(false);
 
+  const heroRef = useRef<HTMLElement>(null);
+  const aboutRef = useRef<HTMLDivElement>(null);
+  const processRef = useRef<HTMLDivElement>(null);
+  const whyChooseRef = useRef<HTMLDivElement>(null);
+
+  const heroInView = useInView(heroRef, { once: true, margin: "-80px" });
+  const aboutInView = useInView(aboutRef, { once: true, margin: "-80px" });
+  const processInView = useInView(processRef, { once: true, margin: "-80px" });
+  const whyChooseInView = useInView(whyChooseRef, {
+    once: true,
+    margin: "-80px",
+  });
+
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Reset expand state when location changes
     setShowAllDelivery(false);
     setShowAllPickup(false);
   }, [slug]);
@@ -55,18 +141,26 @@ const PTLLocationPage = () => {
   if (!location) {
     return (
       <PageLayout>
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-[#113C6A] mb-4">
-              Location Not Found
-            </h1>
-            <Link
-              to="/services/part-load"
-              className="text-[#FF7300] hover:underline"
-            >
-              ← Back to Part Load Services
-            </Link>
-          </div>
+        <Helmet>
+          <title>Location Not Found | BLI Part Load Services</title>
+          <meta name="robots" content="noindex, nofollow" />
+        </Helmet>
+        <div className="min-h-[60vh] flex flex-col items-center justify-center px-5 text-center">
+          <h1 className="font-bold uppercase tracking-normal mb-3 sm:mb-4 text-[28px] leading-[34px] sm:text-[40px] sm:leading-[46px] lg:text-[52px] lg:leading-[60px] text-black">
+            Location Not Found
+          </h1>
+          <p className="font-light mb-6 sm:mb-8 text-sm sm:text-base lg:text-[20px] lg:leading-[29px] text-[#1C1825]">
+            The location you're looking for doesn't exist.
+          </p>
+          <Link
+            to="/services/part-load"
+            className="group inline-flex items-center gap-2.5 border border-[#1a1a1a] px-5 sm:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+          >
+            <span className="font-medium text-xs sm:text-sm text-[#1a1a1a] group-hover:text-white transition-colors">
+              Back to Part Load
+            </span>
+            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+          </Link>
         </div>
       </PageLayout>
     );
@@ -80,7 +174,6 @@ const PTLLocationPage = () => {
   );
   const regionPages = getRegionPages();
 
-  // Initial items to show
   const initialCount = 5;
   const deliveryToShow = showAllDelivery
     ? allDeliveryLocations
@@ -89,7 +182,6 @@ const PTLLocationPage = () => {
     ? allPickupLocations
     : allPickupLocations.slice(0, initialCount);
 
-  // Find related region for current location
   const getRelatedRegion = () => {
     if (location.region === "Delhi NCR") return "delhi-ncr";
     if (
@@ -151,6 +243,48 @@ const PTLLocationPage = () => {
         }
       : null;
 
+  const processSteps = [
+    { step: "1", title: "Booking", desc: "Confirm order" },
+    { step: "2", title: "Pickup", desc: "Factory/warehouse" },
+    { step: "3", title: "Consolidate", desc: "Hub sorting" },
+    { step: "4", title: "Dispatch", desc: "Line haul" },
+    { step: "5", title: "Sort", desc: "Destination hub" },
+    { step: "6", title: "Deliver", desc: "Door delivery" },
+  ];
+
+  const whyChooseItems = [
+    {
+      icon: Truck,
+      title: "Strong Local Presence",
+      desc: `Deep coverage across ${location.name} and nearby areas`,
+    },
+    {
+      icon: Timer,
+      title: "Fast Pickup & Placement",
+      desc: "Quick response, minimal waiting time",
+    },
+    {
+      icon: Zap,
+      title: "Daily Dispatch Network",
+      desc: "Fixed route planning for predictable movement",
+    },
+    {
+      icon: MapPin,
+      title: "Real-Time Tracking",
+      desc: "Stay informed throughout the journey",
+    },
+    {
+      icon: IndianRupee,
+      title: "Optimized Cost Structure",
+      desc: "Load consolidation reduces transport cost",
+    },
+    {
+      icon: Shield,
+      title: "Insured & Safe",
+      desc: "Cargo insurance up to ₹50 lakhs available",
+    },
+  ];
+
   return (
     <PageLayout>
       <Helmet>
@@ -170,37 +304,62 @@ const PTLLocationPage = () => {
         )}
       </Helmet>
 
-      {/* ─── Hero Section ─── */}
-      <section className="pt-6 pb-10 sm:pb-14 px-4 sm:px-6 lg:px-8 bg-white border-b border-gray-200">
-        <div className="container mx-auto max-w-7xl">
+      {/* ══════════ HERO ══════════ */}
+      <section
+        ref={heroRef}
+        className="relative w-full min-h-[400px] sm:min-h-[450px] lg:min-h-[500px] overflow-hidden bg-gradient-to-b from-white to-gray-50"
+      >
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 py-8 sm:py-10 lg:py-12">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-1.5 text-sm text-gray-400 mb-6">
-            <Link to="/" className="hover:text-[#113C6A] transition-colors">
-              Home
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <Link
-              to="/services/part-load"
-              className="hover:text-[#113C6A] transition-colors"
-            >
-              Part Load
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-[#113C6A] font-medium">{location.name}</span>
+          <nav className="mb-4 sm:mb-5" aria-label="Breadcrumb">
+            <ol className="flex items-center gap-1.5 flex-wrap">
+              <li>
+                <Link
+                  to="/"
+                  className="text-gray-400 hover:text-[#113C6A] text-xs sm:text-sm font-semibold transition-colors"
+                >
+                  Home
+                </Link>
+              </li>
+              <li className="text-gray-300">
+                <ChevronRight className="w-3 h-3" />
+              </li>
+              <li>
+                <Link
+                  to="/services/part-load"
+                  className="text-gray-400 hover:text-[#113C6A] text-xs sm:text-sm font-semibold transition-colors"
+                >
+                  Part Load
+                </Link>
+              </li>
+              <li className="text-gray-300">
+                <ChevronRight className="w-3 h-3" />
+              </li>
+              <li>
+                <span className="text-[#113C6A] text-xs sm:text-sm font-semibold">
+                  {location.name}
+                </span>
+              </li>
+            </ol>
           </nav>
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-start">
-            {/* Left – Text */}
-            <div className="lg:col-span-3">
-              {/* Badge row */}
-              <div className="flex items-center gap-3 mb-3">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+            {/* Left – Content */}
+            <motion.div
+              className="lg:col-span-7"
+              initial={{ opacity: 0, y: 30 }}
+              animate={heroInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6 }}
+            >
+              {/* Badge */}
+              <div className="flex items-center gap-3 mb-3 sm:mb-4">
                 <span
-                  className={`px-2.5 py-1 rounded text-xs font-semibold tracking-wide uppercase ${
+                  className={`inline-block px-2.5 sm:px-3 py-1 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider ${
                     location.type === "pickup"
-                      ? "bg-green-50 text-green-700 border border-green-200"
+                      ? "bg-green-600/10 text-green-700 border border-green-200"
                       : location.type === "delivery"
-                        ? "bg-orange-50 text-[#FF7300] border border-orange-200"
-                        : "bg-blue-50 text-[#113C6A] border border-blue-200"
+                        ? "bg-[#FF7300]/10 text-[#FF7300] border border-orange-200"
+                        : "bg-[#113C6A]/10 text-[#113C6A] border border-blue-200"
                   }`}
                 >
                   {location.type === "pickup"
@@ -209,57 +368,67 @@ const PTLLocationPage = () => {
                       ? "Delivery Zone"
                       : "Region"}
                 </span>
-                <span className="text-sm text-gray-500">
+                <span className="text-xs sm:text-sm text-gray-400 font-light">
                   {location.region} · {location.state}
                 </span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl font-bold text-[#113C6A] tracking-wide font-inter">
-                Part Load Transport{" "}
-                {location.type === "pickup"
-                  ? "from"
-                  : location.type === "delivery"
-                    ? "to"
-                    : "–"}{" "}
-                {location.name}
+              {/* Heading */}
+              <h1 className="font-bold uppercase tracking-normal mb-3 sm:mb-4 text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[48px] lg:leading-[56px] text-black">
+                <span className="block">Part Load Transport</span>
+                <span className="block">
+                  {location.type === "pickup"
+                    ? "from"
+                    : location.type === "delivery"
+                      ? "to"
+                      : "–"}{" "}
+                  {location.name}
+                </span>
               </h1>
 
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-6 max-w-2xl">
+              {/* Description */}
+              <p className="font-light mb-6 sm:mb-8 text-sm sm:text-base lg:text-[20px] lg:leading-[29px] text-[#1C1825] max-w-2xl">
                 {location.description}
               </p>
 
-              {/* CTA row */}
-              <div className="flex flex-wrap gap-3 mb-8">
+              {/* CTA Buttons */}
+              <div className="flex flex-wrap gap-3 mb-6 sm:mb-8">
                 <Link
                   to="/contact"
-                  className="inline-flex items-center px-5 py-2.5 bg-[#FF7300] text-white font-semibold rounded hover:bg-[#e56800] transition-colors text-sm group"
+                  className="group inline-flex items-center gap-2 sm:gap-2.5 bg-[#FF7300] text-white px-5 sm:px-6 py-2 sm:py-2.5 hover:bg-[#e56800] transition-all duration-300"
                 >
-                  Get Quote for {location.name}
-                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <span className="font-medium text-xs sm:text-sm">
+                    Get Quote for {location.name}
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <a
                   href="tel:+919687448434"
-                  className="inline-flex items-center px-5 py-2.5 border border-[#113C6A]/20 text-[#113C6A] rounded hover:bg-[#F8FFFF] transition-colors text-sm font-medium"
+                  className="group inline-flex items-center gap-2 sm:gap-2.5 border border-[#1a1a1a] px-5 sm:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
                 >
-                  <Phone className="mr-2 w-4 h-4" />
-                  +91-968 744 8434
+                  <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <span className="font-medium text-xs sm:text-sm text-[#1a1a1a] group-hover:text-white transition-colors">
+                    +91-968 744 8434
+                  </span>
                 </a>
                 <a
                   href="https://wa.me/919687448434"
-                  className="inline-flex items-center px-5 py-2.5 bg-green-600 text-white rounded hover:bg-green-700 transition-colors text-sm font-medium"
+                  className="inline-flex items-center gap-2 sm:gap-2.5 bg-green-600 text-white px-5 sm:px-6 py-2 sm:py-2.5 hover:bg-green-700 transition-colors"
                 >
-                  <MessageCircle className="mr-2 w-4 h-4" />
-                  WhatsApp
+                  <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <span className="font-medium text-xs sm:text-sm">
+                    WhatsApp
+                  </span>
                 </a>
               </div>
 
-              {/* Key highlights as inline pills */}
+              {/* Key Highlights */}
               {location.keyHighlights && location.keyHighlights.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {location.keyHighlights.slice(0, 6).map((h, i) => (
                     <span
                       key={i}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#F8FFFF] border border-[#113C6A]/10 rounded-full text-xs text-[#113C6A] font-medium"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#113C6A]/5 border border-[#113C6A]/10 text-xs sm:text-sm text-[#113C6A] font-medium"
                     >
                       <CheckCircle className="w-3 h-3 text-[#FF7300]" />
                       {h}
@@ -267,76 +436,79 @@ const PTLLocationPage = () => {
                   ))}
                 </div>
               )}
-            </div>
+            </motion.div>
 
-            {/* Right – Stats grid */}
-            <div className="lg:col-span-2">
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  {
-                    icon: Package,
-                    value: location.monthlyShipments || "5,000+",
-                    label: "Monthly Shipments",
-                  },
-                  {
-                    icon: Warehouse,
-                    value: `${location.warehousePartners || "20"}+`,
-                    label: "Partners",
-                  },
-                  {
-                    icon: Timer,
-                    value: `${location.averageTransitDays || "2-4"} Days`,
-                    label: "Avg. Transit",
-                  },
-                  {
-                    icon: MapPin,
-                    value: `${location.routes?.length || "15"}+`,
-                    label: "Active Routes",
-                  },
-                ].map((stat, i) => (
-                  <div
-                    key={i}
-                    className="bg-[#F8FFFF] border border-[#113C6A]/10 rounded-lg p-4"
-                  >
-                    <stat.icon className="w-5 h-5 text-[#FF7300] mb-2" />
-                    <div className="text-xl font-bold text-[#113C6A]">
-                      {stat.value}
+            {/* Right – Stats */}
+            <motion.div
+              className="lg:col-span-5"
+              initial={{ opacity: 0, y: 30 }}
+              animate={heroInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <div className="grid grid-cols-2 gap-px bg-gray-200">
+                <StatsCard
+                  icon={Package}
+                  value={location.monthlyShipments || "5,000+"}
+                  label="Monthly Shipments"
+                />
+                <StatsCard
+                  icon={Warehouse}
+                  value={`${location.warehousePartners || "20"}+`}
+                  label="Partners"
+                />
+                <StatsCard
+                  icon={Timer}
+                  value={`${location.averageTransitDays || "2-4"} Days`}
+                  label="Avg. Transit"
+                />
+                <StatsCard
+                  icon={MapPin}
+                  value={`${location.routes?.length || "15"}+`}
+                  label="Active Routes"
+                />
+              </div>
+
+              {/* Quick Info */}
+              <div className="mt-px bg-[#113C6A] p-5 sm:p-6 text-white">
+                <div className="space-y-3">
+                  {[
+                    { label: "Starting Rate", value: "₹12/kg" },
+                    { label: "Min. Weight", value: "50 kg" },
+                    { label: "Pickup Speed", value: "2-4 Hours" },
+                  ].map((item, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center justify-between text-sm border-b border-white/10 pb-3 last:border-0 last:pb-0"
+                    >
+                      <span className="text-white/70 font-light">
+                        {item.label}
+                      </span>
+                      <span className="font-bold">{item.value}</span>
                     </div>
-                    <div className="text-xs text-gray-500">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Quick info box */}
-              <div className="mt-3 bg-[#113C6A] rounded-lg p-4 text-white">
-                <div className="flex items-center justify-between text-sm mb-2">
-                  <span className="text-white/70">Starting Rate</span>
-                  <span className="font-bold">₹12/kg</span>
-                </div>
-                <div className="flex items-center justify-between text-sm mb-2">
-                  <span className="text-white/70">Min. Weight</span>
-                  <span className="font-bold">50 kg</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-white/70">Pickup Speed</span>
-                  <span className="font-bold">2-4 Hours</span>
+                  ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ─── Main Content ─── */}
-      <section className="py-10 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* ─── Left Content ─── */}
-            <div className="lg:col-span-2 space-y-8">
-              {/* About */}
-              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-                <h2 className="text-xl font-bold text-[#113C6A] mb-4 flex items-center gap-2">
-                  <Building2 className="w-5 h-5 text-[#FF7300]" />
+      {/* ══════════ MAIN CONTENT ══════════ */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-white">
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+            {/* ── Left Content ── */}
+            <div className="lg:col-span-8 space-y-8 sm:space-y-10 lg:space-y-12">
+              {/* About Section */}
+              <motion.div
+                ref={aboutRef}
+                initial={{ opacity: 0, y: 30 }}
+                animate={aboutInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6 }}
+                className="bg-gray-50 border border-gray-200 p-5 sm:p-6 lg:p-8"
+              >
+                <h2 className="font-bold uppercase tracking-normal mb-4 sm:mb-5 text-[20px] leading-[26px] sm:text-[24px] sm:leading-[30px] lg:text-[28px] lg:leading-[34px] text-black flex items-center gap-2 sm:gap-3">
+                  <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF7300]" />
                   About PTL{" "}
                   {location.type === "pickup"
                     ? "from"
@@ -345,40 +517,45 @@ const PTLLocationPage = () => {
                       : "in"}{" "}
                   {location.name}
                 </h2>
-                <div className="text-gray-600 leading-relaxed space-y-4 text-[15px]">
+                <div className="space-y-4 text-sm sm:text-[15px] leading-relaxed text-gray-600 font-light">
                   {location.longDescription.split("\n\n").map((para, i) => (
                     <p key={i}>{para.trim()}</p>
                   ))}
                 </div>
-              </div>
+              </motion.div>
 
-              {/* Industrial / Pickup / Delivery Areas */}
+              {/* Industrial Areas */}
               {location.industrialAreas &&
                 location.industrialAreas.length > 0 && (
-                  <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-                    <h2 className="text-xl font-bold text-[#113C6A] mb-4 flex items-center gap-2">
-                      <MapPin className="w-5 h-5 text-[#FF7300]" />
+                  <div className="bg-white border border-gray-200 p-5 sm:p-6 lg:p-8">
+                    <h2 className="font-bold uppercase tracking-normal mb-4 sm:mb-5 text-[20px] leading-[26px] sm:text-[24px] sm:leading-[30px] text-black flex items-center gap-2 sm:gap-3">
+                      <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF7300]" />
                       {location.type === "pickup"
-                        ? "Pickup Zones & Industrial Areas"
-                        : "Delivery Zones & Industrial Areas"}
+                        ? "Pickup Zones"
+                        : "Delivery Zones"}
                     </h2>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                       {location.industrialAreas.map((area, i) => (
                         <div
                           key={i}
-                          className="flex items-center gap-2 p-2.5 bg-gray-50 rounded text-sm border border-gray-100"
+                          className="flex items-center gap-2 p-3 bg-gray-50 border border-gray-200 text-sm"
                         >
                           <CheckCircle className="w-3.5 h-3.5 text-[#FF7300] flex-shrink-0" />
-                          <span className="text-gray-700">{area}</span>
+                          <span className="text-gray-700 font-light">
+                            {area}
+                          </span>
                         </div>
                       ))}
                     </div>
                     {location.type === "pickup" && (
-                      <div className="mt-4 p-3 bg-green-50 border border-green-100 rounded flex items-start gap-2">
-                        <Zap className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                        <p className="text-sm text-green-800">
-                          <strong>Same-day pickup available</strong> Vehicle
-                          placement within 2-4 hours for bookings before 2 PM
+                      <div className="mt-5 p-4 bg-green-50 border border-green-200 flex items-start gap-3">
+                        <Zap className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                        <p className="text-sm text-green-800 font-light leading-relaxed">
+                          <strong className="font-bold">
+                            Same-day pickup available
+                          </strong>{" "}
+                          — Vehicle placement within 2-4 hours for bookings
+                          before 2 PM
                         </p>
                       </div>
                     )}
@@ -387,27 +564,27 @@ const PTLLocationPage = () => {
 
               {/* Routes Table */}
               {location.routes && location.routes.length > 0 && (
-                <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-                  <h2 className="text-xl font-bold text-[#113C6A] mb-4 flex items-center gap-2">
-                    <Truck className="w-5 h-5 text-[#FF7300]" />
+                <div className="bg-white border border-gray-200 p-5 sm:p-6 lg:p-8">
+                  <h2 className="font-bold uppercase tracking-normal mb-4 sm:mb-5 text-[20px] leading-[26px] sm:text-[24px] sm:leading-[30px] text-black flex items-center gap-2 sm:gap-3">
+                    <Truck className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF7300]" />
                     {location.type === "pickup"
-                      ? `PTL Routes from ${location.name}`
-                      : `PTL Routes to ${location.name}`}
+                      ? `Routes from ${location.name}`
+                      : `Routes to ${location.name}`}
                   </h2>
-                  <div className="overflow-x-auto -mx-2">
+                  <div className="overflow-x-auto -mx-2 sm:-mx-4">
                     <table className="w-full text-sm min-w-[500px]">
                       <thead>
-                        <tr className="border-b-2 border-[#113C6A]/10">
-                          <th className="text-left py-3 px-3 font-semibold text-[#113C6A]">
+                        <tr className="border-b-2 border-gray-200">
+                          <th className="text-left py-3 px-3 font-bold text-[#113C6A] text-xs uppercase tracking-wider">
                             Route
                           </th>
-                          <th className="text-left py-3 px-3 font-semibold text-[#113C6A]">
+                          <th className="text-left py-3 px-3 font-bold text-[#113C6A] text-xs uppercase tracking-wider">
                             Distance
                           </th>
-                          <th className="text-left py-3 px-3 font-semibold text-[#113C6A]">
+                          <th className="text-left py-3 px-3 font-bold text-[#113C6A] text-xs uppercase tracking-wider">
                             Transit
                           </th>
-                          <th className="text-left py-3 px-3 font-semibold text-[#113C6A]">
+                          <th className="text-left py-3 px-3 font-bold text-[#113C6A] text-xs uppercase tracking-wider">
                             Frequency
                           </th>
                         </tr>
@@ -416,11 +593,11 @@ const PTLLocationPage = () => {
                         {location.routes.map((route, i) => (
                           <tr
                             key={i}
-                            className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
+                            className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
                           >
                             <td className="py-3 px-3">
-                              <div className="flex items-center gap-1.5">
-                                <span className="font-medium text-[#113C6A]">
+                              <div className="flex items-center gap-2">
+                                <span className="font-semibold text-[#113C6A] text-sm">
                                   {location.type === "pickup"
                                     ? location.name
                                     : route.to.replace("From ", "")}
@@ -429,14 +606,14 @@ const PTLLocationPage = () => {
                                 {route.slug ? (
                                   <Link
                                     to={`/services/part-load-transport/${route.slug}`}
-                                    className="text-[#113C6A] hover:text-[#FF7300] font-medium transition-colors"
+                                    className="text-[#113C6A] hover:text-[#FF7300] font-semibold text-sm transition-colors"
                                   >
                                     {location.type === "pickup"
                                       ? route.to
                                       : location.name}
                                   </Link>
                                 ) : (
-                                  <span className="font-medium text-gray-700">
+                                  <span className="font-semibold text-gray-700 text-sm">
                                     {location.type === "pickup"
                                       ? route.to
                                       : location.name}
@@ -444,20 +621,20 @@ const PTLLocationPage = () => {
                                 )}
                               </div>
                             </td>
-                            <td className="py-3 px-3 text-gray-500">
-                              {route.distance || ""}
+                            <td className="py-3 px-3 text-gray-500 font-light text-sm">
+                              {route.distance || "—"}
                             </td>
                             <td className="py-3 px-3">
-                              <span className="inline-flex items-center gap-1 text-gray-700">
+                              <span className="inline-flex items-center gap-1.5 text-gray-700 text-sm font-light">
                                 <Clock className="w-3 h-3 text-[#FF7300]" />
                                 {route.transitTime}
                               </span>
                             </td>
                             <td className="py-3 px-3">
                               <span
-                                className={`px-2 py-0.5 rounded text-xs font-medium ${
+                                className={`px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${
                                   route.frequency === "Daily"
-                                    ? "bg-green-50 text-green-700 border border-green-200"
+                                    ? "bg-green-600/10 text-green-700 border border-green-200"
                                     : "bg-gray-100 text-gray-600 border border-gray-200"
                                 }`}
                               >
@@ -474,19 +651,21 @@ const PTLLocationPage = () => {
 
               {/* Industries */}
               {location.industries && location.industries.length > 0 && (
-                <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-                  <h2 className="text-xl font-bold text-[#113C6A] mb-4 flex items-center gap-2">
-                    <Factory className="w-5 h-5 text-[#FF7300]" />
-                    Industries We Serve in {location.name}
+                <div className="bg-white border border-gray-200 p-5 sm:p-6 lg:p-8">
+                  <h2 className="font-bold uppercase tracking-normal mb-4 sm:mb-5 text-[20px] leading-[26px] sm:text-[24px] sm:leading-[30px] text-black flex items-center gap-2 sm:gap-3">
+                    <Factory className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF7300]" />
+                    Industries We Serve
                   </h2>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {location.industries.map((industry, i) => (
                       <div
                         key={i}
-                        className="flex items-center gap-2 p-2.5 bg-orange-50/50 border border-orange-100 rounded text-sm"
+                        className="flex items-center gap-2 p-3 bg-[#FF7300]/5 border border-orange-200 text-sm"
                       >
                         <CheckCircle className="w-3.5 h-3.5 text-[#FF7300] flex-shrink-0" />
-                        <span className="text-gray-700">{industry}</span>
+                        <span className="text-gray-700 font-light">
+                          {industry}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -496,19 +675,21 @@ const PTLLocationPage = () => {
               {/* Service Features */}
               {location.serviceFeatures &&
                 location.serviceFeatures.length > 0 && (
-                  <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-                    <h2 className="text-xl font-bold text-[#113C6A] mb-4 flex items-center gap-2">
-                      <Box className="w-5 h-5 text-[#FF7300]" />
+                  <div className="bg-white border border-gray-200 p-5 sm:p-6 lg:p-8">
+                    <h2 className="font-bold uppercase tracking-normal mb-4 sm:mb-5 text-[20px] leading-[26px] sm:text-[24px] sm:leading-[30px] text-black flex items-center gap-2 sm:gap-3">
+                      <Box className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF7300]" />
                       Service Features
                     </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {location.serviceFeatures.map((feature, i) => (
                         <div
                           key={i}
-                          className="flex items-center gap-2 p-3 bg-gray-50 rounded text-sm border border-gray-100"
+                          className="flex items-center gap-2 p-3 bg-gray-50 border border-gray-200 text-sm"
                         >
                           <CheckCircle className="w-3.5 h-3.5 text-[#113C6A] flex-shrink-0" />
-                          <span className="text-gray-700">{feature}</span>
+                          <span className="text-gray-700 font-light">
+                            {feature}
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -516,115 +697,63 @@ const PTLLocationPage = () => {
                 )}
 
               {/* How PTL Works */}
-              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-                <h2 className="text-xl font-bold text-[#113C6A] mb-6 flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-[#FF7300]" />
+              <motion.div
+                ref={processRef}
+                initial={{ opacity: 0, y: 30 }}
+                animate={processInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6 }}
+                className="bg-gray-50 border border-gray-200 p-5 sm:p-6 lg:p-8"
+              >
+                <h2 className="font-bold uppercase tracking-normal mb-5 sm:mb-6 text-[20px] leading-[26px] sm:text-[24px] sm:leading-[30px] text-black flex items-center gap-2 sm:gap-3">
+                  <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF7300]" />
                   How Our PTL Process Works
                 </h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-                  {[
-                    { step: "1", title: "Booking", desc: "Confirm order" },
-                    { step: "2", title: "Pickup", desc: "Factory/warehouse" },
-                    { step: "3", title: "Consolidate", desc: "Hub sorting" },
-                    { step: "4", title: "Dispatch", desc: "Line haul" },
-                    { step: "5", title: "Sort", desc: "Destination hub" },
-                    { step: "6", title: "Deliver", desc: "Door delivery" },
-                  ].map((item, i) => (
-                    <div
-                      key={i}
-                      className="text-center p-3 bg-gray-50 rounded border border-gray-100"
-                    >
-                      <div className="w-8 h-8 bg-[#FF7300] text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                        {item.step}
-                      </div>
-                      <div className="text-sm font-semibold text-[#113C6A]">
-                        {item.title}
-                      </div>
-                      <div className="text-xs text-gray-500">{item.desc}</div>
-                    </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px bg-gray-200">
+                  {processSteps.map((item, i) => (
+                    <ProcessStep key={i} {...item} />
                   ))}
                 </div>
-                <p className="text-sm text-gray-500 mt-4 text-center">
+                <p className="text-xs sm:text-sm text-gray-500 font-light mt-5 text-center">
                   End-to-end visibility and coordination at every stage
                 </p>
-              </div>
+              </motion.div>
 
               {/* Why Choose BLI */}
-              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-                <h2 className="text-xl font-bold text-[#113C6A] mb-4 flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-[#FF7300]" />
-                  Why Choose BLI for PTL in {location.name}?
+              <motion.div
+                ref={whyChooseRef}
+                initial={{ opacity: 0, y: 30 }}
+                animate={whyChooseInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6 }}
+                className="bg-white border border-gray-200 p-5 sm:p-6 lg:p-8"
+              >
+                <h2 className="font-bold uppercase tracking-normal mb-5 sm:mb-6 text-[20px] leading-[26px] sm:text-[24px] sm:leading-[30px] text-black flex items-center gap-2 sm:gap-3">
+                  <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF7300]" />
+                  Why Choose BLI?
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {[
-                    {
-                      icon: Truck,
-                      title: "Strong Local Presence",
-                      desc: `Deep coverage across ${location.name} and nearby areas`,
-                    },
-                    {
-                      icon: Timer,
-                      title: "Fast Pickup & Placement",
-                      desc: "Quick response, minimal waiting time",
-                    },
-                    {
-                      icon: Zap,
-                      title: "Daily Dispatch Network",
-                      desc: "Fixed route planning for predictable movement",
-                    },
-                    {
-                      icon: MapPin,
-                      title: "Real-Time Tracking",
-                      desc: "Stay informed throughout the journey",
-                    },
-                    {
-                      icon: IndianRupee,
-                      title: "Optimized Cost Structure",
-                      desc: "Load consolidation reduces transport cost",
-                    },
-                    {
-                      icon: Shield,
-                      title: "Insured & Safe",
-                      desc: "Cargo insurance up to ₹50 lakhs available",
-                    },
-                  ].map((item, i) => (
-                    <div
-                      key={i}
-                      className="flex items-start gap-3 p-3 rounded border border-gray-100"
-                    >
-                      <div className="w-9 h-9 bg-[#113C6A] rounded flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <item.icon className="w-4 h-4 text-white" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-[#113C6A] text-sm">
-                          {item.title}
-                        </div>
-                        <div className="text-xs text-gray-500 mt-0.5">
-                          {item.desc}
-                        </div>
-                      </div>
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-gray-200">
+                  {whyChooseItems.map((item, i) => (
+                    <WhyChooseCard key={i} {...item} />
                   ))}
                 </div>
-              </div>
+              </motion.div>
 
               {/* FAQs */}
               {location.faqs && location.faqs.length > 0 && (
-                <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-                  <h2 className="text-xl font-bold text-[#113C6A] mb-4">
+                <div className="bg-white border border-gray-200 p-5 sm:p-6 lg:p-8">
+                  <h2 className="font-bold uppercase tracking-normal mb-4 sm:mb-5 text-[20px] leading-[26px] sm:text-[24px] sm:leading-[30px] text-black">
                     Frequently Asked Questions
                   </h2>
-                  <Accordion type="single" collapsible className="space-y-2">
+                  <Accordion type="single" collapsible className="space-y-3">
                     {location.faqs.map((faq, i) => (
                       <AccordionItem
                         key={i}
                         value={`faq-${i}`}
-                        className="border border-gray-100 rounded px-4"
+                        className="border border-gray-200 px-4 sm:px-5"
                       >
-                        <AccordionTrigger className="text-left text-[#113C6A] font-medium hover:no-underline py-4 text-sm">
+                        <AccordionTrigger className="text-left text-[#113C6A] font-semibold hover:no-underline py-4 text-sm sm:text-base">
                           {faq.question}
                         </AccordionTrigger>
-                        <AccordionContent className="text-gray-600 pb-4 text-sm">
+                        <AccordionContent className="text-gray-600 font-light pb-4 text-sm leading-relaxed">
                           {faq.answer}
                         </AccordionContent>
                       </AccordionItem>
@@ -635,16 +764,16 @@ const PTLLocationPage = () => {
 
               {/* Nearby Areas */}
               {location.nearbyAreas && location.nearbyAreas.length > 0 && (
-                <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-                  <h2 className="text-xl font-bold text-[#113C6A] mb-4 flex items-center gap-2">
-                    <MapPin className="w-5 h-5 text-[#FF7300]" />
+                <div className="bg-white border border-gray-200 p-5 sm:p-6 lg:p-8">
+                  <h2 className="font-bold uppercase tracking-normal mb-4 sm:mb-5 text-[20px] leading-[26px] sm:text-[24px] sm:leading-[30px] text-black flex items-center gap-2 sm:gap-3">
+                    <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF7300]" />
                     Nearby Areas We Cover
                   </h2>
                   <div className="flex flex-wrap gap-2">
                     {location.nearbyAreas.map((area, i) => (
                       <span
                         key={i}
-                        className="px-3 py-1.5 bg-gray-50 border border-gray-100 rounded-full text-sm text-gray-700"
+                        className="px-3 py-1.5 bg-gray-50 border border-gray-200 text-xs sm:text-sm text-gray-700 font-light"
                       >
                         {area}
                       </span>
@@ -654,48 +783,50 @@ const PTLLocationPage = () => {
               )}
             </div>
 
-            {/* ─── Sidebar ─── */}
-            <div className="space-y-6">
-              {/* Sticky wrapper */}
-              <div className="lg:sticky lg:top-24 space-y-6">
+            {/* ── Sidebar ── */}
+            <div className="lg:col-span-4">
+              <div className="lg:sticky lg:top-24 space-y-5 sm:space-y-6">
                 {/* Quote Card */}
-                <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-                  <h3 className="text-lg font-bold text-[#113C6A] mb-4">
+                <div className="bg-white border border-gray-200 p-5 sm:p-6">
+                  <h3 className="font-bold text-[#113C6A] mb-4 text-base sm:text-lg">
                     Get Instant PTL Quote
                   </h3>
-                  <div className="space-y-2.5 mb-5 text-sm">
-                    <div className="flex justify-between py-2 border-b border-gray-50">
-                      <span className="text-gray-500">Starting Rate</span>
-                      <span className="font-bold text-[#113C6A]">₹12/kg</span>
-                    </div>
-                    <div className="flex justify-between py-2 border-b border-gray-50">
-                      <span className="text-gray-500">Min. Weight</span>
-                      <span className="font-bold text-[#113C6A]">50 kg</span>
-                    </div>
-                    <div className="flex justify-between py-2">
-                      <span className="text-gray-500">Pickup Speed</span>
-                      <span className="font-bold text-[#113C6A]">
-                        2-4 Hours
-                      </span>
-                    </div>
+                  <div className="space-y-3 mb-5 text-sm">
+                    {[
+                      { label: "Starting Rate", value: "₹12/kg" },
+                      { label: "Min. Weight", value: "50 kg" },
+                      { label: "Pickup Speed", value: "2-4 Hours" },
+                    ].map((item, i) => (
+                      <div
+                        key={i}
+                        className="flex justify-between py-2 border-b border-gray-100 last:border-0"
+                      >
+                        <span className="text-gray-500 font-light">
+                          {item.label}
+                        </span>
+                        <span className="font-bold text-[#113C6A]">
+                          {item.value}
+                        </span>
+                      </div>
+                    ))}
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-2.5">
                     <Link
                       to="/contact"
-                      className="block w-full text-center py-2.5 bg-[#FF7300] text-white font-semibold rounded hover:bg-[#e56800] transition-colors text-sm"
+                      className="block w-full text-center py-2.5 bg-[#FF7300] text-white font-semibold hover:bg-[#e56800] transition-colors text-sm"
                     >
                       Request Quote
                     </Link>
                     <a
                       href="tel:+919687448434"
-                      className="flex items-center justify-center w-full py-2.5 border border-gray-200 text-[#113C6A] rounded hover:bg-gray-50 transition-colors text-sm font-medium"
+                      className="flex items-center justify-center w-full py-2.5 border border-gray-200 text-[#113C6A] hover:bg-gray-50 transition-colors text-sm font-semibold"
                     >
                       <Phone className="w-4 h-4 mr-2" />
                       Call Now
                     </a>
                     <a
                       href="https://wa.me/919687448434"
-                      className="flex items-center justify-center w-full py-2.5 bg-green-600 text-white rounded hover:bg-green-700 transition-colors text-sm font-medium"
+                      className="flex items-center justify-center w-full py-2.5 bg-green-600 text-white hover:bg-green-700 transition-colors text-sm font-semibold"
                     >
                       <MessageCircle className="w-4 h-4 mr-2" />
                       WhatsApp Us
@@ -703,41 +834,28 @@ const PTLLocationPage = () => {
                   </div>
                 </div>
 
-                {/* ─── Contextual Network Navigation ─── */}
-
-                {/* Pickup pages → Show "We Deliver To" with expand */}
+                {/* Network Navigation */}
                 {location.type === "pickup" &&
                   allDeliveryLocations.length > 0 && (
-                    <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
+                    <div className="bg-white border border-gray-200 p-5">
                       <h3 className="font-bold text-[#113C6A] mb-3 text-sm flex items-center gap-2">
                         <Truck className="w-4 h-4 text-[#FF7300]" />
                         We Deliver To
                       </h3>
-                      <div className="space-y-0.5">
+                      <div className="space-y-px bg-gray-200">
                         {deliveryToShow.map((loc) => (
-                          <Link
+                          <NetworkLink
                             key={loc.slug}
                             to={`/services/part-load-transport/${loc.slug}`}
-                            className="flex items-center justify-between p-2 rounded hover:bg-gray-50 text-sm group transition-colors"
-                          >
-                            <div>
-                              <span className="text-gray-700 group-hover:text-[#113C6A] font-medium">
-                                {loc.name}
-                              </span>
-                              <span className="text-gray-400 text-xs ml-1.5">
-                                {loc.state}
-                              </span>
-                            </div>
-                            <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-[#FF7300]" />
-                          </Link>
+                            name={loc.name}
+                            state={loc.state}
+                          />
                         ))}
                       </div>
-
-                      {/* Expand/Collapse Button */}
                       {allDeliveryLocations.length > initialCount && (
                         <button
                           onClick={() => setShowAllDelivery(!showAllDelivery)}
-                          className="w-full mt-3 pt-3 border-t border-gray-100 flex items-center justify-center gap-1.5 text-xs text-[#FF7300] hover:text-[#e56800] font-medium transition-colors"
+                          className="w-full mt-3 pt-3 border-t border-gray-200 flex items-center justify-center gap-1.5 text-xs text-[#FF7300] hover:text-[#e56800] font-semibold transition-colors"
                         >
                           {showAllDelivery ? (
                             <>
@@ -755,39 +873,27 @@ const PTLLocationPage = () => {
                     </div>
                   )}
 
-                {/* Delivery pages → Show "We Pickup From" with expand */}
                 {location.type === "delivery" &&
                   allPickupLocations.length > 0 && (
-                    <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
+                    <div className="bg-white border border-gray-200 p-5">
                       <h3 className="font-bold text-[#113C6A] mb-3 text-sm flex items-center gap-2">
                         <Package className="w-4 h-4 text-green-600" />
                         We Pickup From
                       </h3>
-                      <div className="space-y-0.5">
+                      <div className="space-y-px bg-gray-200">
                         {pickupToShow.map((loc) => (
-                          <Link
+                          <NetworkLink
                             key={loc.slug}
                             to={`/services/part-load-transport/${loc.slug}`}
-                            className="flex items-center justify-between p-2 rounded hover:bg-gray-50 text-sm group transition-colors"
-                          >
-                            <div>
-                              <span className="text-gray-700 group-hover:text-[#113C6A] font-medium">
-                                {loc.name}
-                              </span>
-                              <span className="text-gray-400 text-xs ml-1.5">
-                                {loc.state}
-                              </span>
-                            </div>
-                            <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-[#FF7300]" />
-                          </Link>
+                            name={loc.name}
+                            state={loc.state}
+                          />
                         ))}
                       </div>
-
-                      {/* Expand/Collapse Button */}
                       {allPickupLocations.length > initialCount && (
                         <button
                           onClick={() => setShowAllPickup(!showAllPickup)}
-                          className="w-full mt-3 pt-3 border-t border-gray-100 flex items-center justify-center gap-1.5 text-xs text-[#FF7300] hover:text-[#e56800] font-medium transition-colors"
+                          className="w-full mt-3 pt-3 border-t border-gray-200 flex items-center justify-center gap-1.5 text-xs text-[#FF7300] hover:text-[#e56800] font-semibold transition-colors"
                         >
                           {showAllPickup ? (
                             <>
@@ -805,33 +911,28 @@ const PTLLocationPage = () => {
                     </div>
                   )}
 
-                {/* Region pages → Show both with expand */}
                 {location.type === "region" && (
                   <>
                     {allPickupLocations.length > 0 && (
-                      <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
+                      <div className="bg-white border border-gray-200 p-5">
                         <h3 className="font-bold text-[#113C6A] mb-3 text-sm flex items-center gap-2">
                           <Package className="w-4 h-4 text-green-600" />
                           Pickup Hubs
                         </h3>
-                        <div className="space-y-0.5">
+                        <div className="space-y-px bg-gray-200">
                           {pickupToShow.map((loc) => (
-                            <Link
+                            <NetworkLink
                               key={loc.slug}
                               to={`/services/part-load-transport/${loc.slug}`}
-                              className="flex items-center justify-between p-2 rounded hover:bg-gray-50 text-sm group transition-colors"
-                            >
-                              <span className="text-gray-700 group-hover:text-[#113C6A] font-medium">
-                                {loc.name}
-                              </span>
-                              <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-[#FF7300]" />
-                            </Link>
+                              name={loc.name}
+                              state={loc.state}
+                            />
                           ))}
                         </div>
                         {allPickupLocations.length > initialCount && (
                           <button
                             onClick={() => setShowAllPickup(!showAllPickup)}
-                            className="w-full mt-3 pt-3 border-t border-gray-100 flex items-center justify-center gap-1.5 text-xs text-[#FF7300] hover:text-[#e56800] font-medium transition-colors"
+                            className="w-full mt-3 pt-3 border-t border-gray-200 flex items-center justify-center gap-1.5 text-xs text-[#FF7300] hover:text-[#e56800] font-semibold transition-colors"
                           >
                             {showAllPickup ? (
                               <>
@@ -849,29 +950,25 @@ const PTLLocationPage = () => {
                       </div>
                     )}
                     {allDeliveryLocations.length > 0 && (
-                      <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
+                      <div className="bg-white border border-gray-200 p-5">
                         <h3 className="font-bold text-[#113C6A] mb-3 text-sm flex items-center gap-2">
                           <Truck className="w-4 h-4 text-[#FF7300]" />
                           Delivery Zones
                         </h3>
-                        <div className="space-y-0.5">
+                        <div className="space-y-px bg-gray-200">
                           {deliveryToShow.map((loc) => (
-                            <Link
+                            <NetworkLink
                               key={loc.slug}
                               to={`/services/part-load-transport/${loc.slug}`}
-                              className="flex items-center justify-between p-2 rounded hover:bg-gray-50 text-sm group transition-colors"
-                            >
-                              <span className="text-gray-700 group-hover:text-[#113C6A] font-medium">
-                                {loc.name}
-                              </span>
-                              <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-[#FF7300]" />
-                            </Link>
+                              name={loc.name}
+                              state={loc.state}
+                            />
                           ))}
                         </div>
                         {allDeliveryLocations.length > initialCount && (
                           <button
                             onClick={() => setShowAllDelivery(!showAllDelivery)}
-                            className="w-full mt-3 pt-3 border-t border-gray-100 flex items-center justify-center gap-1.5 text-xs text-[#FF7300] hover:text-[#e56800] font-medium transition-colors"
+                            className="w-full mt-3 pt-3 border-t border-gray-200 flex items-center justify-center gap-1.5 text-xs text-[#FF7300] hover:text-[#e56800] font-semibold transition-colors"
                           >
                             {showAllDelivery ? (
                               <>
@@ -891,18 +988,18 @@ const PTLLocationPage = () => {
                   </>
                 )}
 
-                {/* Related Region Link  for delivery hubs */}
+                {/* Related Region */}
                 {location.type === "delivery" && relatedRegion && (
                   <Link
                     to={`/services/part-load-transport/${relatedRegion.slug}`}
-                    className="block bg-[#F8FFFF] rounded-lg p-4 border border-[#113C6A]/10 hover:border-[#FF7300]/30 transition-colors group"
+                    className="group block bg-[#113C6A]/5 border border-[#113C6A]/10 p-5 hover:border-[#FF7300]/30 transition-colors"
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="text-xs text-gray-500 mb-1">
+                        <div className="text-xs text-gray-500 font-light mb-1">
                           Explore Region
                         </div>
-                        <div className="font-semibold text-[#113C6A] group-hover:text-[#FF7300] transition-colors">
+                        <div className="font-bold text-[#113C6A] group-hover:text-[#FF7300] transition-colors text-sm">
                           {relatedRegion.name}
                         </div>
                       </div>
@@ -911,36 +1008,32 @@ const PTLLocationPage = () => {
                   </Link>
                 )}
 
-                {/* Regions Quick Links  show on all location pages */}
+                {/* Regions Quick Links */}
                 {regionPages.length > 0 && location.type !== "region" && (
-                  <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
+                  <div className="bg-white border border-gray-200 p-5">
                     <h3 className="font-bold text-[#113C6A] mb-3 text-sm flex items-center gap-2">
                       <MapPin className="w-4 h-4 text-[#113C6A]" />
                       Explore Regions
                     </h3>
-                    <div className="space-y-0.5">
+                    <div className="space-y-px bg-gray-200">
                       {regionPages.map((region) => (
-                        <Link
+                        <NetworkLink
                           key={region.slug}
                           to={`/services/part-load-transport/${region.slug}`}
-                          className="flex items-center justify-between p-2 rounded hover:bg-gray-50 text-sm group transition-colors"
-                        >
-                          <span className="text-gray-700 group-hover:text-[#113C6A] font-medium">
-                            {region.name.replace(" Region", "")}
-                          </span>
-                          <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-[#FF7300]" />
-                        </Link>
+                          name={region.name.replace(" Region", "")}
+                          state=""
+                        />
                       ))}
                     </div>
                   </div>
                 )}
 
-                {/* Trust bar */}
-                <div className="bg-[#113C6A] rounded-lg p-5 text-white">
-                  <h3 className="font-bold mb-3 text-sm">
+                {/* Trust Stats */}
+                <div className="bg-[#113C6A] p-5 text-white">
+                  <h3 className="font-bold mb-4 text-sm sm:text-base">
                     Trusted by 1,000+ Businesses
                   </h3>
-                  <div className="space-y-2.5">
+                  <div className="space-y-3">
                     {[
                       { value: "25+", label: "Years of Experience" },
                       { value: "500+", label: "Cities Served" },
@@ -949,12 +1042,12 @@ const PTLLocationPage = () => {
                     ].map((stat, i) => (
                       <div
                         key={i}
-                        className="flex items-center justify-between py-1.5 border-b border-white/10 last:border-0"
+                        className="flex items-center justify-between py-2 border-b border-white/10 last:border-0"
                       >
-                        <span className="text-xl font-bold text-[#FF7300]">
+                        <span className="text-xl sm:text-2xl font-bold text-[#FF7300]">
                           {stat.value}
                         </span>
-                        <span className="text-xs text-white/60">
+                        <span className="text-xs text-white/70 font-light">
                           {stat.label}
                         </span>
                       </div>
@@ -962,8 +1055,8 @@ const PTLLocationPage = () => {
                   </div>
                 </div>
 
-                {/* Quick links */}
-                <div className="bg-white rounded-lg p-5 border border-gray-100">
+                {/* Quick Links */}
+                <div className="bg-white border border-gray-200 p-5">
                   <h3 className="font-bold text-[#113C6A] mb-3 text-sm">
                     Explore More
                   </h3>
@@ -983,7 +1076,7 @@ const PTLLocationPage = () => {
                       <Link
                         key={i}
                         to={link.to}
-                        className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#FF7300] p-2 rounded hover:bg-gray-50 transition-colors"
+                        className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#FF7300] p-2 hover:bg-gray-50 transition-colors font-light"
                       >
                         <ArrowRight className="w-3 h-3" />
                         {link.label}
@@ -997,10 +1090,10 @@ const PTLLocationPage = () => {
         </div>
       </section>
 
-      {/* ─── Bottom CTA ─── */}
-      <section className="py-14 px-4 sm:px-6 lg:px-8 bg-[#113C6A]">
-        <div className="container mx-auto max-w-3xl text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
+      {/* ══════════ BOTTOM CTA ══════════ */}
+      <section className="py-14 sm:py-16 lg:py-20 bg-[#113C6A]">
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 text-center">
+          <h2 className="font-bold uppercase tracking-normal mb-3 sm:mb-4 text-[24px] leading-[30px] sm:text-[32px] sm:leading-[38px] lg:text-[40px] lg:leading-[48px] text-white">
             Ready to Ship{" "}
             {location.type === "pickup"
               ? "from"
@@ -1009,34 +1102,34 @@ const PTLLocationPage = () => {
                 : "via"}{" "}
             {location.name}?
           </h2>
-          <p className="text-white/70 mb-8">
+          <p className="font-light mb-8 sm:mb-10 text-sm sm:text-base text-white/80">
             Get instant pricing and schedule your pickup today
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link
               to="/contact"
-              className="inline-flex items-center px-6 py-3 bg-[#FF7300] text-white font-semibold rounded hover:bg-[#e56800] transition-colors group"
+              className="group inline-flex items-center gap-2 sm:gap-2.5 bg-[#FF7300] text-white px-5 sm:px-6 py-2.5 sm:py-3 hover:bg-[#e56800] transition-all duration-300"
             >
-              Get Free Quote
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <span className="font-semibold text-sm">Get Free Quote</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <a
               href="tel:+919687448434"
-              className="inline-flex items-center px-6 py-3 bg-white/10 border border-white/20 text-white rounded hover:bg-white/20 transition-colors"
+              className="inline-flex items-center gap-2 sm:gap-2.5 bg-white/10 border border-white/20 text-white px-5 sm:px-6 py-2.5 sm:py-3 hover:bg-white/20 transition-colors"
             >
-              <Phone className="mr-2 w-4 h-4" />
-              Call Now
+              <Phone className="w-4 h-4" />
+              <span className="font-semibold text-sm">Call Now</span>
             </a>
             <a
               href="https://wa.me/919687448434"
-              className="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+              className="inline-flex items-center gap-2 sm:gap-2.5 bg-green-600 text-white px-5 sm:px-6 py-2.5 sm:py-3 hover:bg-green-700 transition-colors"
             >
-              <MessageCircle className="mr-2 w-4 h-4" />
-              WhatsApp
+              <MessageCircle className="w-4 h-4" />
+              <span className="font-semibold text-sm">WhatsApp</span>
             </a>
           </div>
-          <p className="text-white/40 text-sm mt-6">
-            BLI Rapid Big Enough to Move the World. Small Enough to Care.
+          <p className="text-white/50 text-xs sm:text-sm font-light mt-6 sm:mt-8">
+            BLI Rapid — Big Enough to Move the World. Small Enough to Care.
           </p>
         </div>
       </section>
@@ -1044,4 +1137,4 @@ const PTLLocationPage = () => {
   );
 };
 
-export default PTLLocationPage;
+export default memo(PTLLocationPage);

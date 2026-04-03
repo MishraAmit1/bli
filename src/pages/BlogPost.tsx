@@ -229,34 +229,20 @@ const BlogPost = () => {
           <meta name="robots" content="noindex, nofollow" />
         </Helmet>
         <div className="min-h-[60vh] flex flex-col items-center justify-center px-5 text-center">
-          <h1
-            className="font-bold uppercase tracking-normal mb-4"
-            style={{
-              fontSize: "52px",
-              lineHeight: "60px",
-              color: "rgb(0,0,0)",
-            }}
-          >
+          <h1 className="font-bold uppercase tracking-normal mb-3 sm:mb-4 text-[28px] leading-[34px] sm:text-[40px] sm:leading-[46px] lg:text-[52px] lg:leading-[60px] text-black">
             Post Not Found
           </h1>
-          <p
-            className="font-light mb-8"
-            style={{
-              fontSize: "20px",
-              lineHeight: "29px",
-              color: "rgb(28,24,37)",
-            }}
-          >
+          <p className="font-light mb-6 sm:mb-8 text-sm sm:text-base lg:text-[20px] lg:leading-[29px] text-[#1C1825]">
             The blog post you're looking for doesn't exist.
           </p>
           <Link
             to="/resources/blogs"
-            className="group inline-flex items-center gap-2.5 border border-[#1a1a1a] px-6 py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+            className="group inline-flex items-center gap-2.5 border border-[#1a1a1a] px-5 sm:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
           >
-            <span className="font-medium text-sm text-[#1a1a1a] group-hover:text-white transition-colors">
+            <span className="font-medium text-xs sm:text-sm text-[#1a1a1a] group-hover:text-white transition-colors">
               Back to Blogs
             </span>
-            <ArrowRight className="w-4 h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
           </Link>
         </div>
       </PageLayout>
@@ -344,7 +330,7 @@ const BlogPost = () => {
       </Helmet>
 
       {/* ── HERO ── */}
-      <div className="relative w-full h-[60vh] sm:h-[70vh] max-h-[600px] overflow-hidden">
+      <div className="relative w-full min-h-[400px] sm:min-h-[450px] lg:min-h-[550px] lg:max-h-[600px] overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src={currentPost.image}
@@ -355,9 +341,9 @@ const BlogPost = () => {
           />
         </div>
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/20 via-black/50 to-black/85 flex items-end">
-          <div className="max-w-[1280px] w-full mx-auto px-5 sm:px-8 lg:px-12 pb-12">
+          <div className="max-w-[1280px] w-full mx-auto px-5 sm:px-8 lg:px-12 pb-8 sm:pb-10 lg:pb-12">
             {/* Breadcrumb */}
-            <nav className="mb-5" aria-label="Breadcrumb">
+            <nav className="mb-3 sm:mb-4 lg:mb-5" aria-label="Breadcrumb">
               <ol className="flex items-center gap-1.5 flex-wrap">
                 <li>
                   <Link
@@ -401,30 +387,27 @@ const BlogPost = () => {
             </nav>
 
             {/* Category tag */}
-            <span className="inline-block bg-[#113C6A] text-white text-[11px] font-semibold uppercase tracking-wider px-3 py-1 mb-4">
+            <span className="inline-block bg-[#113C6A] text-white text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider px-2 sm:px-3 py-0.5 sm:py-1 mb-3 sm:mb-4">
               {currentPost.category}
             </span>
 
             {/* Title */}
-            <h1
-              className="font-bold text-white uppercase tracking-normal mb-4 max-w-4xl"
-              style={{ fontSize: "52px", lineHeight: "60px" }}
-            >
+            <h1 className="font-bold text-white uppercase tracking-normal mb-3 sm:mb-4 max-w-4xl text-[24px] leading-[30px] sm:text-[36px] sm:leading-[42px] lg:text-[52px] lg:leading-[60px]">
               {currentPost.title}
             </h1>
 
             {/* Meta row */}
-            <div className="flex flex-wrap items-center gap-4 text-white/70 text-sm">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-white/70 text-xs sm:text-sm">
               <span className="flex items-center gap-1.5">
-                <Clock className="h-3.5 w-3.5" />
+                <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                 {currentPost.readTime}
               </span>
               <span className="flex items-center gap-1.5">
-                <Calendar className="h-3.5 w-3.5" />
+                <Calendar className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                 <time dateTime={currentPost.dateISO}>{currentPost.date}</time>
               </span>
               <span className="flex items-center gap-1.5">
-                <User className="h-3.5 w-3.5" />
+                <User className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                 {currentPost.author}
               </span>
             </div>
@@ -433,43 +416,36 @@ const BlogPost = () => {
       </div>
 
       {/* ── CONTENT AREA ── */}
-      <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 py-16 sm:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+      <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 py-12 sm:py-16 lg:py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
           {/* ── Article ── */}
           <article className="lg:col-span-8">
             {/* Author bar */}
-            <div className="flex items-center justify-between border-b border-gray-200 pb-6 mb-8">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#113C6A] flex items-center justify-center text-white font-bold text-base flex-shrink-0">
+            <div className="flex items-center justify-between border-b border-gray-200 pb-4 sm:pb-5 lg:pb-6 mb-6 sm:mb-7 lg:mb-8">
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#113C6A] flex items-center justify-center text-white font-bold text-sm sm:text-base flex-shrink-0">
                   {currentPost.author.charAt(0)}
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-[#1a1a1a]">
+                  <p className="text-xs sm:text-sm font-bold text-[#1a1a1a]">
                     {currentPost.author}
                   </p>
-                  <p className="text-xs text-gray-400 font-light">
+                  <p className="text-[10px] sm:text-xs text-gray-400 font-light">
                     {currentPost.authorRole}
                   </p>
                 </div>
               </div>
               <button
-                className="inline-flex items-center gap-2 border border-gray-200 px-4 py-2 text-sm font-medium text-[#1a1a1a] hover:bg-gray-50 transition-colors"
+                className="inline-flex items-center gap-1.5 sm:gap-2 border border-gray-200 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-[#1a1a1a] hover:bg-gray-50 transition-colors"
                 aria-label="Share this article"
               >
-                <Share2 className="h-4 w-4" />
-                Share
+                <Share2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Share</span>
               </button>
             </div>
 
             {/* Article excerpt */}
-            <p
-              className="font-light mb-10 border-l-4 border-[#113C6A] pl-5"
-              style={{
-                fontSize: "20px",
-                lineHeight: "29px",
-                color: "rgb(28, 24, 37)",
-              }}
-            >
+            <p className="font-light mb-8 sm:mb-10 border-l-4 border-[#113C6A] pl-4 sm:pl-5 text-sm sm:text-base lg:text-[20px] lg:leading-[29px] text-[#1C1825]">
               {currentPost.excerpt}
             </p>
 
@@ -478,85 +454,81 @@ const BlogPost = () => {
               dangerouslySetInnerHTML={{ __html: currentPost.content }}
               className="
                 prose-custom
-                [&>p]:text-[15px] [&>p]:leading-relaxed [&>p]:text-gray-600 [&>p]:font-light [&>p]:mb-5
-                [&>h2]:font-bold [&>h2]:uppercase [&>h2]:tracking-normal [&>h2]:mt-10 [&>h2]:mb-4 [&>h2]:text-[#1a1a1a]
-                [&>h2]:text-[28px] [&>h2]:leading-[34px]
-                [&>h3]:font-bold [&>h3]:text-lg [&>h3]:mt-7 [&>h3]:mb-3 [&>h3]:text-[#1a1a1a]
-                [&>ul]:mb-5 [&>ul]:space-y-2
-                [&>ul>li]:text-[15px] [&>ul>li]:text-gray-600 [&>ul>li]:font-light [&>ul>li]:leading-relaxed
-                [&>ul>li]:pl-4 [&>ul>li]:relative
+                [&>p]:text-[13px] sm:[&>p]:text-[14px] lg:[&>p]:text-[15px] [&>p]:leading-relaxed [&>p]:text-gray-600 [&>p]:font-light [&>p]:mb-4 sm:[&>p]:mb-5
+                [&>h2]:font-bold [&>h2]:uppercase [&>h2]:tracking-normal [&>h2]:mt-8 sm:[&>h2]:mt-10 [&>h2]:mb-3 sm:[&>h2]:mb-4 [&>h2]:text-[#1a1a1a]
+                [&>h2]:text-[20px] [&>h2]:leading-[26px] sm:[&>h2]:text-[24px] sm:[&>h2]:leading-[30px] lg:[&>h2]:text-[28px] lg:[&>h2]:leading-[34px]
+                [&>h3]:font-bold [&>h3]:text-base sm:[&>h3]:text-lg [&>h3]:mt-6 sm:[&>h3]:mt-7 [&>h3]:mb-2 sm:[&>h3]:mb-3 [&>h3]:text-[#1a1a1a]
+                [&>ul]:mb-4 sm:[&>ul]:mb-5 [&>ul]:space-y-2
+                [&>ul>li]:text-[13px] sm:[&>ul>li]:text-[14px] lg:[&>ul>li]:text-[15px] [&>ul>li]:text-gray-600 [&>ul>li]:font-light [&>ul>li]:leading-relaxed
+                [&>ul>li]:pl-3 sm:[&>ul>li]:pl-4 [&>ul>li]:relative
                 [&>ul>li]:before:content-[''] [&>ul>li]:before:absolute [&>ul>li]:before:left-0 [&>ul>li]:before:top-[10px] [&>ul>li]:before:w-1.5 [&>ul>li]:before:h-1.5 [&>ul>li]:before:bg-[#113C6A]
-                [&>blockquote]:border-l-4 [&>blockquote]:border-[#113C6A] [&>blockquote]:pl-6 [&>blockquote]:py-2 [&>blockquote]:my-8 [&>blockquote]:bg-gray-50 [&>blockquote]:italic
-                [&>blockquote]:text-[15px] [&>blockquote]:text-gray-600 [&>blockquote]:font-light [&>blockquote]:leading-relaxed
+                [&>blockquote]:border-l-4 [&>blockquote]:border-[#113C6A] [&>blockquote]:pl-4 sm:[&>blockquote]:pl-6 [&>blockquote]:py-2 [&>blockquote]:my-6 sm:[&>blockquote]:my-8 [&>blockquote]:bg-gray-50 [&>blockquote]:italic
+                [&>blockquote]:text-[13px] sm:[&>blockquote]:text-[14px] lg:[&>blockquote]:text-[15px] [&>blockquote]:text-gray-600 [&>blockquote]:font-light [&>blockquote]:leading-relaxed
               "
             />
 
             {/* CTA box */}
-            <div className="bg-[#113C6A] p-8 mt-12">
-              <h3
-                className="font-bold uppercase tracking-normal text-white mb-3"
-                style={{ fontSize: "32px", lineHeight: "38px" }}
-              >
+            <div className="bg-[#113C6A] p-5 sm:p-6 lg:p-8 mt-10 sm:mt-12">
+              <h3 className="font-bold uppercase tracking-normal text-white mb-2 sm:mb-3 text-[20px] leading-[26px] sm:text-[24px] sm:leading-[30px] lg:text-[32px] lg:leading-[38px]">
                 Ready to Transform Your Logistics?
               </h3>
-              <p
-                className="font-light text-white/80 mb-6 max-w-lg"
-                style={{ fontSize: "20px", lineHeight: "29px" }}
-              >
+              <p className="font-light text-white/80 mb-4 sm:mb-5 lg:mb-6 max-w-lg text-sm sm:text-base lg:text-[20px] lg:leading-[29px]">
                 Discover how BLI can help optimize your supply chain operations
                 with our advanced logistics solutions.
               </p>
               <Link
                 to="/contact"
-                className="group inline-flex items-center gap-2.5 bg-white text-[#113C6A] border-2 border-white px-6 py-2.5 hover:bg-transparent hover:text-white transition-all duration-300"
+                className="group inline-flex items-center gap-2 sm:gap-2.5 bg-white text-[#113C6A] border-2 border-white px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 hover:bg-transparent hover:text-white transition-all duration-300"
               >
-                <span className="font-medium text-sm">Get Custom Quote</span>
-                <ArrowRight className="w-4 h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+                <span className="font-medium text-xs sm:text-sm">
+                  Get Custom Quote
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
               </Link>
             </div>
           </article>
 
           {/* ── Sidebar ── */}
           <aside className="lg:col-span-4">
-            <div className="lg:sticky lg:top-24 flex flex-col gap-6">
+            <div className="lg:sticky lg:top-24 flex flex-col gap-5 sm:gap-6">
               {/* Back to blogs */}
               <Link
                 to="/resources/blogs"
-                className="group inline-flex items-center gap-2.5 border border-gray-200 px-5 py-3 hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+                className="group inline-flex items-center gap-2 sm:gap-2.5 border border-gray-200 px-4 sm:px-5 py-2.5 sm:py-3 hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
               >
-                <ArrowRight className="w-4 h-4 rotate-180 text-[#FF7300] group-hover:text-white transition-colors" />
-                <span className="font-medium text-sm text-[#1a1a1a] group-hover:text-white transition-colors">
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 rotate-180 text-[#FF7300] group-hover:text-white transition-colors" />
+                <span className="font-medium text-xs sm:text-sm text-[#1a1a1a] group-hover:text-white transition-colors">
                   Back to Blogs
                 </span>
               </Link>
 
               {/* Article meta */}
-              <div className="border border-gray-200 bg-white p-6">
-                <h4 className="text-sm font-bold text-[#1a1a1a] uppercase tracking-wider mb-4">
+              <div className="border border-gray-200 bg-white p-5 sm:p-6">
+                <h4 className="text-xs sm:text-sm font-bold text-[#1a1a1a] uppercase tracking-wider mb-3 sm:mb-4">
                   Article Info
                 </h4>
-                <ul className="flex flex-col gap-3 text-sm">
-                  <li className="flex items-center justify-between border-b border-gray-100 pb-3">
+                <ul className="flex flex-col gap-2.5 sm:gap-3 text-xs sm:text-sm">
+                  <li className="flex items-center justify-between border-b border-gray-100 pb-2.5 sm:pb-3">
                     <span className="text-gray-400 font-light">Category</span>
-                    <span className="font-semibold text-[#113C6A] text-[11px] uppercase tracking-wider bg-[#113C6A]/10 px-2 py-1">
+                    <span className="font-semibold text-[#113C6A] text-[10px] sm:text-[11px] uppercase tracking-wider bg-[#113C6A]/10 px-1.5 sm:px-2 py-0.5 sm:py-1">
                       {currentPost.category}
                     </span>
                   </li>
-                  <li className="flex items-center justify-between border-b border-gray-100 pb-3">
+                  <li className="flex items-center justify-between border-b border-gray-100 pb-2.5 sm:pb-3">
                     <span className="text-gray-400 font-light">Read Time</span>
                     <span className="font-medium text-[#1a1a1a]">
                       {currentPost.readTime}
                     </span>
                   </li>
-                  <li className="flex items-center justify-between border-b border-gray-100 pb-3">
+                  <li className="flex items-center justify-between border-b border-gray-100 pb-2.5 sm:pb-3">
                     <span className="text-gray-400 font-light">Published</span>
-                    <span className="font-medium text-[#1a1a1a]">
+                    <span className="font-medium text-[#1a1a1a] text-[10px] sm:text-xs">
                       {currentPost.date}
                     </span>
                   </li>
                   <li className="flex items-center justify-between">
                     <span className="text-gray-400 font-light">Author</span>
-                    <span className="font-medium text-[#1a1a1a]">
+                    <span className="font-medium text-[#1a1a1a] text-[10px] sm:text-xs text-right">
                       {currentPost.author}
                     </span>
                   </li>
@@ -564,19 +536,21 @@ const BlogPost = () => {
               </div>
 
               {/* CTA sidebar */}
-              <div className="bg-[#113C6A] p-6">
-                <h4 className="text-base font-bold text-white mb-2">
+              <div className="bg-[#113C6A] p-5 sm:p-6">
+                <h4 className="text-sm sm:text-base font-bold text-white mb-2">
                   Need Logistics Help?
                 </h4>
-                <p className="text-sm text-white/70 font-light leading-relaxed mb-5">
+                <p className="text-xs sm:text-sm text-white/70 font-light leading-relaxed mb-4 sm:mb-5">
                   Get a customized logistics solution for your business needs.
                 </p>
                 <Link
                   to="/contact"
-                  className="group inline-flex items-center gap-2 border border-white/40 px-5 py-2.5 text-white hover:bg-white hover:text-[#113C6A] transition-all duration-300"
+                  className="group inline-flex items-center gap-2 border border-white/40 px-4 sm:px-5 py-2 sm:py-2.5 text-white hover:bg-white hover:text-[#113C6A] transition-all duration-300"
                 >
-                  <span className="text-sm font-medium">Get Quote</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                  <span className="text-xs sm:text-sm font-medium">
+                    Get Quote
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </Link>
               </div>
             </div>
@@ -585,36 +559,22 @@ const BlogPost = () => {
 
         {/* ── Related Posts ── */}
         {relatedPosts.length > 0 && (
-          <section className="mt-16 sm:mt-20 pt-12 border-t border-gray-200">
-            <p
-              className="font-semibold uppercase tracking-widest mb-3"
-              style={{
-                fontSize: "14px",
-                lineHeight: "17px",
-                color: "rgb(28, 24, 37)",
-              }}
-            >
+          <section className="mt-12 sm:mt-16 lg:mt-20 pt-10 sm:pt-12 border-t border-gray-200">
+            <p className="font-semibold uppercase tracking-widest mb-3 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]">
               Keep Reading
             </p>
-            <h3
-              className="font-bold uppercase tracking-normal mb-10"
-              style={{
-                fontSize: "52px",
-                lineHeight: "60px",
-                color: "rgb(0, 0, 0)",
-              }}
-            >
+            <h3 className="font-bold uppercase tracking-normal mb-8 sm:mb-10 text-[24px] leading-[30px] sm:text-[36px] sm:leading-[42px] lg:text-[52px] lg:leading-[60px] text-black">
               Related Articles
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
               {relatedPosts.map(([postSlug, post]) => (
                 <Link
                   key={postSlug}
                   to={`/resources/blogs/${postSlug}`}
                   className="group bg-white border border-gray-200 overflow-hidden hover:shadow-lg hover:border-[#113C6A]/20 transition-all duration-300"
                 >
-                  <div className="relative overflow-hidden h-[180px]">
+                  <div className="relative overflow-hidden h-[140px] sm:h-[160px] lg:h-[180px]">
                     <img
                       src={post.image}
                       alt={post.title}
@@ -622,23 +582,25 @@ const BlogPost = () => {
                       loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                    <span className="absolute bottom-3 left-4 text-white/80 text-[11px] font-medium uppercase tracking-widest">
+                    <span className="absolute bottom-2 sm:bottom-3 left-3 sm:left-4 text-white/80 text-[10px] sm:text-[11px] font-medium uppercase tracking-widest">
                       {post.readTime}
                     </span>
                   </div>
-                  <div className="p-5">
-                    <span className="inline-block text-[11px] font-semibold uppercase tracking-wider text-[#113C6A] bg-[#113C6A]/10 px-2 py-1 mb-3">
+                  <div className="p-4 sm:p-5">
+                    <span className="inline-block text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-[#113C6A] bg-[#113C6A]/10 px-1.5 sm:px-2 py-0.5 sm:py-1 mb-2 sm:mb-3">
                       {post.category}
                     </span>
-                    <h4 className="text-sm font-bold text-[#1a1a1a] leading-snug mb-2 group-hover:text-[#113C6A] transition-colors line-clamp-2">
+                    <h4 className="text-xs sm:text-sm font-bold text-[#1a1a1a] leading-snug mb-2 group-hover:text-[#113C6A] transition-colors line-clamp-2">
                       {post.title}
                     </h4>
-                    <p className="text-xs text-gray-500 font-light leading-relaxed mb-4 line-clamp-2">
+                    <p className="text-[11px] sm:text-xs text-gray-500 font-light leading-relaxed mb-3 sm:mb-4 line-clamp-2">
                       {post.excerpt}
                     </p>
                     <div className="flex items-center gap-1.5 text-[#113C6A] group-hover:text-[#FF7300] transition-colors">
-                      <span className="text-sm font-semibold">Read More</span>
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                      <span className="text-xs sm:text-sm font-semibold">
+                        Read More
+                      </span>
+                      <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform duration-300" />
                     </div>
                   </div>
                 </Link>

@@ -48,18 +48,18 @@ const clientNames = [
 
 const LogoItem = memo(({ brand, index }: { brand: any; index: number }) => (
   <div
-    className="flex-shrink-0 mx-3 group"
+    className="flex-shrink-0 mx-2 sm:mx-3 group"
     style={{
       animation: `float ${3 + (index % 3)}s ease-in-out infinite`,
       animationDelay: `${index * 0.2}s`,
     }}
   >
-    <div className="bg-white px-6 py-4 group-hover:shadow-xl transition-all duration-300 group-hover:scale-105 flex items-center gap-4 min-w-fit">
+    <div className="bg-white px-4 sm:px-5 lg:px-6 py-3 sm:py-4 group-hover:shadow-xl transition-all duration-300 group-hover:scale-105 flex items-center gap-3 sm:gap-4 min-w-fit">
       <div className="flex-shrink-0">
         <img
           src={brand.logo}
           alt={brand.name || `BLI Client ${index + 1}`}
-          className="h-20 w-20 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
+          className="h-14 w-14 sm:h-16 sm:w-16 lg:h-20 lg:w-20 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
           loading="lazy"
           width="80"
           height="80"
@@ -103,7 +103,7 @@ const InfiniteSliderRow = memo(
 
     return (
       <div
-        className="overflow-hidden py-4"
+        className="overflow-hidden py-2 sm:py-3 lg:py-4"
         style={{
           transform: `translateY(${Math.sin(waveOffset) * 5}px)`,
         }}
@@ -192,26 +192,21 @@ const BrandLogoSlider = () => {
 
       <div
         ref={containerRef}
-        className="w-full bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 pb-20 pt-4 relative overflow-hidden"
+        className="w-full bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 pb-16 sm:pb-18 lg:pb-20 pt-4 relative overflow-hidden"
         aria-label="BLI Clients Showcase"
       >
         {/* Background decoration */}
         <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-blue-200 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-purple-200 rounded-full blur-3xl"></div>
+          <div className="absolute top-10 left-10 w-48 sm:w-60 lg:w-72 h-48 sm:h-60 lg:h-72 bg-blue-200 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 right-10 w-64 sm:w-80 lg:w-96 h-64 sm:h-80 lg:h-96 bg-purple-200 rounded-full blur-3xl"></div>
         </div>
 
         <div className="relative z-10">
           {/* ── Header ── */}
-          <div className="text-center mb-16 max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="text-center mb-10 sm:mb-12 lg:mb-16 max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
             {/* Label */}
             <motion.p
-              className="font-semibold uppercase tracking-widest mb-3"
-              style={{
-                fontSize: "14px",
-                lineHeight: "17px",
-                color: "rgb(28, 24, 37)",
-              }}
+              className="font-semibold uppercase tracking-widest mb-2 sm:mb-3 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]"
               initial="hidden"
               animate={controls}
               variants={{
@@ -224,12 +219,7 @@ const BrandLogoSlider = () => {
 
             {/* Heading */}
             <motion.h2
-              className="font-bold uppercase tracking-normal mb-3"
-              style={{
-                fontSize: "52px",
-                lineHeight: "60px",
-                color: "rgb(0, 0, 0)",
-              }}
+              className="font-bold uppercase tracking-normal mb-3 sm:mb-4 text-[24px] leading-[30px] sm:text-[36px] sm:leading-[42px] lg:text-[52px] lg:leading-[60px] text-black"
               initial="hidden"
               animate={controls}
               variants={{
@@ -247,12 +237,7 @@ const BrandLogoSlider = () => {
 
             {/* Description */}
             <motion.p
-              className="font-light max-w-2xl mx-auto"
-              style={{
-                fontSize: "20px",
-                lineHeight: "29px",
-                color: "rgb(28, 24, 37)",
-              }}
+              className="font-light max-w-2xl mx-auto text-sm sm:text-base lg:text-[20px] lg:leading-[29px] text-[#1C1825]"
               initial="hidden"
               animate={controls}
               variants={{
@@ -270,7 +255,7 @@ const BrandLogoSlider = () => {
             </motion.p>
           </div>
 
-          <div className="md:space-y-4">
+          <div className="space-y-2 sm:space-y-3 md:space-y-4">
             <InfiniteSliderRow
               brands={row1Brands}
               direction="left"

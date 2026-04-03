@@ -262,7 +262,7 @@ const FAQs = () => {
       </Helmet>
 
       {/* ── HERO ── */}
-      <div className="relative w-full h-[50vh] sm:h-[60vh] max-h-[500px] overflow-hidden">
+      <div className="relative w-full h-[35vh] min-h-[300px] sm:h-[55vh] lg:h-[60vh] lg:max-h-[500px] overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="/lovable-uploads/services3.webp"
@@ -274,8 +274,8 @@ const FAQs = () => {
         </div>
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/20 via-black/40 to-black/80 flex items-center">
           <div className="max-w-[1280px] w-full mx-auto px-5 sm:px-8 lg:px-12">
-            <nav className="mb-4" aria-label="Breadcrumb">
-              <ol className="flex items-center gap-1.5">
+            <nav className="mb-3 sm:mb-4" aria-label="Breadcrumb">
+              <ol className="flex items-center gap-1.5 flex-wrap">
                 <li>
                   <Link
                     to="/"
@@ -290,7 +290,7 @@ const FAQs = () => {
                 <li>
                   <Link
                     to="/resources"
-                    className="text-white/90 hover:text-white text-xs sm:text-sm font-semibold transition-colors"
+                    className="text-white/80 hover:text-white text-xs sm:text-sm font-semibold transition-colors"
                   >
                     Resources
                   </Link>
@@ -299,24 +299,18 @@ const FAQs = () => {
                   <ChevronRight className="w-3 h-3" />
                 </li>
                 <li>
-                  <span className="text-white/80 text-xs sm:text-sm font-semibold">
+                  <span className="text-white/60 text-xs sm:text-sm font-semibold">
                     FAQs
                   </span>
                 </li>
               </ol>
             </nav>
 
-            <h1
-              className="font-bold text-white uppercase tracking-normal mb-3"
-              style={{ fontSize: "52px", lineHeight: "60px" }}
-            >
+            <h1 className="font-bold text-white uppercase tracking-normal mb-3 text-[28px] leading-[34px] sm:text-[40px] sm:leading-[46px] lg:text-[52px] lg:leading-[60px]">
               <span className="block">Frequently Asked</span>
               <span className="block">Questions</span>
             </h1>
-            <p
-              className="font-light max-w-xl mt-5 text-white/90"
-              style={{ fontSize: "20px", lineHeight: "29px" }}
-            >
+            <p className="font-light max-w-xl mt-4 sm:mt-5 text-white/90 text-sm sm:text-base lg:text-[20px] lg:leading-[29px]">
               Find quick answers to common questions about our logistics
               services and operations.
             </p>
@@ -326,15 +320,15 @@ const FAQs = () => {
 
       {/* ── SEARCH BAR ── */}
       <div className="bg-white border-b border-gray-200">
-        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 py-8">
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12 py-6 sm:py-8">
           <div className="relative max-w-2xl mx-auto">
             <Search
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"
+              className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400"
               aria-hidden="true"
             />
             <Input
               placeholder="Search for answers..."
-              className="pl-12 h-14 text-base border-gray-200 focus:border-[#113C6A] bg-white"
+              className="pl-10 sm:pl-12 h-12 sm:h-14 text-sm sm:text-base border-gray-200 focus:border-[#113C6A] bg-white"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               aria-label="Search frequently asked questions"
@@ -344,27 +338,13 @@ const FAQs = () => {
       </div>
 
       {/* ── CATEGORY CARDS ── */}
-      <section ref={sectionRef} className="py-16 sm:py-20 bg-gray-50">
+      <section ref={sectionRef} className="py-12 sm:py-16 lg:py-20 bg-gray-50">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="text-center mb-12">
-            <p
-              className="font-semibold uppercase tracking-widest mb-3"
-              style={{
-                fontSize: "14px",
-                lineHeight: "17px",
-                color: "rgb(28, 24, 37)",
-              }}
-            >
+          <div className="text-center mb-10 sm:mb-12">
+            <p className="font-semibold uppercase tracking-widest mb-3 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]">
               Browse By Topic
             </p>
-            <h2
-              className="font-bold uppercase tracking-normal"
-              style={{
-                fontSize: "52px",
-                lineHeight: "60px",
-                color: "rgb(0, 0, 0)",
-              }}
-            >
+            <h2 className="font-bold uppercase tracking-normal text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[52px] lg:leading-[60px] text-black">
               Categories
             </h2>
           </div>
@@ -379,7 +359,7 @@ const FAQs = () => {
               <button
                 key={index}
                 onClick={() => scrollToCategory(category.title)}
-                className={`group bg-white p-6 sm:p-8 text-left transition-all duration-300 relative ${
+                className={`group bg-white p-5 sm:p-6 lg:p-8 text-left transition-all duration-300 relative ${
                   activeCategory === category.title
                     ? "bg-[#113C6A]"
                     : "hover:bg-gray-50"
@@ -393,12 +373,15 @@ const FAQs = () => {
                   }`}
                 />
 
-                <div className="text-3xl sm:text-4xl mb-4" aria-hidden="true">
+                <div
+                  className="text-2xl sm:text-3xl lg:text-4xl mb-3 sm:mb-4"
+                  aria-hidden="true"
+                >
                   {category.icon}
                 </div>
 
                 <h3
-                  className={`text-base sm:text-lg font-bold mb-2 transition-colors ${
+                  className={`text-sm sm:text-base lg:text-lg font-bold mb-1.5 sm:mb-2 transition-colors ${
                     activeCategory === category.title
                       ? "text-white"
                       : "text-[#1a1a1a] group-hover:text-[#113C6A]"
@@ -408,7 +391,7 @@ const FAQs = () => {
                 </h3>
 
                 <p
-                  className={`text-sm font-light ${
+                  className={`text-xs sm:text-sm font-light ${
                     activeCategory === category.title
                       ? "text-white/70"
                       : "text-gray-500"
@@ -423,34 +406,30 @@ const FAQs = () => {
       </section>
 
       {/* ── MAIN CONTENT ── */}
-      <section className="py-20 sm:py-24 bg-white">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
+          <div className="flex flex-col lg:flex-row gap-10 lg:gap-16">
             {/* FAQ Content */}
             <main className="flex-1">
               {filteredFAQs.length > 0 ? (
-                <div className="space-y-16">
+                <div className="space-y-12 sm:space-y-14 lg:space-y-16">
                   {filteredFAQs.map((category, categoryIndex) => (
                     <div
                       key={categoryIndex}
                       id={category.title.toLowerCase().replace(/\s+/g, "-")}
                     >
-                      <div className="flex items-center gap-4 mb-8">
-                        <span className="text-3xl" aria-hidden="true">
+                      <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                        <span
+                          className="text-2xl sm:text-3xl"
+                          aria-hidden="true"
+                        >
                           {category.icon}
                         </span>
                         <div>
-                          <h2
-                            className="font-bold uppercase tracking-normal"
-                            style={{
-                              fontSize: "32px",
-                              lineHeight: "38px",
-                              color: "rgb(0, 0, 0)",
-                            }}
-                          >
+                          <h2 className="font-bold uppercase tracking-normal text-[20px] leading-[26px] sm:text-[24px] sm:leading-[30px] lg:text-[32px] lg:leading-[38px] text-black">
                             {category.title}
                           </h2>
-                          <p className="text-sm text-gray-400 mt-1">
+                          <p className="text-xs sm:text-sm text-gray-400 mt-0.5 sm:mt-1">
                             {category.count} questions
                           </p>
                         </div>
@@ -470,15 +449,17 @@ const FAQs = () => {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-16 bg-gray-50 border border-gray-200">
-                  <p className="text-gray-500 mb-6">
+                <div className="text-center py-12 sm:py-16 bg-gray-50 border border-gray-200">
+                  <p className="text-gray-500 mb-5 sm:mb-6 text-sm sm:text-base">
                     No questions match your search criteria.
                   </p>
                   <button
-                    className="group inline-flex items-center gap-2.5 border border-[#1a1a1a] px-6 py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+                    className="group inline-flex items-center gap-2.5 border border-[#1a1a1a] px-5 sm:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
                     onClick={() => setSearchQuery("")}
                   >
-                    <span className="font-medium text-sm">Clear Search</span>
+                    <span className="font-medium text-xs sm:text-sm">
+                      Clear Search
+                    </span>
                   </button>
                 </div>
               )}
@@ -486,10 +467,10 @@ const FAQs = () => {
 
             {/* Sidebar */}
             <aside className="lg:w-80 flex-shrink-0">
-              <div className="lg:sticky lg:top-24 space-y-6">
+              <div className="lg:sticky lg:top-24 space-y-5 sm:space-y-6">
                 {/* Popular Questions */}
-                <div className="bg-white border border-gray-200 p-6">
-                  <h3 className="font-bold text-[#1a1a1a] text-lg mb-4">
+                <div className="bg-white border border-gray-200 p-5 sm:p-6">
+                  <h3 className="font-bold text-[#1a1a1a] text-base sm:text-lg mb-3 sm:mb-4">
                     Popular Questions
                   </h3>
                   <ul className="space-y-0">
@@ -499,7 +480,7 @@ const FAQs = () => {
                         className="border-b border-gray-100 last:border-b-0"
                       >
                         <button
-                          className="w-full text-left py-3 text-sm text-gray-600 hover:text-[#113C6A] transition-colors"
+                          className="w-full text-left py-2.5 sm:py-3 text-xs sm:text-sm text-gray-600 hover:text-[#113C6A] transition-colors"
                           onClick={() => setSearchQuery(question)}
                         >
                           {question}
@@ -510,34 +491,34 @@ const FAQs = () => {
                 </div>
 
                 {/* Contact Support */}
-                <div className="bg-[#113C6A] p-6">
+                <div className="bg-[#113C6A] p-5 sm:p-6">
                   <div className="text-center">
                     <MessageCircle
-                      className="h-12 w-12 mx-auto mb-4 text-white/80"
+                      className="h-10 w-10 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4 text-white/80"
                       aria-hidden="true"
                     />
-                    <h3 className="font-bold text-white text-lg mb-2">
+                    <h3 className="font-bold text-white text-base sm:text-lg mb-2">
                       Still Need Help?
                     </h3>
-                    <p className="text-sm text-white/70 mb-6 font-light">
+                    <p className="text-xs sm:text-sm text-white/70 mb-5 sm:mb-6 font-light">
                       Can't find what you're looking for? Our support team is
                       here to help.
                     </p>
                     <Link
                       to="/contact"
-                      className="group inline-flex items-center justify-center gap-2.5 w-full border border-white/40 px-6 py-2.5 hover:bg-white hover:text-[#113C6A] text-white transition-all duration-300"
+                      className="group inline-flex items-center justify-center gap-2 sm:gap-2.5 w-full border border-white/40 px-5 sm:px-6 py-2 sm:py-2.5 hover:bg-white hover:text-[#113C6A] text-white transition-all duration-300"
                     >
-                      <span className="font-medium text-sm">
+                      <span className="font-medium text-xs sm:text-sm">
                         Contact Support
                       </span>
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                      <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform duration-300" />
                     </Link>
                   </div>
                 </div>
 
                 {/* Quick Links */}
-                <div className="bg-white border border-gray-200 p-6">
-                  <h3 className="font-bold text-[#1a1a1a] text-lg mb-4">
+                <div className="bg-white border border-gray-200 p-5 sm:p-6">
+                  <h3 className="font-bold text-[#1a1a1a] text-base sm:text-lg mb-3 sm:mb-4">
                     Quick Links
                   </h3>
                   <ul className="space-y-0">
@@ -548,10 +529,10 @@ const FAQs = () => {
                       >
                         <Link
                           to={link.href}
-                          className="flex items-center justify-between py-3 text-sm text-gray-600 hover:text-[#113C6A] transition-colors group"
+                          className="flex items-center justify-between py-2.5 sm:py-3 text-xs sm:text-sm text-gray-600 hover:text-[#113C6A] transition-colors group"
                         >
                           <span>{link.label}</span>
-                          <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
+                          <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
                         </Link>
                       </li>
                     ))}
@@ -564,34 +545,35 @@ const FAQs = () => {
       </section>
 
       {/* ── CTA SECTION ── */}
-      {/* ── CTA SECTION ── */}
-      <section className="py-12 sm:py-14 md:py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-[#113C6A]">
+      <section className="py-12 sm:py-14 lg:py-16 px-5 sm:px-8 lg:px-12 bg-gradient-to-b from-white to-[#113C6A]">
         <div className="max-w-[1280px] mx-auto text-center">
-          <p className="font-semibold uppercase tracking-widest mb-2 text-[11px] sm:text-xs text-[#1C1825]">
+          <p className="font-semibold uppercase tracking-widest mb-2 sm:mb-3 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]">
             Need More Help?
           </p>
-          <h2 className="font-bold uppercase tracking-normal mb-3 text-[28px] leading-[34px] sm:text-[36px] sm:leading-[42px] lg:text-[44px] lg:leading-[52px] text-black">
+          <h2 className="font-bold uppercase tracking-normal mb-3 sm:mb-4 text-[24px] leading-[30px] sm:text-[32px] sm:leading-[38px] lg:text-[44px] lg:leading-[52px] text-black">
             <span className="block">Didn't Find</span>
             <span className="block">Your Answer?</span>
           </h2>
-          <p className="font-light text-[#1C1825] mb-8 text-sm sm:text-base md:text-[17px] md:leading-[26px] lg:text-[18px] lg:leading-[27px] max-w-2xl mx-auto">
+          <p className="font-light text-[#1C1825] mb-6 sm:mb-8 text-sm sm:text-base lg:text-[18px] lg:leading-[27px] max-w-2xl mx-auto">
             Our customer support team is available 24/7 to assist you with any
             questions or concerns.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <Link
               to="/contact"
-              className="group inline-flex items-center justify-center gap-2 px-8 py-3 bg-[#FF7300] text-white hover:bg-[#e56800] transition-all"
+              className="group inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 bg-[#FF7300] text-white hover:bg-[#e56800] transition-all"
             >
-              <span className="font-medium">Contact Support</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <span className="font-medium text-xs sm:text-sm">
+                Contact Support
+              </span>
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               to="/contact"
-              className="inline-flex items-center justify-center gap-2 px-8 py-3 border-2 border-[#F8FFFF] text-[#F8FFFF] hover:bg-[#F8FFFF] hover:text-[#113C6A] transition-all"
+              className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 border-2 border-[#F8FFFF] text-[#F8FFFF] hover:bg-[#F8FFFF] hover:text-[#113C6A] transition-all"
             >
-              <span className="font-medium">Live Chat</span>
-              <ArrowRight className="w-4 h-4" />
+              <span className="font-medium text-xs sm:text-sm">Live Chat</span>
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </Link>
           </div>
         </div>
@@ -615,12 +597,12 @@ const FAQItem = ({
   return (
     <div className="border-b border-gray-200 last:border-b-0">
       <button
-        className="w-full flex items-start justify-between gap-8 py-7 pr-4 text-left group"
+        className="w-full flex items-start justify-between gap-4 sm:gap-8 py-5 sm:py-6 lg:py-7 pr-4 text-left group"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
       >
         <h3
-          className="text-base sm:text-lg font-semibold leading-snug max-w-3xl transition-colors"
+          className="text-sm sm:text-base lg:text-lg font-semibold leading-snug max-w-3xl transition-colors"
           style={{ color: open ? "#113C6A" : "#1C1825" }}
         >
           {faq.question}
@@ -630,7 +612,13 @@ const FAQItem = ({
             open ? "rotate-180" : ""
           }`}
         >
-          <svg viewBox="0 0 48 48" width="20" height="20" fill="none">
+          <svg
+            viewBox="0 0 48 48"
+            width="18"
+            height="18"
+            className="sm:w-5 sm:h-5"
+            fill="none"
+          >
             <path
               d="M4 16.2C4 15.97 4.08 15.74 4.24 15.55C4.6 15.13 5.23 15.09 5.65 15.45L24.04 31.32C24.18 31.44 24.44 31.43 24.57 31.31L42.31 14.87C42.72 14.49 43.35 14.52 43.72 14.92C44.09 15.32 44.07 15.96 43.67 16.33L25.94 32.77C25.06 33.59 23.65 33.61 22.74 32.83L4.35 16.96C4.12 16.76 4 16.48 4 16.2Z"
               fill={open ? "#113C6A" : "#9ca3af"}
@@ -642,17 +630,12 @@ const FAQItem = ({
       </button>
       <div
         className={`overflow-hidden transition-all duration-500 ease-in-out ${
-          open ? "max-h-96 opacity-100 pb-7" : "max-h-0 opacity-0"
+          open
+            ? "max-h-96 opacity-100 pb-5 sm:pb-6 lg:pb-7"
+            : "max-h-0 opacity-0"
         }`}
       >
-        <p
-          className="font-light max-w-3xl"
-          style={{
-            fontSize: "20px",
-            lineHeight: "29px",
-            color: "rgb(28, 24, 37)",
-          }}
-        >
+        <p className="font-light max-w-3xl text-sm sm:text-base lg:text-[20px] lg:leading-[29px] text-[#1C1825]">
           {faq.answer}
         </p>
       </div>

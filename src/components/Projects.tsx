@@ -94,42 +94,42 @@ const ProjectCard = memo(({ project }: { project: (typeof projects)[0] }) => (
     onClick={() => {
       if (project.link.startsWith("/")) window.scrollTo(0, 0);
     }}
-    className="group flex-shrink-0 w-[28vw] min-w-[260px]"
+    className="group flex-shrink-0 w-[85vw] sm:w-[60vw] md:w-[45vw] lg:w-[28vw] min-w-[260px]"
   >
     {/* Image */}
-    <div className="relative overflow-hidden h-[200px]">
+    <div className="relative overflow-hidden h-[160px] sm:h-[180px] lg:h-[200px]">
       <img
         src={project.imageUrl}
         alt={project.title}
         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-      <p className="absolute bottom-4 left-4 text-white/70 text-[11px] font-medium uppercase tracking-widest">
+      <p className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 text-white/70 text-[10px] sm:text-[11px] font-medium uppercase tracking-widest">
         {project.brand}
       </p>
     </div>
 
     {/* Content */}
-    <div className="pt-5 pb-6 border-b border-gray-200">
-      <h3 className="text-[#1a1a1a] text-base font-bold leading-snug mb-2 group-hover:text-[#FF7300] transition-colors duration-300">
+    <div className="pt-4 sm:pt-5 pb-5 sm:pb-6 border-b border-gray-200">
+      <h3 className="text-[#1a1a1a] text-sm sm:text-base font-bold leading-snug mb-1.5 sm:mb-2 group-hover:text-[#FF7300] transition-colors duration-300">
         {project.title}
       </h3>
-      <p className="text-gray-500 text-sm font-light leading-relaxed mb-4">
+      <p className="text-gray-500 text-xs sm:text-sm font-light leading-relaxed mb-3 sm:mb-4 line-clamp-2">
         {project.description}
       </p>
-      <div className="flex flex-wrap gap-1.5 mb-4">
+      <div className="flex flex-wrap gap-1 sm:gap-1.5 mb-3 sm:mb-4">
         {project.tags.map((tag, idx) => (
           <span
             key={idx}
-            className="px-2 py-1 text-gray-500 text-[11px] border border-gray-200"
+            className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-gray-500 text-[10px] sm:text-[11px] border border-gray-200"
           >
             {tag}
           </span>
         ))}
       </div>
-      <div className="flex items-center gap-1.5 text-[#1a1a1a] group-hover:text-[#FF7300] transition-colors duration-300">
-        <span className="text-sm font-semibold">Learn more</span>
-        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+      <div className="flex items-center gap-1 sm:gap-1.5 text-[#1a1a1a] group-hover:text-[#FF7300] transition-colors duration-300">
+        <span className="text-xs sm:text-sm font-semibold">Learn more</span>
+        <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform duration-300" />
       </div>
     </div>
   </Link>
@@ -174,6 +174,15 @@ const Industries = () => {
     else if (distance < -50) goToPrev();
   }, [touchStart, touchEnd, goToNext, goToPrev]);
 
+  const getSlideOffset = () => {
+    if (typeof window === "undefined") return 29.4;
+    const width = window.innerWidth;
+    if (width < 640) return 88; // mobile: 85vw + 3vw gap
+    if (width < 768) return 62; // sm: 60vw + 2vw gap
+    if (width < 1024) return 47; // md: 45vw + 2vw gap
+    return 29.4; // lg: 28vw + 1.4vw gap
+  };
+
   const industriesSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -204,12 +213,12 @@ const Industries = () => {
       <section
         id="industries"
         ref={sectionRef}
-        className="bg-white py-20 sm:py-24 md:py-28 w-full overflow-hidden"
+        className="bg-white py-16 sm:py-20 lg:py-24 w-full overflow-hidden"
       >
         {/* ── Header contained ── */}
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
           <motion.div
-            className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-14"
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-5 lg:gap-8 mb-10 sm:mb-12 lg:mb-14"
             initial="hidden"
             animate={controls}
             variants={{
@@ -220,37 +229,16 @@ const Industries = () => {
             {/* Left */}
             <div className="max-w-2xl">
               {/* Label above heading */}
-              <p
-                className="font-semibold uppercase tracking-widest mb-3"
-                style={{
-                  fontSize: "14px",
-                  lineHeight: "17px",
-                  color: "rgb(28, 24, 37)",
-                }}
-              >
+              <p className="font-semibold uppercase tracking-widest mb-2 sm:mb-3 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]">
                 Industries We Serve
               </p>
               {/* Heading */}
-              <h2
-                className="font-bold uppercase tracking-normal mb-3"
-                style={{
-                  fontSize: "52px",
-                  lineHeight: "60px",
-                  color: "rgb(0, 0, 0)",
-                }}
-              >
+              <h2 className="font-bold uppercase tracking-normal mb-3 sm:mb-4 text-[28px] leading-[34px] sm:text-[40px] sm:leading-[46px] lg:text-[52px] lg:leading-[60px] text-black">
                 <span className="block">Pan-India Logistics</span>
                 <span className="block">For Every Industry</span>
               </h2>
               {/* Description */}
-              <p
-                className="font-light max-w-lg"
-                style={{
-                  fontSize: "20px",
-                  lineHeight: "29px",
-                  color: "rgb(28, 24, 37)",
-                }}
-              >
+              <p className="font-light max-w-lg text-sm sm:text-base lg:text-[20px] lg:leading-[29px] text-[#1C1825]">
                 Trusted logistics partner for diverse sectors, combining
                 reliability, compliance, and industry-specific expertise.
               </p>
@@ -260,12 +248,12 @@ const Industries = () => {
             <div className="flex-shrink-0">
               <Link
                 to="/contact"
-                className="group inline-flex items-center gap-2.5 border border-[#1a1a1a] px-6 py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+                className="group inline-flex items-center gap-2 sm:gap-2.5 border border-[#1a1a1a] px-5 sm:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
               >
-                <span className="font-medium text-sm text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
+                <span className="font-medium text-xs sm:text-sm text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
                   Talk to an Expert
                 </span>
-                <ArrowRight className="w-4 h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
               </Link>
             </div>
           </motion.div>
@@ -285,9 +273,9 @@ const Industries = () => {
           <div className="overflow-hidden pl-5 sm:pl-8 lg:pl-12">
             <div
               ref={trackRef}
-              className="flex transition-transform duration-500 ease-out gap-5"
+              className="flex transition-transform duration-500 ease-out gap-3 sm:gap-4 lg:gap-5"
               style={{
-                transform: `translateX(-${currentIndex * (28 + 1.4)}vw)`,
+                transform: `translateX(-${currentIndex * getSlideOffset()}vw)`,
               }}
             >
               {projects.map((project) => (
@@ -297,20 +285,22 @@ const Industries = () => {
           </div>
 
           {/* Nav arrows bottom right */}
-          <div className="flex items-center gap-2 justify-end mt-8 pr-5 sm:pr-8 lg:pr-12">
+          <div className="flex items-center gap-2 justify-end mt-6 sm:mt-7 lg:mt-8 pr-5 sm:pr-8 lg:pr-12">
             <button
               onClick={goToPrev}
               disabled={currentIndex === 0}
-              className="w-10 h-10 border border-gray-200 flex items-center justify-center text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
+              className="w-9 h-9 sm:w-10 sm:h-10 border border-gray-200 flex items-center justify-center text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
+              aria-label="Previous"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
             <button
               onClick={goToNext}
               disabled={currentIndex >= maxIndex}
-              className="w-10 h-10 border border-gray-200 flex items-center justify-center text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
+              className="w-9 h-9 sm:w-10 sm:h-10 border border-gray-200 flex items-center justify-center text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
+              aria-label="Next"
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
         </motion.div>

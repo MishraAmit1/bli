@@ -122,18 +122,13 @@ const Features = () => {
   const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
   return (
-    <section className="bg-white py-20 sm:py-24 md:py-28" ref={sectionRef}>
+    <section className="bg-white py-16 sm:py-20 lg:py-24" ref={sectionRef}>
       <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-12">
         {/* ── Header ── */}
-        <div className="text-center max-w-2xl mx-auto mb-14 sm:mb-18">
+        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12 lg:mb-14">
           {/* Label above heading */}
           <motion.p
-            className="font-semibold uppercase tracking-widest mb-3"
-            style={{
-              fontSize: "14px",
-              lineHeight: "17px",
-              color: "rgb(28, 24, 37)",
-            }}
+            className="font-semibold uppercase tracking-widest mb-2 sm:mb-3 text-[11px] sm:text-xs lg:text-[14px] lg:leading-[17px] text-[#1C1825]"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.5 }}
@@ -143,12 +138,7 @@ const Features = () => {
 
           {/* Heading */}
           <motion.h2
-            className="font-bold uppercase tracking-normal mb-3"
-            style={{
-              fontSize: "52px",
-              lineHeight: "60px",
-              color: "rgb(0, 0, 0)",
-            }}
+            className="font-bold uppercase tracking-normal mb-3 sm:mb-4 text-[24px] leading-[30px] sm:text-[36px] sm:leading-[42px] lg:text-[52px] lg:leading-[60px] text-black"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
@@ -159,12 +149,7 @@ const Features = () => {
 
           {/* Description */}
           <motion.p
-            className="font-light"
-            style={{
-              fontSize: "20px",
-              lineHeight: "29px",
-              color: "rgb(28, 24, 37)",
-            }}
+            className="font-light text-sm sm:text-base lg:text-[20px] lg:leading-[29px] text-[#1C1825]"
             initial={{ opacity: 0, y: 15 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -175,7 +160,7 @@ const Features = () => {
         </div>
 
         {/* ── Cards Grid ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
           {services.map((service, i) => (
             <ServiceCard key={i} service={service} index={i} />
           ))}
@@ -183,19 +168,19 @@ const Features = () => {
 
         {/* ── View All ── */}
         <motion.div
-          className="text-center mt-14 sm:mt-16"
+          className="text-center mt-10 sm:mt-12 lg:mt-14"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <Link
             to="/services"
-            className="group relative inline-flex items-center gap-2.5 border border-[#1a1a1a] px-6 py-2.5"
+            className="group relative inline-flex items-center gap-2 sm:gap-2.5 border border-[#1a1a1a] px-5 sm:px-6 py-2 sm:py-2.5 hover:bg-[#1a1a1a] transition-all duration-300"
           >
-            <span className="font-medium text-sm text-[#1a1a1a]">
+            <span className="font-medium text-xs sm:text-sm text-[#1a1a1a] group-hover:text-white transition-colors duration-300">
               View All Services
             </span>
-            <ArrowRight className="w-4 h-4 text-[#1a1a1a] group-hover:text-[#FF7300] group-hover:translate-x-1.5 transition-all duration-300" />
+            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF7300] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
           </Link>
         </motion.div>
       </div>
